@@ -29,7 +29,13 @@
 
 */
 
-/* ---- admin ---- */
+/* ---- functions ----
+ > Misc functions, internal use.
+ > Static variables (where no editing is needed)
+*/
+include('functions/JR_Functions.php');
+
+/* ---- admin: ----
 /*
  * back end core. UI for soft resets, web based settings, maintenance
 */
@@ -38,13 +44,7 @@ include 'admin/JR_Shop_Admin.php';
 /* ---- Permalinks:
   > extending the WP rewrite rules, to include all the shop pages.
 */
-include('functions/JR_permalinks.php');
-
-/* ---- functions ----
- > Page start up.
- > Root information called on each new page. Used for menus, validation, output.
-*/
-include('functions/JR_Init.php');
+include('functions/JR_Permalinks.php');
 
 /* ---- Global Variables
   > The things tweaked the most (items, categorys) are in the database, easily edited.
@@ -74,6 +74,12 @@ include('functions/JR_Search.php');
 
 include('functions/JR_Queries.php');
 
+/* ---- Innitialise ----
+ > Page start up.
+ > Root information called on each new page. Used for menus, validation, output.
+*/
+include('functions/JR_Init.php');
+
 /* ---- Output:
   > Converts data into user friendly chunks of output.
   > Includes filters, sorts, etc.
@@ -81,3 +87,4 @@ include('functions/JR_Queries.php');
   > Also carousel, testimonials
 */
 include('functions/JR_Outputs.php');
+
