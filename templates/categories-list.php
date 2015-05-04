@@ -1,5 +1,4 @@
 <?php
-global $jr_groupArray, $jr_safeArray;
 
 if ($jr_safeArray[group] == 'all') {
   $filteredCategories = $jr_getCategory;
@@ -19,10 +18,10 @@ if ($jr_safeArray[group] == 'all') {
   <?php foreach ($filteredCategories as $category) :
     if ($jr_safeArray[group] == 'brand') {
       $link = site_url('/brand/'.sanitize_title($category[Name]));
-      $imgUrl = imgSrcRoot('brand-squares',$category[RefName],'jpg');
+      $imgUrl = jr_imgSrc('brand-squares',$category[RefName],'jpg');
     } else {
       $link = site_url('/products/'.sanitize_title($category[Name]));
-      $imgUrl = imgSrcRoot('thumbnails',$category[RefName],'jpg');
+      $imgUrl = jr_imgSrc('thumbnails',$category[RefName],'jpg');
     }
   ?>
 

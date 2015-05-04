@@ -2,7 +2,6 @@
 *
 *
 */
-global $jr_safeArray;
 
 $pageNumber = $_GET['pg'] ?: 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);

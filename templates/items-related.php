@@ -3,14 +3,14 @@
 * just 4 randomly selected items, matching the primary category page
 */
 
-$related = jrx_query_related($safeArr);
+$related = jrQ_iremsRelated($jr_safeArray);
 
 ?>
 
 <article class="flex-container">
 
   <header class="article-header flex-1">
-    <h1>More <?php echo $safeArr[cat]; ?></h1>
+    <h1>More <?php echo $jr_safeArray[cat]; ?></h1>
   </header>
 
   <?php

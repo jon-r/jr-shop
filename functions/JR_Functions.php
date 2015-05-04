@@ -43,7 +43,7 @@ function jr_brandArrayGen($brand) {
 
 //-- readable titles --------------------------------------------------------------------
 function jr_urlToTitle($url,$type) {
-  global $getGroup, $getCategory;
+  global $jr_getGroup;
   $out = "Not Found";
   $getCategoryColumn = jrQ_categoryColumn();
   if ($type == 'cat') {
@@ -53,9 +53,9 @@ function jr_urlToTitle($url,$type) {
       $out = array_search($url, $cats);
     }
   } elseif ($type == 'grp') {
-    $grpUrls = array_map('sanitize_title', $getGroup);
+    $grpUrls = array_map('sanitize_title', $jr_getGroup);
     if (in_array($url,$grpUrls)) {
-      $grps = array_combine($getGroup, $grpUrls);
+      $grps = array_combine($jr_getGroup, $grpUrls);
       $out = array_search($url, $grps);
     }
   } elseif ($type == 'brand') {

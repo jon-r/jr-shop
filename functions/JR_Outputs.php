@@ -7,13 +7,20 @@
 add_shortcode("jr-shop", "jr_modules");
 
 function jr_modules($atts) {
+  global $jr_groupArray, $jr_safeArray;
   $a = shortcode_atts([
     'id' => '404'
   ], $atts);
 
-  $file = "/../templates/$atts[id].php";
+  $file = "wp-content/plugins/jr-shop/templates/$atts[id].php";
 
-  include($file);
+  if (file_exists($file)) {
+    include($file);
+    echo $blah;
+  } else {
+    echo "[check $file]";
+  }
+
 }
 
 /* ---- debug arrays ------------------------------------------------------------------*/
@@ -227,6 +234,16 @@ function jr_pgSet ($pgSet = null, $pgCap = 1) {
 function jr_isPg($pgNum) {
   $getPg = $_GET['pg'] ? $_GET['pg'] : 1;
   return $getPg == $pgNum ? true : false;
+}
+
+//-------------- pick testimonial -----------------------------------------------
+// grabs a single testimonial at random
+function jr_randomFeedback() {
+  $in = jrQ_tesimonial();
+  $countIn = count($in) - 1;
+  $random = rand(0,$countIn);
+
+  return $in[$random];
 }
 
 ?>

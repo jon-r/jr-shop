@@ -3,12 +3,12 @@
 <?php /* style for the individual items page */
 
 
-if ($safeArr[ss]) {
-    $item = jrx_query_item($safeArr[rhc], 1);
-    $shop_item = jrx_shop_compile($item,'itemSS');
+if ($jr_safeArray[ss]) {
+    $item = jrQ_item($jr_safeArray[rhc], 1);
+    $shop_item = jr_itemComplile($item,'itemSS');
   } else {
-    $item = jrx_query_item($safeArr[rhc]);
-    $shop_item = jrx_shop_compile($item,'item');
+    $item = jrQ_item($jr_safeArray[rhc]);
+    $shop_item = jr_itemComplile($item,'item');
   }
 
 
@@ -18,18 +18,16 @@ if ($safeArr[ss]) {
 
 <article class="flex-container">
 
-<!--  <section class="flex-1 flex-container">-->
-
 <!--  ------------------------------------------------------------------------------  -->
 
     <section class="item-gallery flex-2">
       <div class="item-main btn-icon <?php echo $shop_item[icon]; ?>" >
-        <img src="<?php echo site_url(img_resize($shop_item[imgFirst], 'tile')) ?>">
+        <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>">
       </div>
 
       <ul class="item-thumbs flex-container">
         <?php foreach ($shop_item[imgAll] as $galleryImg) : ?>
-        <li class=""><img src="<?php echo site_url(img_resize($galleryImg, 'thumb')) ?>"></li>
+        <li class=""><img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>"></li>
         <?php endforeach ?>
       </ul>
 
@@ -60,7 +58,7 @@ if ($safeArr[ss]) {
       </div>
 
       <ul class="item-features flex-2">
-        <?php if (!$safeArr[ss]) : ?>
+        <?php if (!$jr_safeArray[ss]) : ?>
         <li class="text-icon tick">Photo of actual product</li>
         <li class="text-icon tick">Fully Tested &amp; Cleaned</li>
         <?php endif ?>

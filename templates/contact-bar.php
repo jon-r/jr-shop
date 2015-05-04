@@ -1,6 +1,6 @@
 <?php
   // contact form at the bottom of most pages.
-  $singleFeedback = jrx_random_feedback();
+  $singleFeedback = jr_randomFeedback();
 ?>
 
 <article class="contact-bar flex-container">
@@ -16,7 +16,7 @@
     <input type="number" id="phone">
     <label for="message">Message</label>
     <textarea id="message">THIS DOES NOTHING YET
-      <?php echo $safeArr[pgName]; ?>
+      <?php echo $jr_safeArray[pgName]; ?>
     </textarea>
     <button class="btn-red">
       <h3>Send</h3>
@@ -32,9 +32,9 @@
 
     <h2>Find us online</h2>
     <div class="social-links">
-      <a class="btn-icon facebook" href="<?php echo link_to(facebook) ?>">facebook</a>
-      <a class="btn-icon linkedin" href="<?php echo link_to(linkedin) ?>">linkedIn</a>
-      <a class="btn-icon twitter" href="<?php echo link_to(twitter) ?>">twitter</a>
+      <a class="btn-icon facebook" href="<?php echo jr_linkTo(facebook) ?>">facebook</a>
+      <a class="btn-icon linkedin" href="<?php echo jr_linkTo(linkedin) ?>">linkedIn</a>
+      <a class="btn-icon twitter" href="<?php echo jr_linkTo(twitter) ?>">twitter</a>
     </div>
 
   </div>
