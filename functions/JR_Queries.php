@@ -4,13 +4,6 @@
 
 
 /*Validate querys ---------------------------------------------------------------------*/
-function jrQ_col_unique($column, $table) {
-  global $wpdb;
-
-  $queryStr = "SELECT `$column` FROM `$table`";
-  return array_unique($wpdb->get_col($queryStr));
-}
-
 function jrQ_brandUnique() {
   global $wpdb;
   $queryStr = "SELECT `Brand` FROM `networked db`";
@@ -63,7 +56,23 @@ function jrQ_categoryRow( $safeCategory ) {
   return $wpdb->get_row("SELECT * FROM `rhc_categories` WHERE `Name` LIKE '$safeCategory'", ARRAY_A);
 }
 
+/* autocomplete searches ------------------------------------------------------------ */
 
+function jrQ_Search($key) {
+  global $wpdb;
+
+  $queryBrand = "SELECT `keyword` FROM `keywords_db` WHERE `keywordGroup` = 'brand' AND `keyword` LIKE %s";
+  $queryCat   = "SELECT `Name` FROM `rhc_categories` WHERE `Name` LIKE %s";
+
+  $out[brands] = $wpdb->get_var(
+    $wpdb->prepare($queryBrand, $key)
+  );
+  $out[categories] = $wpdb->get_var(
+    $wpdb->prepare($queryCat, $key)
+  );
+
+  return $out;
+}
 
 /*get titles for the breadcrumbs/search----------------------------------------------- */
 function jrQ_titles($safeRHC, $SS = null) {

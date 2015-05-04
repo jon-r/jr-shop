@@ -52,4 +52,26 @@ return wp_redirect( $url , 301 );
 //calls the "smart search" function
 add_shortcode("jr-search", "jr_smartSearch");
 
+
+/* ---- autocomplete ------------------------------------------------------------------*/
+//setup data for the search autocomplete ajax
+//http://code.tutsplus.com/tutorials/add-jquery-autocomplete-to-your-sites-search--wp-25155
+
+function jr_searchAutocomplete($keyword) {
+  $listCats = array_map('jr_addCategory', jrQ_categorySearch());
+  $listBrands = array_map('jr_addBrand', jrQ_brandSearch());
+
+  $out = array_merge($listCats, $listBrands);
+
+
+  return $out;
+}
+
+function jr_addBrand($word) {
+  return $word.' - brand';
+}
+function jr_addCategory($word) {
+  return $word.' - category';
+}
+
 ?>

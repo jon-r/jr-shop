@@ -19,6 +19,11 @@ function jr_linkTo($target) {
     'linkedin'  => 'https://uk.linkedin.com/pub/simon-greenwood/69/b05/689',
     'email'     => 'info@redhotchilli.catering',
     'phone'     => '01925 242623',
+    'address'   => '27 Winwick Street<br>
+                    Warrington<br>
+                    Cheshire<br>
+                    United Kingdom<br>
+                    WA2 7TT',
     //internal links
     'all categories' => site_url('departments/all/'),
     'all items'     => site_url('products/all/'),
