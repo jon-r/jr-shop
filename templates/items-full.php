@@ -87,26 +87,17 @@ if ($jr_safeArray[ss]) {
       </ul>
 
 
+
     </div>
 
 
 <!--  ------------------------------------------------------------------------------  -->
 
-    <div class="">
 
 
         <!--
         <aside class="item-3d">
-          <?php $box_xyz = jrx_box_3d($shop_item[height], $shop_item[width], $shop_item[depth]) ?>
-          <div data-value="<?php echo $box_xyz[man] ?>" class="box-floor">
-            <div class="box-x" data-value="<?php echo $box_xyz[width] ?>">x width: <?php echo $shop_item[width] ?></div>
-            <div class="box-y" data-value="<?php echo $box_xyz[depth] ?>">y depth: <?php echo $shop_item[depth] ?></div>
-            <div class="box-z" data-value="<?php echo $box_xyz[height] ?>">z height: <?php echo $shop_item[height] ?></div>
-          </div>
         </aside> -->
-
-
-    </div>
 
 <!-- -------------------------------------------------------------------------------- -->
 

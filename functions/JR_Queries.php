@@ -37,7 +37,7 @@ function jrQ_rhc($rhc) {
 function jrQ_rhcs($rhcs) {
   global $wpdb, $itemSoldDuration;
 
-  $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `Quantity` > 0 AND `RHCs` = %s";
+  $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `RHCs` = %s AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
   $out = $wpdb->get_var(
     $wpdb->prepare($queryStr, $rhcs)
   );
@@ -228,7 +228,7 @@ function jrQ_itemString($safeArr, $isCounter = false) {
     $queryMid = "WHERE (`Brand` LIKE %s) AND ";
     $qValue = $safeArr[brand];
   } elseif ($qType =='Sale') {
-    $queryMid = "WHERE (`IsSale` = %d) AND ";
+    $queryMid = "WHERE (`SalePrice` = %d) AND ";
     $qValue = $safeArr[saleNum];
   };
 //the query end. how is the data sorted?

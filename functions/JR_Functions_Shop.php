@@ -1,62 +1,111 @@
 <?php
 //output functions
-//this is where the database is processed into content
+//this is where the shop database is processed into content
 
-/* ---- module generator --------------------------------------------------------------*/
-//turns 'jr-shop' shortcode into templates on the page
-add_shortcode("jr-shop", "jr_modules");
-
-function jr_modules($atts) {
-  global $jr_groupArray, $jr_safeArray;
-  $a = shortcode_atts([
-    'id' => '404'
-  ], $atts);
-
-  $file = "wp-content/plugins/jr-shop/templates/$atts[id].php";
-
-  if (file_exists($file)) {
-    include($file);
-    echo $blah;
-  } else {
-    echo "[check $file]";
-  }
-
+//returns if item in group. one level deeper than the normal IN_ARRAY
+function jr_isGroup($group) {
+  return function ($category) use ($group) {
+    return ($category[CategoryGroup] == $group);
+  };
 }
 
-/* ---- debug arrays ------------------------------------------------------------------*/
-//for testing purposes. will probably keep adding different options
-add_shortcode("jr-debug", "jr_debugger");
-
-function jr_debugger() {
-  global $jr_safeArray;
-  var_dump($jr_safeArray);
-
-//  var_dump( jr_pageCrumbles ($jr_safeArray));
-
+function jr_groupFilter($group) {
+  global $jr_getCategory;
+  return array_filter ($jr_getCategory, jr_isGroup($group));
 }
 
-// ----------------------breadcrumb builder----------------------------------------------
-// Makes the breadcrumbs
-function jr_pageCrumbles ($safeArr) {
-  $crumbs[0] = ['Home' => home_url()];
+//list of major brands, from keywords_db;
+function jr_brandsList() {
+  $getKeyBrands = jrQ_keywords('brand');
 
-  if ($safeArr[rhc] == 'Not Found' || $safeArr[cat] == 'Not Found' || $safeArr[group] == 'Not Found' || is_404()) {
+  $out = array_map('jr_brandArrayGen', $getKeyBrands);
 
-    $crumbs[1] = ['Page Not Found' => home_url()];
+  return $out;
+}
 
+function jr_brandArrayGen($brand) {
+  $out[Name] = $brand;
+  $out[RefName] = sanitize_title($brand);
+  return $out;
+}
+
+//-- readable titles --------------------------------------------------------------------
+function jr_urlToTitle($url,$type) {
+  global $jr_getGroup;
+  $out = "Not Found";
+  $getCategoryColumn = jrQ_categoryColumn();
+  if ($type == 'cat') {
+    $catUrls = array_map('sanitize_title', $getCategoryColumn);
+    if (in_array($url,$catUrls)) {
+      $cats = array_combine($getCategoryColumn, $catUrls);
+      $out = array_search($url, $cats);
+    }
+  } elseif ($type == 'grp') {
+    $grpUrls = array_map('sanitize_title', $jr_getGroup);
+    if (in_array($url,$grpUrls)) {
+      $grps = array_combine($jr_getGroup, $grpUrls);
+      $out = array_search($url, $grps);
+    }
+  } elseif ($type == 'brand') {
+    $getBrands = jrQ_brandUnique();
+    $brandUrls = array_map('sanitize_title', $getBrands);
+
+    if (in_array($url,$brandUrls)) {
+      $brands = array_combine($getBrands, $brandUrls);
+      $out = array_search($url, $brands);
+    }
+  }
+  return $out;
+}
+
+// ---------------------- carousel compiler --------------------------------------
+// converts the database carousel to a web one
+// also takes the carousel "link" and converts it to a sale if it is just a number.
+// else treats it like a link
+
+function jr_positionCarousel($in) {
+  if ($in == "Middle") {
+    $out = "go-mid";
+  } elseif ($in == "Left") {
+    $out = "go-left";
+  } elseif ($in == "Right") {
+    $out = "go-right";
+  }
+  return $out;
+}
+
+function jr_styleCarousel($in) {
+  if ($in == "Bold") {
+    $out = "go-bold";
+  } elseif ($in == "Red") {
+    $out = "go-red";
+  } elseif ($in == "Bold_Red") {
+    $out = "go-bold go-red";
   } else {
-
-    if ($safeArr[pgType] == 'Item') {
-      $crumbs[1] = [$safeArr[cat] => site_url('/products/'.sanitize_title($safeArr[cat]))];
-      $crumbs[2] = [$safeArr[pgName] => jr_getUrl()];
-    } else {
-      $crumbs[1] = [$safeArr[pgName] => jr_pgSet()];
-      //page set instead of getURL to reset to page1 on paginated output
-    };
-
+    $out = null;
   }
 
-  return $crumbs;
+  return $out;
+}
+
+//because descriptive function names are too mainstream
+function jr_magicRoundabout($slideIn) {
+  $out = [
+    title     => $slideIn[Title],
+    titlePos  => jr_positionCarousel($slideIn[TitlePos]),
+    text1     => $slideIn[Description] != "0" ? $slideIn[Description] : null,
+    text2     => $slideIn[Desc2] != "0" ? $slideIn[Desc2] : null,
+    text3     => $slideIn[Desc3] != "0" ? $slideIn[Desc3] : null,
+    textPos   => jr_positionCarousel($slideIn[TextPos]),
+    style1    => jr_styleCarousel($slideIn[Desc1Emphasis]),
+    style2    => jr_styleCarousel($slideIn[Desc2Emphasis]),
+    style3    => jr_styleCarousel($slideIn[Desc3Emphasis]),
+    image     => jr_imgSrc(carousel,$slideIn[ImageRef],jpg),
+    link      => is_numeric($slideIn[WebLink]) ? "?page_id=16&sale=$slideIn[WebLink]" : $slideIn[WebLink],
+    linkPos   => jr_styleCarousel($slideIn[ClickHerePos])
+  ];
+
+  return $out;
 }
 
 // ---------------------- items list setup ----------------------------------------------
@@ -80,7 +129,7 @@ function jr_itemsList($safeArr,$pageNumber) {
     }
 
     //fills up the last page with sold items
-    if ($pageNumber == $lastPage) {
+    if ($pageNumber == $lastPage && $safeArr['pgType'] != 'Soon') {
       $itemsOnLastPage = $fullItemCount % $itemCountMax;
       $listSold = jrQ_itemsSold($safeArr, $itemsOnLastPage);
 
@@ -188,7 +237,7 @@ function jr_itemComplile($ref,$detail) {
         $infoCheck = "sale";
       } elseif ($ref[Quantity] == 0) {
         $infoCheck = "sold";
-      } elseif (in_array($ref[RHC], jrx_query_new())) {
+      } elseif (in_array($ref[RHC], jrQ_itemsNew())) {
         $infoCheck = "new";
       }
       $out2 = [
@@ -209,32 +258,6 @@ function jr_itemComplile($ref,$detail) {
 
   return $out;
 };
-
-// ----------------------pg-clips--------------------------------------------------------
-// tweaks the 'pg' number from page urls. specifically for category page navigation
-// can produce numbers outside range (eg page 0) paginate links should be hidden on front end if at max/min
-function jr_pgSet ($pgSet = null, $pgCap = 1) {
-  $url = strtok(jr_getUrl(), '?');
-  $arrParams = $_GET;
-  if (is_int($pgSet)) {
-    $arrParams['pg'] = $pgSet;
-  } elseif ($pgSet == 'plus') {
-    $arrParams['pg'] ? $arrParams['pg']++ : $arrParams['pg'] = 2;
-  } elseif ($pgSet == 'minus') {
-    $arrParams['pg'] > 1 ? $arrParams['pg']-- : $arrParams['pg'];
-  } else {
-    unset($arrParams['pg']);
-  }
-
-  $urlQueries = http_build_query($arrParams);
-  return $url.'?'.$urlQueries;
-}
-
-// gets the current page, taking into account no pg value = 1
-function jr_isPg($pgNum) {
-  $getPg = $_GET['pg'] ? $_GET['pg'] : 1;
-  return $getPg == $pgNum ? true : false;
-}
 
 //-------------- pick testimonial -----------------------------------------------
 // grabs a single testimonial at random

@@ -23,8 +23,8 @@ function jr_setPermalinks() {
     //cats
     '^special-offers/?'         => jr_page(cat),
     '^sold/?'                   => jr_page(cat),
-    '^coming-Soon/?'            => jr_page(cat),
-    '^new-items/?'              => jr_page(cat),
+    '^coming-soon/?'            => jr_page(cat),
+    '^arrivals/?'               => jr_page(cat),
     '^products/([^/]*)/?'       => jr_page(cat),
     '^brand/([^/]*)/?'          => jr_page(cat),
     '^search-results/([^/]*)/?' => jr_page(cat),

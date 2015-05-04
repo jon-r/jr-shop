@@ -62,7 +62,7 @@ function jr_validate_urls($url) {
       $out[pgType] = 'Category';
     }
 
-  } elseif ($params[1] == 'new-items') { //new in
+  } elseif ($params[1] == 'arrivals') { //new in
     $out[pgType] = 'New';
     $out[pgName] = 'Just In';
 
@@ -73,7 +73,7 @@ function jr_validate_urls($url) {
   } elseif ($params[1] == 'sold') { //sold
     $out[pgName] = $out[pgType] = 'Sold';
 
-  } elseif ($params[1] == 'sale') { //sale
+  } elseif ($params[1] == 'special-offers') { //sale
     $out[pgType] = 'Sale';
     $out[pgName] = 'Special Offers';
     $out[saleNum] = $params[2];

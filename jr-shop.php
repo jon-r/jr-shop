@@ -9,7 +9,6 @@
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       jr-shop
- * Domain Path:       /languages
  */
 
 /*  Copyright (c) 2015  Jonathan Richards (email : jon.richards@outlook.com)
@@ -33,7 +32,15 @@
  > Misc functions, internal use.
  > Static variables (where no editing is needed)
 */
-include('functions/JR_Functions.php');
+include('functions/JR_Functions_Other.php');
+
+/* ---- shop Output:
+  > Converts data into user friendly chunks of output.
+  > Includes filters, sorts, etc.
+  > Smart image hunting (based on naming conventions) No need to assign images like usual CMS's. '
+  > Also carousel, testimonials
+*/
+include('functions/JR_Functions_Shop.php');
 
 /* ---- admin: ----
 /*
@@ -80,11 +87,5 @@ include('functions/JR_Queries.php');
 */
 include('functions/JR_Init.php');
 
-/* ---- Output:
-  > Converts data into user friendly chunks of output.
-  > Includes filters, sorts, etc.
-  > Smart image hunting (based on naming conventions) No need to assign images like usual CMS's. '
-  > Also carousel, testimonials
-*/
-include('functions/JR_Outputs.php');
+
 
