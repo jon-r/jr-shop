@@ -269,4 +269,87 @@ function jr_randomFeedback() {
   return $in[$random];
 }
 
+// ---------------------- box scaler ------------------------------------------------------
+// gives relative sizes of HxW for items page. also "average man" to scale
+
+function jr_boxGen($item) {
+  //size of the svg, 500x500units square with 10units padding
+  $boxDims = 480;
+  $boxPadding = 10;
+
+  $tableHeight = 800; // a generic worktop
+  $tableWidth = 1000; //...ok its pretty short
+
+  $manHeight = 1750; // average male
+  $manWidth = 875;   // the image will be half height
+
+  $itemH = $item['Height'];
+  $itemW = $item['Width'];
+
+  //the largest dimension sets the scale
+  $findMax = max($itemH, $itemW, $manHeight);
+
+  // dimensions of the svg rectangles
+  $out1 = [
+    itemH   => ceil($itemH / $findMax * $boxDims),
+    itemW   => ceil($itemW / $findMax * $boxDims),
+    manH    => ceil($manHeight / $findMax * $boxDims),
+    manW    => ceil($manWidth / $findMax * $boxDims),
+    manX   => $boxPadding,
+    tableH  => ceil($tableHeight / $findMax * $boxDims),
+    tableW  => ceil($tableWidth / $findMax * $boxDims),
+    tableX => 30,
+  ];
+
+//shortest items "proped up" on a table
+  if ($itemH < 500 && $item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs') {
+    $out2 = [
+      itemX => $boxPadding + $boxDims - $out1[itemW],
+      itemY  => ($boxPadding + $boxDims - $out1[itemH]),
+      tableY => ($boxPadding + $out1[manH] - $out1[tableH]),
+      manY   => $boxPadding,
+    ];
+  } else {
+    $out2 = [
+      itemX => $boxPadding + $boxDims - $out1[itemW],
+      itemY => $boxPadding + $boxDims - $out1[itemH],
+      manY => $boxPadding + $boxDims - $out1[manH],
+    ];
+  }
+
+
+//  //dimensions of the svg container box
+//  //items taller than a man mean the highest point of the box is the item
+//  if ($itemH > $manHeight) {
+//    $out2 = [
+//      itemX => 50, //temp
+//      itemY => $boxPadding,
+//      manX  => $boxPadding,
+//      manY  => ($boxPadding + $boxDims - $out1[manH]),
+//    ];
+//  // the shortest items (non furniture) go on a table, as they realistically would.
+//  } elseif ($itemH > 500 || $item['Category'] == 'Soft Furnishings' || $item['Category'] == 'Tables & Chairs') {
+//    $out2 = [
+//      itemX  => 50, //temp
+//      itemY  => ($boxPadding + $boxDims - $out1[itemH]),
+//      manX   => $boxPadding,
+//      manY   => $boxPadding,
+//    ];
+//  //
+//  } else {
+//    $out2 = [
+//      itemX => 50, //temp
+//      itemY => ($boxPadding + $boxDims - $out1[itemH]  - $out1[tableH]),
+//      manX  => $boxPadding,
+//      manY  => $boxPadding,
+//       //temp
+//      tableY => ($boxPadding + $out1[manH] - $out1[tableH])
+//    ];
+//  }
+  $out = array_merge($out1, $out2);
+
+
+  return $out;
+}
+
 ?>
