@@ -183,13 +183,13 @@ function jr_itemComplile($ref,$detail) {
     case 'item':
       if ($ref[Brand]) {
         $brandUrl = sanitize_title($ref[Brand]);
-        $brandIconLocation = jr_imgSrc('brands',$brandUrl,'jpg');
+        $brandIconLocation = jr_imgSrc('brands/long',$brandUrl.'-logo','jpg');
         $brand = $ref[Brand];
       };
       if ($ref[Wattage] >= 1500) {
-        $wattCheck = ($ref[Wattage] / 1000)."kw";
+        $wattCheck = "Power: ".($ref[Wattage] / 1000)."kw";
       } elseif ($ref[Wattage] < 1500 && $ref[Wattage] > 0) {
-        $wattCheck = $ref[Wattage]." watts";
+        $wattCheck = "Power: ".$ref[Wattage]." watts";
       } else {
         $wattCheck = null;
       }
@@ -200,14 +200,15 @@ function jr_itemComplile($ref,$detail) {
         hFull       => $ref[Height] ? "Height: ".$ref[Height]."mm / ".ceil($ref[Height] / 25.4)." inches" : null,
         wFull       => $ref[Width] ? "Width: ".$ref[Width]."mm / ".ceil($ref[Width] / 25.4)." inches" : null,
         dFull       => $ref[Depth] ? "Depth: ".$ref[Depth]."mm / ".ceil($ref[Depth] / 25.4)." inches" : null,
-        desc        => ($ref['Line 1'] != " " ? $ref['Line 1']."<br>" : null).
-                          ($ref['Line 2'] != " " ? $ref['Line 2']."<br>" : null).
+        desc        => ($ref['Line 1'] != " " ? $ref['Line 1']."" : null).
+                          ($ref['Line 2'] != " " ? $ref['Line 2']."" : null).
                           ($ref['Line 3'] != " " ? $ref['Line 3'] : null),
         model       => $ref[Model] ? "Model: ".$ref[Model] : null,
-        extra       => $ref[ExtraMeasurements],
+        extra       => ($ref[ExtraMeasurements] != 0) ? $ref[ExtraMeasurements] : null,
         condition   => $ref[Condition] != " " ? $ref[Condition] : null,
         brand       => $brand ?: null,
-        brandImg    => file_exists ($brandIconLocation) ? '<img src="'.$brandIconLocation.'" alt="'.$brand.'" >' : null,
+        brandImg    => file_exists ($brandIconLocation) ?
+                          '<img src="'.site_url($brandIconLocation).'" alt="'.$brand.'" >' : "Brand: $brand <br>",
         brandLink   => "brand/$brandUrl",
         watt        => $wattCheck,
         imgAll      => glob('images/gallery/'.$ref[Image].'*'),
@@ -276,9 +277,10 @@ function jr_boxGen($item) {
   //size of the svg, 500x500units square with 10units padding
   $boxDims = 480;
   $boxPadding = 10;
+  $bottomPoint = $boxPadding + $boxDims; //used for most of the X/Y Coordinates
 
   $tableHeight = 800; // a generic worktop
-  $tableWidth = 1000; //...ok its pretty short
+  $tableWidth = 1200; //... that is 1.2m wide
 
   $manHeight = 1750; // average male
   $manWidth = 875;   // the image will be half height
@@ -291,63 +293,54 @@ function jr_boxGen($item) {
 
   // dimensions of the svg rectangles
   $out1 = [
-    itemH   => ceil($itemH / $findMax * $boxDims),
-    itemW   => ceil($itemW / $findMax * $boxDims),
-    manH    => ceil($manHeight / $findMax * $boxDims),
-    manW    => ceil($manWidth / $findMax * $boxDims),
-    manX   => $boxPadding,
-    tableH  => ceil($tableHeight / $findMax * $boxDims),
-    tableW  => ceil($tableWidth / $findMax * $boxDims),
-    tableX => 30,
+    itemH   => round($itemH / $findMax * $boxDims, 3),
+    itemW   => round($itemW / $findMax * $boxDims, 3),
+
+    manH    => round($manHeight / $findMax * $boxDims, 3),
+    manW    => round($manWidth / $findMax * $boxDims, 3),
+    manX   => 0,
+    tableH  => round($tableHeight / $findMax * $boxDims, 3),
+    tableW  => round($tableWidth / $findMax * $boxDims, 3),
   ];
 
-//shortest items "proped up" on a table
-  if ($itemH < 500 && $item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs') {
+//shortest items "propped up" on a table. unless it IS a table
+  if ($itemH < 550 && !$item['RHCs']) {
     $out2 = [
-      itemX => $boxPadding + $boxDims - $out1[itemW],
-      itemY  => ($boxPadding + $boxDims - $out1[itemH]),
-      tableY => ($boxPadding + $out1[manH] - $out1[tableH]),
+      itemX  => ($boxDims - $out1[itemW]) / 2,
+      itemY  => $bottomPoint - $out1[itemH] - $out1[tableH],
+      tableY => $bottomPoint - $out1[tableH],
+      tableX => ($boxDims - $out1[tableW]) / 2,
       manY   => $boxPadding,
     ];
   } else {
     $out2 = [
-      itemX => $boxPadding + $boxDims - $out1[itemW],
-      itemY => $boxPadding + $boxDims - $out1[itemH],
-      manY => $boxPadding + $boxDims - $out1[manH],
+      itemX => ($boxDims - $out1[itemW]) / 2,
+      itemY => $bottomPoint - $out1[itemH],
+      manY  => $bottomPoint - $out1[manH],
+    ];
+  }
+ //set the image based on the size, and if its stainless steel
+  if ($itemH < 550) {
+    $out3 = [
+      itemImg => 'appliance-short',
+      tableImg => 'appliance-table'
+    ];
+  } elseif ($itemH > 1500) {
+    $out3 = [
+      itemImg => 'appliance-tall'
+    ];
+  } elseif ($item['RHCs']) {
+    $out3 = [
+      itemImg => ($item[Category] == 'Sinks') ? 'appliance-sink' : 'appliance-table'
+    ];
+  } else {
+    $out3 = [
+      itemImg => 'appliance-med'
     ];
   }
 
 
-//  //dimensions of the svg container box
-//  //items taller than a man mean the highest point of the box is the item
-//  if ($itemH > $manHeight) {
-//    $out2 = [
-//      itemX => 50, //temp
-//      itemY => $boxPadding,
-//      manX  => $boxPadding,
-//      manY  => ($boxPadding + $boxDims - $out1[manH]),
-//    ];
-//  // the shortest items (non furniture) go on a table, as they realistically would.
-//  } elseif ($itemH > 500 || $item['Category'] == 'Soft Furnishings' || $item['Category'] == 'Tables & Chairs') {
-//    $out2 = [
-//      itemX  => 50, //temp
-//      itemY  => ($boxPadding + $boxDims - $out1[itemH]),
-//      manX   => $boxPadding,
-//      manY   => $boxPadding,
-//    ];
-//  //
-//  } else {
-//    $out2 = [
-//      itemX => 50, //temp
-//      itemY => ($boxPadding + $boxDims - $out1[itemH]  - $out1[tableH]),
-//      manX  => $boxPadding,
-//      manY  => $boxPadding,
-//       //temp
-//      tableY => ($boxPadding + $out1[manH] - $out1[tableH])
-//    ];
-//  }
-  $out = array_merge($out1, $out2);
-
+  $out = array_merge($out1, $out2, $out3);
 
   return $out;
 }

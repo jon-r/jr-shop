@@ -1,17 +1,29 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+<div class="item-scale flex-1">
+  <h2>Scale Reference</h2><br>
+  <p>(Drawing for size only, shape is not accurate)</p>
 
-  <?php
-$svgBox = jr_boxGen($item) ;
+  <svg class="item-box" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 500 500">
+  <?php $box = jr_boxGen($item) ; ?>
+    <rect id="floor" width="490" height="5" x="5" y="490" fill="#5A6372"  />
+    <image id="item" xlink:href="<?php echo site_url(jr_imgSrc('icons', $box[itemImg], 'png'))?>"
+           preserveAspectRatio="none"
+           x="<?php echo $box[itemX] ?>" y="<?php echo $box[itemY] ?>"
+           height="<?php echo $box[itemH]?>" width="<?php echo $box[itemW] ?>"  >
+    </image>
+    <?php if ($box[tableY]) : ?>
+    <image id="table" xlink:href="<?php echo site_url(jr_imgSrc('icons', $box[tableImg], 'png'))?>"
+           preserveAspectRatio="none"
+           x="<?php echo $box[tableX] ?>" y="<?php echo $box[tableY] ?>"
+           height="<?php echo $box[tableH]?>" width="<?php echo $box[tableW] ?>"  >
+    </image>
+    <?php endif ?>
+    <image id="man" xlink:href="<?php echo site_url(jr_imgSrc('icons', 'man', 'png'))?>"
+           preserveAspectRatio="none" opacity="0.5"
+           x="<?php echo $box[manX] ?>" y="<?php echo $box[manY] ?>"
+           height="<?php echo $box[manH]?>" width="<?php echo $box[manW] ?>"  >
+    </image>
 
-echo "<rect id='item' fill='#407bbf' x='$svgBox[itemX]' y='$svgBox[itemY]'
-            height='$svgBox[itemH]' width='$svgBox[itemW]'  >Item</rect>";
-if ($svgBox[tableY]) {
-  echo "<rect id='table' fill='#40bf71' x='$svgBox[tableX]' y='$svgBox[tableY]'
-              height='$svgBox[tableH]' width='$svgBox[tableW]' >Table</rect>";
-}
+  </svg>
 
-echo "<rect id='man' fill='#BF4040' x='$svgBox[manX]' y='$svgBox[manY]'
-            height='$svgBox[manH]' width='$svgBox[manW]' ></rect>"; ?>
-
-</svg>
+</div>
