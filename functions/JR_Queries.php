@@ -6,7 +6,7 @@
 /*Validate querys ---------------------------------------------------------------------*/
 function jrQ_brandUnique() {
   global $wpdb;
-  $queryStr = "SELECT `Brand` FROM `networked db`";
+  $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0";
   return array_unique($wpdb->get_col($queryStr));
 }
 
@@ -20,6 +20,7 @@ function jrQ_rhc($rhc) {
   global $wpdb, $itemSoldDuration;
 
   $queryStr = "SELECT `RHC` FROM `networked db` WHERE `RHC` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+
   $out = $wpdb->get_var(
     $wpdb->prepare($queryStr, $rhc)
   );
@@ -115,7 +116,7 @@ function jrQ_itemsSold($safeArr, $itemsOnPage) {
     $query = jrQ_itemString($safeArr);
 
     $querySoldOn = str_replace(['`Quantity` > 0','ORDER BY `RHC`'],
-                               ['`Quantity` = 0','ORDER BY `DateSold`'], $query[str]);
+                               ['`Quantity` = 0','ORDER BY `DateSold` AND (`DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE())'], $query[str]);
     $queryLimiter = " LIMIT $soldCount";
     $queryFull = $querySoldOn.$queryLimiter;
 

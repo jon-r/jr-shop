@@ -79,21 +79,8 @@ function jr_autoComplete() {
   wp_die();
 }
 
-
-//  $listCats = array_map('jr_addCategory', jrQ_categoryColumn());
-//  $listBrands = array_map('jr_addBrand', jrQ_brandUnique());
-//
-//
-//  $listFull = array_merge($listCats, $listBrands);
-//  $out = array_filter(jrQ_brandUnique(), jr_strSearch($mystring, $findme))
-//
-//  //$out = $_GET;
-//  echo json_encode($listFull);
-//}
 add_action('wp_ajax_jr_autocomplete', 'jr_autoComplete');
 add_action('wp_ajax_nopriv_jr_autocomplete', 'jr_autoComplete');
-
-
 
 
 function jr_addBrand($word) {

@@ -41,7 +41,7 @@ $itemCountMax = 24;
 $itemCountMin = 4;
 
 //how long to leave sold items searchable (days)
-$itemSoldDuration = 60;
+$itemSoldDuration = 180;
 
 //link to "special" pages - those not from database
 //$link_allCategories = site_url('departments/all/');
