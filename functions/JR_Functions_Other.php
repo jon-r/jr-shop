@@ -3,6 +3,8 @@
 Misc (non shop specific) functions
 */
 
+// -------------------- sitelinks + other url functions ----------------------------------------
+
 function jr_getUrl() {
   $url  = @( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_NAME"] : 'https://'.$_SERVER["SERVER_NAME"];
   $url .= $_SERVER["REQUEST_URI"];
@@ -13,6 +15,44 @@ function jr_getUrl() {
 function jr_imgSrc($itemType,$itemName,$filetype) {
   return 'images/'.$itemType.'/'.$itemName.'.'.$filetype;
 }
+
+// turns a title into an array of [Name, URL]
+function jr_titleToUrl($in) {
+  $out[Name] = $in;
+  $out[RefName] = sanitize_title($in);
+  return $out;
+}
+
+// turns url string into a proper title
+function jr_urlToTitle($url,$type) {
+  global $jr_getGroup;
+  $out = "Not Found";
+  $getCategoryColumn = jrQ_categoryColumn();
+  if ($type == 'cat') {
+    $catUrls = array_map('sanitize_title', $getCategoryColumn);
+    if (in_array($url,$catUrls)) {
+      $cats = array_combine($getCategoryColumn, $catUrls);
+      $out = array_search($url, $cats);
+    }
+  } elseif ($type == 'grp') {
+    $grpUrls = array_map('sanitize_title', $jr_getGroup);
+    if (in_array($url,$grpUrls)) {
+      $grps = array_combine($jr_getGroup, $grpUrls);
+      $out = array_search($url, $grps);
+    }
+  } elseif ($type == 'brand') {
+    $getBrands = jrQ_brandUnique();
+    $brandUrls = array_map('sanitize_title', $getBrands);
+
+    if (in_array($url,$brandUrls)) {
+      $brands = array_combine($getBrands, $brandUrls);
+      $out = array_search($url, $brands);
+    }
+  }
+  return $out;
+}
+
+
 
 // ----------------------image-manipulation----------------------------------------------
 // generates resized images.
@@ -48,17 +88,21 @@ add_shortcode("jr-shop", "jr_modules");
 function jr_modules($atts) {
   global $jr_groupArray, $jr_safeArray, $jr_getCategory;
   $a = shortcode_atts([
-    'id' => '404'
+    'id' => '404',
+    'dark' => false
   ], $atts);
 
   $file = "wp-content/plugins/jr-shop/templates/$atts[id].php";
 
+  echo ($atts[dark]) ? '<div class="dark-block flex-2" >' : null;
+
   if (file_exists($file)) {
     include($file);
-    echo $blah;
   } else {
     echo "[check $file]";
   }
+
+  echo ($atts[dark]) ? '</div>' : null;
 
 }
 

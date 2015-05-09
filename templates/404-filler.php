@@ -11,15 +11,7 @@
   </header>
 
 
+  <?php echo do_shortcode( "[jr-shop id='search-bar' dark=true]"); ?>
 
-  <form class="flex-2 form-central flex-container" method="get" action="<?php echo site_url('search'); ?>">
-    <h2 class="text-icon-right search-w">Search Catering Equipment</h2>
-
-    <input type="search" name="search" placeholder="Enter Keyword or Reference">
-
-    <button class="btn-red" type="submit">
-      <h3>Go</h3>
-    </button>
-  </form>
 
 </article>

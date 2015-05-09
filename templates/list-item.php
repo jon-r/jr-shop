@@ -1,7 +1,7 @@
 <?php
 $shopItem = ( $jr_safeArray[pgType] == 'CategorySS' || $jr_safeArray[ss] ) ? jr_itemComplile($item, 'listSS') : jr_itemComplile($item, 'list'); ?>
 
-<section class="shop-tile btn-icon flex-4 <?php echo trim($shopItem[info].' '.$shopItem[icon]); ?>">
+<section class="shop-tile item btn-icon flex-4 <?php echo trim($shopItem[info].' '.$shopItem[icon]); ?>">
 
   <a href="<?php echo site_url($shopItem[webLink]) ?>">
 

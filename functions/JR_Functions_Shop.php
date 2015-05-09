@@ -18,45 +18,13 @@ function jr_groupFilter($group) {
 function jr_brandsList() {
   $getKeyBrands = jrQ_keywords('brand');
 
-  $out = array_map('jr_brandArrayGen', $getKeyBrands);
+  $out = array_map('jr_titleToUrl', $getKeyBrands);
 
   return $out;
 }
 
-function jr_brandArrayGen($brand) {
-  $out[Name] = $brand;
-  $out[RefName] = sanitize_title($brand);
-  return $out;
-}
 
-//-- readable titles --------------------------------------------------------------------
-function jr_urlToTitle($url,$type) {
-  global $jr_getGroup;
-  $out = "Not Found";
-  $getCategoryColumn = jrQ_categoryColumn();
-  if ($type == 'cat') {
-    $catUrls = array_map('sanitize_title', $getCategoryColumn);
-    if (in_array($url,$catUrls)) {
-      $cats = array_combine($getCategoryColumn, $catUrls);
-      $out = array_search($url, $cats);
-    }
-  } elseif ($type == 'grp') {
-    $grpUrls = array_map('sanitize_title', $jr_getGroup);
-    if (in_array($url,$grpUrls)) {
-      $grps = array_combine($jr_getGroup, $grpUrls);
-      $out = array_search($url, $grps);
-    }
-  } elseif ($type == 'brand') {
-    $getBrands = jrQ_brandUnique();
-    $brandUrls = array_map('sanitize_title', $getBrands);
 
-    if (in_array($url,$brandUrls)) {
-      $brands = array_combine($getBrands, $brandUrls);
-      $out = array_search($url, $brands);
-    }
-  }
-  return $out;
-}
 
 // ---------------------- carousel compiler --------------------------------------
 // converts the database carousel to a web one
@@ -187,9 +155,9 @@ function jr_itemComplile($ref,$detail) {
         $brand = $ref[Brand];
       };
       if ($ref[Wattage] >= 1500) {
-        $wattCheck = "Power: ".($ref[Wattage] / 1000)."kw";
+        $wattCheck = "<b>Power:</b> ".($ref[Wattage] / 1000)."kw";
       } elseif ($ref[Wattage] < 1500 && $ref[Wattage] > 0) {
-        $wattCheck = "Power: ".$ref[Wattage]." watts";
+        $wattCheck = "<b>Power:</b> ".$ref[Wattage]." watts";
       } else {
         $wattCheck = null;
       }
@@ -197,18 +165,18 @@ function jr_itemComplile($ref,$detail) {
         height      => $ref[Height] ?: null,
         width       => $ref[Width] ?: null,
         depth       => $ref[Depth] ?: null,
-        hFull       => $ref[Height] ? "Height: ".$ref[Height]."mm / ".ceil($ref[Height] / 25.4)." inches" : null,
-        wFull       => $ref[Width] ? "Width: ".$ref[Width]."mm / ".ceil($ref[Width] / 25.4)." inches" : null,
-        dFull       => $ref[Depth] ? "Depth: ".$ref[Depth]."mm / ".ceil($ref[Depth] / 25.4)." inches" : null,
+        hFull       => $ref[Height] ? "<b>Height</b>: ".$ref[Height]."mm / ".ceil($ref[Height] / 25.4)." inches" : null,
+        wFull       => $ref[Width] ? "<b>Width:</b> ".$ref[Width]."mm / ".ceil($ref[Width] / 25.4)." inches" : null,
+        dFull       => $ref[Depth] ? "<b>Depth:</b> ".$ref[Depth]."mm / ".ceil($ref[Depth] / 25.4)." inches" : null,
         desc        => ($ref['Line 1'] != " " ? $ref['Line 1']."" : null).
                           ($ref['Line 2'] != " " ? $ref['Line 2']."" : null).
                           ($ref['Line 3'] != " " ? $ref['Line 3'] : null),
-        model       => $ref[Model] ? "Model: ".$ref[Model] : null,
+        model       => $ref[Model] ? "<b>Model:</b> ".$ref[Model] : null,
         extra       => ($ref[ExtraMeasurements] != 0) ? $ref[ExtraMeasurements] : null,
         condition   => $ref[Condition] != " " ? $ref[Condition] : null,
         brand       => $brand ?: null,
         brandImg    => file_exists ($brandIconLocation) ?
-                          '<img src="'.site_url($brandIconLocation).'" alt="'.$brand.'" >' : "Brand: $brand <br>",
+                          '<img src="'.site_url($brandIconLocation).'" alt="'.$brand.'" >' : "<b>Brand:</b> $brand <br>",
         brandLink   => "brand/$brandUrl",
         watt        => $wattCheck,
         imgAll      => glob('images/gallery/'.$ref[Image].'*'),

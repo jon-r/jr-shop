@@ -57,21 +57,66 @@ add_shortcode("jr-search", "jr_smartSearch");
 //setup data for the search autocomplete ajax
 //http://code.tutsplus.com/tutorials/add-jquery-autocomplete-to-your-sites-search--wp-25155
 
-function jr_searchAutocomplete($keyword) {
-  $listCats = array_map('jr_addCategory', jrQ_categorySearch());
-  $listBrands = array_map('jr_addBrand', jrQ_brandSearch());
+function jr_autoComplete() {
+  $in = $_GET[keyword];
+  $array = jrQ_brandUnique();
 
-  $out = array_merge($listCats, $listBrands);
+  $filteredBrand = array_filter(jrQ_brandUnique(), function($var) {
+    return (stripos($var, $_GET[keyword]) !== false);
+  });
+  $filteredCat = array_filter(jrQ_categoryColumn(), function($var) {
+    return (stripos($var, $_GET[keyword]) !== false);
+  });
+  $listBrands = array_map('jr_addBrand', $filteredBrand);
+  $listCats = array_map('jr_addCategory', $filteredCat);
+
+  $listFull = array_merge($listCats, $listBrands);
 
 
+  echo json_encode($listFull);
+
+
+  wp_die();
+}
+
+
+//  $listCats = array_map('jr_addCategory', jrQ_categoryColumn());
+//  $listBrands = array_map('jr_addBrand', jrQ_brandUnique());
+//
+//
+//  $listFull = array_merge($listCats, $listBrands);
+//  $out = array_filter(jrQ_brandUnique(), jr_strSearch($mystring, $findme))
+//
+//  //$out = $_GET;
+//  echo json_encode($listFull);
+//}
+add_action('wp_ajax_jr_autocomplete', 'jr_autoComplete');
+add_action('wp_ajax_nopriv_jr_autocomplete', 'jr_autoComplete');
+
+
+
+
+function jr_addBrand($word) {
+  $out = [
+    'name' => $word,
+    'url' => sanitize_title($word),
+    'filter' => 'brand'
+  ];
   return $out;
 }
 
-function jr_addBrand($word) {
-  return $word.' - brand';
-}
 function jr_addCategory($word) {
-  return $word.' - category';
+  $out = [
+    'name' => $word,
+    'url' => sanitize_title($word),
+    'filter' => 'products'
+  ];
+
+
+//  $out['name'] = $word;
+//  $out
+//  $out['link'] = site_url('/products/'.sanitize_title($word));
+  return $out;
 }
 
 ?>

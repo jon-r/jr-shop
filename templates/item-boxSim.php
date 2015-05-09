@@ -1,6 +1,6 @@
 
-<div class="item-scale flex-1">
-  <h2>Scale Reference</h2><br>
+<div class="item-scale flex-2">
+  <h2>Scale</h2>
   <p>(Drawing for size only, shape is not accurate)</p>
 
   <svg class="item-box" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 500 500">

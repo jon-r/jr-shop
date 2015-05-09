@@ -12,7 +12,7 @@
       $grpHeaderImg = site_url(jr_imgSrc('icons','header-'.strtok($grpName, ' '),'jpg'));
   ?>
 
-  <section class="shop-tile group flex-3">
+  <section class="shop-tile flex-3">
 
     <a href="<?php echo $link ?>" >
       <img src="<?php echo $grpHeaderImg ?>" alt="<?php echo $grpName ?>"/>
