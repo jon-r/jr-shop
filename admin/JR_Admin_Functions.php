@@ -1,0 +1,165 @@
+<?php
+
+/*--- init ----------------------------------------------------------------------------*/
+
+function rhc_getScripts() {
+  if ($_GET[page] == 'rhc-maintenance') {
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', ( 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js' ), false, null, true );
+    wp_enqueue_style( 'caramel_stylesheet', plugin_dir_url( __FILE__ ) . 'caramel.min.css');
+    wp_enqueue_style( 'jr_admin_stylesheet', plugin_dir_url( __FILE__ ) . 'jr_admin_style.css');
+    wp_enqueue_script( 'jr_admin_script', plugin_dir_url( __FILE__ ) . 'jr_admin_script.js', array( 'jquery' ), '', true );
+  }
+}
+
+function rhc_setup_menu(){
+    add_menu_page( 'Red Hot Chilli Maintenance', 'RHC Maintenance', 'manage_options', 'rhc-maintenance', 'rhc_init' );
+}
+
+function rhc_init(){
+  include('JR_Admin_Template.php');
+}
+
+/*------------ File Cleanup --------------------------------------------------------- */
+
+//gets everything in the file, and compared to what *should* be there
+function jrA_ImageSearch($folder) {
+  $deadPics = $deadTiles = $deadThumbs = array();
+  $fullDir = "../images/$folder";
+
+  $listAll = jrA_FileNames($fullDir);
+
+//gallery images
+  if ($folder == 'gallery') {
+    $listValid = jrQA_validItems();
+
+    $listAll_tiles = jrA_FileNames($fullDir.'-tile');
+    $listAll_thumbs = jrA_FileNames($fullDir.'-thumb');
+
+    foreach ($listAll as $item) {
+      $itemBreak = preg_split('/([^a-z0-9\/])/i', $item);
+      if (!in_array($itemBreak[0], $listValid )) {
+        $deadPics[] = $itemBreak[0];
+      }
+    };
+    foreach ($listAll_tiles as $item) {
+      $itemBreak = preg_split('/([^a-z0-9\/])/i', $item);
+      if (!in_array($itemBreak[0], $listValid )) {
+        $deadTiles[] = $itemBreak[0];
+      }
+    };
+    foreach ($listAll_thumbs as $item) {
+      $itemBreak = preg_split('/([^a-z0-9\/])/i', $item);
+      if (!in_array($itemBreak[0], $listValid )) {
+        $deadThumbs[] = $itemBreak[0];
+      }
+    };
+    $files_Pic = jrA_unleashImages($deadPics, 'gallery');
+    $files_Thumb = jrA_unleashImages($deadThumbs, 'gallery-thumb');
+    $files_Tile = jrA_unleashImages($deadTiles, 'gallery-tile');
+    $out['Names'] = array_merge($files_Pic['name'], $files_Thumb['name'], $files_Tile['name']);
+    $out['Size'] = array_merge($files_Pic['size'], $files_Thumb['size'], $files_Tile['size']);
+
+
+  } else {
+
+  }
+
+  return($out);
+}
+// send the readable info
+function jrA_DeadImageSpecs ($in) {
+  $fileInfo = jrA_ImageSearch($in);
+
+  $out['Count'] = count($fileInfo['Names']);
+  $out['Size'] = sizeFormat(array_sum($fileInfo['Size']));
+  return $out;
+}
+
+// spews out the files of all the "dead" files.
+function jrA_unleashImages($fileArray, $type) {
+  $outArr = array();
+  foreach (array_unique($fileArray) as $dirName) {
+    foreach (glob("../images/$type/$dirName*") as $file) {
+      $outArr['name'][] = $file;
+      $outArr['size'][] = filesize($file);
+    }
+  }
+  return $outArr;
+}
+
+
+add_action('wp_ajax_jr_imgget', 'jrA_imgGet');
+
+/* ---------------------- misc admin functions -------------------------------------- */
+
+//http://www.go4expert.com/articles/calculate-directory-size-using-php-t290/
+function getDirectorySize($path) {
+  $totalsize = 0;
+  $totalcount = 0;
+  $dircount = 0;
+  if ($handle = opendir ($path)) {
+    while (false !== ($file = readdir($handle))) {
+      $nextpath = $path . '/' . $file;
+      if ($file != '.' && $file != '..' && !is_link ($nextpath)) {
+        if (is_dir ($nextpath)) {
+          $dircount++;
+          $result = getDirectorySize($nextpath);
+          $totalsize += $result['size'];
+          $totalcount += $result['count'];
+          $dircount += $result['dircount'];
+        } elseif (is_file ($nextpath)) {
+          $totalsize += filesize ($nextpath);
+          $totalcount++;
+        }
+      }
+    }
+  }
+  closedir ($handle);
+  $total['size'] = $totalsize;
+  $total['count'] = $totalcount;
+  $total['dircount'] = $dircount;
+  return $total;
+}
+
+function sizeFormat($size) {
+    if($size<1024) {
+        return $size." bytes";
+    } elseif($size<(1024*1024)) {
+        $size=round($size/1024,1);
+        return $size." KB";
+    }  else if($size<(1024*1024*1024)) {
+        $size=round($size/(1024*1024),1);
+        return $size." MB";
+    } else {
+        $size=round($size/(1024*1024*1024),1);
+        return $size." GB";
+    }
+}
+
+// http://www.stevenmcmillan.co.uk/blog/2011/recursive-folder-scan-using-recursivedirectoryiterator/
+function jrA_FileNames($dir) {
+  if (isset($dir) && is_readable($dir)) {
+    $dlist = Array();
+    $dir = realpath($dir);
+    $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+
+    foreach($objects as $entry => $object){
+      if (is_file($entry)) {
+        $entry = str_replace($dir, '', $entry);
+        $entry = substr(str_replace('\\', '/', $entry),1,-4);
+        $dlist[] = $entry;
+      }
+    }
+
+    return $dlist;
+  }
+};
+
+
+
+
+
+
+
+?>

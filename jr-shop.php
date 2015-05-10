@@ -46,7 +46,11 @@ include('functions/JR_Functions_Shop.php');
 /*
  * back end core. UI for soft resets, web based settings, maintenance
 */
-include 'admin/JR_Shop_Admin.php';
+if (is_admin()) {
+  include 'admin/JR_Shop_Admin.php';
+}
+
+
 
 /* ---- Permalinks:
   > extending the WP rewrite rules, to include all the shop pages.

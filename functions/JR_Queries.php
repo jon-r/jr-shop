@@ -264,4 +264,19 @@ function jrQ_tesimonial($detail = null) {
   return $wpdb->get_results("SELECT `$query`, `Name` FROM `rhc_testimonial`;", ARRAY_A);
 }
 
+/* -- admin querys. ---------------------------------------------------------------*/
+//this may include a lot of sold/deleted, incomplete items. should not be use for customer end shop
+
+function jrQA_validItems() {
+  global $wpdb, $itemSoldDuration;
+  $queryStr = "SELECT `Image` FROM `benchessinksdb` WHERE ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $queryStr2 = "SELECT `Image` FROM `networked db` WHERE `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+
+  $out1 = $wpdb->get_col($queryStr);
+  $out2 = $wpdb->get_col($queryStr2);
+  $out = array_merge($out2, $out1);
+  return $out;
+}
+
+
 ?>

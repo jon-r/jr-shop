@@ -40,44 +40,44 @@ function jr_validate_urls($url) {
     $categoryDetails = jrQ_categoryRow( $out[pgName] );
     $categoryStainless = in_array($out[pgName], jrQ_keywords('stainless'));
 
-    $out[description] = $categoryDetails[CategoryDescription] ?: null;
-
 
 
     if ($params[2] == 'all') {
       $out[pgType] = 'All';
       $out[pgName] = $out[cat] = 'All Products'; //everything
+      $out[description] = jr_categoryInfo($out[pgType]);
 
     } elseif ($params[2] == 'search') {
       $out[pgType] = 'Search';
       $out[search] = str_replace(' ', '|', $_GET[q]);
     //  $readableSearch = esc_url($params[3]);
       $out[pgName] = $out[cat] = 'Search Results for \''.$_GET[q].'\'';
-
+      $out[description] = jr_categoryInfo($out[pgType]);
     } elseif ($categoryStainless) {
       $out[pgType] = 'CategorySS'; //category stainless
-
+      $out[description] = $categoryDetails[CategoryDescription];
     } else {
        //category
+      $out[description] = $categoryDetails[CategoryDescription];
       $out[pgType] = 'Category';
     }
 
   } elseif ($params[1] == 'arrivals') { //new in
     $out[pgType] = 'New';
     $out[pgName] = 'Just In';
-
+    $out[description] = jr_categoryInfo($out[pgType]);
   } elseif ($params[1] == 'coming-soon') { //soon
     $out[pgType] = 'Soon';
     $out[pgName] = 'Coming Soon';
-
+    $out[description] = jr_categoryInfo($out[pgType]);
   } elseif ($params[1] == 'sold') { //sold
     $out[pgName] = $out[pgType] = 'Sold';
-
+    $out[description] = jr_categoryInfo($out[pgType]);
   } elseif ($params[1] == 'special-offers') { //sale
     $out[pgType] = 'Sale';
     $out[pgName] = 'Special Offers';
     $out[saleNum] = $params[2];
-
+    $out[description] = jr_categoryInfo($out[pgType]);
   } elseif ($params[1] == 'brand') { //brand
     $out[pgType] = 'Brand';
     $out[brand] =  jr_urlToTitle($params[2],'brand');
@@ -117,22 +117,6 @@ function jr_validate_urls($url) {
 
   return $out;
 };
-
-//-------------------------------
-
-//validates stainless pages,
-//returns TRUE/FALSE (this is only being used as a switch between stainless and standard product tables)
-//function jr_isStainless($rawStainless) {
-//  $stainlessList = jrQ_keywords('stainless');
-//  return in_array($rawStainless, jrQ_keywords('stainless'));
-//};
-
-//validates brands.
-//note this is vs ALL brands in the db, not just the 'major' brand keywords
-//function jr_isBrand($rawBrand) {
-//  $brandsListFull = jrQ_brandUnique();
-//  return in_array(ucwords($rawBrand), $brandsListFull) ? ucwords($rawBrand) : null;
-//};
 
 
 ?>

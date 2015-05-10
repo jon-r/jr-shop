@@ -8,15 +8,13 @@
  * (c) Jon Richards 2015
  */
 
+/* --------- Load Up Admin Section --------------------------------------------------- */
+
+include ('JR_Admin_Functions.php');
+
 add_action('admin_menu', 'rhc_setup_menu');
+add_action( 'admin_enqueue_scripts', 'rhc_getScripts' );
 
-function rhc_setup_menu(){
-    add_menu_page( 'Red Hot Chilli Maintenance', 'RHC Maintenance', 'manage_options', 'rhc-maintenance', 'rhc_init' );
-}
 
-function rhc_init(){
+
 ?>
-<h1>Hello World!</h1>
-<p>More Coming soon!</p>
- <?php
- } ?>

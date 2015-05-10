@@ -59,14 +59,15 @@ function jr_categoryInfo($catType) {
     'New'   => 'Fresh off the workshop floor, this equipment is cleaned and ready to go.<br>
                 Enquire quickly, stock can go as soon as it comes in!',
     'Soon'  => 'Stock that has just entered our workshops.<br>
-                If interested, call '.link_to(phone).' today and grab a bargain as soon as its ready.',
+                If interested, call '.jr_linkTo(phone).' today and grab a bargain as soon as its ready.',
     'Sold'  => 'Don\'t worry if you were to late to get the item you wanted, there may be another soming soon <br>
-                call '.link_to(phone).' today and reserve what you need before it goes again!',
+                call '.jr_linkTo(phone).' today and reserve what you need before it goes again!',
     'Sale'  =>  'Surplus stock, or equipment with a few extra dents.<br>
                  We make sure everything works fully before going online, so get it cheap today!',
-    'Search' => 'Still can\'t find what you were looking for? call '.link_to(phone).' today and see if we can help',
+    'Search' => 'Still can\'t find what you were looking for? call '.jr_linkTo(phone).' today and see if we can help',
     'All'   =>  'We buy and sell new items each week, and can\'t always keep the new site up to date.<br>
-                 If there is anything in particular you are looking for, feel free to call '.link_to(phone).' and we\'ll see what we can find.'
+                 If there is anything in particular you are looking for, feel free to call '.jr_linkTo(phone).' and we\'ll see what we can find.'
+
   ];
   return $categoryFilterArr[$catType];
 }
