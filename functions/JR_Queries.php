@@ -41,7 +41,7 @@ function jrQ_rhcs($rhcs) {
 
 function jrQ_categories() {
   global $wpdb;
-  return $wpdb->get_results("SELECT * FROM rhc_categories;", ARRAY_A);
+  return $wpdb->get_results("SELECT `Name`, `CategoryGroup`, `CategoryDescription` FROM `rhc_categories` WHERE `ShowMe` = 1", ARRAY_A);
 }
 
 function jrQ_keywords($keyword) {

@@ -5,9 +5,9 @@
   </li>
 
 <?php foreach($jr_groupArray as $grpName => $grpList) : ?>
-
+  <?php $menuHeaderImg = site_url(jr_imgSrc('icons','menu-'.strtok($grpName, ' '),'jpg')); ?>
   <li><?php echo $grpName ?>
-    <ul>
+    <ul class="sub-menu" style="background-image:url(<?php echo $menuHeaderImg; ?>)">
       <h3 class="touch-toggle btn-red text-icon close-w">Back</h3>
       <?php foreach ($grpList as $category) :
           $link = site_url('/products/'.sanitize_title($category[Name]));

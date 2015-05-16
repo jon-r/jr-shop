@@ -9,17 +9,23 @@ if ($jr_safeArray[group] == 'all') {
 }
 ?>
 
-<article class="flex-container">
-
   <header class="article-header flex-1" >
     <h1><?php echo $jr_safeArray[pgName] ?></h1>
+    <?php echo do_shortcode( "[jr-debug]"); ?>
   </header>
 
+<article class="flex-container">
+
+
+
+
   <?php foreach ($filteredCategories as $category) :
+
     if ($jr_safeArray[group] == 'brand') {
       $link = site_url('/brand/'.sanitize_title($category[Name]));
-      $imgUrl = jr_imgSrc('brand-squares',$category[RefName],'jpg');
+      $imgUrl = jr_imgSrc('brands/square',$category[RefName],'jpg');
     } else {
+      $category = jr_titleToUrl($category[Name]);
       $link = site_url('/products/'.sanitize_title($category[Name]));
       $imgUrl = jr_imgSrc('thumbnails',$category[RefName],'jpg');
     }

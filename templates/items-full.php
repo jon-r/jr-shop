@@ -37,7 +37,7 @@ if ($jr_safeArray[ss]) {
 
   <div class="item-info flex-2 flex-container">
 
-    <header class="article-header flex-1">
+    <header class="flex-1">
       <h1><?php echo $shop_item[name]; ?></h1>
       <br>
       <h2><?php echo $shop_item[price] ?></h2>

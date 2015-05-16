@@ -1,4 +1,4 @@
-<article class="default-page flex-container">
+<article class="flex-container">
 
     <header class="article-header flex-1">
       <h1><?php echo $safeArr[pgName]; ?></h1>
