@@ -6,14 +6,16 @@ function rhc_getScripts() {
   if ($_GET[page] == 'rhc-maintenance') {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', ( 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js' ), false, null, true );
+
     wp_enqueue_style( 'caramel_stylesheet', plugin_dir_url( __FILE__ ) . 'caramel.min.css');
     wp_enqueue_style( 'jr_admin_stylesheet', plugin_dir_url( __FILE__ ) . 'jr_admin_style.css');
     wp_enqueue_script( 'jr_admin_script', plugin_dir_url( __FILE__ ) . 'jr_admin_script.js', array( 'jquery' ), '', true );
+    wp_localize_script( 'jr_admin_script', 'fileSrc', ['ajaxAdmin' => admin_url( 'admin-ajax.php' )]);
   }
 }
 
 function rhc_setup_menu(){
-    add_menu_page( 'Red Hot Chilli Maintenance', 'RHC Maintenance', 'manage_options', 'rhc-maintenance', 'rhc_init' );
+  add_menu_page( 'Red Hot Chilli Maintenance', 'RHC Maintenance', 'manage_options', 'rhc-maintenance', 'rhc_init' );
 }
 
 function rhc_init(){
@@ -68,13 +70,19 @@ function jrA_ImageSearch($folder) {
   return($out);
 }
 // send the readable info
-function jrA_DeadImageSpecs ($in) {
+function jrA_deadImageStats () {
+  $in = $_GET[keyword];
+
   $fileInfo = jrA_ImageSearch($in);
 
-  $out['Count'] = count($fileInfo['Names']);
-  $out['Size'] = sizeFormat(array_sum($fileInfo['Size']));
-  return $out;
+  $out[count] = count($fileInfo['Names']);
+  $out[size] = sizeFormat(array_sum($fileInfo['Size']));
+
+  echo json_encode($out);
+  wp_die();
 }
+
+add_action('wp_ajax_jra_deadimgstats', 'jrA_deadImageStats');
 
 // spews out the files of all the "dead" files.
 function jrA_unleashImages($fileArray, $type) {
@@ -89,7 +97,32 @@ function jrA_unleashImages($fileArray, $type) {
 }
 
 
-add_action('wp_ajax_jr_imgget', 'jrA_imgGet');
+//prints all images from a certain rhc/rhcs
+function jrA_specificImg() {
+  $ref = $_GET[reference];
+  $imgDir = null;
+
+  if (stripos($ref, "rhcs") === 0)  {
+    $refNum = intVar(str_ireplace('rhcs','',$ref));
+    $imgDir = jrQA_itemDir($refNum,$steel = true);
+
+  } elseif (stripos($ref, "rhc") === 0) {
+    $refNum = intval(str_ireplace('rhc','',$ref));
+    $imgDir = jrQA_itemDir($refNum,$steel = false);
+  }
+
+  if ($imgDir) {
+    $out[first] = '../images/gallery/'.$imgDir.'.jpg';
+    $out[all] = glob('../images/gallery/'.$imgDir.'*');
+  }
+
+  echo json_encode($out);
+
+  wp_die();
+}
+
+
+add_action('wp_ajax_jra_specificimg', 'jrA_specificImg');
 
 /* ---------------------- misc admin functions -------------------------------------- */
 

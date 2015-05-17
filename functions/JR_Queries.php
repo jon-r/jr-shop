@@ -278,5 +278,20 @@ function jrQA_validItems() {
   return $out;
 }
 
+function jrQA_itemDir($ref,$steel = false) {
+  global $wpdb;
+  if ($steel) {
+    $query = "SELECT `Image` FROM `benchessinksdb` WHERE `RHCs` = %d";
+  } else {
+    $query = "SELECT `Image` FROM `networked db` WHERE `RHC` = %d";
+  }
+
+
+  $out = $wpdb->get_var(
+    $wpdb->prepare($query, $ref)
+  );
+
+  return $out;
+}
 
 ?>

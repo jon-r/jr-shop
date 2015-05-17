@@ -9,14 +9,13 @@ if ($jr_safeArray[group] == 'all') {
 }
 ?>
 
-  <header class="article-header flex-1" >
-    <h1><?php echo $jr_safeArray[pgName] ?></h1>
-    <?php echo do_shortcode( "[jr-debug]"); ?>
-  </header>
+
 
 <article class="flex-container">
 
-
+  <header class="article-header flex-1" >
+    <h1><?php echo $jr_safeArray[pgName] ?></h1>
+  </header>
 
 
   <?php foreach ($filteredCategories as $category) :
@@ -31,7 +30,7 @@ if ($jr_safeArray[group] == 'all') {
     }
   ?>
 
-    <section class="shop-tile flex-4">
+    <section class="shop-tile category flex-4">
       <a href="<?php echo $link ?>" >
         <div><h3><?php echo $category[Name] ?></h3></div>
         <img src="<?php echo site_url($imgUrl) ?>" />

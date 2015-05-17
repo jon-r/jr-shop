@@ -17,6 +17,11 @@ if ($jr_safeArray[ss]) {
 
 <article class="flex-container">
 
+            <?php $imgTmp = '1000/1070/RHC1073';
+
+         var_dump(glob('images/gallery/'.$imgTmp.'*'));
+        var_dump(file_exists(jr_imgSrc(gallery,$imgTmp,jpg)));
+        ?>
 <!--  ------------------------------------------------------------------------------  -->
 <section class="flex-container flex-1">
   <div class="item-gallery flex-2">

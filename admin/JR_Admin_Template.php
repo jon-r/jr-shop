@@ -11,27 +11,33 @@
         <b>Image Count: </b><?php echo $imgDir['count'] ?> files.<br>
         <b>Total Image Filesize: </b><?php echo sizeFormat($imgDir['size']) ?><br>
         <hr>
-        <p>Be sure to clean up any unnecessary files (mostly long sold products) to save space.</p>
         <p>You can also manually delete the files in the images folder [here] and then re-sync</p>
         <hr>
-        <?php $deadImgs = jrA_DeadImageSpecs ("gallery") ?>
-        <b>Removable Images:</b> <?php echo $deadImgs['Count']; ?><br>
-        <b>Space To Save:</b> <?php echo $deadImgs['Size']; ?><br>
-
-        <input type="submit" class="btn error" value="Delete Images" >
-        <p>(Only Deletes files online. To overwrite this, mark items as 'force show' on the database )</p>
-
-
+        <input type="submit" id="js-oldImageFind" class="btn success" value="Check for removable images" >
+        <div id="js-output-gallery" class="has-loader" >
+          <p>Be sure to clean up any unnecessary files (mostly long sold products) to save space.</p>
+        </div>
 
       </div>
     </article>
 
   </section>
 
-  <section class="box col-6">
+  <section class="box col-8">
     <article class="panel info">
       <div class="panel-head">Contact Details</div>
       <div class="panel-body">coming soon</div>
+    </article>
+
+    <article class="panel success image-fix">
+      <div class="panel-head">Image Fix</div>
+      <div class="panel-body">
+        <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update" ><br>
+          <b>Item Ref:</b> <input type="text" id="js-specific-ref" placeholder="RHC(s)###" >
+        <div id="js-output-specific" class="has-loader row" >
+          <p>Use this to force update any misbehaving images. If this doesnt work, make sure all images are correctly named and organised before hitting the database 'sync' button</p>
+        </div>
+      </div>
     </article>
 
 
