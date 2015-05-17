@@ -89,7 +89,7 @@ function listSpecific(data) {
     }
     output = output.concat('</div>');
   } else {
-    output = '<p>Images Not Found. Double Check whether your reference is accurate.</p>'
+    output = '<p>Images Not Found. Please check the reference is accurate.</p>'
   }
   $outputSpecific.append(output);
 }

@@ -11,11 +11,9 @@
         <b>Image Count: </b><?php echo $imgDir['count'] ?> files.<br>
         <b>Total Image Filesize: </b><?php echo sizeFormat($imgDir['size']) ?><br>
         <hr>
-        <p>You can also manually delete the files in the images folder [here] and then re-sync</p>
-        <hr>
         <input type="submit" id="js-oldImageFind" class="btn success" value="Check for removable images" >
         <div id="js-output-gallery" class="has-loader" >
-          <p>Be sure to clean up any unnecessary files (mostly long sold products) to save space.</p>
+          <p>Be sure to clean up any unnecessary files (mostly sold products) to save space. </p>
         </div>
         <input id="js-oldImageDelete" type="submit" class="btn error" value="Delete Images" >
       </div>
@@ -45,7 +43,7 @@
         <article class="panel success image-fix">
       <div class="panel-head">Image Fix</div>
       <div class="panel-body">
-        <b>Item Ref:</b> <input type="text" id="js-specific-ref" placeholder="RHC(s)###" >
+        <b>Item Ref:</b> <input type="text" id="js-specific-ref" placeholder="RHC### / RHCS###" >
         <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update" ><br>
         <div id="js-output-specific" class="has-loader" >
           <p>Use this to force update any misbehaving images. If this doesnt work, make sure all images are correctly named and organised before hitting the database 'sync' button</p>
@@ -55,7 +53,8 @@
 
     <article class="panel">
       <div class="panel-head">database tables</div>
-      <div class="panel-body">coming soon</div>
+      <div class="panel-body">coming soon
+      </div>
     </article>
 
 

@@ -130,7 +130,7 @@ function jrA_unleashImages($fileArray, $type) {
 function jrA_specificImg() {
   $ref = $_GET[reference];
   $imgDir = null;
-
+$thumbs = $tiles = [];
   if (stripos($ref, "rhcs") === 0)  {
     $refNum = intVar(str_ireplace('rhcs','',$ref));
     $imgDir = jrQA_itemDir($refNum,$steel = true);

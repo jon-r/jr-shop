@@ -107,16 +107,16 @@ function jrQ_items( $safeArr, $pageNumber) {
 
 //fills page with sold items. Mix of filler for design balance and show past sales.
 function jrQ_itemsSold($safeArr, $itemsOnPage) {
-  global $wpdb;
+  global $wpdb, $itemSoldDuration;
 
   if ($safeArr['pgType'] == 'New' || $safeArr['pgType'] == 'Sold') {
     $out = null;
   } else {
-    $soldCount = ($itemsOnPage % 8);
+    $soldCount = 8 - ($itemsOnPage % 8);
     $query = jrQ_itemString($safeArr);
 
     $querySoldOn = str_replace(['`Quantity` > 0','ORDER BY `RHC`'],
-                               ['`Quantity` = 0','ORDER BY `DateSold` AND (`DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE())'], $query[str]);
+                               ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE()','ORDER BY `DateSold`'], $query[str]);
     $queryLimiter = " LIMIT $soldCount";
     $queryFull = $querySoldOn.$queryLimiter;
 
@@ -181,13 +181,16 @@ function jrQ_ItemsNew() {
 }
 
 //returns the mysql query. for debug purposes
-function jrQ_debug($safeArr) {
-  global $wpdb;
+function jrQ_debug($safeArr,$sold=false) {
+  global $wpdb, $itemSoldDuration;
   $query = jrQ_itemString($safeArr, $isCounter = true);
 
   $out[noPrep] = $query[str];
   $out[prep] = $query[placeholders] ? $wpdb->prepare($query[str], $query[placeholders]) : null;
-
+  if ($sold) {
+    $out[sold] = str_replace(['`Quantity` > 0','ORDER BY `RHC`'],
+                               ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE())','ORDER BY `DateSold`'], $query[str]);
+  }
   return $out;
 }
 
@@ -270,7 +273,7 @@ function jrQ_tesimonial($detail = null) {
 function jrQA_validItems() {
   global $wpdb, $itemSoldDuration;
   $queryStr = "SELECT `Image` FROM `benchessinksdb` WHERE ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-  $queryStr2 = "SELECT `Image` FROM `networked db` WHERE `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $queryStr2 = "SELECT `Image` FROM `networked db` WHERE ((`LiveonRHC` = 1 AND `Quantity` > 0) OR (`LiveonRHC` = 1 AND `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
 
   $out1 = $wpdb->get_col($queryStr);
   $out2 = $wpdb->get_col($queryStr2);
@@ -293,5 +296,5 @@ function jrQA_itemDir($ref,$steel = false) {
 
   return $out;
 }
-
+//SELECT `RHC` FROM `networked db` WHERE (`Category` LIKE 'Tables & Chairs' OR `Cat1` LIKE 'Tables & Chairs' OR `Cat2` LIKE 'Tables & Chairs' OR `Cat3` LIKE 'Tables & Chairs') AND (`LiveonRHC` = 1 AND `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL  DAY AND CURDATE()) ORDER BY `DateSold` DESC
 ?>
