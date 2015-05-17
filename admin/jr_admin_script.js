@@ -12,6 +12,7 @@
 /* ----------- cleanup 1 ------------------------------------------------------------ */
 //first finds and lists the number of 'obsolete' images
 var $btnFindDeadImg = $('#js-oldImageFind'),
+    $btnDelDeadImg = $('#js-oldImageDelete'),
     $outputGallery = $('#js-output-gallery');
 
 $btnFindDeadImg.click(function() {
@@ -26,15 +27,28 @@ $btnFindDeadImg.click(function() {
 
 function listDeadImg(data) {
   var results = $.parseJSON(data);
-  output = '<b>Removable Images:</b>' + results.count +
-    '<br><b>Space To Save:</b>' + results.size +
-    '<br><input type="submit" class="btn error" value="Delete Images" >' +
-    '<p>(To overwrite this, mark items as \'force show\' on the database)</p>';
+  var output = '<b>Removable Images: </b>' + results.count +
+    '<br><b>Space To Save: </b>' + results.size +
+    '<p>(To override this, mark items as \'force show\' on the database)</p>';
   $outputGallery.append(output);
+  $btnDelDeadImg.show();
 }
 
-function deleteDeadImg() {
-  //placeholder
+
+$btnDelDeadImg.click(function() {
+  $outputGallery.html('');
+
+  $.get(fileSrc.ajaxAdmin, {
+    keyword: 'gallery',
+    action: "jra_deadimgdel"
+  }, confirmDeadImg);
+});
+
+
+function confirmDeadImg(data) {
+  var results = $.parseJSON(data);
+  var output = '<p>' + results + ' Images Deleted</p>'
+  $outputGallery.append(output);
 }
 
 /* ----------- cleanup 1 ------------------------------------------------------------ */
@@ -63,24 +77,19 @@ function listSpecific(data) {
     var firstImg = results.first;
     var allImg = results.all;
 
-    output = '<br><input type="submit" class="btn error box col-12" value="Reload Specific Images" ><br>' +
-        'if these images are correct, the reload button should update the website. <br>' +
-        'If not, make sure all images are correctly named and organised before hitting the database \'sync\' button <br>' +
-        '<b>First Image</b><br>' +
-        '<img class="box col-12" src="' + firstImg + '" >' +
-        '<b>All Images (includes first intentionally)</b><br>';
+    output = '<p class="box col-12">Layout reset. The following images will be on the site.<br>' +
+        'If wrong, make sure all images are correctly named and organised before hitting the database \'sync\' button </p>' +
+        '<div class="row box col-4"><b>First Image</b><br>' +
+        '<img class="box col-12" src="' + firstImg + '" ></div>' +
+        '<div class="row box col-8"><b>All Images (includes first intentionally)</b><br>';
 
     for (i = 0; i < allImg.length; i++) {
-      var str = '<img class="box col-4" src="' + allImg[i] + '" >'
+      var str = '<img class="box col-3" src="' + allImg[i] + '" >'
       output = output.concat(str);
     }
-
+    output = output.concat('</div>');
   } else {
     output = '<p>Images Not Found. Double Check whether your reference is accurate.</p>'
   }
   $outputSpecific.append(output);
-}
-
-function RefreshSpecificImg() {
-  //placeholder
 }

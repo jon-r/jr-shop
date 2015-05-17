@@ -16,6 +16,7 @@ function rhc_getScripts() {
 
 function rhc_setup_menu(){
   add_menu_page( 'Red Hot Chilli Maintenance', 'RHC Maintenance', 'manage_options', 'rhc-maintenance', 'rhc_init' );
+
 }
 
 function rhc_init(){
@@ -30,6 +31,7 @@ function jrA_ImageSearch($folder) {
   $fullDir = "../images/$folder";
 
   $listAll = jrA_FileNames($fullDir);
+  //$files_Pic = $files_Thumb = $files_Tile = array('name' => [],'size' => []);
 
 //gallery images
   if ($folder == 'gallery') {
@@ -63,6 +65,7 @@ function jrA_ImageSearch($folder) {
     $out['Size'] = array_merge($files_Pic['size'], $files_Thumb['size'], $files_Tile['size']);
 
 
+
   } else {
 
   }
@@ -75,18 +78,44 @@ function jrA_deadImageStats () {
 
   $fileInfo = jrA_ImageSearch($in);
 
-  $out[count] = count($fileInfo['Names']);
-  $out[size] = sizeFormat(array_sum($fileInfo['Size']));
+  if ($fileInfo['Names'] != null) {
+    $out[count] = count($fileInfo['Names']);
+    $out[size] =  sizeFormat(array_sum($fileInfo['Size']));
+  } else {
+    $out[count] = 0;
+    $out[size] = 0;
+  }
+
 
   echo json_encode($out);
   wp_die();
 }
 
-add_action('wp_ajax_jra_deadimgstats', 'jrA_deadImageStats');
+function jrA_deadImageDelete() {
+  $in = $_GET[keyword];
+  $fileInfo = jrA_ImageSearch($in);
+  $out = array();
+  $fullDir = "../images/$folder";
+
+  foreach($fileInfo['Names'] as $file) {
+    if (file_exists($file)) {
+      $out[] = $file;
+      unlink($file);
+    }
+
+
+  }
+
+  RemoveEmptySubFolders($fullDir);
+
+  echo json_encode(count($out));
+  wp_die();
+
+}
 
 // spews out the files of all the "dead" files.
 function jrA_unleashImages($fileArray, $type) {
-  $outArr = array();
+  $outArr = ['name' => [], 'size' => []];
   foreach (array_unique($fileArray) as $dirName) {
     foreach (glob("../images/$type/$dirName*") as $file) {
       $outArr['name'][] = $file;
@@ -114,6 +143,15 @@ function jrA_specificImg() {
   if ($imgDir) {
     $out[first] = '../images/gallery/'.$imgDir.'.jpg';
     $out[all] = glob('../images/gallery/'.$imgDir.'*');
+
+    $thumbs = glob('../images/gallery-thumb/'.$imgDir.'*');
+    $tiles = glob('../images/gallery-tile/'.$imgDir.'*');
+  }
+
+  $oldImgs = array_merge($thumbs, $tiles);
+  foreach ($oldImgs as $file) {
+    unlink($file);
+    $out[] = $file;
   }
 
   echo json_encode($out);
@@ -122,7 +160,10 @@ function jrA_specificImg() {
 }
 
 
-add_action('wp_ajax_jra_specificimg', 'jrA_specificImg');
+  //load the ajax calls
+  add_action('wp_ajax_jra_deadimgstats', 'jrA_deadImageStats');
+  add_action('wp_ajax_jra_deadimgdel', 'jrA_deadImageDelete');
+  add_action('wp_ajax_jra_specificimg', 'jrA_specificImg');
 
 /* ---------------------- misc admin functions -------------------------------------- */
 
@@ -189,10 +230,16 @@ function jrA_FileNames($dir) {
   }
 };
 
-
-
-
+// http://stackoverflow.com/a/1833681
+function RemoveEmptySubFolders($path) {
+  $empty=true;
+  foreach (glob($path.DIRECTORY_SEPARATOR."*") as $file) {
+     $empty &= is_dir($file) && RemoveEmptySubFolders($file);
+  }
+  return $empty && rmdir($path);
+}
 
 
 
 ?>
+

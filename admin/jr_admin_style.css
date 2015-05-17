@@ -1,5 +1,8 @@
+/* this css isnt made as cleanly as the main site, and serves more as a "getting things done". Dont judge */
 .image-fix img {
-  width 50%;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  border: solid
 }
 
 .has-loader:empty {
@@ -58,4 +61,8 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+#js-oldImageDelete {
+  display: none;
 }

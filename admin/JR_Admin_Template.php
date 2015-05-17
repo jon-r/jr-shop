@@ -17,7 +17,7 @@
         <div id="js-output-gallery" class="has-loader" >
           <p>Be sure to clean up any unnecessary files (mostly long sold products) to save space.</p>
         </div>
-
+        <input id="js-oldImageDelete" type="submit" class="btn error" value="Delete Images" >
       </div>
     </article>
 
@@ -27,17 +27,6 @@
     <article class="panel info">
       <div class="panel-head">Contact Details</div>
       <div class="panel-body">coming soon</div>
-    </article>
-
-    <article class="panel success image-fix">
-      <div class="panel-head">Image Fix</div>
-      <div class="panel-body">
-        <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update" ><br>
-          <b>Item Ref:</b> <input type="text" id="js-specific-ref" placeholder="RHC(s)###" >
-        <div id="js-output-specific" class="has-loader row" >
-          <p>Use this to force update any misbehaving images. If this doesnt work, make sure all images are correctly named and organised before hitting the database 'sync' button</p>
-        </div>
-      </div>
     </article>
 
 
@@ -53,10 +42,23 @@
   </section>
 
   <section class="box col-12">
+        <article class="panel success image-fix">
+      <div class="panel-head">Image Fix</div>
+      <div class="panel-body">
+        <b>Item Ref:</b> <input type="text" id="js-specific-ref" placeholder="RHC(s)###" >
+        <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update" ><br>
+        <div id="js-output-specific" class="has-loader" >
+          <p>Use this to force update any misbehaving images. If this doesnt work, make sure all images are correctly named and organised before hitting the database 'sync' button</p>
+        </div>
+      </div>
+    </article>
+
     <article class="panel">
       <div class="panel-head">database tables</div>
       <div class="panel-body">coming soon</div>
     </article>
+
+
   </section>
 
 
