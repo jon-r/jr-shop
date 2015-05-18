@@ -20,11 +20,15 @@ if ($jr_safeArray[ss]) {
 <!--  ------------------------------------------------------------------------------  -->
 <section class="flex-container flex-1">
   <div class="item-gallery flex-2">
-    <div class="item-main btn-icon-lrg <?php echo $shop_item[icon]; ?>">
+    <div id="js-gallery-primary" class="item-main btn-icon-lrg <?php echo $shop_item[icon]; ?>">
       <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>">
+      <div class="item-main-zoom dark-block" >
+        <h3 class="text-icon-left expand-w">Click to zoom</h3>
+      </div>
     </div>
+    <div id="js-gallery-modal" class="modal dark-block flex-container" ></div>
 
-    <ul class="item-thumbs flex-container">
+    <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
       <?php foreach ($shop_item[imgAll] as $galleryImg) : ?>
       <li class=""><img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>">
       </li>
@@ -53,15 +57,15 @@ if ($jr_safeArray[ss]) {
 
     <ul class="item-features dark-block flex-1">
       <?php if (!$jr_safeArray[ss]) : ?>
-      <li class="text-icon-right tick-w">Photos of actual product</li>
-      <li class="text-icon-right tick-w">Fully Tested &amp; Cleaned</li>
+      <li class="text-icon-left tick-w">Photos of actual product</li>
+      <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
       <?php endif ?>
-      <li class="text-icon-right tick-w">Competitive UK &amp; EU Delivery Quotes</li>
-      <li class="text-icon-right tick-w">Finance Options On Request</li>
-      <li class="text-icon-right tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
-      <li class="text-icon-right tick-w">Aftercare &amp; Warranty</li>
+      <li class="text-icon-left tick-w">Competitive UK &amp; EU Delivery Quotes</li>
+      <li class="text-icon-left tick-w">Finance Options On Request</li>
+      <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
+      <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
       <?php if ($shop_item[icon]=="natural-gas" ) : ?>
-      <li class="text-icon-right lpg"><em>Ask today about conversions to LPG</em>
+      <li class="text-icon-left lpg"><em>Ask today about conversions to LPG</em>
       </li>
       <?php endif ?>
     </ul>
@@ -101,7 +105,7 @@ if ($jr_safeArray[ss]) {
       //show the box sim, but only if not furnishings and valid height/width
       if (
       ($item['Height'] > 0 && $item['Width'] > 0) &&
-      ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Décor')
+      ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Décor & Lighting')
          ) {
       include( "item-boxSim.php");
       }
