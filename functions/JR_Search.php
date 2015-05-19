@@ -59,7 +59,6 @@ add_shortcode("jr-search", "jr_smartSearch");
 
 function jr_autoComplete() {
   $in = $_GET[keyword];
-  $array = jrQ_brandUnique();
 
   $filteredBrand = array_filter(jrQ_brandUnique(), function($var) {
     return (stripos($var, $_GET[keyword]) !== false);

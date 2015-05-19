@@ -2,7 +2,7 @@
 *
 *
 */
-
+global $itemCountMin;
 $pageNumber = $_GET['pg'] ?: 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
 
@@ -22,7 +22,23 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
   }
   ?>
 
+
+  <?php if(count($items['list']) < $itemCountMin) : ?>
+
+  <header class="article-header flex-1">
+    <h1>More in store</h1>
+    <p>There doesnt seem to be a lot to see here. However, sometimes the equipment is ready and waiting in the workshop. If interested, call <?php echo jr_linkTo(phone) ?> today and will see if we can get hold of what you need.</p>
+  </header>
+
+   <?php echo do_shortcode( "[jr-shop id='contact-minibar' dark=true]"); ?>
+
+
+<?php endif ?>
+
 </article>
+
+
+
 
 <?php if ($items['paginate']) : ?>
 

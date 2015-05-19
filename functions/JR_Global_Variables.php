@@ -18,6 +18,7 @@ function jr_linkTo($target) {
     'twitter'   => 'https://twitter.com/RHC_Catering',
     'linkedin'  => 'https://uk.linkedin.com/pub/simon-greenwood/69/b05/689',
     'email'     => 'info@redhotchilli.catering',
+    'eLink'     => '<a href="mailto:info@redhotchilli.catering">info@redhotchilli.catering</a>',
     'phone'     => '01925 242623',
     'address'   => '27 Winwick Street<br>
                     Warrington<br>
@@ -38,7 +39,7 @@ function jr_linkTo($target) {
 $itemCountMax = 24;
 
 //How many items before the "try elsewhere" kicks in. NYI
-$itemCountMin = 4;
+$itemCountMin = 5;
 
 //how long to leave sold items searchable (days)
 $itemSoldDuration = 90;

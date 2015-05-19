@@ -1,8 +1,8 @@
 <article class="flex-container four-oh-four" >
 
-  <div class="flex-2" >
+  <section class="flex-2" >
     <img src="<?php echo site_url('/').jr_imgSrc('rhc','four-oh-four','jpg'); ?>" alt="four-oh-four">
-  </div>
+  </section>
 
   <header class="article-header flex-1">
     <h1>Something Went Wrong!</h1>

@@ -170,3 +170,40 @@ function jr_isPg($pgNum) {
   $getPg = $_GET['pg'] ? $_GET['pg'] : 1;
   return $getPg == $pgNum ? true : false;
 }
+
+// --- microformatter -------------------------------------------------------------------
+// adds basic formatting, with custom "markdown".
+
+function jr_microFormatter($in) {
+
+  // basic formatting replaces the 'easier' bits
+  $findBasic = [
+    '/\[ref:(rhc|rhcs)(\d+)\]/i',
+    '/\[link@(.+):(.+)\]/i',
+    '/\[italic:(.+)\]/i',
+    '/\[bold:(.+)\]/i',
+    '/\[red:(.+)\]/i',
+    '[tel]',
+    '[email]',
+  ];
+  $replaceBasic = [
+    '<a href="'.site_url($1.'/'.$2).'>'.$1.$2.'</a>',
+    '<a href="'.$1.'" >'.$2'</a>',
+    '<em class="lesser" >'.$1.'</em>',
+    '<strong>'.$1.'</strong>',
+    '<em>'.$1.'</em>',
+    jr_linkTo('phone'),
+    jr_linkTo('eLink')
+  ];
+
+  // categories taken from DB
+  $getCats = jrQ_categoryColumn();
+  foreach ($getCats as $cat) {
+    $findCat[] = '[category:'.$cat.']';
+    $replaceCat[] = '<a href="'.site_url('products/'.sanitize_title($cat)).'" >'.$cat.'</a>';
+  }
+
+  // lists
+}
+
+
