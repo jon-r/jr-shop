@@ -71,9 +71,7 @@ function jr_autoComplete() {
 
   $listFull = array_merge($listCats, $listBrands);
 
-
   echo json_encode($listFull);
-
 
   wp_die();
 }

@@ -26,7 +26,9 @@ if ($jr_safeArray[ss]) {
         <h3 class="text-icon-left expand-w">Click to zoom</h3>
       </div>
     </div>
-    <div id="js-gallery-modal" class="modal dark-block flex-container" ></div>
+    <div id="js-gallery-modal" class="modal dark-block" >
+      <div class="modal-close btn-icon close-w" ></div>
+    </div>
 
     <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
       <?php foreach ($shop_item[imgAll] as $galleryImg) : ?>

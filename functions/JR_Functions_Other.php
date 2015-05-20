@@ -77,11 +77,26 @@ function jr_imgResize ($src, $size) {
     $img->save($newSrc);
   } else {
     $out = jr_imgSrc(icons,ComingSoon,jpg);
+ //   $out = 'bad: '.$src;
   }
 
   return $out;
 }
 
+//for ajax to create new carousel
+function jr_resizeAjax() {
+  $src = $_GET[src];
+  $size = $_GET[size];
+
+  $out = jr_imgResize ($src, $size);
+
+  echo json_encode($out);
+
+  wp_die();
+}
+
+add_action('wp_ajax_jr_resize', 'jr_resizeAjax');
+add_action('wp_ajax_nopriv_jr_resize', 'jr_resizeAjax');
 
 /* ---- module generator --------------------------------------------------------------*/
 //turns 'jr-shop' shortcode into templates on the page
