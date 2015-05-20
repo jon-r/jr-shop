@@ -5,7 +5,6 @@
 global $itemCountMin;
 $pageNumber = $_GET['pg'] ?: 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
-
 ?>
 
 <article class="flex-container">
@@ -14,6 +13,7 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
     <h1><?php echo $jr_safeArray[pgName]; ?></h1>
     <p><?php echo $jr_safeArray[description] ?></p>
     <?php echo $jr_safeArray[imgURL] ?>
+    <?php echo jr_format($testString); ?>
   </header>
 
   <?php
