@@ -21,21 +21,27 @@ if ($jr_safeArray[ss]) {
 <section class="flex-container flex-1">
   <div class="item-gallery flex-2">
     <div id="js-gallery-primary" class="item-main btn-icon-lrg <?php echo $shop_item[icon]; ?>">
-      <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>">
-      <div class="item-main-zoom dark-block" >
-        <h3 class="text-icon-left expand-w">Click to zoom</h3>
-      </div>
+      <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>" alt="<?php echo $shop_item[name] ?>" >
+      <div class="item-main-zoom dark-block text-icon-left expand-w" ></div>
+
+      <?php if (count($shop_item[imgAll]) > 1) : ?>
+      <div id="js-gallery-prev" class="gallery-nav text-icon-left arrow-l"></div>
+      <div id="js-gallery-next" class="gallery-nav text-icon arrow-r"></div>
+      <?php endif ?>
     </div>
     <div id="js-gallery-modal" class="modal dark-block" >
       <div class="modal-close btn-icon close-w" ></div>
     </div>
 
+    <?php if (count($shop_item[imgAll]) > 1) : ?>
     <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
       <?php foreach ($shop_item[imgAll] as $galleryImg) : ?>
-      <li class=""><img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>">
+      <li>
+        <img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>" alt="<?php echo $shop_item[name] ?>" data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>" >
       </li>
       <?php endforeach ?>
     </ul>
+    <?php endif ?>
 
   </div>
 
@@ -47,8 +53,14 @@ if ($jr_safeArray[ss]) {
       <h1><?php echo $shop_item[name]; ?></h1>
       <br>
       <h2><?php echo $shop_item[price] ?></h2>
-      <?php echo $shop_item[rhc] ?>
+      <em class="lesser"><?php echo $shop_item[rhc] ?></em>
     </header>
+
+    <aside class="social-shares flex-1">
+      <a class="text-icon-left facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>" target="_blank">Share on Facebook</a>
+
+      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">Share on Twitter</a>
+    </aside>
 
     <div class="item-description flex-1">
       <h2>About</h2>
