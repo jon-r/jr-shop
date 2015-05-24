@@ -161,6 +161,7 @@ function jr_itemComplile($ref,$detail) {
       } else {
         $wattCheck = null;
       }
+
       $out1 = [
         height      => $ref[Height] ?: null,
         width       => $ref[Width] ?: null,
@@ -168,9 +169,9 @@ function jr_itemComplile($ref,$detail) {
         hFull       => $ref[Height] ? "<b>Height</b>: ".$ref[Height]."mm / ".ceil($ref[Height] / 25.4)." inches" : null,
         wFull       => $ref[Width] ? "<b>Width:</b> ".$ref[Width]."mm / ".ceil($ref[Width] / 25.4)." inches" : null,
         dFull       => $ref[Depth] ? "<b>Depth:</b> ".$ref[Depth]."mm / ".ceil($ref[Depth] / 25.4)." inches" : null,
-        desc        => ($ref['Line 1'] != " " ? $ref['Line 1']."" : null).
-                          ($ref['Line 2'] != " " ? $ref['Line 2']."" : null).
-                          ($ref['Line 3'] != " " ? $ref['Line 3'] : null),
+        desc        => ($ref['Line 1'] != "0" ? $ref['Line 1']." " : null).
+                          ($ref['Line 2'] != "0" ? $ref['Line 2']." " : null).
+                          ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
         model       => $ref[Model] ? "<b>Model:</b> ".$ref[Model] : null,
         extra       => ($ref[ExtraMeasurements] != 0) ? $ref[ExtraMeasurements] : null,
         condition   => $ref[Condition] != " " ? $ref[Condition] : null,
@@ -190,7 +191,7 @@ function jr_itemComplile($ref,$detail) {
       } else {
         $priceCheck = "Price Coming Soon";
       }
-      $catArray = [ $ref[Category], $ref[cat1], $ref[cat2], $ref[cat3] ];
+      $catArray = [ $ref[Category],  $ref[Cat1],  $ref[Cat2], $ref[Cat3] ];
       if (in_array('Fridges', $catArray) && in_array('Freezers', $catArray)) {
         $iconCheck = 'fridge-freezer';
       } elseif (in_array('Fridges', $catArray)) {

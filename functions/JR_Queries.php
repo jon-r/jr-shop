@@ -207,7 +207,7 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   } elseif ($qType == 'CategorySS') {
     $queryStart = "SELECT `RHCs`, `ProductName`, `Price`, `Category`, `TableinFeet`, `Quantity` FROM `benchessinksdb` ";
   } else {
-    $queryStart = "SELECT `RHC`, `ProductName`, `IsSoon`, `Sold`, `Category`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
+    $queryStart = "SELECT `RHC`, `ProductName`, `IsSoon`, `Sold`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
   };
 //the query "middle". what is the data filtered by?
   $queryMid = "WHERE ";
