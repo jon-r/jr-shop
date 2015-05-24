@@ -31,14 +31,14 @@ function jrA_ImageSearch($folder) {
   $fullDir = "../images/$folder";
 
   $listAll = jrA_FileNames($fullDir);
-  //$files_Pic = $files_Thumb = $files_Tile = array('name' => [],'size' => []);
 
-//gallery images
+
+  //gallery images. atm this is all it will be used for. other images are synced directly
   if ($folder == 'gallery') {
-    $listValid = jrQA_validItems();
 
     $listAll_tiles = jrA_FileNames($fullDir.'-tile');
     $listAll_thumbs = jrA_FileNames($fullDir.'-thumb');
+    $listValid = jrQA_ValidItems();
 
     foreach ($listAll as $item) {
       $itemBreak = preg_split('/([^a-z0-9\/])/i', $item);
@@ -63,8 +63,6 @@ function jrA_ImageSearch($folder) {
     $files_Tile = jrA_unleashImages($deadTiles, 'gallery-tile');
     $out['Names'] = array_merge($files_Pic['name'], $files_Thumb['name'], $files_Tile['name']);
     $out['Size'] = array_merge($files_Pic['size'], $files_Thumb['size'], $files_Tile['size']);
-
-
 
   } else {
 
@@ -95,18 +93,13 @@ function jrA_deadImageDelete() {
   $in = $_GET[keyword];
   $fileInfo = jrA_ImageSearch($in);
   $out = array();
-  $fullDir = "../images/$folder";
 
   foreach($fileInfo['Names'] as $file) {
     if (file_exists($file)) {
       $out[] = $file;
       unlink($file);
     }
-
-
   }
-
-  RemoveEmptySubFolders($fullDir);
 
   echo json_encode(count($out));
   wp_die();
@@ -116,8 +109,8 @@ function jrA_deadImageDelete() {
 // spews out the files of all the "dead" files.
 function jrA_unleashImages($fileArray, $type) {
   $outArr = ['name' => [], 'size' => []];
-  foreach (array_unique($fileArray) as $dirName) {
-    foreach (glob("../images/$type/$dirName*") as $file) {
+  foreach (array_unique($fileArray) as $fileName) {
+    foreach (glob("../images/$type/$fileName*") as $file) {
       $outArr['name'][] = $file;
       $outArr['size'][] = filesize($file);
     }
@@ -130,14 +123,9 @@ function jrA_unleashImages($fileArray, $type) {
 function jrA_specificImg() {
   $ref = $_GET[reference];
   $imgDir = null;
-$thumbs = $tiles = [];
-  if (stripos($ref, "rhcs") === 0)  {
-    $refNum = intVar(str_ireplace('rhcs','',$ref));
-    $imgDir = jrQA_itemDir($refNum,$steel = true);
-
-  } elseif (stripos($ref, "rhc") === 0) {
-    $refNum = intval(str_ireplace('rhc','',$ref));
-    $imgDir = jrQA_itemDir($refNum,$steel = false);
+  $thumbs = $tiles = [];
+  if (stripos($ref, "rhc") === 0) {
+    $imgDir = preg_replace('/rhc(s?)([\d]+)/i','RHC$1$2',$ref);
   }
 
   if ($imgDir) {
@@ -230,14 +218,6 @@ function jrA_FileNames($dir) {
   }
 };
 
-// http://stackoverflow.com/a/1833681
-function RemoveEmptySubFolders($path) {
-  $empty=true;
-  foreach (glob($path.DIRECTORY_SEPARATOR."*") as $file) {
-     $empty &= is_dir($file) && RemoveEmptySubFolders($file);
-  }
-  return $empty && rmdir($path);
-}
 
 
 

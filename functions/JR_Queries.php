@@ -77,9 +77,9 @@ function jrQ_titles($safeRHC, $SS = null) {
 function jrQ_item($safeRHC, $SS = null) {
   global $wpdb;
   if ($SS) {
-    $queryFull = $wpdb->get_row("SELECT `RHCs`, `Image`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE RHCs = $safeRHC", ARRAY_A);
+    $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE RHCs = $safeRHC", ARRAY_A);
   } else {
-    $queryFull = $wpdb->get_row("SELECT `RHC`, `Image`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice`, `IsSoon` FROM `networked db` WHERE RHC = $safeRHC", ARRAY_A);
+    $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice`, `IsSoon` FROM `networked db` WHERE RHC = $safeRHC", ARRAY_A);
   }
   return $queryFull;
 }
@@ -205,9 +205,9 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   } elseif ($isCounter) {
     $queryStart = "SELECT `RHC` FROM `networked db` ";
   } elseif ($qType == 'CategorySS') {
-    $queryStart = "SELECT `RHCs`, `ProductName`,`Image`, `Price`, `Category`, `TableinFeet`, `Quantity` FROM `benchessinksdb` ";
+    $queryStart = "SELECT `RHCs`, `ProductName`, `Price`, `Category`, `TableinFeet`, `Quantity` FROM `benchessinksdb` ";
   } else {
-    $queryStart = "SELECT `RHC`, `ProductName`, `Image`, `IsSoon`, `Sold`, `Category`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
+    $queryStart = "SELECT `RHC`, `ProductName`, `IsSoon`, `Sold`, `Category`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
   };
 //the query "middle". what is the data filtered by?
   $queryMid = "WHERE ";
@@ -272,29 +272,38 @@ function jrQ_tesimonial($detail = null) {
 
 function jrQA_validItems() {
   global $wpdb, $itemSoldDuration;
-  $queryStr = "SELECT `Image` FROM `benchessinksdb` WHERE ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-  $queryStr2 = "SELECT `Image` FROM `networked db` WHERE ((`LiveonRHC` = 1 AND `Quantity` > 0) OR (`LiveonRHC` = 1 AND `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $queryStr2 = "SELECT `RHC` FROM `networked db` WHERE ((`LiveonRHC` = 1 AND `Quantity` > 0) OR (`LiveonRHC` = 1 AND `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
 
   $out1 = $wpdb->get_col($queryStr);
+  $out1= array_map('jrA_addRHCs', $out1);
   $out2 = $wpdb->get_col($queryStr2);
+  $out2 = array_map('jrA_addRHC', $out2);
   $out = array_merge($out2, $out1);
   return $out;
 }
 
-function jrQA_itemDir($ref,$steel = false) {
-  global $wpdb;
-  if ($steel) {
-    $query = "SELECT `Image` FROM `benchessinksdb` WHERE `RHCs` = %d";
-  } else {
-    $query = "SELECT `Image` FROM `networked db` WHERE `RHC` = %d";
-  }
-
-
-  $out = $wpdb->get_var(
-    $wpdb->prepare($query, $ref)
-  );
-
-  return $out;
+function jrA_addRHC($n) {
+  return 'RHC'.$n;
 }
+function jrA_addRHCs($n) {
+  return 'RHCs'.$n;
+}
+
+//function jrQA_itemDir($ref,$steel = false) {
+//  global $wpdb;
+//  if ($steel) {
+//    $query = "SELECT `Image` FROM `benchessinksdb` WHERE `RHCs` = %d";
+//  } else {
+//    $query = "SELECT `Image` FROM `networked db` WHERE `RHC` = %d";
+//  }
+//
+//
+//  $out = $wpdb->get_var(
+//    $wpdb->prepare($query, $ref)
+//  );
+//
+//  return $out;
+//}
 //SELECT `RHC` FROM `networked db` WHERE (`Category` LIKE 'Tables & Chairs' OR `Cat1` LIKE 'Tables & Chairs' OR `Cat2` LIKE 'Tables & Chairs' OR `Cat3` LIKE 'Tables & Chairs') AND (`LiveonRHC` = 1 AND `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL  DAY AND CURDATE()) ORDER BY `DateSold` DESC
 ?>

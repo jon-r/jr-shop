@@ -16,6 +16,7 @@ function jr_imgSrc($itemType,$itemName,$filetype) {
   return 'images/'.$itemType.'/'.$itemName.'.'.$filetype;
 }
 
+
 // turns a title into an array of [Name, URL]
 function jr_titleToUrl($in) {
   $out[Name] = $in;
@@ -59,30 +60,6 @@ function jr_urlToTitle($url,$type) {
 // stores the resized images as a mini cache
 // this also (conveniently) used to dump the "coming soon"
 
-/*function jr_imgResize ($src, $size) {
-  $img = wp_get_image_editor( $src );
-  $newSrc = str_replace("gallery", "gallery-$size", $src);
-  $reSize = jr_imgSize($size);
-  $out = $newSrc;
-  if (file_exists($newSrc) && file_exists($src)) {
-    $dateCheck = filectime($newSrc) < filectime($src);
-    if ($dateCheck) {
-      $img->resize( $reSize, $reSize, false );
-      $img->set_quality( 80 );
-      $img->save($newSrc);
-    }
-  } elseif (file_exists($src)) {
-    $img->resize( $reSize, $reSize, false );
-    $img->set_quality( 80 );
-    $img->save($newSrc);
-  } else {
-    $out = jr_imgSrc(icons,ComingSoon,jpg);
- //   $out = 'bad: '.$src;
-  }
-
-  return $out;
-}*/
-
 function jr_imgResize ($src, $size) {
   $newSrc = str_replace("gallery", "gallery-$size", $src);
   $reSize = jr_imgSize($size);
@@ -97,7 +74,7 @@ function jr_imgResize ($src, $size) {
     $out = $newSrc;
   } else {
     $out = jr_imgSrc(icons,ComingSoon,jpg);
- //  $out = 'bad: '.$src;
+  // $out = 'bad: '.$src;
   }
   return $out;
 }

@@ -126,7 +126,7 @@ function jr_itemComplile($ref,$detail) {
         wFull       => $ref[Width] ? "Width: ".$ref[Width]."mm / ".ceil($ref[Width] / 25.4)." inches" : null,
         dFull       => $ref[Depth] ? "Depth: ".$ref[Depth]."mm / ".ceil($ref[Depth] / 25.4)." inches" : null,
         desc        => ($ref['Line1'] != " " ? $ref['Line 1']."<br>" : null),
-        imgAll      => glob('images/gallery/'.$ref[Image].'*')
+        imgAll      => glob('images/gallery/RHCs'.$ref[RHCs].'*')
       ];
     case 'listSS':
       if ($ref[Quantity] == 0) {
@@ -141,7 +141,7 @@ function jr_itemComplile($ref,$detail) {
         webLink     => "rhcs/$ref[RHCs]/".sanitize_title($ref[ProductName]),
         rhc         => "Ref: RHCs".$ref[RHCs],
         name        => $ref[ProductName],
-        imgFirst    => jr_imgSrc('gallery',$ref[Image],'jpg'),
+        imgFirst    => jr_imgSrc('gallery','RHCs'.$ref[RHCs],'jpg'),
         price       => $priceCheck ,
         width       => "$ref[TableinFeet]ft",
         quantity    => $ref[Quantity] > 1 ? $ref[Quantity]." in Stock" : null,
@@ -179,7 +179,7 @@ function jr_itemComplile($ref,$detail) {
                           '<img src="'.site_url($brandIconLocation).'" alt="'.$brand.'" >' : "<b>Brand:</b> $brand <br>",
         brandLink   => "brand/$brandUrl",
         watt        => $wattCheck,
-        imgAll      => glob('images/gallery/'.$ref[Image].'*'),
+        imgAll      => glob('images/gallery/RHC'.$ref[RHC].'*'),
         category    => $ref[Category]
       ];
     case 'list':
@@ -215,7 +215,7 @@ function jr_itemComplile($ref,$detail) {
         webLink     => "rhc/$ref[RHC]/".sanitize_title($ref[ProductName]),
         rhc         => "ref: RHC$ref[RHC]",
         name        => $ref[ProductName],
-        imgFirst    => jr_imgSrc('gallery',$ref[Image],'jpg'),
+        imgFirst    => jr_imgSrc('gallery','RHC'.$ref[RHC],'jpg'),
         info        => $infoCheck,
         quantity    => $ref[Quantity] > 1 ? $ref[Quantity]." in Stock" : null,
         category    => $ref[Category]

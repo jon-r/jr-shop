@@ -16,36 +16,29 @@ Priority:
 
 
 function jr_smartSearch() {
-  $searchTerm = $_GET[search];
+  $rawSearchTerm = $_GET[search];
 
-  $safeSearch = preg_replace('/[^A-Za-z0-9 +-]/','', $searchTerm);
+  $safeSearch = preg_replace('/[^\w +-]/i','', $rawSearchTerm );
 
   $ref = http_build_query([q => $safeSearch]);
   $url = site_url("products/search/?$ref");
-//RHCs must be first
-  if (stripos($searchTerm, "rhcs") === 0)  {
-    $ref = str_replace('rhcs','',$searchTerm);
-    if (jrQ_rhcs($ref)) {
-      $itemSS = jrQ_titles($ref, $SS = true);
-      $name = sanitize_title($itemSS[ProductName]);
-      $url = site_url("rhcs/$ref/$name");
-    } else {
-      $ref = http_build_query([q => $safeSearch]);
-    }
 
-  } elseif (stripos($searchTerm, "rhc") === 0) {
-    $ref = str_replace('rhc','',$searchTerm);
-    if (jrQ_rhc($ref)) {
-      $item = jrQ_titles($ref);
-      $name = sanitize_title($item[ProductName]);
-      $url = site_url("rhc/$ref/$name");
-    } else {
-      $ref = http_build_query([q => $safeSearch]);
-    }
+  if (stripos($rawSearchTerm, "rhc") === 0) {
+    $findRef = '/(rhc|rhcs)(\d+)/i';
+    $replaceRef ='$1/$2';
+    $url =  site_url(preg_replace($findRef, $replaceRef, $safeSearch));
+
+  } elseif (strpos($rawSearchTerm, "- Category") > 0) {
+    $ref = str_replace(" - Category", "", $safeSearch);
+    $url = site_url('products/'.sanitize_title($ref));
+
+  } elseif (strpos($rawSearchTerm, "- Brand") > 0) {
+    $ref = str_replace(" - Brand", "", $safeSearch);
+    $url = site_url('brand/'.sanitize_title($ref));
+
   }
 
- //return $url;
-return wp_redirect( $url , 301 );
+  return wp_redirect( $url , 301 );
 }
 
 /* ---- search shortcode --------------------------------------------------------------*/

@@ -3,7 +3,7 @@
       action="<?php echo site_url('search-me'); ?>" autocomplete="off">
 
   <h2>Search Catering Equipment</h2>
-  <input tabindex="0" class="search-in" type="search" name="search" placeholder="Enter Keyword or Reference">
+  <input  class="search-in" type="search" name="search" placeholder="Enter Keyword or Reference">
 
   <button class="btn-red" type="submit">
     <h3 tabindex="5">Go</h3>

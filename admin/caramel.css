@@ -50,8 +50,7 @@ body.dark {
   color: #FAFAFA; }
 
 .container, main {
-  width: inherit;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 35px; }
 
