@@ -25,7 +25,6 @@ function jr_validate_urls($url) {
       $out[group] = 'all';
     } else {
       $out[pgName] = $out[group] = jr_urlToTitle($params[2],'grp');
-      $out[imgUrl] = jr_imgSrc('icons',$params[2],'jpg');
     }
   } elseif ($params[1] == 'brands') {
     $out[pgType] = 'Group';
@@ -35,12 +34,10 @@ function jr_validate_urls($url) {
   } elseif ($params[1] == 'products') {
 
     $out[pgName] = $out[cat] = jr_urlToTitle($params[2],'cat');
-    $out[imgUrl] = jr_imgSrc('thumbnails',$out[pgName],'jpg');
 
-    $categoryDetails = jrQ_categoryRow( $out[pgName] );
+    $categoryDetails = jrQ_categoryDesc( $out[pgName] );
     $categoryStainless = in_array($out[pgName], jrQ_keywords('stainless'));
-
-
+    $catDesc = $categoryDetails != '0' ? jr_format($categoryDetails) : null;
 
     if ($params[2] == 'all') {
       $out[pgType] = 'All';
@@ -55,10 +52,10 @@ function jr_validate_urls($url) {
       $out[description] = jr_categoryInfo($out[pgType]);
     } elseif ($categoryStainless) {
       $out[pgType] = 'CategorySS'; //category stainless
-      $out[description] = $categoryDetails[CategoryDescription];
+      $out[description] = $catDesc;
     } else {
        //category
-      $out[description] = $categoryDetails[CategoryDescription];
+      $out[description] = $catDesc;
       $out[pgType] = 'Category';
     }
 

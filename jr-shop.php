@@ -3,7 +3,7 @@
  * Plugin Name:       Shop Plugin For Red Hot Chilli Northwest
  * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       Lightweight shop output plugin purpose built for the shop. Built with a focus on speed and ease of use. Requires local user connection to the MS Access 'Back end'
- * Version:           1.0.0
+ * Version:           0.9.1
  * Author:            Jon Richards
  * Author URI:        https://github.com/jon-r
  * License:           GPL-2.0+
@@ -50,12 +50,17 @@ if (is_admin()) {
   include 'admin/JR_Shop_Admin.php';
 }
 
-
-
 /* ---- Permalinks:
   > extending the WP rewrite rules, to include all the shop pages.
 */
 include('functions/JR_Permalinks.php');
+
+/* ---- Queries:
+  > Takes the data directly from the database,
+  > Filtered and sorted based on user input or pages.
+*/
+
+include('functions/JR_Queries.php');
 
 /* ---- Global Variables
   > The things tweaked the most (items, categorys) are in the database, easily edited.
@@ -77,13 +82,6 @@ include('functions/JR_Validate.php');
   > everything else will be a REGEX search of whats been typed, treating spaces as 'OR'
 */
 include('functions/JR_Search.php');
-
-/* ---- Queries:
-  > Takes the data directly from the database,
-  > Filtered and sorted based on user input or pages.
-*/
-
-include('functions/JR_Queries.php');
 
 /* ---- Innitialise ----
  > Page start up.

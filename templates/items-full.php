@@ -2,7 +2,6 @@
 
 <?php /* style for the individual items page */
 
-
 if ($jr_safeArray[ss]) {
     $item = jrQ_item($jr_safeArray[rhc], 1);
     $shop_item = jr_itemComplile($item,'itemSS');
@@ -13,12 +12,10 @@ if ($jr_safeArray[ss]) {
 
 ?>
 
-
-
 <article class="flex-container">
 
 <!--  ------------------------------------------------------------------------------  -->
-<section class="flex-container flex-1">
+<!--<section class="flex-container flex-1">-->
   <div class="item-gallery flex-2">
     <div id="js-gallery-primary" class="item-main btn-icon-lrg <?php echo $shop_item[icon]; ?>">
       <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>" alt="<?php echo $shop_item[name] ?>" >
@@ -93,24 +90,14 @@ if ($jr_safeArray[ss]) {
       <br>
 
       <ul class="item-dimensions">
-        <?php if ($shop_item[brand]) : ?>
-        <li>
-          <a href="<?php echo site_url($shop_item[brandLink]) ?>">
-            <?php echo $shop_item[brandImg] ?: "Brand $shop_item[brand]" ?>
-            <em>More from <?php echo $shop_item[brand] ?></em>
-          </a>
-        </li>
-        <?php endif; if ($shop_item[model]) : ?>
-        <li><?php echo $shop_item[model] ?></li>
-        <?php endif ?>
-        <li><?php echo $shop_item[hFull] ?></li>
-        <li><?php echo $shop_item[wFull] ?></li>
-        <li><?php echo $shop_item[dFull] ?></li>
-        <?php if ($shop_item[extra]) : ?>
-        <li><?php echo $shop_item[extra] ?></li>
-        <?php endif; if ($shop_item[watt]) : ?>
-        <li><?php echo $shop_item[watt] ?>
-        <?php endif; ?>
+        <?php foreach ([
+            $shop_item[brandName], $shop_item[brandLink],
+            $shop_item[model], $shop_item[hFull],
+            $shop_item[wFull], $shop_item[dFull],
+            $shop_item[power], $shop_item[extra]
+          ] as $spec) {
+            echo $spec ? "<li>$spec</li>" : null;
+          } ?>
       </ul>
 
     </div>
@@ -127,7 +114,7 @@ if ($jr_safeArray[ss]) {
 
 
   </div>
-</section>
+<!--</section>-->
 <!-- -------------------------------------------------------------------------------- -->
 
 <!--  </section>-->

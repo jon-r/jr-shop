@@ -2,29 +2,30 @@
 /* this is all the (easily) adjustable variables */
 /* maybe try get as many as possible into the web admin eventually */
 
-global $itemCountMax, $itemCountMin,
+global $jr_config, $itemCountMax, $itemCountMin,
   $link_allCategories, $link_allItems, $link_soldItems, $link_newItems, $link_soonItems, $itemSoldDuration;
 
-//social media links.
-//$rhcFacebookLink = 'https://www.facebook.com/pages/Red-Hot-Chilli-Catering/147845465419524';
-//$rhcTwitterLink = 'https://twitter.com/RHC_Catering';
-//$rhcLinkedinLink = 'https://uk.linkedin.com/pub/simon-greenwood/69/b05/689';
-//$rhcEmail = 'info@redhotchilli.catering';
-//$rhcTel = '01925 242623';
+//hooks the old settings on this page with the new db settings
+function jr_settings_hook() {
+  $settings = jrQ_settings();
+  foreach ($settings as $x) {
+      $out[$x[option_name]] = $x[option_value] ;
+    }
+  return $out;
+}
+
+$jr_config = jr_settings_hook();
 
 function jr_linkTo($target) {
+  global $jr_config;
   $linkArr = [
-    'facebook'  => 'https://www.facebook.com/pages/Red-Hot-Chilli-Catering/147845465419524',
-    'twitter'   => 'https://twitter.com/RHC_Catering',
-    'linkedin'  => 'https://uk.linkedin.com/pub/simon-greenwood/69/b05/689',
-    'email'     => 'info@redhotchilli.catering',
-    'eLink'     => '<a href="mailto:info@redhotchilli.catering">info@redhotchilli.catering</a>',
-    'phone'     => '01925 242623',
-    'address'   => '27 Winwick Street<br>
-                    Warrington<br>
-                    Cheshire<br>
-                    United Kingdom<br>
-                    WA2 7TT',
+    'facebook'  => $jr_config[contact_facebook],
+    'twitter'   => 'https://twitter.com/'.$jr_config[contact_twitter_id],
+    'linkedin'  => $jr_config[contact_linkedin],
+    'email'     => $jr_config[contact_email],
+    'eLink'     => '<a href="mailto:info@redhotchilli.catering">'.$jr_config[contact_email].'</a>',
+    'phone'     => $jr_config[contact_phone],
+    'address'   => str_replace(';', '<br>', $jr_config[contact_address]),
     //internal links
     'all categories' => site_url('departments/all/'),
     'all items'     => site_url('products/all/'),
@@ -36,45 +37,31 @@ function jr_linkTo($target) {
 }
 
 //how many items before pagination. Also limits some pages.
-$itemCountMax = 24;
+$itemCountMax = $jr_config['itemCountMax'];
 
 //How many items before the "try elsewhere" kicks in. NYI
-$itemCountMin = 5;
+$itemCountMin = $jr_config[itemCountMin];
 
 //how long to leave sold items searchable (days)
-$itemSoldDuration = 90;
-
-//link to "special" pages - those not from database
-//$link_allCategories = site_url('departments/all/');
-//$link_allItems = site_url('products/all/');
-//$link_soldItems = site_url('/sold/');
-//$link_newItems = site_url('/new-items/');
-//$link_soonItems = site_url('/coming-soon/');
-
+$itemSoldDuration = $jr_config[itemSoldDuration];
 
 /*Category Text \
 \ phrases for the category page */
 
 function jr_categoryInfo($catType) {
+  global $jr_config;
   $categoryFilterArr = [
-    'New'   => 'Fresh off the workshop floor, this equipment is cleaned and ready to go.<br>
-                Enquire quickly, stock can go as soon as it comes in!',
-    'Soon'  => 'Stock that has just entered our workshops.<br>
-                If interested, call '.jr_linkTo(phone).' today and grab a bargain as soon as its ready.',
-    'Sold'  => 'Don\'t worry if you were to late to get the item you wanted, there may be another soming soon <br>
-                call '.jr_linkTo(phone).' today and reserve what you need before it goes again!',
-    'Sale'  =>  'Surplus stock, or equipment with a few extra dents.<br>
-                 We make sure everything works fully before going online, so get it cheap today!',
-    'Search' => 'Still can\'t find what you were looking for? call '.jr_linkTo(phone).' today and see if we can help',
-    'All'   =>  'We buy and sell new items each week, and can\'t always keep the new site up to date.<br>
-                 If there is anything in particular you are looking for, feel free to call '.jr_linkTo(phone).' and we\'ll see what we can find.'
-
+    'New'   => $jr_config[pageInfo_Arrivals],
+    'Soon'  => $jr_config[pageInfo_Soon],
+    'Sold'  => $jr_config[pageInfo_Sold],
+    'Sale'  => $jr_config[pageInfo_Sale],
+    'Search' => $jr_config[pageInfo_Search],
+    'All'   =>  $jr_config[pageInfo_All]
   ];
-  return $categoryFilterArr[$catType];
+  return jr_format($categoryFilterArr[$catType]);
 }
 
-
-//Image sizes for generated. would need to wipe gallery-thumb/gallery-tile folders if these are changed
+//Image sizes for generated. would need to wipe gallery-thumb/gallery-tile folders if these are changed. not putting into the variable table since hanging these would be part of a larger change
 function jr_imgSize($size) {
   $sizeArr = [
     'thumb' => 150,
@@ -82,4 +69,5 @@ function jr_imgSize($size) {
   ];
   return $sizeArr[$size];
 }
+
 ?>

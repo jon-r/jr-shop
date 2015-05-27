@@ -17,14 +17,9 @@ function jr_groupFilter($group) {
 //list of major brands, from keywords_db;
 function jr_brandsList() {
   $getKeyBrands = jrQ_keywords('brand');
-
   $out = array_map('jr_titleToUrl', $getKeyBrands);
-
   return $out;
 }
-
-
-
 
 // ---------------------- carousel compiler --------------------------------------
 // converts the database carousel to a web one
@@ -52,7 +47,6 @@ function jr_styleCarousel($in) {
   } else {
     $out = null;
   }
-
   return $out;
 }
 
@@ -70,7 +64,7 @@ function jr_magicRoundabout($slideIn) {
     style3    => jr_styleCarousel($slideIn[Desc3Emphasis]),
     image     => jr_imgSrc(carousel,$slideIn[ImageRef],jpg),
     link      => is_numeric($slideIn[WebLink]) ? "?page_id=16&sale=$slideIn[WebLink]" : $slideIn[WebLink],
-    linkPos   => jr_styleCarousel($slideIn[ClickHerePos])
+    linkPos   => jr_positionCarousel($slideIn[ClickHerePos])
   ];
 
   return $out;
@@ -105,8 +99,6 @@ function jr_itemsList($safeArr,$pageNumber) {
   }
 
   $out['list'] = $listSold ? array_merge($listUnsold, $listSold) : $listUnsold;
-
- // $out['debug'] = $fullItemCount;
 
   return $out;
 }
@@ -152,16 +144,22 @@ function jr_itemComplile($ref,$detail) {
       if ($ref[Brand]) {
         $brandUrl = sanitize_title($ref[Brand]);
         $brandIconLocation = jr_imgSrc('brands/long',$brandUrl.'-logo','jpg');
-        $brand = $ref[Brand];
+        $brandName = file_exists($brandIconLocation) ?
+          '<img src="'.site_url($brandIconLocation).'" alt="'.$ref[Brand].'" >' : '<b>Brand: </b>'.$ref[Brand].'<br>';
+        $brandLink = '<a href="'.site_url('brand/'.$brandUrl).'" >More from '.$ref[Brand].'</a>';
+      } else {
+        $brandName = null;
+        $brandLink = null;
       };
       if ($ref[Wattage] >= 1500) {
-        $wattCheck = "<b>Power:</b> ".($ref[Wattage] / 1000)."kw";
+        $pwrCheck = "<b>Power:</b> ".($ref[Wattage] / 1000)."kw, ".$ref[Power];
       } elseif ($ref[Wattage] < 1500 && $ref[Wattage] > 0) {
-        $wattCheck = "<b>Power:</b> ".$ref[Wattage]." watts";
+        $pwrCheck = "<b>Power:</b> ".$ref[Wattage]." watts, ".$ref[Power];
+      } elseif ($ref[Power]) {
+        $pwrCheck = "<b>Power:</b> ".$ref[Power];
       } else {
-        $wattCheck = null;
+        $pwrCheck = null;
       }
-
       $out1 = [
         height      => $ref[Height] ?: null,
         width       => $ref[Width] ?: null,
@@ -175,11 +173,9 @@ function jr_itemComplile($ref,$detail) {
         model       => $ref[Model] ? "<b>Model:</b> ".$ref[Model] : null,
         extra       => ($ref[ExtraMeasurements] != 0) ? $ref[ExtraMeasurements] : null,
         condition   => $ref[Condition] != " " ? $ref[Condition] : null,
-        brand       => $brand ?: null,
-        brandImg    => file_exists ($brandIconLocation) ?
-                          '<img src="'.site_url($brandIconLocation).'" alt="'.$brand.'" >' : "<b>Brand:</b> $brand <br>",
-        brandLink   => "brand/$brandUrl",
-        watt        => $wattCheck,
+        brandName   => $brandName,
+        brandLink   => $brandLink,
+        power       => $pwrCheck,
         imgAll      => glob('images/gallery/RHC'.$ref[RHC].'*'),
         category    => $ref[Category]
       ];
@@ -225,7 +221,6 @@ function jr_itemComplile($ref,$detail) {
   };
 
   $out = array_merge ($out1,$out2);
-
   return $out;
 };
 
@@ -235,7 +230,6 @@ function jr_randomFeedback() {
   $in = jrQ_tesimonial();
   $countIn = count($in) - 1;
   $random = rand(0,$countIn);
-
   return $in[$random];
 }
 
@@ -244,36 +238,31 @@ function jr_randomFeedback() {
 
 function jr_boxGen($item) {
   //size of the svg, 500x500units square with 10units padding
-  $boxDims = 480;
-  $boxPadding = 10;
-  $bottomPoint = $boxPadding + $boxDims; //used for most of the X/Y Coordinates
-
+  $boxDims =     480;
+  $boxPadding =   10;
   $tableHeight = 800; // a generic worktop
   $tableWidth = 1200; //... that is 1.2m wide
+  $manHeight =  1750; // average male
+  $manWidth =    875;   // the image will be half height
+  $shortH =      550; //stuff on tables
+  $tallH =      1500; //the tallest things
 
-  $manHeight = 1750; // average male
-  $manWidth = 875;   // the image will be half height
-
-  $itemH = $item['Height'];
-  $itemW = $item['Width'];
-
-  //the largest dimension sets the scale
-  $findMax = max($itemH, $itemW, $manHeight);
-
+  $bottomPoint =  $boxPadding + $boxDims; //used for most of the X/Y Coordinates
+  $itemH =        $item['Height'];
+  $itemW =        $item['Width'];
+  $findMax = max($itemH, $itemW, $manHeight);//the largest dimension sets the scale
   // dimensions of the svg rectangles
   $out1 = [
     itemH   => round($itemH / $findMax * $boxDims, 3),
     itemW   => round($itemW / $findMax * $boxDims, 3),
-
     manH    => round($manHeight / $findMax * $boxDims, 3),
     manW    => round($manWidth / $findMax * $boxDims, 3),
     manX   => 0,
     tableH  => round($tableHeight / $findMax * $boxDims, 3),
     tableW  => round($tableWidth / $findMax * $boxDims, 3),
   ];
-
-//shortest items "propped up" on a table. unless it IS a table
-  if ($itemH < 550 && !$item['RHCs']) {
+  //shortest items "propped up" on a table. unless it IS a table
+  if ($itemH < $shortH && !$item['RHCs']) {
     $out2 = [
       itemX  => ($boxDims - $out1[itemW]) / 2,
       itemY  => $bottomPoint - $out1[itemH] - $out1[tableH],
@@ -289,28 +278,16 @@ function jr_boxGen($item) {
     ];
   }
  //set the image based on the size, and if its stainless steel
-  if ($itemH < 550) {
-    $out3 = [
-      itemImg => 'appliance-short',
-      tableImg => 'appliance-table'
-    ];
-  } elseif ($itemH > 1500) {
-    $out3 = [
-      itemImg => 'appliance-tall'
-    ];
+  if ($itemH < $shortH) {
+    $out3 = [itemImg => 'appliance-short',tableImg => 'appliance-table'];
+  } elseif ($itemH > $tallH) {
+    $out3 = [ itemImg => $item['RHCs'] ? 'appliance-table-tall' : 'appliance-tall'];
   } elseif ($item['RHCs']) {
-    $out3 = [
-      itemImg => ($item[Category] == 'Sinks') ? 'appliance-sink' : 'appliance-table'
-    ];
+    $out3 = [ itemImg => ($item[Category] == 'Sinks') ? 'appliance-sink' : 'appliance-table'];
   } else {
-    $out3 = [
-      itemImg => 'appliance-med'
-    ];
+    $out3 = [ itemImg => 'appliance-med'];
   }
-
-
   $out = array_merge($out1, $out2, $out3);
-
   return $out;
 }
 

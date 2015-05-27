@@ -3,6 +3,7 @@
 this is the stuff on everypage, so can be called straight away
 */
 
+
 global $jr_safeArr,$jr_getGroup, $jr_getCategory, $jr_groupArray;
 
 $jr_getGroup = jrQ_keywords('group');

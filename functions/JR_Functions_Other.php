@@ -3,6 +3,7 @@
 Misc (non shop specific) functions
 */
 
+
 // -------------------- sitelinks + other url functions ----------------------------------------
 
 function jr_getUrl() {
@@ -52,8 +53,6 @@ function jr_urlToTitle($url,$type) {
   }
   return $out;
 }
-
-
 
 // ----------------------image-manipulation----------------------------------------------
 // generates resized images.

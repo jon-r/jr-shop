@@ -2,6 +2,11 @@
 //query functions
 //these are pretty much purpose built covers over the wpdb class
 
+function jrQ_settings() {
+  global $wpdb;
+  $queryStr = 'SELECT `option_name`, `option_value` FROM `rhc_web_options`';
+  return $wpdb->get_results($queryStr, ARRAY_A);
+}
 
 /*Validate querys ---------------------------------------------------------------------*/
 function jrQ_brandUnique() {
@@ -52,9 +57,9 @@ function jrQ_keywords($keyword) {
   //return $queryStr;
 }
 
-function jrQ_categoryRow( $safeCategory ) {
+function jrQ_categoryDesc( $safeCategory ) {
   global $wpdb;
-  return $wpdb->get_row("SELECT * FROM `rhc_categories` WHERE `Name` LIKE '$safeCategory'", ARRAY_A);
+  return $wpdb->get_var("SELECT `CategoryDescription` FROM `rhc_categories` WHERE `Name` LIKE '$safeCategory'");
 }
 
 
