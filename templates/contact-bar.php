@@ -13,7 +13,7 @@
     <label for="email">Email Address</label>
     <input type="email" id="email">
     <label for="phone">Phone Number</label>
-    <input type="number" id="phone">
+    <input type="tel" id="phone">
     <label for="message">Message</label>
     <textarea id="message">THIS DOES NOTHING YET
       <?php echo $jr_safeArray[pgName]; ?>

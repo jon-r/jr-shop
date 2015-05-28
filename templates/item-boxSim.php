@@ -1,7 +1,9 @@
 
-<div class="item-scale flex-2">
+<section class="item-tile item-scale flex-2">
+  <header>
   <h2>Scale</h2>
-  <p>(Drawing for size only, shape is not accurate)</p>
+  </header>
+  <em class="lesser">(For size only, shape is not accurate)</em>
 
   <svg class="item-box" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 500 500">
   <?php $box = jr_boxGen($item) ; ?>
@@ -26,4 +28,5 @@
 
   </svg>
 
-</div>
+
+</section>
