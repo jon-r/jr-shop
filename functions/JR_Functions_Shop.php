@@ -15,11 +15,11 @@ function jr_groupFilter($group) {
 }
 
 //list of major brands, from keywords_db;
-function jr_brandsList() {
-  $getKeyBrands = jrQ_keywords('brand');
-  $out = array_map('jr_titleToUrl', $getKeyBrands);
+function jr_brandsList($brands) {
+  $out = array_map('jr_titleToUrl', $brands);
   return $out;
 }
+
 
 // ---------------------- carousel compiler --------------------------------------
 // converts the database carousel to a web one
@@ -94,7 +94,6 @@ function jr_itemsList($safeArr,$pageNumber) {
     if ($pageNumber == $lastPage && $safeArr['pgType'] != 'Soon') {
       $itemsOnLastPage = $fullItemCount % $itemCountMax;
       $listSold = jrQ_itemsSold($safeArr, $itemsOnLastPage);
-
     }
   }
 

@@ -50,7 +50,6 @@ if ($jr_safeArray[ss]) {
   <section class="item-tile item-info flex-1 ">
     <header>
       <h1><?php echo $shop_item[name]; ?></h1>
-      <br>
       <h2><?php echo $shop_item[price] ?></h2>
       <em class="lesser"><?php echo $shop_item[rhc] ?></em>
     </header>
