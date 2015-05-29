@@ -3,7 +3,7 @@
 if ($jr_safeArray[group] == 'all') {
   $filteredCategories = $jr_getCategory;
 } elseif ($jr_safeArray[group] == 'brand') {
-  $filteredCategories = jr_brandsList(jrQ_keywords('brand'));
+  $filteredCategories = jr_featuredBrands();
 } else {
   $filteredCategories = $jr_groupArray[$jr_safeArray[group]];
 }

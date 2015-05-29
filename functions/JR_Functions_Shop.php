@@ -14,10 +14,27 @@ function jr_groupFilter($group) {
   return array_filter ($jr_getCategory, jr_isGroup($group));
 }
 
+//list of brands from what we have pictures of
+function jr_featuredBrands() {
+  $jrGetBrands = jrQ_brandUnique();
+  foreach ($jrGetBrands as $brand) {
+    $url = sanitize_title($brand);
+    $img = jr_imgSrc('brands/square',$url,'jpg');
+    if (file_exists($img)) {
+      $out[$brand] = [
+        'Name'    => $brand,
+        'RefName' => $url
+      ];
+    }
+  }
+  return $out;
+}
+
 //list of major brands, from keywords_db;
 function jr_brandsList($brands) {
   $out = array_map('jr_titleToUrl', $brands);
   return $out;
+
 }
 
 

@@ -11,7 +11,7 @@ function jrQ_settings() {
 /*Validate querys ---------------------------------------------------------------------*/
 function jrQ_brandUnique() {
   global $wpdb;
-  $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0";
+  $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0 ORDER BY `Brand` ASC";
   return array_unique($wpdb->get_col($queryStr));
 }
 
@@ -297,20 +297,4 @@ function jrA_addRHCs($n) {
   return 'RHCs'.$n;
 }
 
-//function jrQA_itemDir($ref,$steel = false) {
-//  global $wpdb;
-//  if ($steel) {
-//    $query = "SELECT `Image` FROM `benchessinksdb` WHERE `RHCs` = %d";
-//  } else {
-//    $query = "SELECT `Image` FROM `networked db` WHERE `RHC` = %d";
-//  }
-//
-//
-//  $out = $wpdb->get_var(
-//    $wpdb->prepare($query, $ref)
-//  );
-//
-//  return $out;
-//}
-//SELECT `RHC` FROM `networked db` WHERE (`Category` LIKE 'Tables & Chairs' OR `Cat1` LIKE 'Tables & Chairs' OR `Cat2` LIKE 'Tables & Chairs' OR `Cat3` LIKE 'Tables & Chairs') AND (`LiveonRHC` = 1 AND `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL  DAY AND CURDATE()) ORDER BY `DateSold` DESC
 ?>
