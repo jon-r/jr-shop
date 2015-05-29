@@ -15,9 +15,9 @@ if ($jr_safeArray[ss]) {
 <article class="flex-column">
 
   <!--  ------------------------------------------------------------------------------  -->
-  <section class="item-gallery flex-1">
+  <section class="item-tile flex-1">
 
-    <div id="js-gallery-primary" class="item-main btn-icon-lrg <?php echo $shop_item[icon]; ?>">
+    <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item[icon]; ?>">
       <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>"
            alt="<?php echo $shop_item[name] ?>">
       <button class="item-main-zoom dark-block text-icon-left expand-w"></button>
@@ -34,7 +34,7 @@ if ($jr_safeArray[ss]) {
     <?php if (count($shop_item[imgAll])> 1) : ?>
     <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
       <?php foreach ($shop_item[imgAll] as $galleryImg) : ?>
-      <li>
+      <li class="item-tile-inner">
         <img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>"
              alt="<?php echo $shop_item[name] ?>"
              data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
@@ -92,7 +92,7 @@ if ($jr_safeArray[ss]) {
       <h2>Specs</h2>
     </header>
 
-    <ul class="item-dimensions">
+    <ul class="item-dimensions item-tile-inner">
     <?php foreach ([
         $shop_item[brandName], $shop_item[brandLink],
         $shop_item[model], $shop_item[hFull],
@@ -109,11 +109,25 @@ if ($jr_safeArray[ss]) {
     //show the box sim, but only if not furnishings and valid height/width
     if (
     ($item['Height'] > 0 && $item['Width'] > 0) &&
-    ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Décor & Lighting')
+    ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Decor & Lighting')
        ) {
     include( "item-boxSim.php");
     }
   ?>
+  <?php $related = jrQ_iremsRelated($jr_safeArray); ?>
+
+  <?php if (count($related) > 0) : ?>
+  <section class="item-tile item-related flex-1">
+
+    <header >
+      <h2>More <?php echo $jr_safeArray[cat]; ?></h2>
+    </header>
+    <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
+       <?php foreach ($related as $item) { include( "list-item-small.php"); } ?>
+    </ul>
+
+  </section>
+  <?php endif ?>
 
 <!-- -------------------------------------------------------------------------------- -->
 </article>

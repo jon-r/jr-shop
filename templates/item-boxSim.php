@@ -5,7 +5,7 @@
   </header>
   <em class="lesser">(For size only, shape is not accurate)</em>
 
-  <svg class="item-box" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 500 500">
+  <svg class="item-tile-inner" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 500 500">
   <?php $box = jr_boxGen($item) ; ?>
     <rect id="floor" width="490" height="5" x="5" y="490" fill="#5A6372"  />
     <image id="item" xlink:href="<?php echo site_url(jr_imgSrc('icons', $box[itemImg], 'png'))?>"
