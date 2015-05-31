@@ -57,6 +57,10 @@ function jr_positionCarousel($in) {
 function jr_styleCarousel($in) {
   if ($in == "Bold") {
     $out = "go-bold";
+    } elseif ($in == "White") {
+    $out = "go-white";
+  } elseif ($in == "Bold_White") {
+    $out = "go-bold go-white";
   } elseif ($in == "Red") {
     $out = "go-red";
   } elseif ($in == "Bold_Red") {
@@ -81,7 +85,8 @@ function jr_magicRoundabout($slideIn) {
     style3    => jr_styleCarousel($slideIn[Desc3Emphasis]),
     image     => jr_imgSrc(carousel,$slideIn[ImageRef],jpg),
     link      => is_numeric($slideIn[WebLink]) ? "?page_id=16&sale=$slideIn[WebLink]" : $slideIn[WebLink],
-    linkPos   => jr_positionCarousel($slideIn[ClickHerePos])
+    linkPos   => jr_positionCarousel($slideIn[ClickHerePos]),
+    linkCol   => jr_styleCarousel($slideIn[ClickHereColour])
   ];
 
   return $out;

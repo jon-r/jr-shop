@@ -32,7 +32,7 @@ $carouselCount = count($carouselList);
   </ul>
   <ul id="js-carousel-tabs" class="carousel-tabs" >
     <?php for ($i = 0; $i < $carouselCount; $i++) :
-      $title = $carouselList[$i][Title];
+      $title = $carouselList[$i][Slide_Tab];
     ?>
     <li class="tab <?php echo $i == 0 ? 'active' : null ?>" ><?php echo $title ?></li>
     <?php endfor ?>
