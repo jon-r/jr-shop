@@ -11,7 +11,7 @@
   <ul class="sub-menu" style="background-image:url(<?php echo $menuHeaderImg; ?>)">
     <h3 class="touch-toggle btn-red text-icon close-w">Back</h3>
 
-    <?php foreach ($grpList as $category) : $link=s ite_url( '/products/'.sanitize_title($category[Name])); ?>
+    <?php foreach ($grpList as $category) : $link=site_url( '/products/'.sanitize_title($category[Name])); ?>
     <li><a class="text-icon arrow-r" href="<?php echo $link ?>">
         <?php echo $category[Name] ?>
     </a></li>
