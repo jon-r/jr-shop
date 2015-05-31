@@ -6,7 +6,6 @@
  * GPL v2 License
  */
  $(document).ready(function(){var n=$(".nav");n.on("click",".collapse",function(){$(this).parents("ul").toggleClass("open")}),n.on("click",".dropdown",function(n){n.preventDefault(),$(this).parents("li").find("> ul").toggleClass("open")}),$(".dismiss").click(function(){$(this).closest("#note").fadeOut(500,function(){$(this).remove()})}),$(window).resize()});
-
 /*endregion*/
 
 /* ----------- cleanup 1 ------------------------------------------------------------ */
@@ -15,8 +14,7 @@ var $btnFindDeadImg = $('#js-oldImageFind'),
     $btnDelDeadImg = $('#js-oldImageDelete'),
     $outputGallery = $('#js-output-gallery');
 
-$btnFindDeadImg.click(function() {
-
+$btnFindDeadImg.click(function () {
   $outputGallery.html('');
 
   $.get(fileSrc.ajaxAdmin, {
@@ -34,7 +32,6 @@ function listDeadImg(data) {
   $btnDelDeadImg.show();
 }
 
-
 $btnDelDeadImg.click(function() {
   $outputGallery.html('');
 
@@ -44,26 +41,22 @@ $btnDelDeadImg.click(function() {
   }, confirmDeadImg);
 });
 
-
 function confirmDeadImg(data) {
   var results = $.parseJSON(data);
   var output = '<p>' + results + ' Images Deleted</p>'
   $outputGallery.append(output);
 }
-
 /* ----------- cleanup 1 ------------------------------------------------------------ */
 //used to remove old thumbnail/tile images (targets specific). to hopefully cleanup any incorrect.
 //in theory any other incorrect are mispellings
-
 var $btnFindSpecific = $('#js-targetted-removal'),
     $outputSpecific = $('#js-output-specific'),
     $inputRef = $('#js-specific-ref');
 
 $btnFindSpecific.click(function() {
-  $outputSpecific.html('');
-
   var ref = $inputRef.val();
 
+  $outputSpecific.html('');
   $.get(fileSrc.ajaxAdmin, {
     reference: ref,
     action: "jra_specificimg"
@@ -71,8 +64,9 @@ $btnFindSpecific.click(function() {
 });
 
 function listSpecific(data) {
-  var output = null;
-  var results = $.parseJSON(data);
+  var output = null,
+      results = $.parseJSON(data);
+
   if (results) {
     var firstImg = results.first;
     var allImg = results.all;
@@ -82,7 +76,6 @@ function listSpecific(data) {
         '<div class="row box col-4"><b>First Image</b><br>' +
         '<img class="box col-12" src="' + firstImg + '" ></div>' +
         '<div class="row box col-8"><b>All Images (includes first intentionally)</b><br>';
-
     for (i = 0; i < allImg.length; i++) {
       var str = '<img class="box col-3" src="' + allImg[i] + '" >'
       output = output.concat(str);

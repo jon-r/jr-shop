@@ -4,8 +4,6 @@
 
     <article class="panel success">
       <?php $imgDir = getDirectorySize("../images/"); ?>
-
-
       <div class="panel-head">FIle Cleanup</div>
       <div class="panel-body">
         <b>Image Count: </b><?php echo $imgDir['count'] ?> files.<br>
@@ -22,11 +20,11 @@
   </section>
 
   <section class="box col-8">
+
     <article class="panel info">
       <div class="panel-head">Contact Details</div>
       <div class="panel-body">coming soon</div>
     </article>
-
 
     <article class="panel warn">
       <div class="panel-head">Cache Reset</div>
@@ -37,15 +35,19 @@
       <div class="panel-head">404 log</div>
       <div class="panel-body">coming soon</div>
     </article>
+
   </section>
 
   <section class="box col-12">
-        <article class="panel success image-fix">
+
+    <article class="panel success image-fix">
       <div class="panel-head">Image Fix</div>
       <div class="panel-body">
-        <b>Item Ref:</b> <input type="text" id="js-specific-ref" placeholder="RHC### / RHCS###" >
-        <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update" ><br>
-        <div id="js-output-specific" class="has-loader" >
+        <b>Item Ref:</b>
+        <input type="text" id="js-specific-ref" placeholder="RHC### / RHCS###">
+        <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update">
+        <br>
+        <div id="js-output-specific" class="has-loader">
           <p>Use this to force update any misbehaving images. If this doesnt work, make sure all images are correctly named and organised before hitting the database 'sync' button</p>
         </div>
       </div>
@@ -57,9 +59,5 @@
       </div>
     </article>
 
-
   </section>
-
-
-
 </main>

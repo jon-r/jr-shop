@@ -1,4 +1,3 @@
-
 <form class="form-search" method="get"
       action="<?php echo site_url('search-me'); ?>" autocomplete="off">
 
@@ -8,7 +7,6 @@
   <button class="btn-red" type="submit">
     <h3 tabindex="5">Go</h3>
   </button>
+
   <ul class="search-out dark-block"></ul>
 </form>
-
-

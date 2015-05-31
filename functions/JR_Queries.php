@@ -1,69 +1,51 @@
 <?php
 //query functions
 //these are pretty much purpose built covers over the wpdb class
-
 function jrQ_settings() {
   global $wpdb;
   $queryStr = 'SELECT `option_name`, `option_value` FROM `rhc_web_options`';
   return $wpdb->get_results($queryStr, ARRAY_A);
 }
-
 /*Validate querys ---------------------------------------------------------------------*/
 function jrQ_brandUnique() {
   global $wpdb;
   $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0 ORDER BY `Brand` ASC";
   return array_unique($wpdb->get_col($queryStr));
 }
-
 function jrQ_categoryColumn() {
   global $wpdb;
   $queryStr = "SELECT `name` FROM `rhc_categories`";
   return array_unique($wpdb->get_col($queryStr));
 }
-
 function jrQ_rhc($rhc) {
   global $wpdb, $itemSoldDuration;
-
   $queryStr = "SELECT `RHC` FROM `networked db` WHERE `RHC` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-
   $out = $wpdb->get_var(
     $wpdb->prepare($queryStr, $rhc)
   );
-
   return($out);
 }
-
 function jrQ_rhcs($rhcs) {
   global $wpdb, $itemSoldDuration;
-
   $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `RHCs` = %s AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
   $out = $wpdb->get_var(
     $wpdb->prepare($queryStr, $rhcs)
   );
-
   return($out);
 }
-
 function jrQ_categories() {
   global $wpdb;
-  return $wpdb->get_results("SELECT `Name`, `CategoryGroup`, `CategoryDescription` FROM `rhc_categories` WHERE `ShowMe` = 1", ARRAY_A);
+  return $wpdb->get_results("SELECT `Name`, `CategoryGroup` FROM `rhc_categories` WHERE `ShowMe` = 1", ARRAY_A);
 }
-
-function jrQ_keywords($keyword) {
-  global $wpdb;
-
-  $queryStr = "SELECT `keyword` FROM `keywords_db` WHERE `keywordGroup` = '$keyword'";
-  return array_unique($wpdb->get_col($queryStr));
-  //return $queryStr;
-}
-
 function jrQ_categoryDesc( $safeCategory ) {
   global $wpdb;
   return $wpdb->get_var("SELECT `CategoryDescription` FROM `rhc_categories` WHERE `Name` LIKE '$safeCategory'");
 }
-
-
-/*get titles for the breadcrumbs/search----------------------------------------------- */
+function jrQ_keywords($keyword) {
+  global $wpdb;
+  $queryStr = "SELECT `keyword` FROM `keywords_db` WHERE `keywordGroup` = '$keyword'";
+  return array_unique($wpdb->get_col($queryStr));
+}
 function jrQ_titles($safeRHC, $SS = null) {
   global $wpdb;
   if ($SS) {
@@ -73,11 +55,8 @@ function jrQ_titles($safeRHC, $SS = null) {
     $ref = "RHC";
     $db = "networked db";
   }
-
   return $wpdb->get_row("SELECT `ProductName`,`Category` FROM `$db` WHERE `$ref` LIKE '$safeRHC'", ARRAY_A);
 }
-
-
 /* query for 'items full' -------------------------------------------------------------*/
 function jrQ_item($safeRHC, $SS = null) {
   global $wpdb;
@@ -88,12 +67,10 @@ function jrQ_item($safeRHC, $SS = null) {
   }
   return $queryFull;
 }
-
 /*--querys for items list -------------------------------------------------------------*/
 //firstly lists the items on sale.
 function jrQ_items( $safeArr, $pageNumber) {
   global $wpdb, $itemCountMax;
-
   $queryOffset = ($pageNumber - 1) * $itemCountMax;
   $queryLimiter = " LIMIT $queryOffset,$itemCountMax";
   $queryAll = jrQ_itemString($safeArr);
@@ -106,10 +83,8 @@ function jrQ_items( $safeArr, $pageNumber) {
   } else {
     $out = $wpdb->get_results($queryFull, ARRAY_A);
   }
-
   return $out;
 }
-
 //fills page with sold items. Mix of filler for design balance and show past sales.
 function jrQ_itemsSold($safeArr, $itemsOnPage) {
   global $wpdb, $itemSoldDuration;
@@ -133,14 +108,11 @@ function jrQ_itemsSold($safeArr, $itemsOnPage) {
       $out = $wpdb->get_results($queryFull, ARRAY_A);
     }
   }
-
   return $out;
 }
-
-// get random four items in the category - currently just for 'item full' page
+// get random four items in the category - currently just for 'item full' page.
 function jrQ_iremsRelated($safeArr) {
   global $wpdb;
-
   $arr[cat] = $safeArr[cat];
   $ignore = $safeArr[rhc];
 
@@ -153,19 +125,14 @@ function jrQ_iremsRelated($safeArr) {
     $query = jrQ_itemString($arr);
     $queryRand = str_replace('ORDER BY `RHC` DESC', 'AND (`RHC` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
   }
-
   $out = $wpdb->get_results(
     $wpdb->prepare($queryRand[str], $queryRand[placeholders]),
     ARRAY_A);
-
-
   return $out;
 }
-
 //count all items from query, for pagination
 function jrQ_itemsCount($safeArr) {
     global $wpdb;
-
     $query = jrQ_itemString($safeArr, $isCounter = true);
 
     if ($query[placeholders]) {
@@ -175,38 +142,33 @@ function jrQ_itemsCount($safeArr) {
     } else {
       $column = $wpdb->get_col($query[str]);
     }
-
-    $out = count($column);
-
+  $out = count($column);
   return $out;
 }
-
 //tags items as new
 function jrQ_ItemsNew() {
   global $itemCountMax, $wpdb;
   return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `rhc` DESC LIMIT $itemCountMax") ;
 }
-
-//returns the mysql query. for debug purposes
+//returns the mysql query string. for debug purposes
 function jrQ_debug($safeArr,$sold=false) {
   global $wpdb, $itemSoldDuration;
   $query = jrQ_itemString($safeArr, $isCounter = true);
-
   $out[noPrep] = $query[str];
   $out[prep] = $query[placeholders] ? $wpdb->prepare($query[str], $query[placeholders]) : null;
   if ($sold) {
-    $out[sold] = str_replace(['`Quantity` > 0','ORDER BY `RHC`'],
-                               ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE())','ORDER BY `DateSold`'], $query[str]);
+    $out[sold] = str_replace(
+      ['`Quantity` > 0','ORDER BY `RHC`'],
+      ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE())','ORDER BY `DateSold`'],
+      $query[str]
+    );
   }
   return $out;
 }
-
 //core query category function
 function jrQ_itemString($safeArr, $isCounter = false) {
-
   $qType = $safeArr[pgType];
-
-//the query "start". what data are we getting?
+  //the query "start". what data are we getting?
   if ($isCounter && $qType == 'CategorySS') {
     $queryStart = "SELECT `RHCs` FROM `benchessinksdb` ";
   } elseif ($isCounter) {
@@ -216,14 +178,14 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   } else {
     $queryStart = "SELECT `RHC`, `ProductName`, `IsSoon`, `Sold`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
   };
-//the query "middle". what is the data filtered by?
+  //the query "middle". what is the data filtered by?
   $queryMid = "WHERE ";
   if ($qType == 'Category') {
     $queryMid = "WHERE (`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND ";
     $qValue = $safeArr[cat];
   } elseif ($qType == 'Search') {
     $queryMid = "WHERE (`ProductName` REGEXP %s OR `Power` REGEXP %s OR `Brand` REGEXP %s) AND ";
-    $qValue = $safeArr[search]; //PUT searchstr to regex in validation
+    $qValue = $safeArr[search];
   } elseif ($qType == 'CategorySS') {
     $queryMid = "WHERE (`Category` LIKE %s) AND ";
     $qValue = $safeArr[cat];
@@ -234,7 +196,7 @@ function jrQ_itemString($safeArr, $isCounter = false) {
     $queryMid = "WHERE (`SalePrice` = %d) AND ";
     $qValue = $safeArr[saleNum];
   };
-//the query end. how is the data sorted?
+  //the query end. how is the data sorted?
   $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `RHC` DESC";
   if ($qType == 'Soon' ) {
     $queryEnd = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY `RHC` DESC";
@@ -243,8 +205,8 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   } elseif ($qType == 'CategorySS') {
     $queryEnd = "`Quantity` > 0 ORDER BY `RHCs` DESC";
   };
-//queryPlaceholders (for wpdb->prepare)
-  $qArray = null; //no prepare of non-variables
+  //queryPlaceholders (for wpdb->prepare)
+  $qArray = null; //no prepare for non-variables
   if ($qType == 'Category') {
     $qArray = [ $qValue, $qValue, $qValue, $qValue ];
   } elseif ($qType == 'Search') {
@@ -252,31 +214,21 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   } elseif ($qType == 'CategorySS' || $qType == 'Brand' || $qType =='Sale') {
     $qArray = [ $qValue ];
   }
-
   $out[str] = $queryStart.$queryMid.$queryEnd;
   $out[placeholders] = $qArray;
-
   return $out;
 }
-
 /* -- get other content -------------------------------------------------------------*/
-
 function jrQ_carousel() {
   global $wpdb;
   return $wpdb->get_results("SELECT * FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC;", ARRAY_A);
 }
-
-
 function jrQ_tesimonial($detail = null) {
   global $wpdb;
-
   $query = ($detail) ? 'Testimonial_Full' : 'Testimonial_Short';
   return $wpdb->get_results("SELECT `$query`, `Name` FROM `rhc_testimonial`;", ARRAY_A);
 }
-
-/* -- admin querys. ---------------------------------------------------------------*/
-//this may include a lot of sold/deleted, incomplete items. should not be use for customer end shop
-
+/* -- admin only querys ---------------------------------------------------------------*/
 function jrQA_validItems() {
   global $wpdb, $itemSoldDuration;
   $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
@@ -289,12 +241,10 @@ function jrQA_validItems() {
   $out = array_merge($out2, $out1);
   return $out;
 }
-
-function jrA_addRHC($n) {
-  return 'RHC'.$n;
+function jrA_addRHC($in) {
+  return 'RHC'.$in;
 }
-function jrA_addRHCs($n) {
-  return 'RHCs'.$n;
+function jrA_addRHCs($in) {
+  return 'RHCs'.$in;
 }
-
 ?>

@@ -1,9 +1,6 @@
 <?php
 /* this is all the (easily) adjustable variables */
-/* maybe try get as many as possible into the web admin eventually */
-
-global $jr_config, $itemCountMax, $itemCountMin,
-  $link_allCategories, $link_allItems, $link_soldItems, $link_newItems, $link_soonItems, $itemSoldDuration;
+global $jr_config, $itemCountMax, $itemCountMin, $itemSoldDuration;
 
 //hooks the old settings on this page with the new db settings
 function jr_settings_hook() {
@@ -33,21 +30,17 @@ function jr_linkTo($target) {
     'new items'      => site_url('/new-items/'),
     'soon items'     => site_url('/coming-soon/')
   ];
-    return $linkArr[$target];
-}
 
+  return $linkArr[$target];
+}
 //how many items before pagination. Also limits some pages.
 $itemCountMax = $jr_config['itemCountMax'];
-
-//How many items before the "try elsewhere" kicks in. NYI
+//How many items before the "try elsewhere" kicks in.
 $itemCountMin = $jr_config[itemCountMin];
-
 //how long to leave sold items searchable (days)
 $itemSoldDuration = $jr_config[itemSoldDuration];
-
 /*Category Text \
 \ phrases for the category page */
-
 function jr_categoryInfo($catType) {
   global $jr_config;
   $categoryFilterArr = [
@@ -60,8 +53,7 @@ function jr_categoryInfo($catType) {
   ];
   return jr_format($categoryFilterArr[$catType]);
 }
-
-//Image sizes for generated. would need to wipe gallery-thumb/gallery-tile folders if these are changed. not putting into the variable table since hanging these would be part of a larger change
+//Image sizes for generated. would need to wipe gallery-thumb/gallery-tile folders if these are changed. not putting into the variable table since changing these would be part of a larger change
 function jr_imgSize($size) {
   $sizeArr = [
     'thumb' => 150,
@@ -69,5 +61,4 @@ function jr_imgSize($size) {
   ];
   return $sizeArr[$size];
 }
-
 ?>

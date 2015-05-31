@@ -1,21 +1,15 @@
 <?php
-
-/*
-Setting up url_rewrite names. The ones that arent automagically made by wordpress
-*/
-
+/* Setting up url_rewrite names. The ones that arent automagically made by wordpress */
 function jr_page($pgtype) {
-	$pageNum = [
-		'grp' =>	'24',
-		'cat' =>	'16',
-		'item' =>	'21',
-		'srch' =>	'30'
-	];
-	return $pageNum[$pgtype];
+  $pageNum = [
+    'grp' =>  '24',
+    'cat' =>  '16',
+    'item' => '21',
+    'srch' => '30'
+  ];
+  return $pageNum[$pgtype];
 }
-
 function jr_setPermalinks() {
-
   $permalinks = [
     //depts
     '^brands/?'             => jr_page(grp),
@@ -36,7 +30,6 @@ function jr_setPermalinks() {
   foreach ($permalinks as $find => $replace) {
     add_rewrite_rule($find, 'index.php?page_id='.$replace, 'top');
   }
-
 }
 add_action('init', 'jr_setPermalinks');
 ?>

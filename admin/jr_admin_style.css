@@ -4,7 +4,6 @@
   margin-bottom: 5px;
   border: solid
 }
-
 .has-loader:empty {
   font-size: 10px;
   margin: 0.5em auto;
@@ -62,7 +61,6 @@
     transform: rotate(360deg);
   }
 }
-
 #js-oldImageDelete {
   display: none;
 }

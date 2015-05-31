@@ -1,8 +1,6 @@
-<?php
-  // contact form at the bottom of most pages.
+<?php // contact form at the bottom of most pages.
   $singleFeedback = jr_randomFeedback();
 ?>
-
 <article class="contact-bar flex-container">
 
   <form class="form-contact flex-2">
@@ -36,7 +34,6 @@
       <a class="btn-icon linkedin" href="<?php echo jr_linkTo(linkedin) ?>">linkedIn</a>
       <a class="btn-icon twitter" href="<?php echo jr_linkTo(twitter) ?>">twitter</a>
     </div>
-
   </div>
 
 </article>

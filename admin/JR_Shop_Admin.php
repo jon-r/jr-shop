@@ -7,14 +7,10 @@
  *
  * (c) Jon Richards 2015
  */
-
 /* --------- Load Up Admin Section --------------------------------------------------- */
 
 include ('JR_Admin_Functions.php');
 
 add_action('admin_menu', 'rhc_setup_menu');
 add_action( 'admin_enqueue_scripts', 'rhc_getScripts' );
-
-
-
 ?>

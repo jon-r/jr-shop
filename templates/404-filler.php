@@ -1,7 +1,6 @@
 <article class="flex-container four-oh-four" >
-
   <section class="flex-2" >
-    <img src="<?php echo site_url('/').jr_imgSrc('rhc','four-oh-four','jpg'); ?>" alt="four-oh-four">
+    <img src="<?php echo site_url(jr_siteImg('rhc/four-oh-four.jpg')); ?>" alt="four-oh-four">
   </section>
 
   <header class="article-header flex-1">
@@ -10,8 +9,6 @@
     <?php echo $safeArr[imgURL] ?>
   </header>
 
-
   <?php echo do_shortcode( "[jr-shop id='search-bar' dark=true]"); ?>
-
 
 </article>

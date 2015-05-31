@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name:       Shop Plugin For Red Hot Chilli Northwest
- * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       Lightweight shop output plugin purpose built for the shop. Built with a focus on speed and ease of use. Requires local user connection to the MS Access 'Back end'
  * Version:           0.9.1
  * Author:            Jon Richards
@@ -10,7 +9,6 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       jr-shop
  */
-
 /*  Copyright (c) 2015  Jonathan Richards (email : jon.richards@outlook.com)
 
     This program is free software: you can redistribute it and/or modify
@@ -27,13 +25,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-
 /* ---- functions ----
  > Misc functions, internal use.
  > Static variables (where no editing is needed)
 */
 include('functions/JR_Functions_Other.php');
-
 /* ---- shop Output:
   > Converts data into user friendly chunks of output.
   > Includes filters, sorts, etc.
@@ -41,7 +37,6 @@ include('functions/JR_Functions_Other.php');
   > Also carousel, testimonials
 */
 include('functions/JR_Functions_Shop.php');
-
 /* ---- admin: ----
 /*
  * back end core. UI for soft resets, web based settings, maintenance
@@ -49,32 +44,26 @@ include('functions/JR_Functions_Shop.php');
 if (is_admin()) {
   include 'admin/JR_Shop_Admin.php';
 }
-
 /* ---- Permalinks:
   > extending the WP rewrite rules, to include all the shop pages.
 */
 include('functions/JR_Permalinks.php');
-
 /* ---- Queries:
   > Takes the data directly from the database,
   > Filtered and sorted based on user input or pages.
 */
-
 include('functions/JR_Queries.php');
-
 /* ---- Global Variables
   > The things tweaked the most (items, categorys) are in the database, easily edited.
   > This is the stuff that should be fine-tuned to cover most tweaks (hopefully).
   >> TO GO INTO ADMIN <<
 */
 include('functions/JR_Global_Variables.php');
-
 /* ---- Validate:
   > Since the Back-End is Based on in house PCs, theres a fairly limited amount that the customer can access.
   > Light security whitlelist sanitises the input to prevent injection just in case.
 */
 include('functions/JR_Validate.php');
-
 /* ---- Search:
   > semi inteligent search input, but fairly vague output if the smart keywords arent triggered
   > the triggers are loose guides, prefer that they are skipped unless 90% likely to be what the customer is looking for.
@@ -82,12 +71,8 @@ include('functions/JR_Validate.php');
   > everything else will be a REGEX search of whats been typed, treating spaces as 'OR'
 */
 include('functions/JR_Search.php');
-
 /* ---- Innitialise ----
  > Page start up.
  > Root information called on each new page. Used for menus, validation, output.
 */
 include('functions/JR_Init.php');
-
-
-

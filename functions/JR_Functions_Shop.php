@@ -2,24 +2,12 @@
 //output functions
 //this is where the shop database is processed into content
 
-//returns if item in group. one level deeper than the normal IN_ARRAY
-function jr_isGroup($group) {
-  return function ($category) use ($group) {
-    return ($category[CategoryGroup] == $group);
-  };
-}
-
-function jr_groupFilter($group) {
-  global $jr_getCategory;
-  return array_filter ($jr_getCategory, jr_isGroup($group));
-}
-
 //list of brands from what we have pictures of
 function jr_featuredBrands() {
   $jrGetBrands = jrQ_brandUnique();
   foreach ($jrGetBrands as $brand) {
     $url = sanitize_title($brand);
-    $img = jr_imgSrc('brands/square',$url,'jpg');
+    $img = jr_siteImg('brands/square/'.$url.'.jpg');
     if (file_exists($img)) {
       $out[$brand] = [
         'Name'    => $brand,
@@ -83,7 +71,7 @@ function jr_magicRoundabout($slideIn) {
     style1    => jr_styleCarousel($slideIn[Desc1Emphasis]),
     style2    => jr_styleCarousel($slideIn[Desc2Emphasis]),
     style3    => jr_styleCarousel($slideIn[Desc3Emphasis]),
-    image     => jr_imgSrc(carousel,$slideIn[ImageRef],jpg),
+    image     => jr_siteImg('carousel/'.$slideIn[ImageRef].'.jpg'),
     link      => is_numeric($slideIn[WebLink]) ? "?page_id=16&sale=$slideIn[WebLink]" : $slideIn[WebLink],
     linkPos   => jr_positionCarousel($slideIn[ClickHerePos]),
     linkCol   => jr_styleCarousel($slideIn[ClickHereColour])
@@ -154,7 +142,7 @@ function jr_itemComplile($ref,$detail) {
         webLink     => "rhcs/$ref[RHCs]/".sanitize_title($ref[ProductName]),
         rhc         => "Ref: RHCs".$ref[RHCs],
         name        => $ref[ProductName],
-        imgFirst    => jr_imgSrc('gallery','RHCs'.$ref[RHCs],'jpg'),
+        imgFirst    => jr_siteImg('gallery/RHCs'.$ref[RHCs].'.jpg'),
         price       => $priceCheck ,
         width       => "$ref[TableinFeet]ft",
         quantity    => $ref[Quantity] > 1 ? $ref[Quantity]." in Stock" : null,
@@ -164,7 +152,7 @@ function jr_itemComplile($ref,$detail) {
     case 'item':
       if ($ref[Brand]) {
         $brandUrl = sanitize_title($ref[Brand]);
-        $brandIconLocation = jr_imgSrc('brands/long',$brandUrl.'-logo','jpg');
+        $brandIconLocation = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg');
         $brandName = file_exists($brandIconLocation) ?
           '<img src="'.site_url($brandIconLocation).'" alt="'.$ref[Brand].'" >' : '<b>Brand: </b>'.$ref[Brand].'<br>';
         $brandLink = '<a href="'.site_url('brand/'.$brandUrl).'" >More from '.$ref[Brand].'</a>';
@@ -233,7 +221,7 @@ function jr_itemComplile($ref,$detail) {
         webLink     => "rhc/$ref[RHC]/".sanitize_title($ref[ProductName]),
         rhc         => "ref: RHC$ref[RHC]",
         name        => $ref[ProductName],
-        imgFirst    => jr_imgSrc('gallery','RHC'.$ref[RHC],'jpg'),
+        imgFirst    => jr_siteImg('gallery/RHC'.$ref[RHC].'.jpg'),
         info        => $infoCheck,
         quantity    => $ref[Quantity] > 1 ? $ref[Quantity]." in Stock" : null,
         category    => $ref[Category]

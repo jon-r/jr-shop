@@ -4,10 +4,7 @@
   > no personal details are to be keeped on internet databases
   > Light security whitlelist sanitises the input to prevent injection just in case.
 */
-
 /*--------------------------------------------------------------------------------------*/
-
-
 //idea of this function is to act as a wall between input and output.
 //the user can input whatever they want, but only strings on this function are used in sql queries
 function jr_validate_urls($url) {
@@ -26,35 +23,30 @@ function jr_validate_urls($url) {
     } else {
       $out[pgName] = $out[group] = jr_urlToTitle($params[2],'grp');
     }
+
   } elseif ($params[1] == 'brands') {
     $out[pgType] = 'Group';
     $out[pgName] = 'Browse Brands';
     $out[group] = 'brand';
 
   } elseif ($params[1] == 'products') {
-
     $out[pgName] = $out[cat] = jr_urlToTitle($params[2],'cat');
-
     $categoryDetails = jrQ_categoryDesc( $out[pgName] );
     $categoryStainless = in_array($out[pgName], jrQ_keywords('stainless'));
     $catDesc = $categoryDetails != '0' ? jr_format($categoryDetails) : null;
-
     if ($params[2] == 'all') {
       $out[pgType] = 'All';
       $out[pgName] = $out[cat] = 'All Products'; //everything
       $out[description] = jr_categoryInfo($out[pgType]);
-
     } elseif ($params[2] == 'search') {
       $out[pgType] = 'Search';
       $out[search] = str_replace(' ', '|', $_GET[q]);
-    //  $readableSearch = esc_url($params[3]);
       $out[pgName] = $out[cat] = 'Search Results for \''.$_GET[q].'\'';
       $out[description] = jr_categoryInfo($out[pgType]);
     } elseif ($categoryStainless) {
       $out[pgType] = 'CategorySS'; //category stainless
       $out[description] = $catDesc;
-    } else {
-       //category
+    } else { //category
       $out[description] = $catDesc;
       $out[pgType] = 'Category';
     }
@@ -63,23 +55,27 @@ function jr_validate_urls($url) {
     $out[pgType] = 'New';
     $out[pgName] = 'Just In';
     $out[description] = jr_categoryInfo($out[pgType]);
+
   } elseif ($params[1] == 'coming-soon') { //soon
     $out[pgType] = 'Soon';
     $out[pgName] = 'Coming Soon';
     $out[description] = jr_categoryInfo($out[pgType]);
+
   } elseif ($params[1] == 'sold') { //sold
     $out[pgName] = $out[pgType] = 'Sold';
     $out[description] = jr_categoryInfo($out[pgType]);
+
   } elseif ($params[1] == 'special-offers') { //sale
     $out[pgType] = 'Sale';
     $out[pgName] = 'Special Offers';
     $out[saleNum] = $params[2];
     $out[description] = jr_categoryInfo($out[pgType]);
+
   } elseif ($params[1] == 'brand') { //brand
     $out[pgType] = 'Brand';
     $out[brand] =  jr_urlToTitle($params[2],'brand');
     $out[pgName] = 'Products from '.$out[brand];
-    $brandIconLocation = jr_imgSrc('icons',$out[brand],'jpg');
+    $brandIconLocation = jr_siteImg('icons/'.$out[brand].'.jpg');
     if (file_exists ($brandIconLocation)) {
       $out[imgUrl] = $brandIconLocation;
     };
@@ -94,7 +90,6 @@ function jr_validate_urls($url) {
     } else {
       $out[rhc] = 'Not Found';
     }
-
     $out[pgType] = 'Item';
 
   } elseif ($params[1] == 'rhcs') { //product-ss
@@ -108,12 +103,10 @@ function jr_validate_urls($url) {
       $out[rhc] = 'Not Found';
     }
     $out[pgType] = 'Item';
-  } else {
-    $out[pgType] = $out[pgName] = get_the_title();//get the page title
-  };
 
+  } else { //get the page title if not part of the shop
+    $out[pgType] = $out[pgName] = get_the_title();
+  };
   return $out;
 };
-
-
 ?>

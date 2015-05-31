@@ -1,14 +1,10 @@
-<?php /* Filtered items list
-*
-*
-*/
+<?php /* Filtered items list */
 global $itemCountMin;
 $pageNumber = $_GET['pg'] ?: 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
 ?>
 
 <article class="flex-container">
-
   <header class="article-header flex-1">
     <h1><?php echo $jr_safeArray[pgName]; ?></h1>
     <p><?php echo $jr_safeArray[description] ?></p>
@@ -21,8 +17,6 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
     include( "list-item.php");
   }
   ?>
-
-
   <?php if(count($items['list']) < $itemCountMin) : ?>
 
   <header class="article-header flex-1">
@@ -31,13 +25,10 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
     </p>
   </header>
 
-<?php echo do_shortcode( "[jr-shop id='contact-minibar' dark=true]"); ?>
-
+  <?php echo do_shortcode( "[jr-shop id='contact-minibar' dark=true]"); ?>
 <?php endif ?>
+
 </article>
-
-
-
 
 <?php if ($items['paginate']) : ?>
 
