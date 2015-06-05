@@ -7,7 +7,7 @@
 
 <?php foreach($jr_groupArray as $grpName => $grpList) :
     $link = site_url('/departments/'.sanitize_title($grpName));
-    $grpHeaderImg = site_url(jr_siteImg('icons/header-'.strtok($grpName, ' ').'.jpg'));
+    $grpHeaderImg = site_url(jr_siteImg('icons/Header-'.strtok($grpName, ' ').'.jpg'));
 ?>
 
   <section class="shop-tile group flex-3">
