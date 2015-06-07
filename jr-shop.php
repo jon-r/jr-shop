@@ -25,6 +25,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+/* ---- unhooks style settings from other plugins, to minimise css conflicts */
+include('functions/JR_Plugin_Integration.php');
 /* ---- functions ----
  > Misc functions, internal use.
  > Static variables (where no editing is needed)

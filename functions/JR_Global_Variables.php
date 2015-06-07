@@ -57,7 +57,7 @@ function jr_categoryInfo($catType) {
 function jr_imgSize($size) {
   $sizeArr = [
     'thumb' => 150,
-    'tile'  => 480
+    'tile'  => 560
   ];
   return $sizeArr[$size];
 }
