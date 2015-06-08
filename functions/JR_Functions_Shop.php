@@ -158,8 +158,8 @@ function jr_itemComplile($ref,$detail) {
                         ($ref['Line 2'] != "0" ? $ref['Line 2']." " : null).
                         ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
       model       => $ref[Model] ? "<b>Model:</b> ".$ref[Model] : null,
-      extra       => ($ref[ExtraMeasurements] != 0) ? $ref[ExtraMeasurements] : null,
-      condition   => $ref[Condition] != " " ? $ref[Condition] : null,
+      extra       => $ref[ExtraMeasurements] != "0" ? "<b>Extra Measurements:</b> ".$ref[ExtraMeasurements] : null,
+      condition   => $ref[Condition] != "0" ? "<b>Condition:</b> ".$ref['Condition/Damages'] : null,
       brandName   => $brandName,
       brandLink   => $brandLink,
       power       => $pwrCheck,

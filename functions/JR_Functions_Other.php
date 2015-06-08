@@ -116,6 +116,37 @@ function jr_modules($atts) {
   }
   echo ($atts[dark]) ? '</div>' : null;
 }
+/* ---- columns -----------------------------------------------------------------------*/
+// adds flex-(2,3,4) dividers
+add_shortcode("column", "jr_columns");
+add_shortcode("columns", "jr_columnContainer");
+
+function jr_columns($atts, $content = null) {
+  $a = shortcode_atts([
+    'size' => 'half',
+    'frame' => false
+  ], $atts);
+  if ($atts[size] == 'full') {
+    $size = 'flex-1 ';
+  } elseif ($atts[size] == 'half') {
+    $size = 'flex-2 ';
+  } elseif ($atts[size] == 'third') {
+    $size = 'flex-3 ';
+  } elseif ($atts[size] == 'quarter') {
+    $size = 'flex-4 ';
+  }
+  if ($atts[frame] == 'light') {
+    $frame = 'has-frame';
+  } elseif ($atts[frame] == 'light') {
+    $frame = 'has-frame-dark';
+  }
+
+  return '<div class="'.$size.$frame.'" >'.$content.'</div>';
+}
+function jr_columnContainer($atts, $content = null) {
+  return '<div class="flex-container" >'.do_shortcode($content).'</div>';
+}
+
 /* ---- debug arrays ------------------------------------------------------------------*/
 //for testing purposes. will probably keep adding different options
 add_shortcode("jr-debug", "jr_debugger");
@@ -182,9 +213,9 @@ function jr_format($in) {
   $replaceBasic = [
     '<a href="'.site_url('$1/$2').'" >$1$2</a>',
     '<a href="$1" >$2</a>',
-    '<em class="lesser" >$1</em>',
-    '<strong>$1</strong>',
     '<em>$1</em>',
+    '<strong>$1</strong>',
+    '<em class="greater">$1</em>',
     jr_linkTo('phone'),
     jr_linkTo('eLink')
   ];

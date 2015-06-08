@@ -25,7 +25,8 @@ function jr_linkTo($target) {
     'address'   => str_replace(';', '<br>', $jr_config[contact_address]),
     //internal links
     'all categories' => site_url('departments/all/'),
-    'all items'     => site_url('products/all/'),
+    'all items'      => site_url('products/all/'),
+    'all brands'     => site_url('brands/'),
     'sold items'     => site_url('/sold/'),
     'new items'      => site_url('/new-items/'),
     'soon items'     => site_url('/coming-soon/')

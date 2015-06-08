@@ -45,16 +45,13 @@ if ($jr_safeArray[ss]) {
     <header>
       <h1><?php echo $shop_item[name]; ?></h1>
       <h2><?php echo $shop_item[price] ?> <span class='text-right'><?php echo $shop_item[quantity] ?></span></h2>
-      <em class="lesser"><?php echo $shop_item[rhc] ?></em>
+      <em><?php echo $shop_item[rhc] ?></em>
     </header>
 
-    <p>
-      <?php echo $shop_item[desc] ?>
-      <?php echo $shop_item[condition] ?>
-    </p>
+    <p><?php echo $shop_item[desc] ?></p>
 
     <?php if ($shop_item[icon]=="natural-gas" ) : ?>
-    <em>Ask today about conversions to LPG</em>
+    <em class="greater">Ask today about conversions to LPG</em>
     <?php endif ?>
 
     <?php // purchasing options not quite ready yet
@@ -91,7 +88,8 @@ if ($jr_safeArray[ss]) {
         $shop_item[brandName], $shop_item[brandLink],
         $shop_item[model], $shop_item[hFull],
         $shop_item[wFull], $shop_item[dFull],
-        $shop_item[power], $shop_item[extra]
+        $shop_item[power], $shop_item[condition],
+        $shop_item[extra]
       ] as $spec) {
         echo $spec ? "<li>$spec</li>" : null;
       } ?>

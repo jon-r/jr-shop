@@ -17,7 +17,7 @@ $shopItem = ( $jr_safeArray[pgType] == 'CategorySS' || $jr_safeArray[ss] ) ?
     <?php endif ?>
 
     <div>
-      <em><?php echo $shopItem[price] ?></em>
+      <em class="greater"><?php echo $shopItem[price] ?></em>
       <br>
       <?php echo $shopItem[rhc] ?>
     </div>

@@ -2,7 +2,9 @@
 <article class="flex-container">
   <header class="article-header flex-1" >
     <h1>Catering Equipment For Sale</h1>
-    <a href="<?php echo jr_linkTo('all items'); ?>">Click here to View All</a>
+    <a href="<?php echo jr_linkTo('all categories'); ?>">View By Category</a>
+    <a href="<?php echo jr_linkTo('all brands'); ?>">View By Brand</a>
+    <a href="<?php echo jr_linkTo('all items'); ?>">View All Equipment</a>
   </header>
 
 <?php foreach($jr_groupArray as $grpName => $grpList) :

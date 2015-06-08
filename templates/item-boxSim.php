@@ -4,7 +4,7 @@
   <header>
   <h2>Scale</h2>
   </header>
-  <em class="lesser">(For size only, shape is not accurate)</em>
+  <em>(For size only, shape is not accurate)</em>
 
   <svg class="item-tile-inner" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 500 500">
     <rect id="floor" width="490" height="5" x="5" y="490" fill="#5A6372"  />

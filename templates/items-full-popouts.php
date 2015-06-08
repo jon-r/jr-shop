@@ -26,7 +26,7 @@
 
       <form class="form-contact flex-2">
         <h4><?php echo $shop_item[name].' ( '.$shop_item[rhc].' )'; ?></h4><br>
-        <em class="lesser"><?php echo $shop_item[price] ?></em><br>
+        <em><?php echo $shop_item[price] ?></em><br>
         <hr>
         <label for="Name">Name</label>
         <input type="text" id="name" placeholder="John Smith">
