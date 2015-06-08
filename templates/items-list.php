@@ -8,7 +8,6 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
   <header class="article-header flex-1">
     <h1><?php echo $jr_safeArray[pgName]; ?></h1>
     <p><?php echo $jr_safeArray[description] ?></p>
-    <?php echo $jr_safeArray[imgURL] ?>
     <?php echo jr_format($testString); ?>
   </header>
 

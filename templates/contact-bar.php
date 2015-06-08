@@ -3,8 +3,10 @@
 ?>
 <article class="contact-bar flex-container">
 
-  <form class="form-contact flex-2">
-    <h2>Contact us</h2>
+  <form class="form-contact item-tile flex-2">
+    <header>
+      <h2>Contact us</h2>
+    </header>
     <br>
     <label for="Name">Name</label>
     <input type="text" id="name">
@@ -21,14 +23,18 @@
     </button>
   </form>
 
-  <div class="social flex-2">
-    <h2>What our customers say</h2>
+  <div class="social item-tile flex-2">
+    <header>
+      <h2>What our customers say</h2>
+    </header>
     <blockquote class="testimonials">
       <p>"<?php echo addslashes ($singleFeedback['Testimonial_Short']);?>"</p>
       <h4><?php echo addslashes ($singleFeedback['Name']); ?></h4>
     </blockquote>
 
-    <h2>Find us online</h2>
+    <header>
+      <h2>Find us online</h2>
+    </header>
     <div class="social-links">
       <a class="btn-icon facebook" href="<?php echo jr_linkTo(facebook) ?>">facebook</a>
       <a class="btn-icon linkedin" href="<?php echo jr_linkTo(linkedin) ?>">linkedIn</a>
