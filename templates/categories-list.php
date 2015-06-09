@@ -1,31 +1,31 @@
 <?php
-if ($jr_safeArray[group] == 'all') {
+if ($jr_safeArray['group'] == 'all') {
   $filteredCategories = jrQ_categories();
-} elseif ($jr_safeArray[group] == 'brand') {
+} elseif ($jr_safeArray['group'] == 'brand') {
   $filteredCategories = jr_featuredBrands();
 } else {
-  $filteredCategories = $jr_groupArray[$jr_safeArray[group]];
+  $filteredCategories = $jr_groupArray[$jr_safeArray['group']];
 }
 ?>
 
 <article class="flex-container">
   <header class="article-header flex-1" >
-    <h1><?php echo $jr_safeArray[pgName] ?></h1>
+    <h1><?php echo $jr_safeArray['pgName'] ?></h1>
   </header>
 
 <?php foreach ($filteredCategories as $category) :
-  if ($jr_safeArray[group] == 'brand') {
-    $link = site_url('/brand/'.$category[RefName]);
-    $imgUrl = jr_siteImg('brands/square/'.$category[RefName].'.jpg');
+  if ($jr_safeArray['group'] == 'brand') {
+    $link = site_url('/brand/'.$category['RefName']);
+    $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
   } else {
-    $category = jr_titleToUrl($category[Name]);
-    $link = site_url('/products/'.$category[RefName]);
-    $imgUrl = jr_siteImg('thumbnails/'.$category[RefName].'.jpg');
+    $category = jr_titleToUrl($category['Name']);
+    $link = site_url('/products/'.$category['RefName']);
+    $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
   }
 ?>
   <section class="shop-tile category flex-4">
     <a href="<?php echo $link ?>" >
-      <div><h3><?php echo $category[Name] ?></h3></div>
+      <div><h3><?php echo $category['Name'] ?></h3></div>
       <img src="<?php echo site_url($imgUrl) ?>" />
     </a>
   </section>
@@ -33,7 +33,7 @@ if ($jr_safeArray[group] == 'all') {
 
 </article>
 
-<?php if ($jr_safeArray[group]=='brand' ) : ?>
+<?php if ($jr_safeArray['group']=='brand' ) : ?>
 
 <article class="extra-brands">
   <header class="article-header flex-1">

@@ -1,7 +1,7 @@
 <?php
 /*--- init ----------------------------------------------------------------------------*/
 function rhc_getScripts() {
-  if ($_GET[page] == 'rhc-maintenance') {
+  if (isset($_GET['page']) && $_GET['page'] == 'rhc-maintenance') {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', ( 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js' ), false, null, true );
     wp_enqueue_style( 'caramel_stylesheet', plugin_dir_url( __FILE__ ) . 'caramel.min.css');
@@ -56,22 +56,22 @@ function jrA_ImageSearch($folder) {
 }
 // send the readable info
 function jrA_deadImageStats () {
-  $in = $_GET[keyword];
+  $in = $_GET['keyword'];
   $fileInfo = jrA_ImageSearch($in);
 
   if ($fileInfo['Names'] != null) {
-    $out[count] = count($fileInfo['Names']);
-    $out[size] =  sizeFormat(array_sum($fileInfo['Size']));
+    $out['count'] = count($fileInfo['Names']);
+    $out['size'] =  sizeFormat(array_sum($fileInfo['Size']));
   } else {
-    $out[count] = 0;
-    $out[size] = 0;
+    $out['count'] = 0;
+    $out['size'] = 0;
   }
   echo json_encode($out);
   wp_die();
 }
 
 function jrA_deadImageDelete() {
-  $in = $_GET[keyword];
+  $in = $_GET['keyword'];
   $fileInfo = jrA_ImageSearch($in);
   $out = array();
 
@@ -97,7 +97,7 @@ function jrA_unleashImages($fileArray, $type) {
 }
 //prints all images from a certain rhc/rhcs
 function jrA_specificImg() {
-  $ref = $_GET[reference];
+  $ref = $_GET['reference'];
   $imgDir = null;
   $thumbs = $tiles = [];
 
@@ -105,8 +105,8 @@ function jrA_specificImg() {
     $imgDir = preg_replace('/rhc(s?)([\d]+)/i','RHC$1$2',$ref);
   }
   if ($imgDir) {
-    $out[first] = '../images/gallery/'.$imgDir.'.jpg';
-    $out[all] = glob('../images/gallery/'.$imgDir.'*');
+    $out['first'] = '../images/gallery/'.$imgDir.'.jpg';
+    $out['all'] = glob('../images/gallery/'.$imgDir.'*');
     $thumbs = glob('../images/gallery-thumb/'.$imgDir.'*');
     $tiles = glob('../images/gallery-tile/'.$imgDir.'*');
   }

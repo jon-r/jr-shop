@@ -1,15 +1,13 @@
 <?php /* Filtered items list */
 global $itemCountMin;
-$pageNumber = $_GET['pg'] ?: 1;
+$pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
 ?>
 
 <article class="flex-container">
   <header class="article-header flex-1">
-    <h1><?php echo $jr_safeArray[pgName]; ?></h1>
-    <p><?php echo $jr_safeArray[description] ?></p>
-    <?php echo $jr_safeArray[imgURL] ?>
-    <?php echo jr_format($testString); ?>
+    <h1><?php echo $jr_safeArray['pgName']; ?></h1>
+    <p><?php echo $jr_safeArray['description'] ?></p>
   </header>
 
   <?php
@@ -21,7 +19,7 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
 
   <header class="article-header flex-1">
     <h1>More in store</h1>
-    <p>There doesnt seem to be a lot to see here. However, sometimes the equipment is ready and waiting in the workshop. If interested, call <?php echo jr_linkTo(phone) ?> today and will see if we can get hold of what you need.
+    <p>There doesnt seem to be a lot to see here. However, sometimes the equipment is ready and waiting in the workshop. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.
     </p>
   </header>
 
@@ -36,7 +34,7 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
   <section>
     <?php if ($pageNumber > 1) : ?>
     <a href="<?php  echo jr_pgSet(1) ?>"><h4>&laquo;</h4></a>
-    <a href="<?php  echo jr_pgSet(minus) ?>"><h4>&lsaquo;</h4></a>
+    <a href="<?php  echo jr_pgSet('minus') ?>"><h4>&lsaquo;</h4></a>
     <?php endif ?>
 
     <?php for ($i=1 ; $i <= $items['paginate']; $i++) : ?>
@@ -44,7 +42,7 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
     <?php endfor ?>
 
     <?php if ($pageNumber < $items['paginate']) : ?>
-    <a href="<?php  echo jr_pgSet(plus) ?>"><h4>&rsaquo;</h4></a>
+    <a href="<?php  echo jr_pgSet('plus') ?>"><h4>&rsaquo;</h4></a>
     <a href="<?php  echo jr_pgSet($items['paginate']) ?>"><h4>&raquo;</h4></a>
     <?php endif ?>
   </section>

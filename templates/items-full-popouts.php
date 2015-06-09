@@ -25,8 +25,8 @@
       </div>
 
       <form class="form-contact flex-2">
-        <h4><?php echo $shop_item[name].' ( '.$shop_item[rhc].' )'; ?></h4><br>
-        <em><?php echo $shop_item[price] ?></em><br>
+        <h4><?php echo $shop_item['name'].' ( '.$shop_item['rhc'].' )'; ?></h4><br>
+        <em><?php echo $shop_item['price'] ?></em><br>
         <hr>
         <label for="Name">Name</label>
         <input type="text" id="name" placeholder="John Smith">
@@ -38,7 +38,7 @@
         <input type="text" id="name">
         <label for="message">Extra Information</label>
         <textarea id="message">THIS DOES NOTHING YET
-          <?php echo $jr_safeArray[pgName]; ?>
+          <?php echo $jr_safeArray['pgName']; ?>
         </textarea>
         <button class="btn-red">
           <h3>Send</h3>

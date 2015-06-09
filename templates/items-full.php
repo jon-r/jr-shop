@@ -1,9 +1,9 @@
 <?php /* style for the individual items page */
-if ($jr_safeArray[ss]) {
-  $item = jrQ_item($jr_safeArray[rhc], 1);
+if ($jr_safeArray['ss']) {
+  $item = jrQ_item($jr_safeArray['rhc'], 1);
   $shop_item = jr_itemComplile($item,'itemSS');
 } else {
-  $item = jrQ_item($jr_safeArray[rhc]);
+  $item = jrQ_item($jr_safeArray['rhc']);
   $shop_item = jr_itemComplile($item,'item');
 }
 ?>
@@ -11,11 +11,11 @@ if ($jr_safeArray[ss]) {
 <article class="flex-column">
 
   <section class="item-tile flex-1">
-    <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item[icon]; ?>">
-      <img src="<?php echo site_url(jr_imgResize($shop_item[imgFirst], 'tile')) ?>"
-           alt="<?php echo $shop_item[name] ?>">
+    <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
+      <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
+           alt="<?php echo $shop_item['name'] ?>">
       <button class="item-main-zoom dark-block text-icon-left expand-w"></button>
-      <?php if (count($shop_item[imgAll])> 1) : ?>
+      <?php if (count($shop_item['imgAll'])> 1) : ?>
       <button id="js-gallery-prev" class="gallery-nav text-icon-left arrow-l"></button>
       <button id="js-gallery-next" class="gallery-nav text-icon arrow-r"></button>
       <?php endif ?>
@@ -25,12 +25,12 @@ if ($jr_safeArray[ss]) {
       <div class="modal-close btn-icon close-w"></div>
     </div>
 
-    <?php if (count($shop_item[imgAll])> 1) : ?>
+    <?php if (count($shop_item['imgAll'])> 1) : ?>
     <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
-      <?php foreach ($shop_item[imgAll] as $galleryImg) : ?>
+      <?php foreach ($shop_item['imgAll'] as $galleryImg) : ?>
       <li class="item-tile-inner">
         <img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>"
-             alt="<?php echo $shop_item[name] ?>"
+             alt="<?php echo $shop_item['name'] ?>"
              data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
       </li>
       <?php endforeach ?>
@@ -43,14 +43,14 @@ if ($jr_safeArray[ss]) {
 
   <section class="item-tile item-info flex-1 ">
     <header>
-      <h1><?php echo $shop_item[name]; ?></h1>
-      <h2><?php echo $shop_item[price] ?> <span class='text-right'><?php echo $shop_item[quantity] ?></span></h2>
-      <em><?php echo $shop_item[rhc] ?></em>
+      <h1><?php echo $shop_item['name']; ?></h1>
+      <h2><?php echo $shop_item['price'] ?> <span class='text-right'><?php echo $shop_item['quantity'] ?></span></h2>
+      <em><?php echo $shop_item['rhc'] ?></em>
     </header>
 
-    <p><?php echo $shop_item[desc] ?></p>
+    <p><?php echo $shop_item['desc'] ?></p>
 
-    <?php if ($shop_item[icon]=="natural-gas" ) : ?>
+    <?php if ($shop_item['icon']=="natural-gas" ) : ?>
     <em class="greater">Ask today about conversions to LPG</em>
     <?php endif ?>
 
@@ -59,7 +59,7 @@ if ($jr_safeArray[ss]) {
   </section>
 
   <ul class="item-features dark-block flex-1">
-    <?php if (!$jr_safeArray[ss]) : ?>
+    <?php if (!$jr_safeArray['ss']) : ?>
     <li class="text-icon-left tick-w">Photos of actual product</li>
     <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
     <?php endif ?>
@@ -85,11 +85,11 @@ if ($jr_safeArray[ss]) {
 
     <ul class="item-dimensions item-tile-inner">
     <?php foreach ([
-        $shop_item[brandName], $shop_item[brandLink],
-        $shop_item[model], $shop_item[hFull],
-        $shop_item[wFull], $shop_item[dFull],
-        $shop_item[power], $shop_item[condition],
-        $shop_item[extra]
+        $shop_item['brandName'], $shop_item['brandLink'],
+        $shop_item['model'], $shop_item['hFull'],
+        $shop_item['wFull'], $shop_item['dFull'],
+        $shop_item['power'], $shop_item['condition'],
+        $shop_item['extra']
       ] as $spec) {
         echo $spec ? "<li>$spec</li>" : null;
       } ?>
@@ -110,7 +110,7 @@ if ($jr_safeArray[ss]) {
   <?php if (count($related) > 0) : ?>
   <section class="item-tile item-related flex-1">
     <header >
-      <h2>More <?php echo $jr_safeArray[cat]; ?></h2>
+      <h2>More <?php echo $jr_safeArray['cat']; ?></h2>
     </header>
 
     <ul id="js-gallery-thumbs" class="item-thumbs flex-container">

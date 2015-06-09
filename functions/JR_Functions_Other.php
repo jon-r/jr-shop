@@ -87,8 +87,8 @@ function jr_imgSizeCheck($src,$size) {
 }
 //for ajax to create new carousel
 function jr_resizeAjax() {
-  $src = $_GET[src];
-  $size = $_GET[size];
+  $src = $_GET['src'];
+  $size = $_GET['size'];
   $out = jr_imgResize ($src, $size);
 
   echo json_encode($out);
@@ -106,15 +106,15 @@ function jr_modules($atts) {
     'id' => '404',
     'dark' => false
   ], $atts);
-  $file = "wp-content/plugins/jr-shop/templates/$atts[id].php";
+  $file = 'wp-content/plugins/jr-shop/templates/'.$atts['id'].'.php';
 
-  echo ($atts[dark]) ? '<div class="dark-block flex-2" >' : null;
+  echo ($a['dark']) ? '<div class="dark-block flex-2" >' : null;
   if (file_exists($file)) {
     include($file);
   } else {
     echo "[check $file]";
   }
-  echo ($atts[dark]) ? '</div>' : null;
+  echo ($a['dark']) ? '</div>' : null;
 }
 /* ---- columns -----------------------------------------------------------------------*/
 // adds flex-(2,3,4) dividers
@@ -126,18 +126,18 @@ function jr_columns($atts, $content = null) {
     'size' => 'half',
     'frame' => false
   ], $atts);
-  if ($atts[size] == 'full') {
+  if ($atts['size'] == 'full') {
     $size = 'flex-1 ';
-  } elseif ($atts[size] == 'half') {
+  } elseif ($atts['size'] == 'half') {
     $size = 'flex-2 ';
-  } elseif ($atts[size] == 'third') {
+  } elseif ($atts['size'] == 'third') {
     $size = 'flex-3 ';
-  } elseif ($atts[size] == 'quarter') {
+  } elseif ($atts['size'] == 'quarter') {
     $size = 'flex-4 ';
   }
-  if ($atts[frame] == 'light') {
+  if ($atts['frame'] == 'light') {
     $frame = 'has-frame';
-  } elseif ($atts[frame] == 'light') {
+  } elseif ($atts['frame'] == 'light') {
     $frame = 'has-frame-dark';
   }
 
@@ -160,12 +160,12 @@ function jr_debugger() {
 function jr_pageCrumbles ($safeArr) {
   $crumbs[0] = ['Home' => home_url()];
 
-  if ($safeArr[rhc] == 'Not Found' || $safeArr[cat] == 'Not Found' || $safeArr[group] == 'Not Found' || is_404()) {
+  if ($safeArr['rhc'] == 'Not Found' || $safeArr['cat'] == 'Not Found' || $safeArr['group'] == 'Not Found' || is_404()) {
     $crumbs[1] = ['Page Not Found' => home_url()];
   } else {
-    if ($safeArr[pgType] == 'Item') {
-      $crumbs[1] = [$safeArr[cat] => site_url('/products/'.sanitize_title($safeArr[cat]))];
-      $crumbs[2] = [$safeArr[pgName] => jr_getUrl()];
+    if ($safeArr['pgType'] == 'Item') {
+      $crumbs[1] = [$safeArr['cat'] => site_url('/products/'.sanitize_title($safeArr['cat']))];
+      $crumbs[2] = [$safeArr['pgName'] => jr_getUrl()];
     } else {
       $crumbs[1] = [get_the_title() => jr_pgSet()];
       //page set instead of getURL to reset to page1 on paginated output
@@ -183,7 +183,7 @@ function jr_pgSet ($pgSet = null, $pgCap = 1) {
   if (is_int($pgSet)) {
     $arrParams['pg'] = $pgSet;
   } elseif ($pgSet == 'plus') {
-    $arrParams['pg'] ? $arrParams['pg']++ : $arrParams['pg'] = 2;
+    isset($arrParams['pg']) ? $arrParams['pg']++ : $arrParams['pg'] = 2;
   } elseif ($pgSet == 'minus') {
     $arrParams['pg'] > 1 ? $arrParams['pg']-- : $arrParams['pg'];
   } else {
@@ -194,8 +194,8 @@ function jr_pgSet ($pgSet = null, $pgCap = 1) {
 }
 // gets the current page, taking into account no pg value = 1
 function jr_isPg($pgNum) {
-  $getPg = $_GET['pg'] ? $_GET['pg'] : 1;
-  return $getPg == $pgNum ? true : false;
+  $getPg = isset($_GET['pg']) ? $_GET['pg'] : 1;
+  return $getPg == isset($pgNum) ? true : false;
 }
 // --- microformatter -------------------------------------------------------------------
 // adds basic formatting, with custom "markdown".
