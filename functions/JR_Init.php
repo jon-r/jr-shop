@@ -9,7 +9,7 @@ $jr_groupArray = jr_categoryFilter();
 function jr_categoryFilter() {
   $getCategory = jrQ_categories();
   foreach ($getCategory as $c) {
-    $out[$c[CategoryGroup]][] =  $c;
+    $out[$c['CategoryGroup']][] =  $c;
   }
   return $out;
 }

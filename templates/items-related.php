@@ -6,7 +6,7 @@ $related = jrQ_iremsRelated($jr_safeArray);
 <article class="flex-container">
 
   <header class="article-header flex-1">
-    <h1>More <?php echo $jr_safeArray[cat]; ?></h1>
+    <h1>More <?php echo $jr_safeArray['cat']; ?></h1>
   </header>
 
   <?php

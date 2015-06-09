@@ -8,9 +8,9 @@ SEARCH:
 
 
 function jr_smartSearch() {
-  $rawSearchTerm = $_GET[search];
+  $rawSearchTerm = $_GET['search'];
   $safeSearch = preg_replace('/[^\w +-]/i','', $rawSearchTerm );
-  $ref = http_build_query([q => $safeSearch]);
+  $ref = http_build_query(['q' => $safeSearch]);
   $url = site_url("products/search/?$ref");
 
   if (stripos($rawSearchTerm, "rhc") === 0) {
@@ -34,12 +34,12 @@ add_shortcode("jr-search", "jr_smartSearch");
 //setup data for the search autocomplete ajax
 //http://code.tutsplus.com/tutorials/add-jquery-autocomplete-to-your-sites-search--wp-25155
 function jr_autoComplete() {
-  $in = $_GET[keyword];
+  $in = $_GET['keyword'];
   $filteredBrand = array_filter(jrQ_brandUnique(), function($var) {
-    return (stripos($var, $_GET[keyword]) !== false);
+    return (stripos($var, $_GET['keyword']) !== false);
   });
   $filteredCat = array_filter(jrQ_categoryColumn(), function($var) {
-    return (stripos($var, $_GET[keyword]) !== false);
+    return (stripos($var, $_GET['keyword']) !== false);
   });
   $listBrands = array_map('jr_addBrand', $filteredBrand);
   $listCats = array_map('jr_addCategory', $filteredCat);

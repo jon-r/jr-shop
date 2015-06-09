@@ -9,7 +9,7 @@
     <input type="tel" id="phone">
     <label for="message">Message</label>
     <textarea id="message">THIS DOES NOTHING YET
-      <?php echo $jr_safeArray[pgName]; ?>
+      <?php echo $jr_safeArray['pgName']; ?>
     </textarea>
     <button class="btn-red">
       <h3>Send</h3>

@@ -18,9 +18,9 @@
     </a>
     <ul class="flex-container">
       <?php foreach ($grpList as $category) :
-          $link = site_url('/products/'.sanitize_title($category[Name]));
+          $link = site_url('/products/'.sanitize_title($category['Name']));
       ?>
-      <li><a href="<?php echo $link ?>" ><?php echo $category[Name] ?></a></li>
+      <li><a href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a></li>
       <?php endforeach ?>
     </ul>
   </section>
