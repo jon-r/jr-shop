@@ -19,6 +19,7 @@
       <p>"<?php echo addslashes ($singleFeedback['Testimonial_Short']);?>"</p>
       <h4><?php echo addslashes ($singleFeedback['Name']); ?></h4>
     </blockquote>
+
     <header>
       <h2>Find us online</h2>
     </header>
