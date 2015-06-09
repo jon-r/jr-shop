@@ -78,3 +78,9 @@ include('functions/JR_Search.php');
  > Root information called on each new page. Used for menus, validation, output.
 */
 include('functions/JR_Init.php');
+/* ---- mini cache
+ > caches the parts of the page that stay somewhat static
+ > creates html templates to use instead of the function heavyphp ones
+ */
+include('functions/JR_miniCache.php');
+?>

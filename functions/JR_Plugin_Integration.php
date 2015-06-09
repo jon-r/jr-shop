@@ -8,10 +8,7 @@
 function jr_dequeue_menuImage() {
   wp_dequeue_style('menu-image');
 }
-
-add_action( 'wp_enqueue_scripts', 'jr_dequeue_menuImage' );
-
-
+add_action( 'wp_enqueue_scripts', 'jr_dequeue_menuImage', 11 );
 //* -- contact form 7---------------------------------------*/
 //setting up a custom form text input
 add_filter( 'wpcf7_form_elements', 'mycustom_wpcf7_form_elements' );
@@ -34,17 +31,16 @@ function jr_getSubject($atts) {
 
   $inputClass = 'wpcf7-form-control wpcf7-text '.$a['class'];
   $inputDefault = $jr_safeArray[$a['default']];
-
-
   $inputVals = ' class="'.$inputClass.'" type="text" aria-invalid="false" value="'.$inputDefault.'" name="'.$a['name'].'"';
-
-  $html = sprintf('<span class="wpcf7-form-control-wrap %1$s"><input %2$s /></span>',
-                  $a['name'], $inputVals);
-
+  $html = sprintf('<span class="wpcf7-form-control-wrap %1$s"><input %2$s /></span>', $a['name'], $inputVals);
   return $html;
 }
 
-
+//unqueueing custom CSS
+function jr_dequeue_wpcf7() {
+  wp_dequeue_style('contact-form-7');
+}
+add_action( 'wp_enqueue_scripts', 'jr_dequeue_wpcf7', 11 );
 
 
 ?>
