@@ -249,7 +249,7 @@ function jr_boxGen($item) {
     'tableW'  => round($tableWidth / $findMax * $boxDims, 3),
   ];
   //shortest items "propped up" on a table. unless it IS a table
-  if ($itemH < $shortH && !$item['RHCs']) {
+  if ($itemH < $shortH && !isset($item['RHCs'])) {
     $out2 = [
       'itemX'  => ($boxDims - $out1['itemW']) / 2,
       'itemY'  => $bottomPoint - $out1['itemH'] - $out1['tableH'],
@@ -268,7 +268,7 @@ function jr_boxGen($item) {
   if ($itemH < $shortH) {
     $out3 = ['itemImg' => 'appliance-short','tableImg' => 'appliance-table'];
   } elseif ($itemH > $tallH) {
-    $out3 = ['itemImg' => $item['RHCs'] ? 'appliance-table-tall' : 'appliance-tall'];
+    $out3 = ['itemImg' => isset($item['RHCs']) ? 'appliance-table-tall' : 'appliance-tall'];
   } elseif (isset($item['RHCs'])) {
     $out3 = ['itemImg' => ($item['Category'] == 'Sinks') ? 'appliance-sink' : 'appliance-table'];
   } else {

@@ -10,7 +10,7 @@ if ($jr_safeArray['ss']) {
 
 <article class="flex-column">
 
-  <section class="item-tile flex-1">
+  <section class="white-block flex-1">
     <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
       <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
            alt="<?php echo $shop_item['name'] ?>">
@@ -41,7 +41,7 @@ if ($jr_safeArray['ss']) {
 </article>
 <article class="flex-column">
 
-  <section class="item-tile item-info flex-1 ">
+  <section class="white-block item-info flex-1 ">
     <header>
       <h1><?php echo $shop_item['name']; ?></h1>
       <h2><?php echo $shop_item['price'] ?> <span class='text-right'><?php echo $shop_item['quantity'] ?></span></h2>
@@ -78,7 +78,7 @@ if ($jr_safeArray['ss']) {
     </aside>
   </ul>
 
-  <section class="item-tile flex-2 item-specs">
+  <section class="white-block flex-2 item-specs">
     <header>
       <h2>Specs</h2>
     </header>
@@ -108,7 +108,7 @@ if ($jr_safeArray['ss']) {
 
   <?php $related = jrQ_iremsRelated($jr_safeArray); ?>
   <?php if (count($related) > 0) : ?>
-  <section class="item-tile item-related flex-1">
+  <section class="white-block item-related flex-1">
     <header >
       <h2>More <?php echo $jr_safeArray['cat']; ?></h2>
     </header>

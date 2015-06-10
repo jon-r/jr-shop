@@ -9,8 +9,8 @@
     'menu_class' => 'menu-featured flex-container',                             // adding custom nav class
     'theme_location' => 'front-page-list',          // where it's located in the theme
     'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
-    'link_before' => '<h3>',                            // before each link
-    'link_after' => '</h3>',                             // after each link
+    'link_before' => '<h2>',                            // before each link
+    'link_after' => '</h2>',                             // after each link
     'fallback_cb' => ''                             // fallback function (if there is one)
   )); ?>
 

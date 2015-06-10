@@ -103,18 +103,15 @@ add_shortcode("jr-shop", "jr_modules");
 function jr_modules($atts) {
   global $jr_groupArray, $jr_safeArray;
   $a = shortcode_atts([
-    'id' => '404',
-    'dark' => false
+    'id' => '404'
   ], $atts);
   $file = 'wp-content/plugins/jr-shop/templates/'.$atts['id'].'.php';
 
-  echo ($a['dark']) ? '<div class="dark-block flex-2" >' : null;
   if (file_exists($file)) {
     include($file);
   } else {
     echo "[check $file]";
   }
-  echo ($a['dark']) ? '</div>' : null;
 }
 /* ---- columns -----------------------------------------------------------------------*/
 // adds flex-(2,3,4) dividers
@@ -126,19 +123,21 @@ function jr_columns($atts, $content = null) {
     'size' => 'half',
     'frame' => false
   ], $atts);
-  if ($atts['size'] == 'full') {
+  if ($a['size'] == 'full') {
     $size = 'flex-1 ';
-  } elseif ($atts['size'] == 'half') {
+  } elseif ($a['size'] == 'half') {
     $size = 'flex-2 ';
-  } elseif ($atts['size'] == 'third') {
+  } elseif ($a['size'] == 'third') {
     $size = 'flex-3 ';
-  } elseif ($atts['size'] == 'quarter') {
+  } elseif ($a['size'] == 'quarter') {
     $size = 'flex-4 ';
   }
-  if ($atts['frame'] == 'light') {
+  if ($a['frame'] == 'light') {
     $frame = 'has-frame';
-  } elseif ($atts['frame'] == 'light') {
+  } elseif ($a['frame'] == 'light') {
     $frame = 'has-frame-dark';
+  } else {
+    $frame = null;
   }
 
   return '<div class="'.$size.$frame.'" >'.$content.'</div>';
@@ -195,7 +194,7 @@ function jr_pgSet ($pgSet = null, $pgCap = 1) {
 // gets the current page, taking into account no pg value = 1
 function jr_isPg($pgNum) {
   $getPg = isset($_GET['pg']) ? $_GET['pg'] : 1;
-  return $getPg == isset($pgNum) ? true : false;
+  return $getPg == $pgNum ? true : false;
 }
 // --- microformatter -------------------------------------------------------------------
 // adds basic formatting, with custom "markdown".

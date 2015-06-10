@@ -3,14 +3,14 @@
 ?>
 <article class="contact-bar flex-container">
 
-  <div class="flex-2 form-contact item-tile">
+  <section class="flex-2 form-contact dark-block">
     <header>
       <h2>Contact us</h2>
     </header>
     <?php echo do_shortcode('[contact-form-7 id="132" title="Contact form Slim"]'); ?>
-  </div>
+  </section>
 
-  <div class="social item-tile flex-2">
+  <section class="social flex-2 dark-block">
     <header>
       <h2>What our customers say</h2>
     </header>
@@ -28,6 +28,6 @@
       <a class="btn-icon linkedin" href="<?php echo jr_linkTo('linkedin') ?>">linkedIn</a>
       <a class="btn-icon twitter" href="<?php echo jr_linkTo('twitter') ?>">twitter</a>
     </div>
-  </div>
+  </section>
 
 </article>

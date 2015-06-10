@@ -1,6 +1,6 @@
 <?php $box = jr_boxGen($item) ; ?>
 
-<section class="item-tile item-scale flex-2">
+<section class="white-block item-scale flex-2">
   <header>
   <h2>Scale</h2>
   </header>

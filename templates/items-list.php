@@ -30,20 +30,20 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
 
 <?php if ($items['paginate']) : ?>
 
-<nav class="flex-container nav-paginate">
-  <section>
+<nav class="flex-container ">
+  <section class="nav-paginate">
     <?php if ($pageNumber > 1) : ?>
-    <a href="<?php  echo jr_pgSet(1) ?>"><h4>&laquo;</h4></a>
-    <a href="<?php  echo jr_pgSet('minus') ?>"><h4>&lsaquo;</h4></a>
+    <a href="<?php  echo jr_pgSet(1) ?>"><h3>&laquo;</h3></a>
+    <a href="<?php  echo jr_pgSet('minus') ?>"><h3>&lsaquo;</h3></a>
     <?php endif ?>
 
     <?php for ($i=1 ; $i <= $items['paginate']; $i++) : ?>
-    <a <?php echo jr_isPg($i) ? 'class="active"' : null ?> href="<?php  echo jr_pgSet($i) ?>" ><h4><?php  echo $i ?></h4></a>
+    <a <?php echo jr_isPg($i) ? 'class="active"' : null ?> href="<?php  echo jr_pgSet($i) ?>" ><h3><?php  echo $i ?></h3></a>
     <?php endfor ?>
 
     <?php if ($pageNumber < $items['paginate']) : ?>
-    <a href="<?php  echo jr_pgSet('plus') ?>"><h4>&rsaquo;</h4></a>
-    <a href="<?php  echo jr_pgSet($items['paginate']) ?>"><h4>&raquo;</h4></a>
+    <a href="<?php  echo jr_pgSet('plus') ?>"><h3>&rsaquo;</h3></a>
+    <a href="<?php  echo jr_pgSet($items['paginate']) ?>"><h3>&raquo;</h3></a>
     <?php endif ?>
   </section>
 </nav>
