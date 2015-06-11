@@ -1,7 +1,5 @@
-<?php // contact form at the bottom of most pages.
-  $singleFeedback = jr_randomFeedback();
-?>
-<article class="contact-bar flex-container">
+
+<article class="flex-container">
 
   <section class="flex-2 form-contact dark-block">
     <header>
@@ -16,6 +14,7 @@
     </header>
 
     <blockquote class="testimonials">
+      <?php $singleFeedback = jr_randomFeedback(); ?>
       <p>"<?php echo addslashes ($singleFeedback['Testimonial_Short']);?>"</p>
       <h4><?php echo addslashes ($singleFeedback['Name']); ?></h4>
     </blockquote>

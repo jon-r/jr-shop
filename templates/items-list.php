@@ -17,21 +17,24 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
   ?>
   <?php if(count($items['list']) < $itemCountMin) : ?>
 
-  <header class="article-header flex-1">
-    <h1>More in store</h1>
-    <p>There doesnt seem to be a lot to see here. However, sometimes the equipment is ready and waiting in the workshop. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.
-    </p>
-  </header>
+  <section class="flex-1 form-contact wider white-block">
+    <header >
+      <h2>More in store</h2>
+      <span>Sometimes the equipment you need is going through the workshop right now. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.</span>
 
-  <?php echo do_shortcode( "[jr-shop id='contact-minibar' dark=true]"); ?>
+    </header>
+    <?php echo do_shortcode('[contact-form-7 id="141" title="Contact Form Wide"]'); ?>
+  </section>
 <?php endif ?>
 
 </article>
 
+
+
 <?php if ($items['paginate']) : ?>
 
 <nav class="flex-container ">
-  <section class="nav-paginate">
+  <section class="nav-paginate white-block">
     <?php if ($pageNumber > 1) : ?>
     <a href="<?php  echo jr_pgSet(1) ?>"><h3>&laquo;</h3></a>
     <a href="<?php  echo jr_pgSet('minus') ?>"><h3>&lsaquo;</h3></a>
