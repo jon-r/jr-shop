@@ -201,9 +201,9 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   if ($qType == 'Soon' ) {
     $queryEnd = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY `RHC` DESC";
   } elseif ($qType == 'Sold' ) {
-    $queryEnd = "`Quantity` = 0 ORDER BY `DateSold` DESC";
+    $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` = 0) = 0 ORDER BY `DateSold` DESC";
   } elseif ($qType == 'CategorySS') {
-    $queryEnd = "`Quantity` > 0 ORDER BY `RHCs` DESC";
+    $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0)  ORDER BY `RHCs` DESC";
   };
   //queryPlaceholders (for wpdb->prepare)
   $qArray = null; //no prepare for non-variables
@@ -221,7 +221,7 @@ function jrQ_itemString($safeArr, $isCounter = false) {
 /* -- get other content -------------------------------------------------------------*/
 function jrQ_carousel() {
   global $wpdb;
-  return $wpdb->get_results("SELECT * FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC;", ARRAY_A);
+  return $wpdb->get_results("SELECT * FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC, `Slide_ID` DESC;", ARRAY_A);
 }
 function jrQ_tesimonial($detail = null) {
   global $wpdb;

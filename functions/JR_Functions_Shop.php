@@ -116,7 +116,7 @@ function jr_itemComplile($ref,$detail) {
       $priceCheck = "Price Coming Soon";
     }
     $out2 = [
-      'webLink'   => 'rhcs/'.$ref['RHCs'].sanitize_title($ref['ProductName']),
+      'webLink'   => 'rhcs/'.$ref['RHCs'].'/'.sanitize_title($ref['ProductName']),
       'rhc'       => 'Ref: RHCs'.$ref['RHCs'],
       'name'      => $ref['ProductName'],
       'imgFirst'  => jr_siteImg('gallery/RHCs'.$ref['RHCs'].'.jpg'),

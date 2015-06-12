@@ -29,8 +29,6 @@ $items = jr_itemsList($jr_safeArray, $pageNumber);
 
 </article>
 
-
-
 <?php if ($items['paginate']) : ?>
 
 <nav class="flex-container ">
