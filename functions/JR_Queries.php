@@ -148,7 +148,7 @@ function jrQ_itemsCount($safeArr) {
 //tags items as new
 function jrQ_ItemsNew() {
   global $itemCountMax, $wpdb;
-  return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `rhc` DESC LIMIT $itemCountMax") ;
+  return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
 }
 //returns the mysql query string. for debug purposes
 function jrQ_debug($safeArr,$sold=false) {
@@ -197,13 +197,13 @@ function jrQ_itemString($safeArr, $isCounter = false) {
     $qValue = $safeArr['saleNum'];
   };
   //the query end. how is the data sorted?
-  $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `RHC` DESC";
+  $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `RHC` DESC";
   if ($qType == 'Soon' ) {
     $queryEnd = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY `RHC` DESC";
   } elseif ($qType == 'Sold' ) {
     $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` = 0) = 0 ORDER BY `DateSold` DESC";
   } elseif ($qType == 'CategorySS') {
-    $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0)  ORDER BY `RHCs` DESC";
+    $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0)  ORDER BY `DateLive` DESC, `RHCs` DESC";
   };
   //queryPlaceholders (for wpdb->prepare)
   $qArray = null; //no prepare for non-variables

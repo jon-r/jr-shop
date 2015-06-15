@@ -6,7 +6,7 @@ $shopItem = ( $jr_safeArray['pgType'] == 'CategorySS' || $jr_safeArray['ss'] ) ?
 <section class="shop-tile item btn-icon flex-4 <?php echo trim($shopItem['info'].' '.$shopItem['icon']); ?>">
 
   <a href="<?php echo site_url($shopItem['webLink']) ?>">
-    <div>
+    <div class="shop-tile-header">
       <h3><?php echo $shopItem['name'] ?></h3>
     </div>
 
@@ -16,7 +16,7 @@ $shopItem = ( $jr_safeArray['pgType'] == 'CategorySS' || $jr_safeArray['ss'] ) ?
     <span class="ss-length btn-red"><h4>Length: </h4><h2><?php echo $shopItem['width'] ?></h2></span>
     <?php endif ?>
 
-    <div>
+    <div class="shop-tile-header">
       <em class="greater"><?php echo $shopItem['price'] ?></em>
       <br>
       <?php echo $shopItem['rhc'] ?>

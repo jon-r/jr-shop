@@ -17,8 +17,8 @@ function jr_siteImg($fileName) {
 }
 // turns a title into an array of [Name, URL]
 function jr_titleToUrl($in) {
-  $out[Name] = $in;
-  $out[RefName] = sanitize_title($in);
+  $out['Name'] = $in;
+  $out['RefName'] = sanitize_title($in);
   return $out;
 }
 // turns url string into a proper title.

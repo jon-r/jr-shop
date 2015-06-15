@@ -50,6 +50,7 @@ function jr_styleCarousel($in) {
 function jr_magicRoundabout($slideIn) {
   $out = [
     'title'   => $slideIn['Title'],
+    'titleCol'=> jr_styleCarousel($slideIn['TitleColour']),
     'titlePos'=> jr_positionCarousel($slideIn['TitlePos']),
     'text1'   => $slideIn['Description'] != "0" ? $slideIn['Description'] : null,
     'text2'   => $slideIn['Desc2'] != "0" ? $slideIn['Desc2'] : null,

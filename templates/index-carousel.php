@@ -13,7 +13,7 @@ $carouselCount = count($carouselList);
     <li class="slide<?php echo $i == 0 ? ' is-active' : null ?>" >
       <a href="<?php echo $slide['link']; ?>">
         <img class="" src="<?php echo $slide['image']; ?>" alt="<?php echo $slide['title']; ?>" >
-        <h2 class="slider-title <?php echo $slide['titlePos']; ?>"><?php echo $slide['title']; ?></h2>
+        <h2 class="slider-title <?php echo $slide['titlePos'].' '.$slide['titleCol']; ?>"><?php echo $slide['title']; ?></h2>
 
         <div class="slider-text <?php echo $slide['textPos']; ?>">
           <span class="<?php echo $slide['style1']; ?>"><?php echo $slide['text1']; ?></span>
@@ -21,7 +21,7 @@ $carouselCount = count($carouselList);
           <span class="<?php echo $slide['style3']; ?>"><?php echo $slide['text3']; ?></span>
         </div>
 
-        <h3 class="slider-link <?php echo $slide['linkPos']; ?>">Click Here</h3>
+        <h3 class="slider-link <?php echo $slide['linkPos'].' '.$slide['linkCol']; ?>">Click Here</h3>
       </a>
     </li>
 

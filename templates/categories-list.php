@@ -25,7 +25,7 @@ if ($jr_safeArray['group'] == 'all') {
 ?>
   <section class="shop-tile category flex-4">
     <a href="<?php echo $link ?>" >
-      <div><h3><?php echo $category['Name'] ?></h3></div>
+      <div class="shop-tile-header"><h2><?php echo $category['Name'] ?></h2></div>
       <img src="<?php echo site_url($imgUrl) ?>" />
     </a>
   </section>
