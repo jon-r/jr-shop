@@ -124,7 +124,8 @@ function jr_itemComplile($ref,$detail) {
       'price'     => $priceCheck ,
       'width'     => $ref['TableinFeet'].'ft',
       'quantity'  => $ref['Quantity'] > 1 ? $ref['Quantity'].' in Stock' : null,
-      'info'      => $ref['Quantity'] == 0 ? sold : null
+      'info'      => $ref['Quantity'] == 0 ? sold : null,
+      'icon'      => null
     ];
     break;
 

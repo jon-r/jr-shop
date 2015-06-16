@@ -11,6 +11,11 @@
     <p class="text-icon-left phone"><?php echo jr_linkTo('phone') ?></p>
     <p class="text-icon-left email"><?php echo jr_linkTo('eLink') ?></p>
 
+    <p>Mondays-Fridays: <?php echo jr_openingTimes('weekday'); ?><br>
+    Saturdays: <?php echo jr_openingTimes('saturday'); ?></p>
+    <br>
+    <em>Closed on Public UK Holidays</em>
+
     <header>
       <h2>Find us online</h2>
     </header>

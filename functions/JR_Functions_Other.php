@@ -165,9 +165,11 @@ function jr_pageCrumbles ($safeArr) {
     if ($safeArr['pgType'] == 'Item') {
       $crumbs[1] = [$safeArr['cat'] => site_url('/products/'.sanitize_title($safeArr['cat']))];
       $crumbs[2] = [$safeArr['pgName'] => jr_getUrl()];
-    } else {
-      $crumbs[1] = [get_the_title() => jr_pgSet()];
+    } elseif (isset($safeArr['pgTitle'])) {
+      $crumbs[1] = [$safeArr['pgTitle'] => jr_pgSet()];
       //page set instead of getURL to reset to page1 on paginated output
+    } else {
+      $crumbs[1] = [get_the_title() => jr_getUrl()];
     };
   }
   return $crumbs;

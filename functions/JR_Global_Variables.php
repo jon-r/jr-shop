@@ -11,6 +11,8 @@ function jr_settings_hook() {
   return $out;
 }
 
+
+
 $jr_config = jr_settings_hook();
 
 function jr_linkTo($target) {
@@ -27,9 +29,10 @@ function jr_linkTo($target) {
     'all categories' => site_url('departments/all/'),
     'all items'      => site_url('products/all/'),
     'all brands'     => site_url('brands/'),
-    'sold items'     => site_url('/sold/'),
-    'new items'      => site_url('/new-items/'),
-    'soon items'     => site_url('/coming-soon/')
+    'sold items'     => site_url('sold/'),
+    'new items'      => site_url('new-items/'),
+    'soon items'     => site_url('coming-soon/'),
+    'arrivals'       => site_url('arrivals/')
   ];
 
   return $linkArr[$target];
@@ -54,6 +57,13 @@ function jr_categoryInfo($catType) {
   ];
   return jr_format($categoryFilterArr[$catType]);
 }
+
+function jr_openingTimes($day = 'weekday') {
+  global $jr_config;
+  return ($day == 'saturday') ? $jr_config['openingTimes_Sat'] : $jr_config['openingTimes_Week'];
+}
+
+
 //Image sizes for generated. would need to wipe gallery-thumb/gallery-tile folders if these are changed. not putting into the variable table since changing these would be part of a larger change
 function jr_imgSize($size) {
   $sizeArr = [

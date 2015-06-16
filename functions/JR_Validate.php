@@ -11,43 +11,46 @@ function jr_validate_urls($url) {
   $slashedParams = str_replace(site_url(), '', $url);
   $params = explode('/',$slashedParams);
   $out = [
-    'pgName' => null, 'pgType' => null,
+    'pgName' => null, 'pgType' => null, 'pgTitle' => null,
     'group' => null, 'cat' => null,
     'description' => null, 'saleNum' => null,
     'brand' => null, 'rhc' => null, 'ss' => null
   ];
 
   if ($params[1] == '') {
-    $out['pgName'] = $out['pgType'] = 'Hello';
-
+    $out['pgName'] = $out['pgType'] = 'Home';
+    $out['pgTitle'] = 'Hello';
   } elseif ($params[1]  == 'departments') {
     $out['pgType'] = 'Group';
     if ($params[2] == 'all') {
-      $out['pgName'] = 'All Categories';
       $out['group'] = 'all';
+      $out['pgTitle'] = $out['pgName'] = "Shop by Category";
     } else {
       $out['pgName'] = $out['group'] = jr_urlToTitle($params[2],'grp');
+      $out['pgTitle'] = 'Browse our '.$out['pgName'];
     }
 
   } elseif ($params[1] == 'brands') {
     $out['pgType'] = 'Group';
-    $out['pgName'] = 'Browse Brands';
     $out['group'] = 'brand';
-
+    $out['pgName'] = $out['pgTitle'] = "Shop by Brand";
   } elseif ($params[1] == 'products') {
     $out['pgName'] = $out['cat'] = jr_urlToTitle($params[2],'cat');
+    $out['pgTitle'] = 'Browse our '.$out['pgName'];
     $categoryDetails = jrQ_categoryDesc( $out['pgName'] );
     $categoryStainless = in_array($out['pgName'], jrQ_keywords('stainless'));
     $catDesc = $categoryDetails != '0' ? jr_format($categoryDetails) : null;
+
     if ($params[2] == 'all') {
       $out['pgType'] = 'All';
-      $out['pgName'] = $out['cat'] = 'All Products'; //everything
+      $out['pgTitle'] = $out['pgName'] = $out['cat'] = 'All Products'; //everything
       $out['description'] = jr_categoryInfo($out['pgType']);
     } elseif ($params[2] == 'search') {
       $out['pgType'] = 'Search';
-      $out['search'] = str_replace(' ', '|', $_GET[q]);
-      $out['pgName'] = $out['cat'] = 'Search Results for \''.$_GET[q].'\'';
+      $out['search'] = str_replace(' ', '|', $_GET['q']);
+      $out['pgTitle'] = $out['pgName'] = $out['cat'] = 'Search Results for \''.$_GET['q'].'\'';
       $out['description'] = jr_categoryInfo($out['pgType']);
+
     } elseif ($categoryStainless) {
       $out['pgType'] = 'CategorySS'; //category stainless
       $out['description'] = $catDesc;
@@ -58,29 +61,29 @@ function jr_validate_urls($url) {
 
   } elseif ($params[1] == 'arrivals') { //new in
     $out['pgType'] = 'New';
-    $out['pgName'] = 'Just In';
+    $out['pgTitle'] = $out['pgName'] = 'Just In';
     $out['description'] = jr_categoryInfo($out['pgType']);
 
   } elseif ($params[1] == 'coming-soon') { //soon
     $out['pgType'] = 'Soon';
-    $out['pgName'] = 'Coming Soon';
+    $out['pgTitle'] = $out['pgName'] = 'Coming Soon';
     $out['description'] = jr_categoryInfo($out['pgType']);
 
   } elseif ($params[1] == 'sold') { //sold
-    $out['pgName'] = $out['pgType'] = 'Sold';
+    $out['pgName'] = $out['pgTitle'] = 'Recently Sold';
+    $out['pgType'] = 'Sold';
     $out['description'] = jr_categoryInfo($out['pgType']);
 
   } elseif ($params[1] == 'special-offers') { //sale
     $out['pgType'] = 'Sale';
-    $out['pgName'] = 'Special Offers';
+    $out['pgTitle'] = $out['pgName'] = 'Special Offers';
     $out['saleNum'] = $params[2];
     $out['description'] = jr_categoryInfo($out['pgType']);
 
   } elseif ($params[1] == 'brand') { //brand
     $out['pgType'] = 'Brand';
     $out['brand'] =  jr_urlToTitle($params[2],'brand');
-    $out['pgName'] = 'Products from '.$out['brand'];
-
+    $out['pgTitle'] = $out['pgName'] = 'Products from '.$out['brand'];
   } elseif ($params[1] == 'rhc') { //product
     if (jrQ_rhc($params[2])) {
       $getItem = jrQ_titles($params[2]);
@@ -88,6 +91,7 @@ function jr_validate_urls($url) {
       $out['pgName'] = $getItem['ProductName'];
       $out['cat'] = $getItem['Category'];
       $out['ss'] = false;
+      $out['pgTitle'] = 'RHC'.$out['rhc'].' - '.$out['pgName'];
     } else {
       $out['rhc'] = 'Not Found';
     }
@@ -100,6 +104,7 @@ function jr_validate_urls($url) {
       $out['ss'] = true;
       $out['pgName'] = $getItem['ProductName'];
       $out['cat'] = $getItem['Category'];
+      $out['pgTitle'] = 'RHCs'.$out['rhc'].' - '.$out['pgName'];
     } else {
       $out['rhc'] = 'Not Found';
     }

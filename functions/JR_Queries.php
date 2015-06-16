@@ -119,11 +119,11 @@ function jrQ_iremsRelated($safeArr) {
   if ($safeArr['ss']) {
     $arr['pgType'] = 'CategorySS';
     $query = jrQ_itemString($arr);
-    $queryRand = str_replace('ORDER BY `RHCs` DESC', 'AND (`RHCs` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
+    $queryRand = str_replace('ORDER BY `DateLive` DESC, `RHCs` DESC', 'AND (`RHCs` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
   } else {
     $arr['pgType'] = 'Category';
     $query = jrQ_itemString($arr);
-    $queryRand = str_replace('ORDER BY `RHC` DESC', 'AND (`RHC` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
+    $queryRand = str_replace('ORDER BY `DateLive` DESC, `RHC` DESC', 'AND (`RHC` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
   }
   $out = $wpdb->get_results(
     $wpdb->prepare($queryRand['str'], $queryRand['placeholders']),
