@@ -191,7 +191,9 @@ function jr_pgSet ($pgSet = null, $pgCap = 1) {
     unset($arrParams['pg']);
   }
   $urlQueries = http_build_query($arrParams);
-  return $url.'?'.$urlQueries;
+  $out = $url;
+  $out .= !empty($urlQueries) ? '?'.$urlQueries : null;
+  return $out;
 }
 // gets the current page, taking into account no pg value = 1
 function jr_isPg($pgNum) {
