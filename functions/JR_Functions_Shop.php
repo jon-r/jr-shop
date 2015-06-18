@@ -1,20 +1,57 @@
 <?php
 //output functions
 //this is where the shop database is processed into content
+
+//filtered categories
+function jr_categoryFilter() {
+  $getCategory = jrQ_categories();
+  foreach ($getCategory as $c) {
+    $out[$c['CategoryGroup']][] =  $c;
+  }
+  return $out;
+}
 //list of brands from what we have pictures of
 function jr_featuredBrands() {
-  $jrGetBrands = jrQ_brandUnique();
-  foreach ($jrGetBrands as $brand) {
+  $brandsAll = jrQ_brands();
+  $brandsUnique = array_unique($brandsAll);
+  $brandsListed = jr_get_multiple($brandsAll);
+
+
+  foreach ($brandsListed as $brand) {
     $url = sanitize_title($brand);
     $img = jr_siteImg('brands/square/'.$url.'.jpg');
     if (file_exists($img)) {
-      $out[$brand] = [
+      $brandsImages[$brand] = [
         'Name'    => $brand,
         'RefName' => $url
       ];
     }
   }
+
+  $brandsUnlisted = array_diff($brandsUnique, array_keys($brandsImages));
+
+  foreach ($brandsUnlisted as $brand) {
+    $url = sanitize_title($brand);
+    $brandsText[$brand] = [
+      'Name'    => $brand,
+      'RefName' => $url
+    ];
+  }
+
+  $out = [
+    'images'  => $brandsImages,
+    'text'    => $brandsText
+  ];
+
   return $out;
+}
+//only want to show an icon when more than one from that brand
+function jr_get_multiple($arrIn) {
+  $arrCount = array_count_values($arrIn);
+  $arrMultiple = array_filter($arrCount,function($k) {
+    return($k > 1);
+  });
+  return array_keys($arrMultiple);
 }
 // ---------------------- carousel compiler --------------------------------------
 // converts the database carousel to a web one
@@ -93,7 +130,7 @@ function jr_itemsList($safeArr,$pageNumber) {
 }
 // ----------------------array compiler--------------------------------------------------
 // Converts the raw querys into useful blocks of text
-function jr_itemComplile($ref,$detail) {
+function jr_itemComplile($ref,$detail,$newCheck = []) {
   $out1 = $out2 = [];
   switch ($detail) {
   case 'itemSS' :
@@ -124,7 +161,7 @@ function jr_itemComplile($ref,$detail) {
       'price'     => $priceCheck ,
       'width'     => $ref['TableinFeet'].'ft',
       'quantity'  => $ref['Quantity'] > 1 ? $ref['Quantity'].' in Stock' : null,
-      'info'      => $ref['Quantity'] == 0 ? sold : null,
+      'info'      => $ref['Quantity'] == 0 ? 'sold' : null,
       'icon'      => null
     ];
     break;
@@ -195,7 +232,7 @@ function jr_itemComplile($ref,$detail) {
       $infoCheck = "sale";
     } elseif ($ref['Quantity'] == 0) {
       $infoCheck = "sold";
-    } elseif (in_array($ref['RHC'], jrQ_itemsNew())) {
+    } elseif (in_array($ref['RHC'], $newCheck)) {
       $infoCheck = "new";
     } else {
       $infoCheck = null;

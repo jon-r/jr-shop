@@ -1,7 +1,9 @@
 <?php
-$shopItem = ( $jr_safeArray['pgType'] == 'CategorySS' || $jr_safeArray['ss'] ) ?
-  jr_itemComplile($item, 'listSS') :
-  jr_itemComplile($item, 'list');
+if ( $jr_safeArray['pgType'] == 'CategorySS' ) {
+  $shopItem = jr_itemComplile($item, 'listSS');
+} else {
+  $shopItem = jr_itemComplile($item, 'list', $itemsNew);
+}
 ?>
 <section class="shop-tile item btn-icon flex-4 <?php echo trim($shopItem['info'].' '.$shopItem['icon']); ?>">
 

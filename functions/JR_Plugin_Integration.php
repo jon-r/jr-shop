@@ -78,10 +78,6 @@ add_shortcode("jr-custom-input", "jr_getSubject");
 //unqueueing custom CSS
 function jr_dequeue_wpcf7() {
   wp_dequeue_style('contact-form-7');
-  wp_deregister_script( 'jquery-form' );
-  wp_register_script( 'jquery-form',
-    'https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js',
-    array( 'jquery' ), '3.51', true );
 }
 add_action( 'wp_enqueue_scripts', 'jr_dequeue_wpcf7', 11 );
 

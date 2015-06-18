@@ -2,7 +2,9 @@
 if ($jr_safeArray['group'] == 'all') {
   $filteredCategories = jrQ_categories();
 } elseif ($jr_safeArray['group'] == 'brand') {
-  $filteredCategories = jr_featuredBrands();
+  $brands = jrCached_Brands();
+  $filteredCategories = $brands['images'];
+  $otherBrands = $brands['text'];
 } else {
   $filteredCategories = $jr_groupArray[$jr_safeArray['group']];
 }
@@ -40,10 +42,9 @@ if ($jr_safeArray['group'] == 'all') {
     <h1>Other Brands</h1>
   </header>
 
-  <?php $otherBrands = array_diff(jrQ_brandUnique(), array_keys($filteredCategories)) ?>
-  <?php foreach ($otherBrands as $brand) : if ($brand != '0' && $brand != null) : ?>
-  <a href="<?php echo site_url('/brand/'.sanitize_title($brand)); ?>">
-    <?php echo $brand; ?>
+  <?php foreach ($otherBrands as $brand) : if ($brand['Name'] != '0' && $brand['Name'] != null) : ?>
+  <a href="<?php echo site_url('/brand/'.$brand['RefName']); ?>">
+    <?php echo $brand['Name']; ?>
   </a>
   <?php endif; endforeach; ?>
 </article>

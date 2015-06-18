@@ -22,7 +22,7 @@ function jr_titleToUrl($in) {
   return $out;
 }
 // turns url string into a proper title.
-//only woeks on category, brand, group, as there are databased
+//only works on category, brand, group, as they are databased
 function jr_urlToTitle($url,$type) {
   global $jr_getGroup;
   $out = "Not Found";

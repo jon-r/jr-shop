@@ -2,6 +2,7 @@
 global $itemCountMin;
 $pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
+$itemsNew = jrQ_ItemsNew();
 ?>
 
 <article class="flex-container">

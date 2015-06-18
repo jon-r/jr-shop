@@ -12,8 +12,8 @@ function jr_settings_hook() {
 }
 
 
-
-$jr_config = jr_settings_hook();
+//settings are cached
+$jr_config = jrCached_Settings();
 
 function jr_linkTo($target) {
   global $jr_config;

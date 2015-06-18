@@ -7,10 +7,27 @@ function jrQ_settings() {
   return $wpdb->get_results($queryStr, ARRAY_A);
 }
 /*Validate querys ---------------------------------------------------------------------*/
+function jrQ_brands() {
+  global $wpdb;
+  $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0 ORDER BY `Brand` ASC";
+  return $wpdb->get_col($queryStr);
+}
 function jrQ_brandUnique() {
   global $wpdb;
   $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0 ORDER BY `Brand` ASC";
   return array_unique($wpdb->get_col($queryStr));
+}
+function jrQ_brandMultiples() {
+  global $wpdb;
+  $queryStr = "SELECT `Brand` FROM `networked db` WHERE `Quantity` > 0 ORDER BY `Brand` ASC";
+  $brandCount = array_count_values($wpdb->get_col($queryStr));
+  $brandMultiple = array_filter($brandCount,function($k) {
+    return($k > 1);
+  });
+  return $brandMultiple;
+}
+function isMultiple($var) {
+  return($var > 1);
 }
 function jrQ_categoryColumn() {
   global $wpdb;

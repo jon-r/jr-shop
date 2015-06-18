@@ -4,11 +4,13 @@ if ($jr_safeArray['ss']) {
   $shop_item = jr_itemComplile($item,'itemSS');
 } else {
   $item = jrQ_item($jr_safeArray['rhc']);
-  $shop_item = jr_itemComplile($item,'item');
+  $itemsNew = jrQ_ItemsNew();
+  $shop_item = jr_itemComplile($item,'item', $itemsNew);
 }
 ?>
 
 <article class="flex-column">
+  <?php var_dump($itemsNew) ?>
 
   <section class="white-block flex-1">
     <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
