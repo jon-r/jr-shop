@@ -10,7 +10,6 @@ if ($jr_safeArray['ss']) {
 ?>
 
 <article class="flex-column">
-  <?php var_dump($itemsNew) ?>
 
   <section class="white-block flex-1">
     <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
