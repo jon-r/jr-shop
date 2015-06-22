@@ -1,4 +1,11 @@
 <?php /* list of groups on front page */ ?>
+<?php
+/*$c = jrCached_HtmlInit(__FILE__);
+if  :
+  readfile($c['file']);
+else : ob_start(); */
+?>
+
 <article class="flex-container">
   <header class="article-header flex-1" >
     <h1>Catering Equipment For Sale</h1>
@@ -27,3 +34,8 @@
 
 <?php endforeach ?>
 </article>
+
+<?php
+/*jrCached_HtmlEnd(__FILE__);
+endif;*/
+?>

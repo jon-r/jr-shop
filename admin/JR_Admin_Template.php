@@ -27,8 +27,12 @@
     </article>
 
     <article class="panel warn">
+      <?php $cacheDir = scandir("../cached-files/") ?>
+      <?php $listTransients = jrA_getTransients();
       <div class="panel-head">Cache Reset</div>
-      <div class="panel-body">coming soon</div>
+      <div class="panel-body">
+
+      </div>
     </article>
 
     <article class="panel error">

@@ -112,7 +112,7 @@ function jrQ_itemsSold($safeArr, $itemsOnPage) {
     $soldCount = 8 - ($itemsOnPage % 8);
     $query = jrQ_itemString($safeArr);
 
-    $querySoldOn = str_replace(['`Quantity` > 0','ORDER BY `RHC`'],
+    $querySoldOn = str_replace(['`Quantity` > 0','ORDER BY `DateLive` DESC, `RHC` DESC'],
                                ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE()','ORDER BY `DateSold`'], $query['str']);
     $queryLimiter = " LIMIT $soldCount";
     $queryFull = $querySoldOn.$queryLimiter;

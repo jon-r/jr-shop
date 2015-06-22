@@ -105,7 +105,7 @@ function jr_modules($atts) {
   $a = shortcode_atts([
     'id' => '404'
   ], $atts);
-  $file = 'wp-content/plugins/jr-shop/templates/'.$atts['id'].'.php';
+  $file = 'wp-content/plugins/jr-shop/includes/'.$atts['id'].'.php';
 
   if (file_exists($file)) {
     include($file);
