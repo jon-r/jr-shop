@@ -25,12 +25,20 @@
       <?php $listPageCache = jrA_getHTMLCache() ?>
       <?php $listTransients = jrA_getTransients(); ?>
       <div class="panel-head">Cache Reset</div>
-      <div class="panel-body">
-        <b>Database Cache: </b><?php echo $listTransients['count'] ?> querys cached.
-        <input id="js-clearTransients" type="submit" class="btn info" value="Clear Database Cache" >
+      <div class="panel-body row">
+        <div class="box col-6">
+          <b>Database Cache: </b><?php echo $listTransients ?> querys cached.
+          <hr>
+          <b>Page Cache: </b><?php echo $listPageCache ?> page elements cached.
 
-        <b>Page Cache: </b><?php echo $listPageCache['count'] ?> page elements cached.
-        <input id="js-clearHTML" type="submit" class="btn info" value="Clear Page Cache" >
+        </div>
+        <div class="box col-6">
+          <input id="js-clearCache" type="submit" class="btn info" value="Clear Cache" >
+
+          <div id="js-output-cache" class="has-loader">
+          <p>Use this to update any change to page options, carousel, categories. Basically everything that isnt on the products page is cached.</p>
+          </div>
+        </div>
       </div>
     </article>
 

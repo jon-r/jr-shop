@@ -21,25 +21,45 @@ function rhc_init(){
 
 function jrA_getTransients() {
   $transientList = jrQA_transients();
-  $out['count'] = count($transientList);
-  foreach ($transientList as $t) {
-    $out['name'][] = strtok($t, '');
-    //to fix
-  }
+  $out = count($transientList);
   return $out;
 }
 
 function jrA_getHTMLCache() {
   $htmlFiles = scandir("../cached-files/");
   $filteredFiles = array_diff($htmlFiles, ['..', '.']);
-  $out['count'] = count($filteredFiles);
-  foreach ($filteredFiles as $f) {
-    $out['name'][] = str_replace('-cached.html','',$f);
-    //to fix
-  }
+  $out = count($filteredFiles);
 
   return $out;
 }
+
+function jrA_clearCache() {
+  $transientList = jrQA_transients();
+  $htmlFiles = scandir("../cached-files/");
+  $filteredFiles = array_diff($htmlFiles, ['..', '.']);
+
+  foreach ($transientList as $t) {
+    $name = str_replace('_transient_','',$t);
+    delete_transient($name);
+  }
+  $count1 = count($transientList);
+
+  foreach($filteredFiles as $file) {
+    $fireDir = "../cached-files/$file";
+    if (file_exists($fireDir )) {
+      unlink($fireDir );
+    }
+  }
+
+  $count2 = count($filteredFiles);
+
+  $out['count'] = $count1 + $count2;
+
+  echo json_encode($out);
+  wp_die();
+}
+
+add_action('wp_ajax_jra_clearcache', 'jrA_clearCache');
 
 /*------------ File Cleanup ---------------------------------------------------------- */
 //gets everything in the file, and compared to what *should* be there

@@ -86,3 +86,24 @@ function listSpecific(data) {
   }
   $outputSpecific.append(output);
 }
+
+/* ----------- cleanup 2 ------------------------------------------------------------ */
+//clearing caches
+var $btnClearCache = $('#js-clearCache'),
+    $outputCache = $('#js-output-cache');
+
+
+$btnClearCache.click(function() {
+  $outputCache.html( '' );
+  $.get(fileSrc.ajaxAdmin, {
+    action: "jra_clearcache"
+  }, listSpecific);
+});
+
+function listSpecific(data) {
+  var results = $.parseJSON(data);
+
+  var output = results.count + 'cached items Removed';
+
+  $outputCache.html( output );
+}
