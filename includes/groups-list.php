@@ -1,9 +1,6 @@
 <?php /* list of groups on front page */ ?>
 <?php
-/*$c = jrCached_HtmlInit(__FILE__);
-if  :
-  readfile($c['file']);
-else : ob_start(); */
+$jr_groupArray = jrCached_Categories();
 ?>
 
 <article class="flex-container">

@@ -6,7 +6,8 @@ if ($jr_safeArray['group'] == 'all') {
   $filteredCategories = $brands['images'];
   $otherBrands = $brands['text'];
 } else {
-  $filteredCategories = $jr_groupArray[$jr_safeArray['group']];
+  $allCategories = jrCached_Categories();
+  $filteredCategories = $allCategories[$jr_safeArray['group']];
 }
 ?>
 

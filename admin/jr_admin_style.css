@@ -1,5 +1,11 @@
 /* this css isnt made as cleanly as the main site, and serves more as a "getting things done". Dont judge */
-.image-fix img {
+
+.panel-images {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.panel-image-fix img {
   box-sizing: border-box;
   margin-bottom: 5px;
   border: solid

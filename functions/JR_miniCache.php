@@ -52,30 +52,4 @@ function jrCached_Brands() {
     return $results;
   }
 }
-/*Caching page content as html*/
-add_shortcode("cacheMe", "jrCacheContents");
-
-function jrCacheContents($atts, $content = null) {
-  $a = shortcode_atts([
-    'name' => null,
-  ], $atts);
-  $cachefile = 'cached-files/'.$a['name'].'-cached.html';
-  $cachetime = 604800;
-
-  if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
-    readfile($cachefile);
-
-  } else {
-    ob_start();
-
-    echo do_shortcode($content);
-    echo '<!-- Page '.$a['name'].' cached on '.date(DATE_COOKIE).' -->';
-
-    $fp = fopen($cachefile, 'w');
-    fwrite($fp, ob_get_contents());
-    fclose($fp);
-    ob_end_flush();
-  }
-}
-
 ?>

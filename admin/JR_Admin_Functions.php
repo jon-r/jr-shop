@@ -10,13 +10,38 @@ function rhc_getScripts() {
     wp_localize_script( 'jr_admin_script', 'fileSrc', ['ajaxAdmin' => admin_url( 'admin-ajax.php' )]);
   }
 }
-function rhc_setup_menu(){
+function rhc_setup_menu() {
   add_menu_page( 'Red Hot Chilli Maintenance', 'RHC Maintenance', 'manage_options', 'rhc-maintenance', 'rhc_init' );
 }
 function rhc_init(){
   include('JR_Admin_Template.php');
 }
-/*------------ File Cleanup --------------------------------------------------------- */
+/* ----------- Cache Cleanup ----------------------------------------------------------*/
+//finds and  manually resets any transients or html cached pages
+
+function jrA_getTransients() {
+  $transientList = jrQA_transients();
+  $out['count'] = count($transientList);
+  foreach ($transientList as $t) {
+    $out['name'][] = strtok($t, '');
+    //to fix
+  }
+  return $out;
+}
+
+function jrA_getHTMLCache() {
+  $htmlFiles = scandir("../cached-files/");
+  $filteredFiles = array_diff($htmlFiles, ['..', '.']);
+  $out['count'] = count($filteredFiles);
+  foreach ($filteredFiles as $f) {
+    $out['name'][] = str_replace('-cached.html','',$f);
+    //to fix
+  }
+
+  return $out;
+}
+
+/*------------ File Cleanup ---------------------------------------------------------- */
 //gets everything in the file, and compared to what *should* be there
 function jrA_ImageSearch($folder) {
   $deadPics = $deadTiles = $deadThumbs = array();

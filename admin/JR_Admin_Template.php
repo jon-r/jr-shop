@@ -2,7 +2,7 @@
   <h1>Admin for JR-Shop</h1>
   <section class="box col-4">
 
-    <article class="panel success">
+    <article class="panel success panel-images">
       <?php $imgDir = getDirectorySize("../images/"); ?>
       <div class="panel-head">FIle Cleanup</div>
       <div class="panel-body">
@@ -21,17 +21,16 @@
 
   <section class="box col-8">
 
-    <article class="panel info">
-      <div class="panel-head">Contact Details</div>
-      <div class="panel-body">coming soon</div>
-    </article>
-
-    <article class="panel warn">
-      <?php $cacheDir = scandir("../cached-files/") ?>
-      <?php $listTransients = jrA_getTransients();
+    <article class="panel info panel-cache">
+      <?php $listPageCache = jrA_getHTMLCache() ?>
+      <?php $listTransients = jrA_getTransients(); ?>
       <div class="panel-head">Cache Reset</div>
       <div class="panel-body">
+        <b>Database Cache: </b><?php echo $listTransients['count'] ?> querys cached.
+        <input id="js-clearTransients" type="submit" class="btn info" value="Clear Database Cache" >
 
+        <b>Page Cache: </b><?php echo $listPageCache['count'] ?> page elements cached.
+        <input id="js-clearHTML" type="submit" class="btn info" value="Clear Page Cache" >
       </div>
     </article>
 
@@ -44,12 +43,12 @@
 
   <section class="box col-12">
 
-    <article class="panel success image-fix">
+    <article class="panel warn panel-image-fix">
       <div class="panel-head">Image Fix</div>
       <div class="panel-body">
         <b>Item Ref:</b>
         <input type="text" id="js-specific-ref" placeholder="RHC### / RHCS###">
-        <input type="submit" id="js-targetted-removal" class="btn success" value="Manual Update">
+        <input type="submit" id="js-targetted-removal" class="btn warn" value="Manual Update">
         <br>
         <div id="js-output-specific" class="has-loader">
           <p>Use this to force update any misbehaving images. If this doesnt work, make sure all images are correctly named and organised before hitting the database 'sync' button</p>

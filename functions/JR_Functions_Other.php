@@ -24,7 +24,7 @@ function jr_titleToUrl($in) {
 // turns url string into a proper title.
 //only works on category, brand, group, as they are databased
 function jr_urlToTitle($url,$type) {
-  global $jr_getGroup;
+  $getGroup = jrCached_Groups();
   $out = "Not Found";
   $getCategoryColumn = jrQ_categoryColumn();
 
@@ -36,10 +36,11 @@ function jr_urlToTitle($url,$type) {
       $out = array_search($url, $cats);
     }
   } elseif ($type == 'grp') {
-    $grpUrls = array_map('sanitize_title', $jr_getGroup);
+
+    $grpUrls = array_map('sanitize_title', $getGroup);
 
     if (in_array($url,$grpUrls)) {
-      $grps = array_combine($jr_getGroup, $grpUrls);
+      $grps = array_combine($getGroup, $grpUrls);
       $out = array_search($url, $grps);
     }
   } elseif ($type == 'brand') {
@@ -101,13 +102,32 @@ add_action('wp_ajax_nopriv_jr_resize', 'jr_resizeAjax');
 add_shortcode("jr-shop", "jr_modules");
 
 function jr_modules($atts) {
-  global $jr_groupArray, $jr_safeArray;
+   global $jr_safeArray;
   $a = shortcode_atts([
-    'id' => '404'
+    'id' => '404',
+    'cached'=> false
   ], $atts);
-  $file = 'wp-content/plugins/jr-shop/includes/'.$atts['id'].'.php';
+  $file = 'wp-content/plugins/jr-shop/includes/'.$a['id'].'.php';
+  if (file_exists($file) && $a['cached']) {
 
-  if (file_exists($file)) {
+    $cachefile = 'cached-files/'.$a['id'].'-cached.html';
+    $cachetime = 604800;
+
+    if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
+
+      readfile($cachefile);
+
+    } else {
+      ob_start();
+      include($file);
+      echo '<!-- Page '.$a['id'].' cached on '.date(DATE_COOKIE).' -->';
+      $fp = fopen($cachefile, 'w');
+      fwrite($fp, ob_get_contents());
+      fclose($fp);
+      ob_end_flush();
+    }
+
+  } elseif (file_exists($file)) {
     include($file);
   } else {
     echo "[check $file]";

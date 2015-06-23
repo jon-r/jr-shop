@@ -264,4 +264,9 @@ function jrA_addRHC($in) {
 function jrA_addRHCs($in) {
   return 'RHCs'.$in;
 }
+function jrQA_transients() {
+  global $wpdb;
+  $query = "SELECT `option_name` FROM $wpdb->options WHERE `option_name` LIKE '%transient_jr_t%' ORDER BY `option_name`";
+  return $wpdb->get_col( $query );
+}
 ?>
