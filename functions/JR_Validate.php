@@ -1,4 +1,11 @@
 <?php
+/* this is the first point of action. gets the baseline validateion/variables used on every page.
+this stuff is on everypage (in the main menu at very least), so called straight away.
+*/
+global $jr_safeArr;
+$jr_safeArray = jr_validate_urls(jr_getUrl());
+
+
 /* SECURITY:
   > Since the Back-End is Based on in house PCs, theres a fairly limited amount that the customer can access.
   > no personal details are to be keeped on internet databases

@@ -29,6 +29,7 @@ function jrCached_Categories() {
     return $results;
   }
 }
+
 function jrCached_Groups() {
   $transient = get_transient('jr_t_groups');
 
@@ -37,6 +38,18 @@ function jrCached_Groups() {
   } else {
     $results = jrQ_keywords('group');
     set_transient('jr_t_groups', $results, WEEK_IN_SECONDS);
+    return $results;
+  }
+}
+
+function jrCached_Category_Column() {
+  $transient = get_transient('jr_t_catcols');
+
+  if( !empty($transient)) {
+    return $transient;
+  } else {
+    $results = jrQ_categoryColumn();
+    set_transient('jr_t_catcols', $results, WEEK_IN_SECONDS);
     return $results;
   }
 }
