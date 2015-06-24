@@ -22,7 +22,7 @@ function jr_format($in) {
     jr_linkTo('eLink')
   ];
   // categories taken from DB
-  $getCats = jrCached_Category_Column();
+  $getCats = jrCached_Category_Names();
 
   foreach ($getCats as $cat) {
     $findCat[] = '[category:'.$cat.']';

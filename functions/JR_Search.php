@@ -38,11 +38,12 @@ function jr_autoComplete() {
   $filteredBrand = array_filter(jrQ_brandUnique(), function($var) {
     return (stripos($var, $_GET['keyword']) !== false);
   });
-  $filteredCat = array_filter(jrQ_categoryColumn(), function($var) {
-    return (stripos($var, $_GET['keyword']) !== false);
+  $getCats = jrQ_categories();
+  $filteredCat = array_filter($getCats, function($var) {
+    return (stripos($var['Name'], $_GET['keyword']) !== false);
   });
   $listBrands = array_map('jr_addBrand', $filteredBrand);
-  $listCats = array_map('jr_addCategory', $filteredCat);
+  $listCats = array_map('jr_addCategory', $filteredCat['Name']);
   $listFull = array_merge($listCats, $listBrands);
 
   echo json_encode($listFull);

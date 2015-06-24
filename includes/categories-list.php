@@ -1,12 +1,12 @@
 <?php
 if ($jr_safeArray['group'] == 'all') {
-  $filteredCategories = jrQ_categories();
+  $filteredCategories = jrCached_Category_Names();
 } elseif ($jr_safeArray['group'] == 'brand') {
   $brands = jrCached_Brands();
   $filteredCategories = $brands['images'];
   $otherBrands = $brands['text'];
 } else {
-  $allCategories = jrCached_Categories();
+  $allCategories = jrCached_Categories_Sorted();
   $filteredCategories = $allCategories[$jr_safeArray['group']];
 }
 ?>
@@ -21,7 +21,7 @@ if ($jr_safeArray['group'] == 'all') {
     $link = site_url('/brand/'.$category['RefName']);
     $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
   } else {
-    $category = jr_titleToUrl($category['Name']);
+    $category = jr_titleToUrl($category);
     $link = site_url('/products/'.$category['RefName']);
     $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
   }

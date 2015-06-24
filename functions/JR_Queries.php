@@ -29,9 +29,9 @@ function jrQ_brandMultiples() {
 function isMultiple($var) {
   return($var > 1);
 }
-function jrQ_categoryColumn() {
+function jrQ_categoryNames() {
   global $wpdb;
-  $queryStr = "SELECT `name` FROM `rhc_categories`";
+  $queryStr = "SELECT `name` FROM `rhc_categories` WHERE `ShowMe` = 1";
   return array_unique($wpdb->get_col($queryStr));
 }
 function jrQ_rhc($rhc) {

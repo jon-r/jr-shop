@@ -18,14 +18,26 @@ function jrCached_Settings() {
 }
 
 /* setting transients of some of the most common querys. */
-function jrCached_Categories() {
+function jrCached_Category_Names() {
   $transient = get_transient('jr_t_categories');
 
   if( !empty($transient)) {
     return $transient;
   } else {
-    $results = jr_categoryFilter();
+    $results = jrQ_categoryNames();
     set_transient('jr_t_categories', $results, WEEK_IN_SECONDS);
+    return $results;
+  }
+}
+
+function jrCached_Categories_Sorted() {
+  $transient = get_transient('jr_t_categories_sorted');
+
+  if( !empty($transient)) {
+    return $transient;
+  } else {
+    $results = jr_categoryFilter();
+    set_transient('jr_t_categories_sorted', $results, WEEK_IN_SECONDS);
     return $results;
   }
 }
@@ -38,18 +50,6 @@ function jrCached_Groups() {
   } else {
     $results = jrQ_keywords('group');
     set_transient('jr_t_groups', $results, WEEK_IN_SECONDS);
-    return $results;
-  }
-}
-
-function jrCached_Category_Column() {
-  $transient = get_transient('jr_t_catcols');
-
-  if( !empty($transient)) {
-    return $transient;
-  } else {
-    $results = jrQ_categoryColumn();
-    set_transient('jr_t_catcols', $results, WEEK_IN_SECONDS);
     return $results;
   }
 }

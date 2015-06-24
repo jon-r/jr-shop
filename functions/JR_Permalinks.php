@@ -58,13 +58,13 @@ function jr_titleToUrl($in) {
 function jr_urlToTitle($url,$type) {
   $getGroup = jrCached_Groups();
   $out = "Not Found";
-  $getCategoryColumn = jrCached_Category_Column();
+  $getCategory = jrCached_Category_Names();
 
   if ($type == 'cat') {
-    $catUrls = array_map('sanitize_title', $getCategoryColumn);
+    $catUrls = array_map('sanitize_title', $getCategory);
 
     if (in_array($url,$catUrls)) {
-      $cats = array_combine($getCategoryColumn, $catUrls);
+      $cats = array_combine($getCategory, $catUrls);
       $out = array_search($url, $cats);
     }
   } elseif ($type == 'grp') {

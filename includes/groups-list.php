@@ -1,6 +1,6 @@
 <?php /* list of groups on front page */ ?>
 <?php
-$jr_groupArray = jrCached_Categories();
+$jr_groupArray = jrCached_Categories_Sorted();
 ?>
 
 <article class="flex-container">
@@ -22,9 +22,9 @@ $jr_groupArray = jrCached_Categories();
     </a>
     <ul class="flex-container">
       <?php foreach ($grpList as $category) :
-          $link = site_url('/products/'.sanitize_title($category['Name']));
+          $link = site_url('/products/'.sanitize_title($category));
       ?>
-      <li><a href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a></li>
+      <li><a href="<?php echo $link ?>" ><?php echo $category ?></a></li>
       <?php endforeach ?>
     </ul>
   </section>

@@ -1,4 +1,5 @@
 <main class="row">
+
   <h1>Admin for JR-Shop</h1>
   <section class="box col-4">
 
@@ -71,4 +72,5 @@
     </article>
 
   </section>
+
 </main>
