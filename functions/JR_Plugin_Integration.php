@@ -21,7 +21,7 @@ add_action( 'init', 'disable_wp_emojicons' );
 //fix title for custom shop pages
 function jr_wp_title($title, $sep)  {
   global $jr_safeArray;
-  $t = $jr_safeArray['pgTitle'];
+  $t = $jr_safeArray['title'];
 
   if (is_null($t)) {
     return $title;
@@ -64,7 +64,7 @@ function jr_getSubject($atts) {
   $a = shortcode_atts([
     'name' => 'form-custom',
     'class' => '',
-    'default' => 'pgTitle'
+    'default' => 'pgRef'
   ], $atts);
 
   $inputClass = 'wpcf7-form-control wpcf7-text '.$a['class'];

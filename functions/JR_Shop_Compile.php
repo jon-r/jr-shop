@@ -3,38 +3,41 @@
 // ----------------------array compiler--------------------------------------------------
 // Converts the raw querys into useful blocks of text
 function jr_itemComplile($ref,$detail,$newCheck = []) {
-  $out1 = $out2 = [];
+  $out1 = $out2 = $out3 = [];
   switch ($detail) {
   case 'itemSS' :
     $out1 = [
       'height'  => $ref['Height'] ?: null,
       'width'   => $ref['Width'] ?: null,
       'depth'   => $ref['Depth'] ?: null,
-      'hFull'   => $ref['Height'] ? "Height: ".$ref['Height']."mm / ".ceil($ref['Height'] / 25.4)." inches" : null,
-      'wFull'   => $ref['Width'] ? "Width: ".$ref['Width']."mm / ".ceil($ref['Width'] / 25.4)." inches" : null,
-      'dFull'   => $ref['Depth'] ? "Depth: ".$ref['Depth']."mm / ".ceil($ref['Depth'] / 25.4)." inches" : null,
-      'desc'    => ($ref['Line1'] != " " ? $ref['Line 1']."<br>" : null),
+      'hFull'     => $ref['Height'] ? "<b>Height</b>: ".$ref['Height']."mm / ".jr_MMtoFeet($ref['Height'])."inch" : null,
+      'wFull'     => $ref['Width'] ? "<b>Width:</b> ".$ref['Width']."mm / ".jr_MMtoFeet($ref['Width'])."inch" : null,
+      'dFull'     => $ref['Depth'] ? "<b>Depth:</b> ".$ref['Depth']."mm / ".jr_MMtoFeet($ref['Depth'])."inch" : null,
+      'desc'    => ($ref['Line1'] != " " ? $ref['Line1']."<br>" : null),
       'imgAll'  => glob('images/gallery/RHCs'.$ref['RHCs'].'*')
     ];
 
   case 'listSS':
+    $out2 = [
+      'quantity'  => $ref['Quantity'] > 1 ? $ref['Quantity'].' in Stock' : null,
+      'info'      => $ref['Quantity'] == 0 ? 'sold' : null,
+      'icon'      => null
+    ];
+  case 'tinySS':
     if ($ref['Quantity'] == 0) {
       $priceCheck = 'Sold';
     } elseif ($ref['Price']) {
       $priceCheck = "£".$ref['Price']." + VAT";
     } else {
       $priceCheck = "Price Coming Soon";
-    }
-    $out2 = [
+    };
+    $out3 = [
+      'widthFt'     => $ref['Width'] ? jr_MMtoFeet($ref['Width']) : null,
       'webLink'   => 'rhcs/'.$ref['RHCs'].'/'.sanitize_title($ref['ProductName']),
       'rhc'       => 'Ref: RHCs'.$ref['RHCs'],
       'name'      => $ref['ProductName'],
       'imgFirst'  => jr_siteImg('gallery/RHCs'.$ref['RHCs'].'.jpg'),
-      'price'     => $priceCheck ,
-      'width'     => $ref['TableinFeet'].'ft',
-      'quantity'  => $ref['Quantity'] > 1 ? $ref['Quantity'].' in Stock' : null,
-      'info'      => $ref['Quantity'] == 0 ? 'sold' : null,
-      'icon'      => null
+      'price'     => $priceCheck
     ];
     break;
 
@@ -57,14 +60,14 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       $pwrCheck = "<b>Power:</b> ".$ref['Power'];
     } else {
       $pwrCheck = null;
-    }
+    };
     $out1 = [
       'height'    => $ref['Height'] ?: null,
       'width'     => $ref['Width'] ?: null,
       'depth'     => $ref['Depth'] ?: null,
-      'hFull'     => $ref['Height'] ? "<b>Height</b>: ".$ref['Height']."mm / ".ceil($ref['Height'] / 25.4)." inches" : null,
-      'wFull'     => $ref['Width'] ? "<b>Width:</b> ".$ref['Width']."mm / ".ceil($ref['Width'] / 25.4)." inches" : null,
-      'dFull'     => $ref['Depth'] ? "<b>Depth:</b> ".$ref['Depth']."mm / ".ceil($ref['Depth'] / 25.4)." inches" : null,
+      'hFull'     => $ref['Height'] ? "<b>Height</b>: ".$ref['Height']."mm / ".jr_MMtoFeet($ref['Height'])."inch" : null,
+      'wFull'     => $ref['Width'] ? "<b>Width:</b> ".$ref['Width']."mm / ".jr_MMtoFeet($ref['Width'])."inch" : null,
+      'dFull'     => $ref['Depth'] ? "<b>Depth:</b> ".$ref['Depth']."mm / ".jr_MMtoFeet($ref['Depth'])."inch" : null,
       'desc'      => ($ref['Line 1'] != "0" ? $ref['Line 1']." " : null).
                       ($ref['Line 2'] != "0" ? $ref['Line 2']." " : null).
                         ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
@@ -79,13 +82,6 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
     ];
 
   case 'list':
-    if ($ref['Quantity'] == 0) {
-      $priceCheck = '- Sold -';
-    } elseif ($ref['Price']) {
-      $priceCheck = "£".$ref['Price']." + VAT";
-    } else {
-      $priceCheck = "Price Coming Soon";
-    }
     $catArray = [ $ref['Category'],  $ref['Cat1'],  $ref['Cat2'], $ref['Cat3'] ];
     if (in_array('Fridges', $catArray) && in_array('Freezers', $catArray)) {
       $iconCheck = 'fridge-freezer';
@@ -111,19 +107,38 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
     };
     $out2 = [
       'icon'     => $iconCheck,
+      'info'     => $infoCheck,
+      'quantity' => $ref['Quantity'] > 1 ? $ref['Quantity']." in Stock" : null,
+      'category' => $ref['Category']
+    ];
+  case 'tiny' :
+    if ($ref['Quantity'] == 0) {
+      $priceCheck = '- Sold -';
+    } elseif ($ref['Price']) {
+      $priceCheck = "£".$ref['Price']." + VAT";
+    } else {
+      $priceCheck = "Price Coming Soon";
+    };
+    $out3 = [
       'price'    => $priceCheck ,
       'webLink'  => 'rhc/'.$ref['RHC'].'/'.sanitize_title($ref['ProductName']),
       'rhc'      => 'ref: RHC'.$ref['RHC'],
       'name'     => $ref['ProductName'],
       'imgFirst' => jr_siteImg('gallery/RHC'.$ref['RHC'].'.jpg'),
-      'info'     => $infoCheck,
-      'quantity' => $ref['Quantity'] > 1 ? $ref['Quantity']." in Stock" : null,
-      'category' => $ref['Category']
     ];
   break;
   };
-  $out = array_merge ($out1,$out2);
+  $out = array_merge ($out1,$out2,$out3);
   return $out;
 };
+
+function jr_MMtoFeet($mm) {
+  $justInches = $mm / 25.4;
+  $feet = floor($justInches / 12);
+  $inches = $justInches % 12;
+  $out = "${feet}ft $inches";
+
+  return $out;
+}
 
 ?>

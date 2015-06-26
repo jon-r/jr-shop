@@ -7,5 +7,6 @@ foreach ($breadLinks as $breadSlices) {
     echo $link ? '<a class="text-icon arrow-r" href="'.$link.'" ><em>'.$name."</em></a>" : null;
   }
 }
+echo do_shortcode( "[jr-debug]");
 ?>
 </div>

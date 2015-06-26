@@ -10,7 +10,7 @@
       <ul class="sub-menu" style="background-image:url(<?php echo $menuHeaderImg; ?>)">
         <h3 class="touch-toggle btn-red text-icon close-w">Back</h3>
 
-        <?php foreach ($grpList as $category) : $link=site_url( '/products/'.sanitize_title($category)); ?>
+        <?php foreach ($grpList as $category) : $link=site_url( '/products/category/'.sanitize_title($category)); ?>
         <li><a class="text-icon nav-btn arrow-r" href="<?php echo $link ?>">
             <?php echo $category ?>
         </a></li>

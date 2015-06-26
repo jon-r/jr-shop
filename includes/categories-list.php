@@ -1,23 +1,23 @@
 <?php
-if ($jr_safeArray['group'] == 'all') {
+if ($jr_safeArray['filterVal'] == 'all') {
   $filteredCategories = jrCached_Category_Names();
-} elseif ($jr_safeArray['group'] == 'brand') {
+} elseif ($jr_safeArray['filterType'] == 'brand') {
   $brands = jrCached_Brands();
   $filteredCategories = $brands['images'];
   $otherBrands = $brands['text'];
 } else {
   $allCategories = jrCached_Categories_Sorted();
-  $filteredCategories = $allCategories[$jr_safeArray['group']];
+  $filteredCategories = $allCategories[$jr_safeArray['filterVal']];
 }
 ?>
 
 <article class="flex-container">
   <header class="article-header flex-1" >
-    <h1><?php echo $jr_safeArray['pgName'] ?></h1>
+    <h1><?php echo $jr_safeArray['title'] ?></h1>
   </header>
 
 <?php foreach ($filteredCategories as $category) :
-  if ($jr_safeArray['group'] == 'brand') {
+  if ($jr_safeArray['filterType'] == 'brand') {
     $link = site_url('/brand/'.$category['RefName']);
     $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
   } else {
@@ -36,7 +36,7 @@ if ($jr_safeArray['group'] == 'all') {
 
 </article>
 
-<?php if ($jr_safeArray['group']=='brand' ) : ?>
+<?php if ($jr_safeArray['filterType'] == 'brand' ) : ?>
 
 <article class="extra-brands">
   <header class="article-header flex-1">

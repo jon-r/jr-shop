@@ -7,7 +7,7 @@ $itemsNew = jrQ_ItemsNew();
 
 <article class="flex-container">
   <header class="article-header flex-1">
-    <h1><?php echo $jr_safeArray['pgName']; ?></h1>
+    <h1><?php echo $jr_safeArray['title']; ?></h1>
     <p><?php echo $jr_safeArray['description'] ?></p>
   </header>
 

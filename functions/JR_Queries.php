@@ -110,12 +110,14 @@ function jrQ_itemsSold($safeArr, $itemsOnPage) {
     $out = null;
   } else {
     $soldCount = 8 - ($itemsOnPage % 8);
+    $safeArr['pgType'] = 'Sold';
+
     $query = jrQ_itemString($safeArr);
 
-    $querySoldOn = str_replace(['`Quantity` > 0','ORDER BY `DateLive` DESC, `RHC` DESC'],
-                               ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE()','ORDER BY `DateSold`'], $query['str']);
+   // $querySoldOn = str_replace(['`Quantity` > 0','ORDER BY `DateLive` DESC, `RHC` DESC'],
+   //                            ['`Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL '.$itemSoldDuration.' DAY AND CURDATE()','ORDER BY `DateSold` DESC'], $query['str']);
     $queryLimiter = " LIMIT $soldCount";
-    $queryFull = $querySoldOn.$queryLimiter;
+    $queryFull = $query['str'].$queryLimiter;
 
     if ($query['placeholders']) {
       $out = $wpdb->get_results(
@@ -128,18 +130,18 @@ function jrQ_itemsSold($safeArr, $itemsOnPage) {
   return $out;
 }
 // get random four items in the category - currently just for 'item full' page.
-function jrQ_iremsRelated($safeArr) {
+function jrQ_itemsRelated($safeArr) {
   global $wpdb;
   $arr['cat'] = $safeArr['cat'];
   $ignore = $safeArr['rhc'];
 
   if ($safeArr['ss']) {
     $arr['pgType'] = 'CategorySS';
-    $query = jrQ_itemString($arr);
+    $query = jrQ_itemString($arr, 'lite');
     $queryRand = str_replace('ORDER BY `DateLive` DESC, `RHCs` DESC', 'AND (`RHCs` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
   } else {
     $arr['pgType'] = 'Category';
-    $query = jrQ_itemString($arr);
+    $query = jrQ_itemString($arr, 'lite');
     $queryRand = str_replace('ORDER BY `DateLive` DESC, `RHC` DESC', 'AND (`RHC` != '.$ignore.') ORDER BY RAND() LIMIT 4', $query);
   }
   $out = $wpdb->get_results(
@@ -150,7 +152,7 @@ function jrQ_iremsRelated($safeArr) {
 //count all items from query, for pagination
 function jrQ_itemsCount($safeArr) {
     global $wpdb;
-    $query = jrQ_itemString($safeArr, $isCounter = true);
+    $query = jrQ_itemString($safeArr, 'counter');
 
     if ($query['placeholders']) {
       $column = $wpdb->get_col(
@@ -170,7 +172,7 @@ function jrQ_ItemsNew() {
 //returns the mysql query string. for debug purposes
 function jrQ_debug($safeArr,$sold=false) {
   global $wpdb, $itemSoldDuration;
-  $query = jrQ_itemString($safeArr, $isCounter = true);
+  $query = jrQ_itemString($safeArr, 'counter');
   $out['noPrep'] = $query['str'];
   $out['prep'] = $query['placeholders'] ? $wpdb->prepare($query['str'], $query['placeholders']) : null;
   if ($sold) {
@@ -182,18 +184,89 @@ function jrQ_debug($safeArr,$sold=false) {
   }
   return $out;
 }
-//core query category function
-function jrQ_itemString($safeArr, $isCounter = false) {
+
+function jrQ_itemString($safeArr) {
+  $qType = $safeArr['pgType'];
+  $qFilter = $safeArr['filterType'];
+  $qValue = $safeArr['filterVal'];
+  $isSteel = $safeArr['ss'];
+
+  if ($isSteel) {
+    $itemRef = "`RHCs`";
+    $itemDB = "`benchessinksdb`";
+  } else {
+    $itemRef = "`RHC`";
+    $itemDB = "`networked db`";
+  }
+  //the query "start". how much data are we getting?
+  if ($qType == 'counter') {
+    $querySelection = "$itemRef";
+  } elseif ($qType == 'lite') {
+    $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
+  } elseif ($qType == 'items' && $isSteel) {
+    $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
+  } else {
+    $querySelection = "$itemRef, `ProductName`, `IsSoon`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";
+  }
+
+  //the query "middle". what is the data filtered by?
+
+  if ($qFilter == 'items' && $isSteel) {
+    $filters = "(`Category` LIKE %s) AND";
+  } elseif ($qFilter == 'items' || $qFilter == 'new') {
+    $filters = "(`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND";
+  } elseif ($qFilter == 'search') {
+    $filters = "(`ProductName` REGEXP %s OR `Power` REGEXP %s OR `Brand` REGEXP %s) AND";
+  } elseif ($qFilter == 'brand') {
+    $filters = "(`Brand` LIKE %s) AND";
+  } elseif ($qFilter =='sale') {
+    $filters = "(`SalePrice` = %d) AND";
+  } else {
+    $filters = "";
+  }
+
+//the query end. how is the data sorted?
+  $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, $itemRef DESC";
+
+  if ($qFilter == 'soon' ) {
+    $orderBy = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY $itemRef DESC";
+  } elseif ($qFilter == 'sold' ) {
+    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0) ORDER BY `DateSold` DESC LIMIT $qValue";
+  } elseif ($qFilter == 'related' ) {
+     $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT 4";
+  }
+
+  //queryPlaceholders (for wpdb->prepare)
+  $qArray = false; //no prepare for non-variables
+  if ($qFilter == 'items' || $qFilter == 'related') {
+    $qArray = [ $qValue, $qValue, $qValue, $qValue ];
+  } elseif ($qFilter == 'search') {
+    $qArray = [ $qValue, $qValue, $qValue ];
+  } elseif ($qFilter == 'items' && $isSteel || $qFilter == 'brand' || $qFilter =='sale' || $qFilter == 'related' && $isSteel) {
+    $qArray = [ $qValue ];
+  }
+
+  $out['str'] = "SELECT $querySelection FROM $itemDB WHERE $filters $orderBy";
+  $out['placeholders'] = $qArray;
+  return $out;
+}
+
+/*//core query category function
+function jrQ_itemString($safeArr, $detail = 'full') {
   $qType = $safeArr['pgType'];
   //the query "start". what data are we getting?
-  if ($isCounter && $qType == 'CategorySS') {
+  if ($detail == 'counter' && $qType == 'CategorySS') {
     $queryStart = "SELECT `RHCs` FROM `benchessinksdb` ";
-  } elseif ($isCounter) {
+  } elseif ($detail == 'counter') {
     $queryStart = "SELECT `RHC` FROM `networked db` ";
+  } elseif ($detail == 'lite' && $qType == 'CategorySS') {
+    $queryStart = "SELECT `RHCs`, `ProductName`, `Price`, `Category`, `Width`, `Quantity` FROM `benchessinksdb` ";
+  } elseif ($detail == 'lite') {
+    $queryStart = "SELECT `RHC`, `ProductName`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Price`, `Quantity` FROM `networked db` ";
   } elseif ($qType == 'CategorySS') {
-    $queryStart = "SELECT `RHCs`, `ProductName`, `Price`, `Category`, `TableinFeet`, `Quantity` FROM `benchessinksdb` ";
+    $queryStart = "SELECT `RHCs`, `ProductName`, `Price`, `Category`, `Width`, `Quantity` FROM `benchessinksdb` ";
   } else {
-    $queryStart = "SELECT `RHC`, `ProductName`, `IsSoon`, `Sold`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
+    $queryStart = "SELECT `RHC`, `ProductName`, `IsSoon`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity` FROM `networked db` ";
   };
   //the query "middle". what is the data filtered by?
   $queryMid = "WHERE ";
@@ -213,12 +286,13 @@ function jrQ_itemString($safeArr, $isCounter = false) {
     $queryMid = "WHERE (`SalePrice` = %d) AND ";
     $qValue = $safeArr['saleNum'];
   };
+  *//*
   //the query end. how is the data sorted?
   $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `RHC` DESC";
   if ($qType == 'Soon' ) {
     $queryEnd = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY `RHC` DESC";
   } elseif ($qType == 'Sold' ) {
-    $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` = 0) = 0 ORDER BY `DateSold` DESC";
+    $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` = 0) ORDER BY `DateSold` DESC";
   } elseif ($qType == 'CategorySS') {
     $queryEnd = "(`LiveonRHC` = 1 AND `Quantity` > 0)  ORDER BY `DateLive` DESC, `RHCs` DESC";
   };
@@ -234,7 +308,7 @@ function jrQ_itemString($safeArr, $isCounter = false) {
   $out['str'] = $queryStart.$queryMid.$queryEnd;
   $out['placeholders'] = $qArray;
   return $out;
-}
+}*/
 /* -- get other content -------------------------------------------------------------*/
 function jrQ_carousel() {
   global $wpdb;

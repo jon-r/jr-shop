@@ -85,14 +85,16 @@ if ($jr_safeArray['ss']) {
     </header>
 
     <ul class="item-dimensions item-tile-inner">
-    <?php foreach ([
-        $shop_item['brandName'], $shop_item['brandLink'],
-        $shop_item['model'], $shop_item['hFull'],
-        $shop_item['wFull'], $shop_item['dFull'],
-        $shop_item['power'], $shop_item['condition'],
-        $shop_item['extra']
-      ] as $spec) {
-        echo $spec ? "<li>$spec</li>" : null;
+    <?php
+      $specs = [
+        'brandName' => '', 'brandLink' => '', 'model' => '',
+        'hFull' => '', 'wFull' => '', 'dFull' => '',
+        'power' => '', 'condition' => '', 'extra' => ''
+      ];
+      $setSpecs = array_intersect_key($shop_item, $specs);
+      ?>
+      <?php foreach ($setSpecs as $spec) {
+        echo isset($spec) ? "<li>$spec</li>" : null;
       } ?>
     </ul>
   </section>
@@ -106,15 +108,14 @@ if ($jr_safeArray['ss']) {
     include( "item-boxSim.php");
     }
   ?>
-
-  <?php $related = jrQ_iremsRelated($jr_safeArray); ?>
+  <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
   <?php if (count($related) > 0) : ?>
   <section class="white-block item-related flex-1">
     <header >
       <h2>More <?php echo $jr_safeArray['cat']; ?></h2>
     </header>
 
-    <ul id="js-gallery-thumbs" class="item-thumbs flex-container">
+    <ul class="item-thumbs flex-container">
        <?php foreach ($related as $item) { include( "list-item-small.php"); } ?>
     </ul>
   </section>

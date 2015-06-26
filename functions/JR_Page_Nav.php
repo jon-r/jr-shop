@@ -4,14 +4,14 @@
 function jr_pageCrumbles ($safeArr) {
   $crumbs[0] = ['Home' => home_url()];
 
-  if ($safeArr['rhc'] == 'Not Found' || $safeArr['cat'] == 'Not Found' || $safeArr['group'] == 'Not Found' || is_404()) {
+  if ($safeArr['filterVal'] == 'Not Found'  || is_404()) {
     $crumbs[1] = ['Page Not Found' => home_url()];
   } else {
     if ($safeArr['pgType'] == 'Item') {
       $crumbs[1] = [$safeArr['cat'] => site_url('/products/'.sanitize_title($safeArr['cat']))];
       $crumbs[2] = [$safeArr['pgName'] => jr_getUrl()];
-    } elseif (isset($safeArr['pgTitle'])) {
-      $crumbs[1] = [$safeArr['pgTitle'] => jr_pgSet()];
+    } elseif (isset($safeArr['pgRef'])) {
+      $crumbs[1] = [$safeArr['pgRef'] => jr_pgSet()];
       //page set instead of getURL to reset to page1 on paginated output
     } else {
       $crumbs[1] = [get_the_title() => jr_getUrl()];

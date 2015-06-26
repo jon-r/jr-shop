@@ -15,7 +15,7 @@ if ( $jr_safeArray['pgType'] == 'CategorySS' ) {
     <img src="<?php echo site_url(jr_imgResize($shopItem['imgFirst'], 'tile')); ?>" alt="<?php echo $shopItem['name'] ?>">
 
     <?php if ($jr_safeArray['pgType'] == 'CategorySS' || $jr_safeArray['ss'] ) : ?>
-    <span class="ss-length btn-red"><h4>Length: </h4><h2><?php echo $shopItem['width'] ?></h2></span>
+    <span class="ss-length btn-red"><h4>Length: </h4><h2><?php echo $shopItem['widthFt'] ?></h2></span>
     <?php endif ?>
 
     <div class="shop-tile-header">
