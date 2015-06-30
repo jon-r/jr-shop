@@ -16,6 +16,7 @@ function jr_setPermalinks() {
     '^departments/([^/]*)/?'  => jr_page('grp'),
     //cats
     '^products/special-offers/?'  => jr_page('cat'),
+    '^products/all/?'             => jr_page('cat'),
     '^products/sold/?'            => jr_page('cat'),
     '^products/coming-soon/?'     => jr_page('cat'),
     '^products/arrivals/?'        => jr_page('cat'),
@@ -58,14 +59,14 @@ function jr_titleToUrl($in) {
 function jr_urlToTitle($url,$type) {
   $getGroup = jrCached_Groups();
   $out = "Not Found";
-  $getCategory = jrCached_Category_Names();
+  $getCategories = jrCached_Categories_Full();
 
   if ($type == 'cat') {
-    $catUrls = array_map('sanitize_title', $getCategory);
+    $catUrls = array_column($getCategories, 'RefName');
 
     if (in_array($url,$catUrls)) {
-      $cats = array_combine($getCategory, $catUrls);
-      $out = array_search($url, $cats);
+      $cat = array_search($url, $catUrls);
+      $out = $getCategories[$cat]['Name'];
     }
   } elseif ($type == 'grp') {
 
@@ -76,7 +77,7 @@ function jr_urlToTitle($url,$type) {
       $out = array_search($url, $grps);
     }
   } elseif ($type == 'brand') {
-    $getBrands = jrQ_brandUnique();
+    $getBrands = jrQ_brands();
     $brandUrls = array_map('sanitize_title', $getBrands);
 
     if (in_array($url,$brandUrls)) {

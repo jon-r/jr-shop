@@ -4,16 +4,33 @@
 function jr_categoryFilter() {
   $getCategory = jrQ_categories();
   foreach ($getCategory as $c) {
-    $out[$c['CategoryGroup']][] =  $c['Name'];
+    $out[$c['CategoryGroup']][$c['Name']] = [
+      'Name' => $c['Name'],
+      'RefName' => $c['RefName']
+    ];
+    if ($c['CategoryGroup2'] != '0') {
+      $out[$c['CategoryGroup2']][$c['Name']] = [
+        'Name' => $c['Name'],
+        'RefName' => $c['RefName']
+      ];
+    }
   }
   return $out;
 }
+
+function jr_getGroups() {
+  $getCategory = jrQ_categories();
+  foreach ($getCategory as $category) {
+    $out[$category['CategoryGroup']] = true;
+  }
+  return array_keys($out);
+}
+
 //list of brands from what we have pictures of
 function jr_featuredBrands() {
   $brandsAll = jrQ_brands();
   $brandsUnique = array_unique($brandsAll);
   $brandsListed = jr_get_multiple($brandsAll);
-
 
   foreach ($brandsListed as $brand) {
     $url = sanitize_title($brand);
@@ -61,7 +78,7 @@ function jr_itemsList($safeArr,$pageNumber) {
   $out['paginate'] = false;
   $lastPage = 1;
 
-  if ($safeArr['pgType'] != 'New' && $safeArr['pgType'] != 'Sold') {
+  if ($safeArr['pgType'] != 'arrivals' && $safeArr['sold'] == false) {
     //the "sold" and "new" already capped at a single page, no need to count
     $fullItemCount = jrQ_itemsCount($safeArr);
     //breaks down into pages

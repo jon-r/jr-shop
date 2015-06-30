@@ -4,7 +4,7 @@
 <article>
   <ul class="menu-featured flex-container" >
     <li class="flex-4">
-      <a href="<?php echo site_url('arrivals/') ?>" >
+      <a href="<?php echo site_url('products/arrivals/') ?>" >
         <img src="<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>" alt="Equipment just in" >
         <h2>Latest Arrivals</h2>
       </a>

@@ -8,7 +8,7 @@ $itemsNew = jrQ_ItemsNew();
 <article class="flex-container">
   <header class="article-header flex-1">
     <h1><?php echo $jr_safeArray['title']; ?></h1>
-    <p><?php echo $jr_safeArray['description'] ?></p>
+    <p><?php echo $jr_safeArray['filterVal2'] ?></p>
   </header>
 
   <?php
@@ -18,7 +18,7 @@ $itemsNew = jrQ_ItemsNew();
   ?>
   <?php if(count($items['list']) < $itemCountMin) : ?>
 
-  <section class="flex-1 form-contact wider white-block">
+  <section class="flex-1 form-contact wider dark-block">
     <header >
       <h2>More in store</h2>
       <span>Sometimes the equipment you need is going through the workshop right now. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.</span>
@@ -51,4 +51,3 @@ $itemsNew = jrQ_ItemsNew();
 </nav>
 
 <?php endif ?>
-

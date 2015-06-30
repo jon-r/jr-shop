@@ -29,10 +29,10 @@ function jr_linkTo($target) {
     'all categories' => site_url('departments/all/'),
     'all items'      => site_url('products/all/'),
     'all brands'     => site_url('brands/'),
-    'sold items'     => site_url('sold/'),
+    'sold items'     => site_url('products/sold/'),
     'new items'      => site_url('new-items/'),
-    'soon items'     => site_url('coming-soon/'),
-    'arrivals'       => site_url('arrivals/')
+    'soon items'     => site_url('products/coming-soon/'),
+    'arrivals'       => site_url('products/arrivals/')
   ];
 
   return $linkArr[$target];
@@ -48,12 +48,12 @@ $itemSoldDuration = $jr_config['itemSoldDuration'];
 function jr_categoryInfo($catType) {
   global $jr_config;
   $categoryFilterArr = [
-    'New'   => $jr_config['pageInfo_Arrivals'],
-    'Soon'  => $jr_config['pageInfo_Soon'],
-    'Sold'  => $jr_config['pageInfo_Sold'],
-    'Sale'  => $jr_config['pageInfo_Sale'],
-    'Search' => $jr_config['pageInfo_Search'],
-    'All'   =>  $jr_config['pageInfo_All']
+    'new'   => $jr_config['pageInfo_arrivals'],
+    'soon'  => $jr_config['pageInfo_soon'],
+    'sold'  => $jr_config['pageInfo_sold'],
+    'sale'  => $jr_config['pageInfo_sale'],
+    'search' => $jr_config['pageInfo_search'],
+    'all'   =>  $jr_config['pageInfo_all']
   ];
   return jr_format($categoryFilterArr[$catType]);
 }

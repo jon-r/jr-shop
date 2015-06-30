@@ -13,7 +13,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'hFull'     => $ref['Height'] ? "<b>Height</b>: ".$ref['Height']."mm / ".jr_MMtoFeet($ref['Height'])."inch" : null,
       'wFull'     => $ref['Width'] ? "<b>Width:</b> ".$ref['Width']."mm / ".jr_MMtoFeet($ref['Width'])."inch" : null,
       'dFull'     => $ref['Depth'] ? "<b>Depth:</b> ".$ref['Depth']."mm / ".jr_MMtoFeet($ref['Depth'])."inch" : null,
-      'desc'    => ($ref['Line1'] != " " ? $ref['Line1']."<br>" : null),
+      'desc'    => ($ref['Line1'] != "0" ? $ref['Line1']."<br>" : null),
       'imgAll'  => glob('images/gallery/RHCs'.$ref['RHCs'].'*')
     ];
 

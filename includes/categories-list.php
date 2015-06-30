@@ -1,6 +1,6 @@
 <?php
 if ($jr_safeArray['filterVal'] == 'all') {
-  $filteredCategories = jrCached_Category_Names();
+  $filteredCategories = jrCached_Category_Full();
 } elseif ($jr_safeArray['filterType'] == 'brand') {
   $brands = jrCached_Brands();
   $filteredCategories = $brands['images'];
@@ -18,11 +18,10 @@ if ($jr_safeArray['filterVal'] == 'all') {
 
 <?php foreach ($filteredCategories as $category) :
   if ($jr_safeArray['filterType'] == 'brand') {
-    $link = site_url('/brand/'.$category['RefName']);
+    $link = site_url('products/brand/'.$category['RefName']);
     $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
   } else {
-    $category = jr_titleToUrl($category);
-    $link = site_url('/products/'.$category['RefName']);
+    $link = site_url('/products/category/'.$category['RefName']);
     $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
   }
 ?>
@@ -44,7 +43,7 @@ if ($jr_safeArray['filterVal'] == 'all') {
   </header>
 
   <?php foreach ($otherBrands as $brand) : if ($brand['Name'] != '0' && $brand['Name'] != null) : ?>
-  <a href="<?php echo site_url('/brand/'.$brand['RefName']); ?>">
+  <a href="<?php echo site_url('products/brand/'.$brand['RefName']); ?>">
     <?php echo $brand['Name']; ?>
   </a>
   <?php endif; endforeach; ?>

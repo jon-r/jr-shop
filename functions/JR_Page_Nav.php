@@ -8,8 +8,9 @@ function jr_pageCrumbles ($safeArr) {
     $crumbs[1] = ['Page Not Found' => home_url()];
   } else {
     if ($safeArr['pgType'] == 'Item') {
-      $crumbs[1] = [$safeArr['cat'] => site_url('/products/'.sanitize_title($safeArr['cat']))];
-      $crumbs[2] = [$safeArr['pgName'] => jr_getUrl()];
+      $cat_info =
+      $crumbs[1] = [$safeArr['filterVal2'] => site_url('/products/category/'.sanitize_title($safeArr['filterVal2']))];
+      $crumbs[2] = [$safeArr['pgRef'] => jr_getUrl()];
     } elseif (isset($safeArr['pgRef'])) {
       $crumbs[1] = [$safeArr['pgRef'] => jr_pgSet()];
       //page set instead of getURL to reset to page1 on paginated output

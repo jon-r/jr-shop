@@ -1,5 +1,5 @@
 <article class="flex-container"  >
-  <section class="flex-1 form-contact wider white-block">
+  <section class="flex-1 form-contact wider dark-block">
     <header>
       <h2>Contact us</h2>
     </header>

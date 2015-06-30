@@ -35,7 +35,7 @@ add_shortcode("jr-search", "jr_smartSearch");
 //http://code.tutsplus.com/tutorials/add-jquery-autocomplete-to-your-sites-search--wp-25155
 function jr_autoComplete() {
   $in = $_GET['keyword'];
-  $filteredBrand = array_filter(jrQ_brandUnique(), function($var) {
+  $filteredBrand = array_filter(array_unique(jrQ_brands()), function($var) {
     return (stripos($var, $_GET['keyword']) !== false);
   });
   $getCats = jrQ_categories();

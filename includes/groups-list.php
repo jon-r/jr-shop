@@ -22,9 +22,9 @@ $jr_groupArray = jrCached_Categories_Sorted();
     </a>
     <ul class="flex-container">
       <?php foreach ($grpList as $category) :
-          $link = site_url('/products/'.sanitize_title($category));
+          $link = site_url('/products/category/'.$category['RefName']);
       ?>
-      <li><a href="<?php echo $link ?>" ><?php echo $category ?></a></li>
+      <li><a href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a></li>
       <?php endforeach ?>
     </ul>
   </section>
@@ -33,6 +33,5 @@ $jr_groupArray = jrCached_Categories_Sorted();
 </article>
 
 <?php
-/*jrCached_HtmlEnd(__FILE__);
-endif;*/
+
 ?>

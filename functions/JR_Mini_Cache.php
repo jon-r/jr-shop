@@ -18,14 +18,14 @@ function jrCached_Settings() {
 }
 
 /* setting transients of some of the most common querys. */
-function jrCached_Category_Names() {
-  $transient = get_transient('jr_t_categories');
+function jrCached_Categories_Full() {
+  $transient = get_transient('jr_t_categories_full');
 
   if( !empty($transient)) {
     return $transient;
   } else {
-    $results = jrQ_categoryNames();
-    set_transient('jr_t_categories', $results, WEEK_IN_SECONDS);
+    $results = jrQ_categories();
+    set_transient('jr_t_categories_full', $results, WEEK_IN_SECONDS);
     return $results;
   }
 }
@@ -48,11 +48,13 @@ function jrCached_Groups() {
   if( !empty($transient)) {
     return $transient;
   } else {
-    $results = jrQ_keywords('group');
+    $results = jr_getGroups();
     set_transient('jr_t_groups', $results, WEEK_IN_SECONDS);
     return $results;
   }
 }
+
+
 
 function jrCached_Brands() {
   $transient = get_transient('jr_t_brands');

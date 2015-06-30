@@ -1,5 +1,5 @@
 <?php
-if ( $jr_safeArray['pgType'] == 'CategorySS' ) {
+if ( $jr_safeArray['ss'] ) {
   $shopItem = jr_itemComplile($item, 'listSS');
 } else {
   $shopItem = jr_itemComplile($item, 'list', $itemsNew);

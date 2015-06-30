@@ -21,12 +21,12 @@ function jr_format($in) {
     jr_linkTo('phone'),
     jr_linkTo('eLink')
   ];
-  // categories taken from DB
-  $getCats = jrCached_Category_Names();
+  // categories taken from DB cache
+  $getCats = jrCached_Categories_Full();
 
   foreach ($getCats as $cat) {
-    $findCat[] = '[category:'.$cat.']';
-    $replaceCat[] = '<a href="'.site_url('products/'.sanitize_title($cat)).'" >'.$cat.'</a>';
+    $findCat[] = '[category:'.$cat['Name'].']';
+    $replaceCat[] = '<a href="'.site_url('products/'.$cat['RefName']).'" >'.$cat['Name'].'</a>';
   }
   $out = preg_replace($findBasic,$replaceBasic,$in);
   $out = str_ireplace($findCat,$replaceCat, $out);

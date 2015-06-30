@@ -1,9 +1,9 @@
 <?php /* style for the individual items page */
-if ($jr_safeArray['ss']) {
-  $item = jrQ_item($jr_safeArray['rhc'], 1);
+if ( $jr_safeArray['ss'] ) {
+  $item = jrQ_item($jr_safeArray['filterVal'], 1);
   $shop_item = jr_itemComplile($item,'itemSS');
 } else {
-  $item = jrQ_item($jr_safeArray['rhc']);
+  $item = jrQ_item($jr_safeArray['filterVal']);
   $itemsNew = jrQ_ItemsNew();
   $shop_item = jr_itemComplile($item,'item', $itemsNew);
 }
@@ -112,7 +112,7 @@ if ($jr_safeArray['ss']) {
   <?php if (count($related) > 0) : ?>
   <section class="white-block item-related flex-1">
     <header >
-      <h2>More <?php echo $jr_safeArray['cat']; ?></h2>
+      <h2>More <?php echo $jr_safeArray['filterVal2']; ?></h2>
     </header>
 
     <ul class="item-thumbs flex-container">
