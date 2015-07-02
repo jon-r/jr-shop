@@ -10,9 +10,9 @@ function jr_pageCrumbles ($safeArr) {
     if ($safeArr['pgType'] == 'Item') {
       $cat_info =
       $crumbs[1] = [$safeArr['filterVal2'] => site_url('/products/category/'.sanitize_title($safeArr['filterVal2']))];
-      $crumbs[2] = [$safeArr['pgRef'] => jr_getUrl()];
-    } elseif (isset($safeArr['pgRef'])) {
-      $crumbs[1] = [$safeArr['pgRef'] => jr_pgSet()];
+      $crumbs[2] = [$safeArr['title'] => jr_getUrl()];
+    } elseif (isset($safeArr['title'])) {
+      $crumbs[1] = [$safeArr['title'] => jr_pgSet()];
       //page set instead of getURL to reset to page1 on paginated output
     } else {
       $crumbs[1] = [get_the_title() => jr_getUrl()];

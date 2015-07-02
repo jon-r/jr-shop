@@ -21,9 +21,10 @@ function jr_categoryFilter() {
 function jr_getGroups() {
   $getCategory = jrQ_categories();
   foreach ($getCategory as $category) {
-    $out[$category['CategoryGroup']] = true;
+    $n = $category['CategoryGroup'];
+    $groups[$n] = sanitize_title($n);
   }
-  return array_keys($out);
+  return $groups;
 }
 
 //list of brands from what we have pictures of
@@ -78,7 +79,7 @@ function jr_itemsList($safeArr,$pageNumber) {
   $out['paginate'] = false;
   $lastPage = 1;
 
-  if ($safeArr['pgType'] != 'arrivals' && $safeArr['sold'] == false) {
+  if ($safeArr['filterType'] != 'arrivals' && $safeArr['sold'] == false) {
     //the "sold" and "new" already capped at a single page, no need to count
     $fullItemCount = jrQ_itemsCount($safeArr);
     //breaks down into pages

@@ -1,36 +1,49 @@
 <?php
-if ($jr_safeArray['filterVal'] == 'all') {
-  $filteredCategories = jrCached_Category_Full();
-} elseif ($jr_safeArray['filterType'] == 'brand') {
+$grpFilter = $jr_safeArray['filterVal'];
+if ($grpFilter == 'all') {
+  $getCategories = jrCached_Categories_Sorted();
+} elseif ($grpFilter == 'brand') {
   $brands = jrCached_Brands();
-  $filteredCategories = $brands['images'];
+  $getCategories[$jr_safeArray['title']] = $brands['images'];
   $otherBrands = $brands['text'];
+
 } else {
   $allCategories = jrCached_Categories_Sorted();
-  $filteredCategories = $allCategories[$jr_safeArray['filterVal']];
+  $getCategories[$jr_safeArray['title']] = $allCategories[$grpFilter];
 }
 ?>
 
 <article class="flex-container">
+
+<?php foreach ($getCategories as $title => $filteredCategories) :
+/*  if ($jr_safeArray['filterVal'] == 'all') {
+    $title = key($filteredCategories);
+  } else {
+    $title = $jr_safeArray['title'];
+  }*/
+?>
   <header class="article-header flex-1" >
-    <h1><?php echo $jr_safeArray['title'] ?></h1>
+    <h1><?php echo $title ?></h1>
   </header>
 
-<?php foreach ($filteredCategories as $category) :
-  if ($jr_safeArray['filterType'] == 'brand') {
-    $link = site_url('products/brand/'.$category['RefName']);
-    $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
-  } else {
-    $link = site_url('/products/category/'.$category['RefName']);
-    $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
-  }
-?>
+  <?php foreach ($filteredCategories as $category) :
+    if ($grpFilter  == 'brand') {
+      $link = site_url('products/brand/'.$category['RefName']);
+      $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
+    } else {
+      $link = site_url('/products/category/'.$category['RefName']);
+      $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
+    }
+  ?>
+
   <section class="shop-tile category flex-4">
     <a href="<?php echo $link ?>" >
       <div class="shop-tile-header"><h2><?php echo $category['Name'] ?></h2></div>
       <img src="<?php echo site_url($imgUrl) ?>" />
     </a>
   </section>
+  <?php endforeach ?>
+
 <?php endforeach ?>
 
 </article>

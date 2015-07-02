@@ -15,7 +15,7 @@ if ( $jr_safeArray['ss'] ) {
     <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
       <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
            alt="<?php echo $shop_item['name'] ?>">
-      <button class="item-main-zoom dark-block text-icon-left expand-w"></button>
+      <button class="tile-hover zoom dark-block text-icon-left expand-w"></button>
       <?php if (count($shop_item['imgAll'])> 1) : ?>
       <button id="js-gallery-prev" class="gallery-nav text-icon-left arrow-l"></button>
       <button id="js-gallery-next" class="gallery-nav text-icon arrow-r"></button>

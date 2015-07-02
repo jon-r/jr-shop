@@ -12,8 +12,9 @@ if ( $jr_safeArray['ss'] ) {
       <h3><?php echo $shopItem['name'] ?></h3>
     </div>
 
-    <img src="<?php echo site_url(jr_imgResize($shopItem['imgFirst'], 'tile')); ?>" alt="<?php echo $shopItem['name'] ?>">
-
+    <img src="<?php echo site_url(jr_imgResize($shopItem['imgFirst'], 'tile')); ?>"
+         alt="<?php echo $shopItem['name'] ?>">
+    <button class="tile-hover more dark-block text-icon-left search-w"></button>
     <?php if ($jr_safeArray['pgType'] == 'CategorySS' || $jr_safeArray['ss'] ) : ?>
     <span class="ss-length btn-red"><h4>Length: </h4><h2><?php echo $shopItem['widthFt'] ?></h2></span>
     <?php endif ?>
@@ -21,7 +22,7 @@ if ( $jr_safeArray['ss'] ) {
     <div class="shop-tile-header">
       <em class="greater"><?php echo $shopItem['price'] ?></em>
       <br>
-      <?php echo $shopItem['rhc'] ?>
+      <strong><?php echo $shopItem['rhc'] ?></strong>
     </div>
   </a>
 

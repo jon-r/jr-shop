@@ -3,7 +3,7 @@ $carouselList = jrQ_carousel();
 $carouselCount = count($carouselList);
 ?>
 
-<div class="nav-right carousel" >
+<div class="nav-bottom carousel" >
   <ul id="js-carousel-main" class="carousel-container bar-left">
 
     <?php for ($i = 0; $i < $carouselCount; $i++) :
@@ -26,14 +26,16 @@ $carouselCount = count($carouselList);
     </li>
 
     <?php endfor ?>
-
   </ul>
-  <ul id="js-carousel-tabs" class="carousel-tabs" >
+
+  <ul id="js-carousel-blips" class="carousel-blips" >
     <?php for ($i = 0; $i < $carouselCount; $i++) :
       $title = $carouselList[$i]['Slide_Tab'];
     ?>
-    <li class="tab <?php echo $i == 0 ? 'active' : null ?>" ><?php echo $title ?></li>
+      <li class="blip <?php echo $i == 0 ? 'active' : null ?>" ></li>
     <?php endfor ?>
   </ul>
+
+  <?php // include('index-topNav.php'); ?>
 
 </div>

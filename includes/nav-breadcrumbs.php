@@ -1,4 +1,4 @@
-<div class="nav-right nav-breadcrumbs" >
+<div class="nav-bottom nav-breadcrumbs" >
 <?php
 $breadLinks = jr_pageCrumbles ($jr_safeArray);
 

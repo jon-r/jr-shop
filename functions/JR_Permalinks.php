@@ -69,12 +69,8 @@ function jr_urlToTitle($url,$type) {
       $out = $getCategories[$cat]['Name'];
     }
   } elseif ($type == 'grp') {
-
-    $grpUrls = array_map('sanitize_title', $getGroup);
-
-    if (in_array($url,$grpUrls)) {
-      $grps = array_combine($getGroup, $grpUrls);
-      $out = array_search($url, $grps);
+    if (in_array($url,$getGroup)) {
+      $out = array_search($url, $getGroup);
     }
   } elseif ($type == 'brand') {
     $getBrands = jrQ_brands();

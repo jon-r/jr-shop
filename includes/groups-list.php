@@ -4,32 +4,32 @@ $jr_groupArray = jrCached_Categories_Sorted();
 ?>
 
 <article class="flex-container">
+
   <header class="article-header flex-1" >
     <h1>Catering Equipment For Sale</h1>
-    <a href="<?php echo jr_linkTo('all categories'); ?>">View By Category</a>
-    <a href="<?php echo jr_linkTo('all brands'); ?>">View By Brand</a>
-    <a href="<?php echo jr_linkTo('all items'); ?>">View All Equipment</a>
   </header>
 
-<?php foreach($jr_groupArray as $grpName => $grpList) :
-    $link = site_url('/departments/'.sanitize_title($grpName));
-    $grpHeaderImg = site_url(jr_siteImg('icons/Header-'.strtok($grpName, ' ').'.jpg'));
+
+<?php foreach($jr_groupArray as $group => $grpList) :
+    $grpLink = site_url('/departments/'.sanitize_title($group));
+    $grpHeaderImg = site_url(jr_siteImg('icons/Header-'.strtok($group, ' ').'.jpg'));
 ?>
 
   <section class="shop-tile group flex-3">
-    <a href="<?php echo $link ?>" >
-      <img src="<?php echo $grpHeaderImg ?>" alt="<?php echo $grpName ?>"/>
-    </a>
-    <ul class="flex-container">
+    <img src="<?php echo $grpHeaderImg ?>" alt="<?php echo $group ?>"/>
+    <ul>
       <?php foreach ($grpList as $category) :
           $link = site_url('/products/category/'.$category['RefName']);
       ?>
-      <li><a href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a></li>
+      <li>
+        <h3 class="nav-btn"><a href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a></h3>
+      </li>
       <?php endforeach ?>
     </ul>
   </section>
 
 <?php endforeach ?>
+
 </article>
 
 <?php
