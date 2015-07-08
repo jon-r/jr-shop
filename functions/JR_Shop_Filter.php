@@ -30,7 +30,6 @@ function jr_getGroups() {
 //list of brands from what we have pictures of
 function jr_featuredBrands() {
   $brandsAll = jrQ_brands();
-  $brandsUnique = array_unique($brandsAll);
   $brandsListed = jr_get_multiple($brandsAll);
 
   foreach ($brandsListed as $brand) {
@@ -44,14 +43,16 @@ function jr_featuredBrands() {
     }
   }
 
-  $brandsUnlisted = array_diff($brandsUnique, array_keys($brandsImages));
+  $brandsUnlisted = array_diff($brandsAll, array_keys($brandsImages));
 
-  foreach ($brandsUnlisted as $brand) {
-    $url = sanitize_title($brand);
-    $brandsText[$brand] = [
-      'Name'    => $brand,
-      'RefName' => $url
-    ];
+  foreach ($brandsUnlisted as $key=>$brand) {
+    if ($brand != '0' && $brand != null) {
+      $url = sanitize_title($brand);
+      $brandsText[$brand] = [
+        'Name'    => $brand,
+        'RefName' => $url
+      ];
+    }
   }
 
   $out = [
@@ -60,6 +61,17 @@ function jr_featuredBrands() {
   ];
 
   return $out;
+}
+
+//all brands is not cached, only used for search
+function jr_allBrands() {
+  $getBrands = jrQ_brands();
+  foreach($getBrands as $key=>$brand) {
+    if ($brand != '0' && $brand != null) {
+      $out[$brand] = true;
+    }
+  }
+  return array_keys($out);
 }
 //only want to show an icon when more than one from that brand
 function jr_get_multiple($arrIn) {

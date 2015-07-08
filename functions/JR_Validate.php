@@ -52,7 +52,7 @@ function jr_validate_urls($url) {
       $out['filterType'] = 'all';
       $out['filterVal2'] = jr_categoryInfo('all');
 
-    } elseif ($params[2] == 'search') {
+    } elseif ($params[2] == 'search-results') {
       $out['title'] = 'Search Results for \''.$_GET['q'].'\'';
       $out['filterType'] = 'search';
       $out['filterVal'] = str_replace(' ', '|', $_GET['q']);

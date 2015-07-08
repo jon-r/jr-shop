@@ -11,13 +11,13 @@ function jr_smartSearch() {
   $rawSearchTerm = $_GET['search'];
   $safeSearch = preg_replace('/[^\w +-]/i','', $rawSearchTerm );
   $ref = http_build_query(['q' => $safeSearch]);
-  $url = site_url("products/search/?$ref");
+  $url = site_url("products/search-results/?$ref");
 
   if (stripos($rawSearchTerm, "rhc") === 0) {
     $findRef = '/(rhc|rhcs)(\d+)/i';
     $replaceRef ='$1/$2';
     $url =  site_url(preg_replace($findRef, $replaceRef, $safeSearch));
-  //the '- brand'/'- category' are teken from the autocomplete. One could type them in manually,
+  //the '- brand'/'- category' are taken from the autocomplete. One could type them in manually,
   //but unlikely to unless intentionally knows about this
   } elseif (strpos($rawSearchTerm, "- Category") > 0) {
     $ref = str_replace(" - Category", "", $safeSearch);
@@ -35,15 +35,36 @@ add_shortcode("jr-search", "jr_smartSearch");
 //http://code.tutsplus.com/tutorials/add-jquery-autocomplete-to-your-sites-search--wp-25155
 function jr_autoComplete() {
   $in = $_GET['keyword'];
-  $filteredBrand = array_filter(array_unique(jrQ_brands()), function($var) {
+  $getBrands = jr_allBrands();
+
+  $filteredBrand = array_filter($getBrands, function($var) {
     return (stripos($var, $_GET['keyword']) !== false);
   });
-  $getCats = jrQ_categories();
-  $filteredCat = array_filter($getCats, function($var) {
-    return (stripos($var['Name'], $_GET['keyword']) !== false);
+
+  $getCats = jrCached_Categories_Full();
+  $catList = array_column($getCats, 'Name');
+  $filteredCat = array_filter($catList, function($var) {
+    return (stripos($var, $_GET['keyword']) !== false);
   });
-  $listBrands = array_map('jr_addBrand', $filteredBrand);
-  $listCats = array_map('jr_addCategory', $filteredCat['Name']);
+
+  $listBrands = array_map(function($var) {
+    $out = [
+      'name' => $var,
+      'url' => sanitize_title($var),
+      'filter' => 'brand'
+    ];
+    return $out;
+  }, $filteredBrand);
+
+  $listCats = array_map(function($var) {
+    $out = [
+      'name' => $var,
+      'url' => sanitize_title($var),
+      'filter' => 'category'
+    ];
+    return $out;
+  }, $filteredCat);
+
   $listFull = array_merge($listCats, $listBrands);
 
   echo json_encode($listFull);
@@ -51,7 +72,9 @@ function jr_autoComplete() {
 }
 add_action('wp_ajax_jr_autocomplete', 'jr_autoComplete');
 add_action('wp_ajax_nopriv_jr_autocomplete', 'jr_autoComplete');
-function jr_addBrand($word) {
+
+
+/*function jr_addBrand($word) {
   $out = [
     'name' => $word,
     'url' => sanitize_title($word),
@@ -66,5 +89,5 @@ function jr_addCategory($word) {
     'filter' => 'products'
   ];
   return $out;
-}
+}*/
 ?>

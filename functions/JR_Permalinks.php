@@ -22,7 +22,7 @@ function jr_setPermalinks() {
     '^products/arrivals/?'        => jr_page('cat'),
     '^products/category/([^/]*)/?'=> jr_page('cat'),
     '^products/brand/([^/]*)/?'   => jr_page('cat'),
-    '^products/search/([^/]*)/?'  => jr_page('cat'),
+    '^products/search-results/?'  => jr_page('cat'),
     //items
     '^rhc/([^/]*)/?'  => jr_page('item'),
     '^rhcs/([^/]*)/?' => jr_page('item')

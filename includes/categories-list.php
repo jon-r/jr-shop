@@ -49,11 +49,11 @@ if ($grpFilter == 'all') {
     <h1>Other Brands</h1>
   </header>
 
-  <?php foreach ($otherBrands as $brand) : if ($brand['Name'] != '0' && $brand['Name'] != null) : ?>
+  <?php foreach ($otherBrands as $brand) : ?>
   <a href="<?php echo site_url('products/brand/'.$brand['RefName']); ?>">
     <?php echo $brand['Name']; ?>
   </a>
-  <?php endif; endforeach; ?>
+  <?php endforeach; ?>
 </article>
 
 <?php endif ?>

@@ -185,7 +185,7 @@ function jrQ_itemString($safeArr) {
   } elseif ($qFilter == 'items' || $qFilter == 'related') {
     $filters = "(`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND";
   } elseif ($qFilter == 'search') {
-    $filters = "(`ProductName` REGEXP %s OR `Power` REGEXP %s OR `Brand` REGEXP %s) AND";
+    $filters = "(`ProductName` REGEXP %s OR `Brand` REGEXP %s) AND";
   } elseif ($qFilter == 'brand') {
     $filters = "(`Brand` LIKE %s) AND";
   } elseif ($qFilter =='sale') {

@@ -19,7 +19,7 @@
 
       <div class="flex-2" >
         <h4>Please note</h4><br>
-        <p>Please call <?php echo jr_linkTo(phone) ?> or email us at <?php echo jr_linkTo(eLink) ?> if you want to order multiple items, or ask more questions.</p>
+        <p>Please call <?php echo jr_linkTo('phone') ?> or email us at <?php echo jr_linkTo('eLink') ?> if you want to order multiple items, or ask more questions.</p>
 
         <p>Any information provided will remain strictly confidential. We take customer security seriously, and no payments are made directly on this site. Payment for equipment by BACs transfer only unless stated. All delivery quotes are for third person couriers unless stated. View our [terms] page for full information.</p>
       </div>
@@ -38,7 +38,7 @@
         <input type="text" id="name">
         <label for="message">Extra Information</label>
         <textarea id="message">THIS DOES NOTHING YET
-          <?php echo $jr_safeArray['pgName']; ?>
+          <?php echo $jr_safeArray['pgRef']; ?>
         </textarea>
         <button class="btn-red">
           <h3>Send</h3>

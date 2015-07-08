@@ -4,7 +4,7 @@ $carouselCount = count($carouselList);
 ?>
 
 <div class="nav-bottom carousel" >
-  <ul id="js-carousel-main" class="carousel-container bar-left">
+  <ul id="js-carousel-main" class="carousel-container">
 
     <?php for ($i = 0; $i < $carouselCount; $i++) :
       $slide = jr_magicRoundabout($carouselList[$i]);
