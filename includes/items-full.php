@@ -55,8 +55,7 @@ if ( $jr_safeArray['ss'] ) {
     <em class="greater">Ask today about conversions to LPG</em>
     <?php endif ?>
 
-    <?php // purchasing options not quite ready yet
-  //include("items-full-popouts.php"); ?>
+    <?php include("items-full-popouts.php"); ?>
   </section>
 
   <ul class="item-features dark-block flex-1">
@@ -69,13 +68,17 @@ if ( $jr_safeArray['ss'] ) {
     <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
     <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
 
-    <aside class="social-shares">
-      <a class="text-icon-left facebook" target="_blank"
-         href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>" >
-        Share on Facebook</a>
-      <a class="text-icon-left twitter"
-         href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
-        Share on Twitter</a>
+    <aside class="social-shares shop-buttons">
+      <button class="text-icon-left facebook" >
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>" >
+          Share on Facebook
+        </a>
+      </button>
+      <button class="text-icon-left twitter" >
+        <a href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
+        Share on Twitter
+        </a>
+      </button>
     </aside>
   </ul>
 
@@ -100,15 +103,16 @@ if ( $jr_safeArray['ss'] ) {
   </section>
 
   <?php
-    //show the box sim, if not furnishings and valid height/width
-    if (
+  //show the box sim, if not furnishings and valid height/width
+  if (
     ($item['Height'] > 0 && $item['Width'] > 0) &&
     ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Decor & Lighting')
-       ) {
+  ) {
     include( "item-boxSim.php");
-    }
+  }
   ?>
-  <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
+
+    <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
   <?php if (count($related) > 0) : ?>
   <section class="white-block item-related flex-1">
     <header >
@@ -116,7 +120,7 @@ if ( $jr_safeArray['ss'] ) {
     </header>
 
     <ul class="item-thumbs flex-container">
-       <?php foreach ($related as $item) { include( "list-item-small.php"); } ?>
+       <?php foreach ($related as $itemTiny) { include( "list-item-small.php"); } ?>
     </ul>
   </section>
   <?php endif ?>

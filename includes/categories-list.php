@@ -15,13 +15,7 @@ if ($grpFilter == 'all') {
 
 <article class="flex-container">
 
-<?php foreach ($getCategories as $title => $filteredCategories) :
-/*  if ($jr_safeArray['filterVal'] == 'all') {
-    $title = key($filteredCategories);
-  } else {
-    $title = $jr_safeArray['title'];
-  }*/
-?>
+<?php foreach ($getCategories as $title => $filteredCategories) : ?>
   <header class="article-header flex-1" >
     <h1><?php echo $title ?></h1>
   </header>
@@ -36,7 +30,7 @@ if ($grpFilter == 'all') {
     }
   ?>
 
-  <section class="shop-tile category flex-4">
+  <section class="shop-tile category flex-6">
     <a href="<?php echo $link ?>" >
       <div class="shop-tile-header"><h2><?php echo $category['Name'] ?></h2></div>
       <img src="<?php echo site_url($imgUrl) ?>" />
@@ -48,7 +42,7 @@ if ($grpFilter == 'all') {
 
 </article>
 
-<?php if ($jr_safeArray['filterType'] == 'brand' ) : ?>
+<?php if ($grpFilter == 'brand') : ?>
 
 <article class="extra-brands">
   <header class="article-header flex-1">

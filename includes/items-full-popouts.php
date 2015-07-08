@@ -1,7 +1,7 @@
 <?php //moving this to sepatare page just to break down a bit ?>
 
 <aside class="shop-buttons">
-  <button id="js-buy-btn" class="btn-red text-icon-left basket-w">
+  <button id="js-buy-btn" class="btn-red text-icon basket-w">
     <h4>Buy Today</h4>
   </button>
   <div id="js-buy-modal" class="modal right dark-block">
@@ -52,7 +52,7 @@
 
 
 
-  <button id="js-query-btn" class="text-icon question">
+  <button id="js-query-btn" class="btn-red text-icon question-w">
     <h4>Need more info</h4>
   </button>
   <!--    <button class="text-icon list"><h3>Add To Shopping List</h3></button>-->

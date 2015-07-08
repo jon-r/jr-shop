@@ -134,9 +134,13 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
 
 function jr_MMtoFeet($mm) {
   $justInches = $mm / 25.4;
-  $feet = floor($justInches / 12);
-  $inches = $justInches % 12;
-  $out = "${feet}ft $inches";
+  if ($justInches < 24) {
+    $out = ceil($justInches);
+  } else {
+    $feet = floor($justInches / 12);
+    $inches = $justInches % 12;
+    $out = "${feet}ft $inches";
+  }
 
   return $out;
 }

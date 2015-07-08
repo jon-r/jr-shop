@@ -2,13 +2,13 @@
 $jr_groupArray = jrCached_Categories_Sorted();
 ?>
 <div class="nav-top flex-container" >
-  <label class="top-btn main" for="menu-toggle">
+  <label class="top-btn left" for="menu-toggle">
     <h2 class="text-icon-left menu-w" >Shop our Range</h2>
   </label>
 
-  <input type="checkbox"  id="menu-toggle">
+  <input type="checkbox" class="toggle-check" id="menu-toggle">
 
-  <menu class="nav-menu" >
+  <menu class="nav-left-menu" >
     <ul class="main-menu" id="js-main-list" >
       <?php foreach($jr_groupArray as $grpName => $grpList) : ?>
       <?php $menuHeaderImg = site_url(jr_siteImg('icons/menu-'.strtolower(strtok($grpName, ' ')).'.jpg')); ?>
@@ -62,11 +62,11 @@ $jr_groupArray = jrCached_Categories_Sorted();
 <?php
   wp_nav_menu(array(
     'container' => '',                           // remove nav container
-    'menu' => __( 'Featured Menu Links', 'bonestheme' ),  // nav name
-    'items_wrap'      => '<ul class="nav-top-menu" >%3$s</ul>',
+    'menu' => __( 'Header Bar Links', 'bonestheme' ),  // nav name
+    'items_wrap'      => '<ul class="nav-right-menu" >%3$s</ul>',
     'before' => '<h3 class="top-btn">',
     'after' => '</h3>',
-    'theme_location' => 'featured-menu',         // where it's located in the theme
+    'theme_location' => 'header-bar',         // where it's located in the theme
     'fallback_cb' => ''                          // fallback function (if there is one)
   ));
 ?>

@@ -1,8 +1,8 @@
 <?php
 if ( $jr_safeArray['ss'] ) {
-  $shopItem = jr_itemComplile($item, 'tinySS');
+  $shopItem = jr_itemComplile($itemTiny, 'tinySS');
 } else {
-  $shopItem = jr_itemComplile($item, 'tiny');
+  $shopItem = jr_itemComplile($itemTiny, 'tiny');
 }
 ?>
 <li class="item-tile-inner" >
