@@ -43,7 +43,7 @@
     <h4>Need more info</h4>
   </button>
 
-  <div id="js-query-modal" class="modal right dark-block is-active-small">
+  <div id="js-query-modal" class="modal right dark-block">
     <div class="modal-close btn-icon close-w"></div>
       <div class="modal-spec">
         <h2><?php echo $shop_item['name'] ?></h2>
@@ -56,7 +56,7 @@
     <div class="form-modal" >
 
     <?php echo do_shortcode('[contact-form-7 id="167" title="Contact Form Query"]'); ?>
-    </div>
   </div>
+
 
 </aside>

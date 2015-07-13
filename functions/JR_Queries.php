@@ -13,7 +13,6 @@ function jrQ_brands() {
   return $wpdb->get_col($queryStr);
 }
 
-
 function jrQ_rhc($rhc) {
   global $wpdb, $itemSoldDuration;
   $queryStr = "SELECT `RHC` FROM `networked db` WHERE `RHC` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
@@ -233,6 +232,11 @@ function jrQ_tesimonial($detail = null) {
   global $wpdb;
   $query = ($detail) ? 'Testimonial_Full' : 'Testimonial_Short';
   return $wpdb->get_results("SELECT `$query`, `Name` FROM `rhc_testimonial`;", ARRAY_A);
+}
+function jrQ_faq() {
+  global $wpdb;
+  $query = "SELECT `question`,`answer`,`next` FROM `form_faqs`";
+  return $wpdb->get_results($query, ARRAY_A);
 }
 /* -- admin only querys ---------------------------------------------------------------*/
 function jrQA_validItems() {

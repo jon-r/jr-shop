@@ -17,6 +17,18 @@ function jrCached_Settings() {
   }
 }
 
+function jrCached_FAQ() {
+  $transient = get_transient('jr_t_faq');
+
+  if( !empty($transient)) {
+    return $transient;
+  } else {
+    $results = jrQ_faq();
+    set_transient('jr_t_faq', $results, WEEK_IN_SECONDS);
+    return $results;
+  }
+}
+
 /* setting transients of some of the most common querys. */
 function jrCached_Categories_Full() {
   $transient = get_transient('jr_t_categories_full');
@@ -53,8 +65,6 @@ function jrCached_Groups() {
     return $results;
   }
 }
-
-
 
 function jrCached_Brands() {
   $transient = get_transient('jr_t_brands');

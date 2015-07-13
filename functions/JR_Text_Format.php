@@ -26,7 +26,7 @@ function jr_format($in) {
 
   foreach ($getCats as $cat) {
     $findCat[] = '[category:'.$cat['Name'].']';
-    $replaceCat[] = '<a href="'.site_url('products/'.$cat['RefName']).'" >'.$cat['Name'].'</a>';
+    $replaceCat[] = '<a href="'.site_url('products/category/'.$cat['RefName']).'" >'.$cat['Name'].'</a>';
   }
   $out = preg_replace($findBasic,$replaceBasic,$in);
   $out = str_ireplace($findCat,$replaceCat, $out);
