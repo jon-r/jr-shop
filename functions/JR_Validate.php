@@ -127,8 +127,6 @@ function jr_validate_urls($url) {
       $out['filterVal'] = 'Not Found';
     }
 
-  } else { //get the page title if not part of the shop
-    $out['pgType'] = $out['title'] = get_the_title();
   };
 
   return $out;
