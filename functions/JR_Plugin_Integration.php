@@ -65,7 +65,7 @@ function jr_getSubject($atts) {
   $a = shortcode_atts([
     'name' => 'form-custom',
     'class' => '',
-    'default' => 'pgRef'
+    'default' => 'formRef'
   ], $atts);
 
   $inputClass = 'wpcf7-form-control wpcf7-text '.$a['class'];

@@ -4,9 +4,9 @@ function rhc_getScripts() {
   if (isset($_GET['page']) && $_GET['page'] == 'rhc-maintenance') {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', ( 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js' ), false, null, true );
-    wp_enqueue_style( 'caramel_stylesheet', plugin_dir_url( __FILE__ ) . 'caramel.min.css');
-    wp_enqueue_style( 'jr_admin_stylesheet', plugin_dir_url( __FILE__ ) . 'jr_admin_style.css');
-    wp_enqueue_script( 'jr_admin_script', plugin_dir_url( __FILE__ ) . 'jr_admin_script.js', array( 'jquery' ), '', true );
+    wp_enqueue_style( 'caramel_stylesheet', plugin_dir_url( __FILE__ ) . 'includes/caramel.min.css');
+    wp_enqueue_style( 'jr_admin_stylesheet', plugin_dir_url( __FILE__ ) . 'includes/includes/jr_admin_style.css');
+    wp_enqueue_script( 'jr_admin_script', plugin_dir_url( __FILE__ ) . 'includes/jr_admin_script.js', array( 'jquery' ), '', true );
     wp_localize_script( 'jr_admin_script', 'fileSrc', ['ajaxAdmin' => admin_url( 'admin-ajax.php' )]);
   }
 }

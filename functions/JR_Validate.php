@@ -26,7 +26,7 @@ function jr_validate_urls($url) {
 
   if ($params[1] == '') { // index
     $out['title'] = $out['pgType'] = 'Home';
-    $out['pgRef'] = 'Hello';
+    $out['formRef'] = 'Hello';
 
   } elseif ($params[1]  == 'departments') {
     $out['pgType'] = 'Group';
@@ -83,7 +83,7 @@ function jr_validate_urls($url) {
     } elseif ($params[2] == 'sold') { //sold
       $out['sold'] = true;
       $out['filterType'] = 'all';
-      $out['title'] = $out['pgRef'] = 'Recently Sold';
+      $out['title'] = 'Recently Sold';
       $out['filterVal2'] = jr_categoryInfo('sold');
 
     } elseif ($params[2] == 'special-offers') { //sale
@@ -106,7 +106,7 @@ function jr_validate_urls($url) {
       $out['title'] = $getItem['ProductName'];
       $out['ss'] = false;
       $out['filterVal2'] = $getItem['Category'];
-      $out['pgRef'] = 'RHC'.$out['filterVal'].' - '.$out['title'];
+      $out['formRef'] = 'RHC'.$out['filterVal'].' - '.$out['title'];
     } else {
       $out['filterVal'] = 'Not Found';
     }
@@ -121,7 +121,7 @@ function jr_validate_urls($url) {
       $out['ss'] = true;
       $out['title'] = $getItem['ProductName'];
       $out['filterVal2'] = $getItem['Category'];
-      $out['pgRef'] = 'RHCs'.$out['filterVal'].' - '.$out['title'];
+      $out['formRef'] = 'RHCs'.$out['filterVal'].' - '.$out['title'];
 
     } else {
       $out['filterVal'] = 'Not Found';

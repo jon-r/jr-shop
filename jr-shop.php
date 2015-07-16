@@ -29,6 +29,7 @@
 
 include ('functions/JR_Mini_Cache.php');
 
+include ('functions/JR_Contact_Forms.php');
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');
 include ('functions/JR_Global_Variables.php');

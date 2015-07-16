@@ -76,4 +76,5 @@ function jr_debugger() {
   global $jr_safeArray;
   var_dump($jr_safeArray);
 }
+
 ?>
