@@ -5,7 +5,7 @@
     <header>
       <h2>Contact us</h2>
     </header>
-    <?php echo do_shortcode('[contact-form-7 id="132" title="Contact form Slim"]'); ?>
+    <?php include('form-base.php') ?>
   </section>
 
   <section class="social flex-2 dark-block">
@@ -30,3 +30,4 @@
   </section>
 
 </article>
+

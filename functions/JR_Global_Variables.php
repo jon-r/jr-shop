@@ -22,7 +22,7 @@ function jr_linkTo($target) {
     'twitter'   => 'https://twitter.com/'.$jr_config['contact_twitter_id'],
     'linkedin'  => $jr_config['contact_linkedin'],
     'email'     => $jr_config['contact_email'],
-    'eLink'     => '<a href="mailto:info@redhotchilli.catering">'.$jr_config['contact_email'].'</a>',
+    'eLink'     => '<a href="mailto:'.$jr_config['contact_email'].'">'.$jr_config['contact_email'].'</a>',
     'phone'     => $jr_config['contact_phone'],
     'address'   => str_replace(';', '<br>', $jr_config['contact_address']),
     //internal links
