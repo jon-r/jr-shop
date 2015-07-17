@@ -1,41 +1,46 @@
-<form name="contact" class="js_contact_form" action="post"  novalidate="novalidate">
+<form name="contact_form" class="js_contact_form" method="POST" action="" >
   <?php
 $formSubject=isset($jr_safeArray[ 'formRef']) ? $jr_safeArray['formRef'] : get_the_title();
 global $hasMailForm;
 $hasMailForm = true;
   ?>
   <p>
-    <label>* Name</label>
-    <input type="text" name="name" placeholder="Your Name" size="40" class="text-input" aria-required="true" aria-invalid="false">
-    <br>
+    <label class="required">Name</label>
+    <input type="text" name="name" placeholder="Your Name" size="40" class="text-input" aria-required="true">
+    <span class="form-error-output"></span>
+
     <label>Business</label>
-    <input type="text" name="business" placeholder="Business Name" size="40" class="text-input" aria-invalid="false">
-    <br>
-    <label>* Email Address</label>
-    <input type="email" name="email" placeholder="Email Address" size="40" class="text-input" aria-required="true" aria-invalid="false">
-    <br>
-    <label>* Phone Number</label>
-    <input type="tel" name="tel" placeholder="Your Number" size="40" class="text-input" aria-required="true" aria-invalid="false">
-    <br>
+    <input type="text" name="business" placeholder="Business Name" size="40" class="text-input">
+
+    <label class="required">Email Address</label>
+    <input type="email" name="email" placeholder="Email" size="40" class="text-input" aria-required="true">
+    <span class="form-error-output"></span>
+
+    <label class="required">Phone Number</label>
+    <input type="tel" name="tel" placeholder="Your Number" size="40" class="text-input" aria-required="true">
+    <span class="form-error-output"></span>
+
     <label>Address</label>
-    <input type="text" name="address" placeholder="Full Address" class="text-input" aria-required="true" aria-invalid="false">
-    <br>
-    <label>* Postcode</label>
-    <input type="text" name="postcode" placeholder="Postcode" size="10" class="text-input" aria-required="true" aria-invalid="false">
-    <br>
+    <input type="text" name="address" placeholder="Your Address" class="text-input">
+
+    <label class="required">Postcode</label>
+    <input type="text" name="postcode" placeholder="Postcode" size="10" class="text-input" aria-required="true">
+    <span class="form-error-output"></span>
+
     <label>Subject</label>
-    <input type="text" name="subject" value="<?php echo $formSubject ?>" class="text-input" aria-invalid="false">
-    <br>
+    <input type="text" name="subject" value="<?php echo $formSubject ?>" class="text-input">
+
     <em>(Items with an asterisk (*) are required)</em>
-    <div class="js_form_success" ></div>
   </p>
   <p>
     <label>Your Message</label>
-    <textarea name="your-message" cols="40" rows="10" class="text-input" aria-invalid="false"></textarea>
+    <textarea name="your-message" cols="40" rows="10" class="text-input"></textarea>
 
     <br>
-    <input type="submit" value="Send" class="btn-red button">
+  <button id="js-test" type="submit" class="btn-red" name="submit" type="submit">Send</button>
 
   </p>
 </form>
+
+
 
