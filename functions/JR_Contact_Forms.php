@@ -9,7 +9,7 @@ also uses php validators, to check without java script
 }
 add_action( 'wp_enqueue_scripts', 'jr_enqueue_validate' );*/
 
-//http://rickharrison.github.io/validate.js/
+
 
 function jr_formSubmit() {
 
@@ -19,7 +19,7 @@ function jr_formSubmit() {
   if(empty($_GET['name'])  ||
      empty($_GET['email']) ||
      empty($_GET['postcode']) ||
-     empty($_GET['tel'] ) ||
+     empty($_GET['phone number'] ) ||
      empty($_GET['message'])
     ) {
     $errors .= "Error: all fields marked with '*' are required";
@@ -33,7 +33,7 @@ function jr_formSubmit() {
     $form_name = $_GET['name'];
     $form_email = $_GET['email'];
     $form_message = wordwrap($_GET['message'], 70);
-    $form_phone = $_GET['tel'];
+    $form_phone = $_GET['phone number'];
     $form_postcode = $_GET['postcode'];
     //optionals
     $form_business = $_GET['business'] ?: null;
