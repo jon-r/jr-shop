@@ -29,7 +29,6 @@
 
 include ('functions/JR_Mini_Cache.php');
 
-include ('functions/JR_Contact_Forms.php');
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');
 include ('functions/JR_Global_Variables.php');
@@ -45,6 +44,7 @@ include ('functions/JR_Shortcodes.php');
 include ('functions/JR_Testimonials.php');
 include ('functions/JR_Text_Format.php');
 include ('functions/JR_Validate.php');
+include ('functions/JR_Contact_Forms.php');
 
  if (is_admin()) {
    include 'admin/JR_Shop_Admin.php';

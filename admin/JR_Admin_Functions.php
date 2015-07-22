@@ -7,7 +7,7 @@ function rhc_getScripts() {
     wp_enqueue_style( 'caramel_stylesheet', plugin_dir_url( __FILE__ ) . 'includes/caramel.min.css');
     wp_enqueue_style( 'jr_admin_stylesheet', plugin_dir_url( __FILE__ ) . 'includes/includes/jr_admin_style.css');
     wp_enqueue_script( 'jr_admin_script', plugin_dir_url( __FILE__ ) . 'includes/jr_admin_script.js', array( 'jquery' ), '', true );
-    wp_localize_script( 'jr_admin_script', 'fileSrc', ['ajaxAdmin' => admin_url( 'admin-ajax.php' )]);
+    wp_localize_script( 'jr_admin_script', 'fileSrc', ['admin' => admin_url( 'admin-ajax.php' )]);
   }
 }
 function rhc_setup_menu() {

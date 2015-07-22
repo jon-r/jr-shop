@@ -14,59 +14,67 @@ add_action( 'wp_enqueue_scripts', 'jr_enqueue_validate' );*/
 function jr_formSubmit() {
 
   $errors = '';
-  $to = jr_linkTo('email');
+  $to = 'jon.richards@outlook.com';
+  $in = $_GET['keyword'];
 
-  if(empty($_GET['name'])  ||
-     empty($_GET['email']) ||
-     empty($_GET['postcode']) ||
-     empty($_GET['phone number'] ) ||
-     empty($_GET['message'])
+  parse_str($in, $params);
+
+  if(empty($params['name'])  ||
+     empty($params['email']) ||
+     empty($params['postcode']) ||
+     empty($params['phone_number'])
     ) {
-    $errors .= "Error: all fields marked with '*' are required";
+    $errors .= "All fields marked with '*' are required.";
    //validate email
   } elseif (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors .= "Error: please check your email address";
+    $errors .= "Please check your email address.";
   }
 
   if(empty($errors)) {
     //requireds, enforced by the first errorcheck
-    $form_name = $_GET['name'];
-    $form_email = $_GET['email'];
-    $form_message = wordwrap($_GET['message'], 70);
-    $form_phone = $_GET['phone number'];
-    $form_postcode = $_GET['postcode'];
+    $form_name = $params['name'];
+    $form_email = $params['email'];
+    $form_phone = $params['phone_number'];
+    $form_postcode = $params['postcode'];
     //optionals
-    $form_business = $_GET['business'] ?: null;
-    $form_subject = $_GET['subject'] ?: null;
-    $form_address = $_GET['address'] ?: null;
+    $form_business = $params['business'] ?: null;
+    $form_subject = $params['subject'] ?: null;
+    $form_address = $params['address'] ?: null;
+    $form_message = wordwrap($params['message'], 70);
     //extra
     $formURL = $_GET['url'] ?: null;
 
     $subject = "Message from $form_name - $form_subject";
+    $business = isset($form_business) ? "Business Name: $form_business /n" : null;
+    $address = isset($form_address) ? "Address: $form_address /n" : null;
+
     $message = "You have a message from $form_name. /n"
       ."--- /n"
       ."$form_message /n"
       ."--- /n"
       ."Contact Details /n"
-      .isset($form_business) ? "Business Name: $form_business /n" : null
-      .isset($form_address) ? "Address: $form_address /n" : null
+      .$business
+      .$address
       ."Postcode: $form_postcode /n"
-      ."Phone Number: $form_postcode /n"
+      ."Phone Number: $form_phone /n"
       ."Email: $form_email"
       ."--- /n"
-      ."This email was sent from /n $formURL";
+      ."This email was sent from /n <a href='$formURL'>$formURL</a>";
 
     $headers = "From: $to \n";
     $headers .= "Reply-To: $form_email";
 
     mail($to, $subject, $message, $headers);
 
-    //echo
+    $out = "Form mailed successfully";
+  } else {
+    $out = $errors;
   }
-
+  echo json_encode($out);
+  wp_die();
 }
-
-
+add_action('wp_ajax_jr_formsubmit', 'jr_formSubmit');
+add_action('wp_ajax_nopriv_jr_formsubmit', 'jr_formSubmit');
 
 
 /*

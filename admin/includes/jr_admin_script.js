@@ -17,7 +17,7 @@ var $btnFindDeadImg = $('#js-oldImageFind'),
 $btnFindDeadImg.click(function () {
   $outputGallery.html('');
 
-  $.get(fileSrc.ajaxAdmin, {
+  $.get(fileSrc.admin, {
     keyword: 'gallery',
     action: "jra_deadimgstats"
   }, listDeadImg)
@@ -35,7 +35,7 @@ function listDeadImg(data) {
 $btnDelDeadImg.click(function() {
   $outputGallery.html('');
 
-  $.get(fileSrc.ajaxAdmin, {
+  $.get(fileSrc.admin, {
     keyword: 'gallery',
     action: "jra_deadimgdel"
   }, confirmDeadImg);
@@ -57,7 +57,7 @@ $btnFindSpecific.click(function() {
   var ref = $inputRef.val();
 
   $outputSpecific.html('');
-  $.get(fileSrc.ajaxAdmin, {
+  $.get(fileSrc.admin, {
     reference: ref,
     action: "jra_specificimg"
   }, listSpecific)
@@ -95,7 +95,7 @@ var $btnClearCache = $('#js-clearCache'),
 
 $btnClearCache.click(function() {
   $outputCache.html( '' );
-  $.get(fileSrc.ajaxAdmin, {
+  $.get(fileSrc.admin, {
     action: "jra_clearcache"
   }, listSpecific);
 });
