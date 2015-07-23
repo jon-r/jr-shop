@@ -1,6 +1,6 @@
 <?php
-/* sends the contact form via ajax.
-uses validate.js to check valid info before supbimtting.
+/* sends the contact form info via ajax.
+uses javascript to check valid info before supbimtting.
 also uses php validators, to check without java script
 */
 
@@ -9,6 +9,26 @@ also uses php validators, to check without java script
 }
 add_action( 'wp_enqueue_scripts', 'jr_enqueue_validate' );*/
 
+function jr_getAnswers() {
+  global $jr_safeArray;
+  $getQuery = $_GET['keyword'];
+  $questions = jrCached_FAQ();
+
+
+  if ($getQuery != "") {
+    $answer = array_search($getQuery, array_column($questions, 'question'));
+    $out['answer'] = jr_format($questions[$answer]['answer']);
+    $out['next'] = '<h3 class="text-icon arrow-r-w">'
+      .$questions[$answer]['next'].'</h3>';
+  } else {
+    $out['answer'] = $out['next'] = "";
+  }
+
+  echo json_encode($out);
+  wp_die();
+}
+add_action('wp_ajax_jr_getAnswers', 'jr_getAnswers');
+add_action('wp_ajax_nopriv_jr_getAnswers', 'jr_getAnswers');
 
 
 function jr_formSubmit() {
@@ -37,6 +57,7 @@ function jr_formSubmit() {
     $form_phone = $params['phone_number'];
     $form_postcode = $params['postcode'];
     //optionals
+    $form_ref = $params['formRef'] ?: null;
     $form_business = $params['business'] ?: null;
     $form_subject = $params['subject'] ?: null;
     $form_address = $params['address'] ?: null;
@@ -47,10 +68,12 @@ function jr_formSubmit() {
     $subject = "Message from $form_name - $form_subject";
     $business = isset($form_business) ? "Business Name: $form_business /n" : null;
     $address = isset($form_address) ? "Address: $form_address /n" : null;
+    $ref = isset ($form_ref) ? "Ref: $form_ref /n" : null;
 
     $message = "You have a message from $form_name. /n"
       ."--- /n"
       ."$form_message /n"
+      ."$ref"
       ."--- /n"
       ."Contact Details /n"
       .$business
@@ -59,7 +82,7 @@ function jr_formSubmit() {
       ."Phone Number: $form_phone /n"
       ."Email: $form_email"
       ."--- /n"
-      ."This email was sent from /n <a href='$formURL'>$formURL</a>";
+      ."This email was sent from page: /n <a href='$formURL'>$formURL</a>";
 
     $headers = "From: $to \n";
     $headers .= "Reply-To: $form_email";

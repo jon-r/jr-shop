@@ -45,17 +45,9 @@
 
   <div id="js-query-modal" class="modal right dark-block">
     <div class="modal-close btn-icon close-w"></div>
-      <div class="modal-spec">
-        <h2><?php echo $shop_item['name'] ?></h2>
-        <br>
-        <h3>
-          <?php echo $shop_item['rhc'] ?> <br> <?php echo $shop_item['price'] ?>
-        </h3>
-      </div>
-
     <div class="form-modal" >
-
-    <?php echo do_shortcode('[contact-form-7 id="167" title="Contact Form Query"]'); ?>
+    <?php $formPopout = true ?>
+    <?php include('form-base.php') ?>
   </div>
 
 
