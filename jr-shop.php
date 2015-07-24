@@ -38,7 +38,7 @@ include ('functions/JR_Permalinks.php');
 include ('functions/JR_Page_Nav.php');
 include ('functions/JR_Plugin_Integration.php');
 include ('functions/JR_Search.php');
-include ('functions/JR_Shop_compile.php');
+include ('functions/JR_Shop_Compile.php');
 include ('functions/JR_Shop_Filter.php');
 include ('functions/JR_Shortcodes.php');
 include ('functions/JR_Testimonials.php');

@@ -2,7 +2,7 @@
 
 <section class="white-block item-scale flex-2">
   <header>
-  <h2>Scale</h2>
+  <h2 class="text-icon cube">Scale</h2>
   </header>
   <em>(For size only, shape is not accurate)</em>
 

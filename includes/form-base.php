@@ -1,6 +1,7 @@
 <?php $formSubject=isset($jr_safeArray['formRef']) ? $jr_safeArray['formRef'] : get_the_title(); ?>
 
 <form name="contact_form" class="js_contact_form" method="POST" action="">
+  <input type="hidden" name="formRef" value="<?php echo $formSubject ?>">
 
   <?php if (isset($formPopout)) :
     $questions = jrCached_FAQ();
@@ -17,7 +18,6 @@
     </select>
     <span class="text-output" id="js-question-out">Choose any question from the list</span>
     <button class="js_nextBtn btn-red form-btn" type="button"></button>
-    <input type="hidden" name="formRef" value="<?php echo $formSubject ?>">
   </p>
 
   <?php endif ?>

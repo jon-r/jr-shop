@@ -34,7 +34,7 @@ add_action('wp_ajax_nopriv_jr_getAnswers', 'jr_getAnswers');
 function jr_formSubmit() {
 
   $errors = '';
-  $to = 'jon.richards@outlook.com';
+  $to = jr_linkTo('email');
   $in = $_GET['keyword'];
 
   parse_str($in, $params);
@@ -46,7 +46,7 @@ function jr_formSubmit() {
     ) {
     $errors .= "All fields marked with '*' are required.";
    //validate email
-  } elseif (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  } elseif (!filter_var($params['email'], FILTER_VALIDATE_EMAIL)) {
     $errors .= "Please check your email address.";
   }
 
@@ -66,23 +66,23 @@ function jr_formSubmit() {
     $formURL = $_GET['url'] ?: null;
 
     $subject = "Message from $form_name - $form_subject";
-    $business = isset($form_business) ? "Business Name: $form_business /n" : null;
-    $address = isset($form_address) ? "Address: $form_address /n" : null;
-    $ref = isset ($form_ref) ? "Ref: $form_ref /n" : null;
+    $business = isset($form_business) ? "Business Name: $form_business \n" : null;
+    $address = isset($form_address) ? "Address: $form_address \n" : null;
+    $ref = isset ($form_ref) ? "Ref: $form_ref \n" : null;
 
-    $message = "You have a message from $form_name. /n"
-      ."--- /n"
-      ."$form_message /n"
+    $message = "You have a message from $form_name. \n"
+      ."--- \n"
+      ."$form_message \n"
       ."$ref"
-      ."--- /n"
-      ."Contact Details /n"
+      ."--- \n"
+      ."Contact Details \n"
       .$business
       .$address
-      ."Postcode: $form_postcode /n"
-      ."Phone Number: $form_phone /n"
+      ."Postcode: $form_postcode \n"
+      ."Phone Number: $form_phone \n"
       ."Email: $form_email"
-      ."--- /n"
-      ."This email was sent from page: /n <a href='$formURL'>$formURL</a>";
+      ."--- \n"
+      ."This email was sent from page: \n $formURL";
 
     $headers = "From: $to \n";
     $headers .= "Reply-To: $form_email";

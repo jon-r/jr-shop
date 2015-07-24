@@ -84,7 +84,7 @@ if ( $jr_safeArray['ss'] ) {
 
   <section class="white-block flex-2 item-specs">
     <header>
-      <h2>Specs</h2>
+      <h2 class="text-icon list">Specs</h2>
     </header>
 
     <ul class="item-dimensions item-tile-inner">
