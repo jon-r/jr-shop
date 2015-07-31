@@ -1,3 +1,11 @@
+<!--
+
+
+USE LEGENDS AS TITLES
+
+
+-->
+
 <?php $formSubject=isset($jr_safeArray['formRef']) ? $jr_safeArray['formRef'] : get_the_title(); ?>
 
 <form name="contact_form" class="js_contact_form" method="POST" action="">
@@ -5,24 +13,25 @@
 
   <?php if (isset($formPopout)) :
     $questions = jrCached_FAQ();
-    $optionList = '<option value="">---</option>';
+    $optList .= '';
+    $optCount = 0;
     foreach ($questions as $faq) {
-      $optionList .= '<option value="'.$faq['question'].'">'.$faq['question'].'</option>';
+      $optCount++;
+      $optList .= '<label class="form-question" for="opt-'.$optCount.'"><h4>'.$faq['question'].'</h4></label>'
+        .'<input id="opt-'.$optCount.'" type="radio" name="subject" value="'.$faq['question'].'"></input>'
+        .'<span class="form-answer">'.$faq['answer']
+        .'<em class="nextLink greater" >'.$faq['next'].'</em>'
+        .'</span>';
     }
   ?>
-  <h3>Talk to us about <?php echo $formSubject ?></h3>
-  <p class="subform-active">
-    <label >Ask about</label>
-    <select name="subject" class="text-input" id="js-question-in">
-      <?php echo $optionList; ?>
-    </select>
-    <span class="text-output" id="js-question-out">Choose any question from the list</span>
-    <button class="js_nextBtn btn-red form-btn" type="button"></button>
-  </p>
+  <fieldset class="subform-active">
+    <h3>Ask us about <?php echo $formSubject ?></h3>
+    <?php echo $optList; ?>
+  </fieldset>
 
   <?php endif ?>
 
-  <p>
+  <fieldset>
     <label class="required">Name</label>
     <input type="text" name="name" placeholder="Your Name" size="40" class="text-input req">
     <span class="form-output error"></span>
@@ -45,9 +54,9 @@
     <input type="text" name="postcode" placeholder="Postcode" size="10" class="text-input req">
     <span class="form-output error"></span>
     <?php if (!isset($formPopout)) : ?>
-  </p>
+  </fieldset>
 
-  <p>
+  <fieldset>
     <label>Subject</label>
     <input type="text" name="subject" value="<?php echo $formSubject ?>" class="text-input">
     <?php else : ?>
@@ -56,12 +65,12 @@
     <button class="js_nextBtn btn-red form-btn" type="button">
       <h3 class="text-icon arrow-r-w">Next</h3>
     </button>
-        <button class="js_backBtn btn-red form-btn" type="button">
+    <button class="js_backBtn btn-red form-btn" type="button">
       <h3 class="text-icon-left arrow-l-w">Back</h3>
     </button>
-  </p>
+  </fieldset>
 
-  <p>
+  <fieldset>
     <?php endif ?>
 
     <label>Your Message</label>
@@ -77,7 +86,7 @@
       <h3 class="text-icon-left arrow-l-w">Back</h3>
     </button>
     <?php endif ?>
-  </p>
+  </fieldset>
 </form>
 
 
