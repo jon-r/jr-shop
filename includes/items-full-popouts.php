@@ -43,11 +43,18 @@
     <h4>Need more info</h4>
   </button>
 
-  <div id="js-query-modal" class="modal right dark-block">
+  <div id="js-query-modal" class="modal right dark-block is-active-small">
     <div class="modal-close btn-icon close-w"></div>
     <div class="form-modal" >
-    <?php $formPopout = true ?>
-    <?php include('form-base.php') ?>
+      <?php $formPopout = true ?>
+      <?php include('form-base.php') ?>
+
+      <ul class="form-progress">
+        <li class="progress-blip active"></li>
+        <li class="progress-blip"></li>
+        <li class="progress-blip"></li>
+      </ul>
+    </div>
   </div>
 
 

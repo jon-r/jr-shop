@@ -1,7 +1,7 @@
 <nav class="container flex-container">
 
   <div class="flex-5">
-    <h3>Shop With Us</h3>
+    <h3>Shop Today</h3>
     <?php wp_nav_menu(array(
       'container' => '',                              // remove nav container
       'menu' => __( 'Footer Shop Links', 'bonestheme' ),   // nav name
@@ -12,7 +12,7 @@
   </div>
 
   <div class="flex-5">
-    <h3>About Us</h3>
+    <h3>About Red Hot Chilli</h3>
     <?php wp_nav_menu(array(
       'container' => '',                              // remove nav container
       'menu' => __( 'Footer Other Links', 'bonestheme' ),   // nav name

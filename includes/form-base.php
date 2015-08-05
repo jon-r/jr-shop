@@ -1,11 +1,8 @@
-<!--
+<?php /*
 
+  dot indicators for the form
 
-USE LEGENDS AS TITLES
-
-
--->
-
+*/?>
 <?php $formSubject=isset($jr_safeArray['formRef']) ? $jr_safeArray['formRef'] : get_the_title(); ?>
 
 <form name="contact_form" class="js_contact_form" method="POST" action="">
@@ -13,15 +10,18 @@ USE LEGENDS AS TITLES
 
   <?php if (isset($formPopout)) :
     $questions = jrCached_FAQ();
-    $optList .= '';
+    $optList = '';
     $optCount = 0;
     foreach ($questions as $faq) {
       $optCount++;
-      $optList .= '<label class="form-question" for="opt-'.$optCount.'"><h4>'.$faq['question'].'</h4></label>'
+      $answer = jr_format($faq['answer']);
+      $optList .= '<label class="form-question" for="opt-'.$optCount.'"><h3>'.$faq['question'].'</h3></label>'
         .'<input id="opt-'.$optCount.'" type="radio" name="subject" value="'.$faq['question'].'"></input>'
-        .'<span class="form-answer">'.$faq['answer']
-        .'<em class="nextLink greater" >'.$faq['next'].'</em>'
-        .'</span>';
+        .'<p class="form-answer">'.$answer
+        .'<button class="js_nextBtn btn-red form-btn" type="button">'
+        .'<span class="text-icon arrow-r-w" >'.$faq['next'].'</span>'
+        .'</button>'
+        .'</p>';
     }
   ?>
   <fieldset class="subform-active">
