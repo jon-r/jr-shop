@@ -169,9 +169,7 @@ function jrQ_itemString($safeArr) {
   //the query "start". how much data are we getting?
   if ($qType == 'counter') {
     $querySelection = "$itemRef";
-  } elseif ($qType == 'lite') {
-    $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
-  } elseif ($isSteel) {
+  } elseif ($qType == 'lite' || $isSteel) {
     $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
   } else {
     $querySelection = "$itemRef, `ProductName`, `IsSoon`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";

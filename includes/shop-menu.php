@@ -3,9 +3,8 @@ $jr_groupArray = jrCached_Categories_Sorted();
 ?>
 <div class="nav-top flex-container" >
   <label class="top-btn left" for="menu-toggle">
-    <h2 class="text-icon-left menu-w" >Shop our Range</h2>
+    <h2 class="text-icon-left basket-w" >Browse our Store</h2>
   </label>
-
   <input type="checkbox" class="toggle-check" id="menu-toggle">
 
   <menu class="nav-left-menu" >
@@ -16,7 +15,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
       <li>
         <h3 class="nav-btn"><?php echo $grpName ?></h3>
         <ul class="sub-menu" style="background-image:url(<?php echo $menuHeaderImg; ?>)">
-          <h3 class="touch-toggle btn-red text-icon close-w">Back</h3>
+          <h3 class="touch-toggle text-icon close-w">Back</h3>
 
           <?php foreach ($grpList as $category) :
             $link=site_url( '/products/category/'.$category['RefName']);
@@ -38,7 +37,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
             'menu' => __( 'Featured Menu Links', 'bonestheme' ),  // nav name
             'before' => '<span class="nav-btn text-icon arrow-r">',
             'after' => '</span>',
-            'items_wrap'      => '<ul class="sub-menu" ><h3 class="touch-toggle btn-red text-icon close-w">Back</h3>%3$s</ul>',
+            'items_wrap'      => '<ul class="sub-menu" ><h3 class="touch-toggle text-icon close-w">Back</h3>%3$s</ul>',
             'theme_location' => 'featured-menu',         // where it's located in the theme
             'fallback_cb' => ''                          // fallback function (if there is one)
         )); ?>
@@ -50,7 +49,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
             'menu' => __( 'Services Menu links', 'bonestheme' ),  // nav name
             'before' => '<span class="nav-btn text-icon arrow-r">',
             'after' => '</span>',
-            'items_wrap'      => '<ul class="sub-menu" ><h3 class="touch-toggle btn-red text-icon close-w">Back</h3>%3$s</ul>',
+            'items_wrap'      => '<ul class="sub-menu" ><h3 class="touch-toggle text-icon close-w">Back</h3>%3$s</ul>',
             'theme_location' => 'services-menu',         // where it's located in the theme
             'fallback_cb' => ''                          // fallback function (if there is one)
         )); ?>

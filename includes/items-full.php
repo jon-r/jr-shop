@@ -57,9 +57,9 @@ if ( $jr_safeArray['ss'] ) {
 
     <?php include("items-full-popouts.php"); ?>
   </section>
-
-  <ul class="item-features dark-block flex-1">
-    <?php if (!$jr_safeArray['ss']) : ?>
+<div class="item-features dark-block flex-1">
+  <ul class="item-tile-inner">
+    <?php if (!$jr_safeArray[ 'ss']) : ?>
     <li class="text-icon-left tick-w">Photos of actual product</li>
     <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
     <?php endif ?>
@@ -67,20 +67,16 @@ if ( $jr_safeArray['ss'] ) {
     <li class="text-icon-left tick-w">Finance Options On Request</li>
     <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
     <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
-
-    <aside class="social-shares shop-buttons">
-      <button class="text-icon-left facebook" >
-        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>" >
-          Share on Facebook
-        </a>
-      </button>
-      <button class="text-icon-left twitter" >
-        <a href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
-        Share on Twitter
-        </a>
-      </button>
-    </aside>
   </ul>
+  <aside class="social-shares">
+    <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>">
+        Share on Facebook
+    </a>
+    <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
+      Share on Twitter
+    </a>
+  </aside>
+</div>
 
   <section class="white-block flex-2 item-specs">
     <header>
