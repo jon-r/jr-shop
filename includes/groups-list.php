@@ -22,7 +22,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
           $link = site_url('/products/category/'.$category['RefName']);
       ?>
       <li>
-        <h3 class="nav-btn"><a href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a></h3>
+        <a class="nav-btn" href="<?php echo $link ?>" ><?php echo $category['Name'] ?></a>
       </li>
       <?php endforeach ?>
     </ul>

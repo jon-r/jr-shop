@@ -44,41 +44,54 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
   case 'item':
     if ($ref['Brand']) {
       $brandUrl = sanitize_title($ref['Brand']);
-      $brandIconLocation = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg');
-      $brandName = file_exists($brandIconLocation) ?
-        '<img src="'.site_url($brandIconLocation).'" alt="'.$ref['Brand'].'" >' : '<b>Brand: </b>'.$ref['Brand'].'<br>';
-      $brandLink = '<a href="'.site_url('brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
+      $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg');
+      if (file_exists($brandImg)) {
+        $brandText = '<img src="'.site_url($brandImg).'" alt="'.$ref['Brand'].'" >'
+          .'<a href="'.site_url('brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
+      } else {
+        $brandText = $ref['Brand'].' (<a href="'.site_url('brand/'.$brandUrl).'" >More</a>)';
+      }
     } else {
-      $brandName = null;
-      $brandLink = null;
+      $brandText = null;
     };
     if ($ref['Wattage'] >= 1500) {
-      $pwrCheck = "<b>Power:</b> ".($ref['Wattage'] / 1000)."kw, ".$ref['Power'];
+      $pwrCheck = ($ref['Wattage'] / 1000).'kw, '.$ref['Power'];
     } elseif ($ref['Wattage'] < 1500 && $ref['Wattage'] > 0) {
-      $pwrCheck = "<b>Power:</b> ".$ref['Wattage']." watts, ".$ref['Power'];
+      $pwrCheck = $ref['Wattage'].' watts, '.$ref['Power'];
     } elseif ($ref['Power']) {
-      $pwrCheck = "<b>Power:</b> ".$ref['Power'];
+      $pwrCheck = $ref['Power'];
     } else {
       $pwrCheck = null;
     };
+    $specList = [
+      'Brand'   => $brandText,
+      'Model'   => $ref['Model'] ?: null,
+      'Power'   => $pwrCheck,
+      'Height'  => $ref['Height'] ? $ref['Height'].'mm / '.jr_MMtoFeet($ref['Height']).'inch' : null,
+      'Width'   => $ref['Width'] ? $ref['Width'].'mm / '.jr_MMtoFeet($ref['Width']).'inch' : null,
+      'Depth'   => $ref['Depth'] ? $ref['Depth'].'mm / '.jr_MMtoFeet($ref['Depth']).'inch' : null,
+    ];
+    if ($ref['ExtraMeasurements']) {
+      $extras = explode(';',$ref['ExtraMeasurements']);
+      foreach($extras as $extra) {
+        $item = explode(':',$extra);
+        $specList[trim($item[0])] = $item[1] ? trim($item[1]) : null;
+      }
+    };
+
+    //put last to keep in order
+    $specList['Condition'] = $ref['Condition/Damages'] != "0" ? $ref['Condition/Damages'] : null;
+
     $out1 = [
       'height'    => $ref['Height'] ?: null,
       'width'     => $ref['Width'] ?: null,
       'depth'     => $ref['Depth'] ?: null,
-      'hFull'     => $ref['Height'] ? "<b>Height</b>: ".$ref['Height']."mm / ".jr_MMtoFeet($ref['Height'])."inch" : null,
-      'wFull'     => $ref['Width'] ? "<b>Width:</b> ".$ref['Width']."mm / ".jr_MMtoFeet($ref['Width'])."inch" : null,
-      'dFull'     => $ref['Depth'] ? "<b>Depth:</b> ".$ref['Depth']."mm / ".jr_MMtoFeet($ref['Depth'])."inch" : null,
       'desc'      => ($ref['Line 1'] != "0" ? $ref['Line 1']." " : null).
-                      ($ref['Line 2'] != "0" ? $ref['Line 2']." " : null).
-                        ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
-      'model'       => $ref['Model'] ? "<b>Model:</b> ".$ref['Model'] : null,
-      'extra'       => $ref['ExtraMeasurements'] != "0" ? "<b>Extra Measurements:</b> ".$ref['ExtraMeasurements'] : null,
-      'condition'   => $ref['Condition/Damages'] != "0" ? "<b>Condition:</b> ".$ref['Condition/Damages'] : null,
-      'brandName'   => $brandName,
-      'brandLink'   => $brandLink,
-      'power'       => $pwrCheck,
-      'imgAll'      => glob('images/gallery/RHC'.$ref['RHC'].'*'),
-      'category'    => $ref['Category']
+                     ($ref['Line 2'] != "0" ? $ref['Line 2']." " : null).
+                     ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
+      'specs'     => $specList,
+      'imgAll'    => glob('images/gallery/RHC'.$ref['RHC'].'*'),
+      'category'  => $ref['Category']
     ];
 
   case 'list':

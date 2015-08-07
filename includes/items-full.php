@@ -84,17 +84,12 @@ if ( $jr_safeArray['ss'] ) {
     </header>
 
     <ul class="item-dimensions item-tile-inner">
-    <?php
-      $specs = [
-        'brandName' => '', 'brandLink' => '', 'model' => '',
-        'hFull' => '', 'wFull' => '', 'dFull' => '',
-        'power' => '', 'condition' => '', 'extra' => ''
-      ];
-      $setSpecs = array_intersect_key($shop_item, $specs);
-      ?>
-      <?php foreach ($setSpecs as $spec) {
-        echo isset($spec) ? "<li>$spec</li>" : null;
-      } ?>
+
+    <?php $list = "";
+      foreach ($shop_item['specs'] as $key => $value) {
+        echo $value ? "<li><b>$key:</b> $value</li>" : null;
+      }
+    ?>
     </ul>
   </section>
 
