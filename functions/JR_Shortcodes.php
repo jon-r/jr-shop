@@ -62,7 +62,7 @@ function jr_columns($atts, $content = null) {
     $frame = null;
   }
 
-  return '<div class="'.$size.$frame.'" >'.$content.'</div>';
+  return '<div class="'.$size.$frame.'" >'.do_shortcode($content).'</div>';
 }
 function jr_columnContainer($atts, $content = null) {
   return '<div class="flex-container" >'.do_shortcode($content).'</div>';

@@ -14,13 +14,17 @@ if ($grpFilter == 'all') {
 ?>
 
 <article class="flex-container">
-
-<?php foreach ($getCategories as $title => $filteredCategories) : ?>
   <header class="article-header flex-1" >
-    <h1><?php echo $title ?></h1>
+    <h1><?php echo $jr_safeArray['title'] ?></h1>
   </header>
 
-  <?php foreach ($filteredCategories as $category) :
+<?php foreach ($getCategories as $title => $filteredCategories) : ?>
+
+  <?php if ($grpFilter == 'all') : ?>
+  <header class="sub-header flex-1" >
+    <h3><?php echo $title ?></h3>
+  </header>
+  <?php endif; foreach ($filteredCategories as $category) :
     if ($grpFilter  == 'brand') {
       $link = site_url('products/brand/'.$category['RefName']);
       $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
@@ -33,7 +37,7 @@ if ($grpFilter == 'all') {
   <section class="shop-tile category flex-6">
     <a href="<?php echo $link ?>" >
       <div class="shop-tile-header"><h2><?php echo $category['Name'] ?></h2></div>
-      <img src="<?php echo site_url($imgUrl) ?>" />
+      <img class="framed" src="<?php echo site_url($imgUrl) ?>" />
     </a>
   </section>
   <?php endforeach ?>

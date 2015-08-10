@@ -5,25 +5,25 @@
   <ul class="menu-featured flex-container" >
     <li class="flex-4">
       <a href="<?php echo site_url('products/arrivals/') ?>" >
-        <img src="<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>" alt="Equipment just in" >
+        <img class="framed" src="<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>" alt="Equipment just in" >
         <h2>Latest Arrivals</h2>
       </a>
     </li>
     <li class="flex-4">
       <a href="<?php echo site_url('brands/') ?>" >
-        <img src="<?php echo jr_siteImg('icons/btn-brands.jpg') ?>" alt="Shop By Brands" >
+        <img class="framed" src="<?php echo jr_siteImg('icons/btn-brands.jpg') ?>" alt="Shop By Brands" >
         <h2>Brands</h2>
       </a>
     </li>
     <li class="flex-4">
       <a href="<?php echo site_url('services/') ?>" >
-        <img src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="Our Other Services" >
+        <img class="framed" src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="Our Other Services" >
         <h2>Other Services</h2>
       </a>
     </li>
     <li class="flex-4">
       <a href="<?php echo site_url('about/') ?>" >
-        <img src="<?php echo jr_siteImg('icons/btn-about.jpg') ?>" alt="About Us" >
+        <img class="framed" src="<?php echo jr_siteImg('icons/btn-about.jpg') ?>" alt="About Us" >
         <h2>About Red Hot Chilli</h2>
       </a>
     </li>
