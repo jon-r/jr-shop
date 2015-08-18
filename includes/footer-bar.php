@@ -39,7 +39,7 @@
   </div>
 
   <p class="legal flex-1">
-    &copy; <?php echo date(á'Y'); ?>
+    &copy; <?php echo date('Y'); ?>
     Red Hot Chilli Northwest Ltd. Company Reg. 08244972. VAT Reg. 878 3946 55. Reg Office: St Georges Court, Northwich, Cheshire CW8 4EE
     <br>
     Tel: <?php echo jr_linkTo('phone') ?>. Email: <?php echo jr_linkTo('eLink') ?>

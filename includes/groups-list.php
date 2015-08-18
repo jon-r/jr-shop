@@ -5,11 +5,14 @@ $jr_groupArray = jrCached_Categories_Sorted();
 
 <article class="flex-container">
 
-<!--
   <header class="article-header flex-1" >
     <h1>Catering Equipment For Sale</h1>
+    <h3>
+      <a href="<?php echo jr_linkTo('all categories') ?>" >Shop by Category</a>
+      <a href="<?php echo jr_linkTo('all brands') ?>" >Shop by Manufacturer</a>
+      <a href="<?php echo jr_linkTo('arrivals') ?>" >Latest Stock</a>
+    </h3>
   </header>
--->
 
 
 <?php foreach($jr_groupArray as $group => $grpList) :

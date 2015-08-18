@@ -34,7 +34,7 @@ if ($grpFilter == 'all') {
     }
   ?>
 
-  <section class="shop-tile category flex-6">
+  <section class="shop-tile category flex-5">
     <a href="<?php echo $link ?>" >
       <div class="shop-tile-header"><h2><?php echo $category['Name'] ?></h2></div>
       <img class="framed" src="<?php echo site_url($imgUrl) ?>" />

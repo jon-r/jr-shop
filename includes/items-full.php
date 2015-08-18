@@ -57,26 +57,30 @@ if ( $jr_safeArray['ss'] ) {
 
     <?php include("items-full-popouts.php"); ?>
   </section>
-<div class="item-features dark-block flex-1">
-  <ul class="item-tile-inner">
-    <?php if (!$jr_safeArray[ 'ss']) : ?>
-    <li class="text-icon-left tick-w">Photos of actual product</li>
-    <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
-    <?php endif ?>
-    <li class="text-icon-left tick-w">Competitive UK &amp; EU Delivery Quotes</li>
-    <li class="text-icon-left tick-w">Finance Options On Request</li>
-    <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
-    <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
-  </ul>
-  <aside class="social-shares">
-    <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>">
-        Share on Facebook
-    </a>
-    <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
-      Share on Twitter
-    </a>
-  </aside>
-</div>
+  <section class="item-features dark-block flex-1">
+    <header>
+      <h2>Features</h2>
+    </header>
+
+    <ul class="item-tile-inner">
+      <?php if (!$jr_safeArray[ 'ss']) : ?>
+      <li class="text-icon-left tick-w">Photos of actual product</li>
+      <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
+      <?php endif ?>
+      <li class="text-icon-left tick-w">Competitive UK &amp; EU Delivery Quotes</li>
+      <li class="text-icon-left tick-w">Finance Options On Request</li>
+      <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
+      <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
+    </ul>
+    <div class="social-shares">
+      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>">
+          Share on Facebook
+      </a>
+      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
+        Share on Twitter
+      </a>
+    </div>
+  </section>
 
   <section class="white-block flex-2 item-specs">
     <header>
@@ -93,7 +97,7 @@ if ( $jr_safeArray['ss'] ) {
     </ul>
   </section>
 
-  <?php
+<?php
   //show the box sim, if not furnishings and valid height/width
   if (
     ($item['Height'] > 0 && $item['Width'] > 0) &&
@@ -101,10 +105,10 @@ if ( $jr_safeArray['ss'] ) {
   ) {
     include( "item-boxSim.php");
   }
-  ?>
+?>
 
-    <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
-  <?php if (count($related) > 0) : ?>
+<?php $related = jrQ_itemsRelated($jr_safeArray); ?>
+<?php if (count($related) > 0) : ?>
   <section class="white-block item-related flex-1">
     <header >
       <h2>More <?php echo $jr_safeArray['filterVal2']; ?></h2>
@@ -114,6 +118,6 @@ if ( $jr_safeArray['ss'] ) {
        <?php foreach ($related as $itemTiny) { include( "list-item-small.php"); } ?>
     </ul>
   </section>
-  <?php endif ?>
+<?php endif ?>
 
 </article>
