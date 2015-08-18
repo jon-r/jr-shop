@@ -22,9 +22,8 @@ $itemsNew = jrQ_ItemsNew();
     <header >
       <h2>More in store</h2>
       <span>Sometimes the equipment you need is going through the workshop right now. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.</span>
-
     </header>
-    <?php echo do_shortcode('[contact-form-7 id="141" title="Contact Form Wide"]'); ?>
+    <?php include('form-base.php') ?>
   </section>
 <?php endif ?>
 </article>

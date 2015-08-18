@@ -68,6 +68,32 @@ function jr_columnContainer($atts, $content = null) {
   return '<div class="flex-container" >'.do_shortcode($content).'</div>';
 }
 
+add_shortcode("text-block", "jr_textBlock");
+function jr_textBlock($atts, $content = null) {
+  $a = shortcode_atts([
+    'frame' => false,
+    'columns' => 1
+  ], $atts);
+  if ($a['columns'] == 1) {
+    $size = 'text-columns-1 ';
+  } elseif ($a['columns'] == 2) {
+    $size = 'text-columns-2 ';
+  } elseif ($a['columns'] == 3) {
+    $size = 'text-columns-3 ';
+  } elseif ($a['columns'] == 4) {
+    $size = 'text-columns-4 ';
+  }
+  if ($a['frame'] == 'light') {
+    $frame = 'has-frame';
+  } elseif ($a['frame'] == 'light') {
+    $frame = 'has-frame-dark';
+  } else {
+    $frame = null;
+  }
+
+  return '<div class="'.$size.$frame.'" >'.do_shortcode($content).'</div>';
+}
+
 /* ---- debug arrays ------------------------------------------------------------------*/
 //for testing purposes. may add different options
 add_shortcode("jr-debug", "jr_debugger");

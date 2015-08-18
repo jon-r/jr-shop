@@ -14,7 +14,7 @@ if ( $jr_safeArray['ss'] ) {
   <section class="white-block flex-1">
     <div id="js-gallery-primary" class="item-tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
       <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
-           alt="<?php echo $shop_item['name'] ?>">
+           class="framed" alt="<?php echo $shop_item['name'] ?>">
       <button class="tile-hover zoom dark-block text-icon-left expand-w"></button>
       <?php if (count($shop_item['imgAll'])> 1) : ?>
       <button id="js-gallery-prev" class="gallery-nav text-icon-left arrow-l"></button>
@@ -31,7 +31,7 @@ if ( $jr_safeArray['ss'] ) {
       <?php foreach ($shop_item['imgAll'] as $galleryImg) : ?>
       <li class="item-tile-inner">
         <img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>"
-             alt="<?php echo $shop_item['name'] ?>"
+             class="framed" alt="<?php echo $shop_item['name'] ?>"
              data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
       </li>
       <?php endforeach ?>
