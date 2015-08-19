@@ -1,15 +1,15 @@
 
 <article class="flex-container">
 
-  <section class="flex-2 form-contact dark-block">
-    <header>
+  <section class="flex-2 form-contact tile-outer padded dark">
+    <header class="tile-header lined">
       <h2>Contact us</h2>
     </header>
     <?php include('form-base.php') ?>
   </section>
 
-  <section class="social flex-2 dark-block">
-    <header>
+  <section class="flex-2 tile-outer padded dark">
+    <header class="tile-header lined">
       <h2>What our customers say</h2>
     </header>
 
@@ -19,7 +19,7 @@
       <h4><?php echo addslashes ($singleFeedback['Name']); ?></h4>
     </blockquote>
 
-    <header>
+    <header class="tile-header lined">
       <h2>Find us online</h2>
     </header>
     <div class="social-links">

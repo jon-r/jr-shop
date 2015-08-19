@@ -20,7 +20,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
     $grpHeaderImg = site_url(jr_siteImg('icons/Header-'.strtok($group, ' ').'.jpg'));
 ?>
 
-  <section class="shop-tile group flex-3">
+  <section class="tile-outer list-group flex-3">
     <img class="framed" src="<?php echo $grpHeaderImg ?>" alt="<?php echo $group ?>"/>
     <ul>
       <?php foreach ($grpList as $category) :

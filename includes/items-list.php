@@ -18,11 +18,11 @@ $itemsNew = jrQ_ItemsNew();
   ?>
   <?php if(count($items['list']) < $itemCountMin) : ?>
 
-  <section class="flex-1 form-contact wider dark-block">
-    <header >
+  <section class="flex-1 form-contact wider tile-outer padded dark">
+    <header class="tile-header lined">
       <h2>More in store</h2>
-      <span>Sometimes the equipment you need is going through the workshop right now. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.</span>
     </header>
+    <p>Sometimes the equipment you need is going through the workshop right now. If interested, call <?php echo jr_linkTo('phone') ?> today and will see if we can get hold of what you need.</p>
     <?php include('form-base.php') ?>
   </section>
 <?php endif ?>
@@ -31,7 +31,7 @@ $itemsNew = jrQ_ItemsNew();
 <?php if ($items['paginate']) : ?>
 
 <nav class="flex-container ">
-  <section class="nav-paginate white-block">
+  <section class="nav-paginate tile-outer">
     <?php if ($pageNumber > 1) : ?>
     <a href="<?php  echo jr_pgSet(1) ?>"><h3>&laquo;</h3></a>
     <a href="<?php  echo jr_pgSet('minus') ?>"><h3>&lsaquo;</h3></a>
