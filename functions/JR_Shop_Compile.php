@@ -67,9 +67,9 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'Brand'   => $brandText,
       'Model'   => $ref['Model'] ?: null,
       'Power'   => $pwrCheck,
-      'Height'  => $ref['Height'] ? $ref['Height'].'mm / '.jr_MMtoFeet($ref['Height']).'inch' : null,
-      'Width'   => $ref['Width'] ? $ref['Width'].'mm / '.jr_MMtoFeet($ref['Width']).'inch' : null,
-      'Depth'   => $ref['Depth'] ? $ref['Depth'].'mm / '.jr_MMtoFeet($ref['Depth']).'inch' : null,
+      'Height'  => $ref['Height'] ? $ref['Height'].'mm / '.jr_MMtoFeet($ref['Height']) : null,
+      'Width'   => $ref['Width'] ? $ref['Width'].'mm / '.jr_MMtoFeet($ref['Width']) : null,
+      'Depth'   => $ref['Depth'] ? $ref['Depth'].'mm / '.jr_MMtoFeet($ref['Depth']) : null,
     ];
     if ($ref['ExtraMeasurements']) {
       $extras = explode(';',$ref['ExtraMeasurements']);
@@ -148,11 +148,12 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
 function jr_MMtoFeet($mm) {
   $justInches = $mm / 25.4;
   if ($justInches < 24) {
-    $out = ceil($justInches);
+    $out = ceil($justInches).'in';
   } else {
     $feet = floor($justInches / 12);
     $inches = $justInches % 12;
-    $out = "${feet}ft $inches";
+    $out = $feet."ft ";
+    $out .= $inches > 0 ? $inches.'in' : null;
   }
 
   return $out;
