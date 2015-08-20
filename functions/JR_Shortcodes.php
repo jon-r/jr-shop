@@ -16,9 +16,9 @@ function jr_modules($atts) {
     $cachetime = 604800;
 
     if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
-
+      ob_start();
       readfile($cachefile);
-
+      return ob_get_clean();
     } else {
       ob_start();
       include($file);
@@ -26,18 +26,20 @@ function jr_modules($atts) {
       $fp = fopen($cachefile, 'w');
       fwrite($fp, ob_get_contents());
       fclose($fp);
-      ob_end_flush();
+      ob_get_flush();
     }
 
   } elseif (file_exists($file)) {
+    ob_start();
     include($file);
+    return ob_get_clean();
   } else {
     echo "[check $file]";
   }
 }
 /* ---- columns -----------------------------------------------------------------------*/
 // adds flex-(2,3,4) dividers
-add_shortcode("column", "jr_columns");
+/* add_shortcode("column", "jr_columns");
 add_shortcode("columns", "jr_columnContainer");
 
 function jr_columns($atts, $content = null) {
@@ -66,32 +68,28 @@ function jr_columns($atts, $content = null) {
 }
 function jr_columnContainer($atts, $content = null) {
   return '<div class="flex-container" >'.do_shortcode($content).'</div>';
-}
+}*/
 
 add_shortcode("text-block", "jr_textBlock");
 function jr_textBlock($atts, $content = null) {
   $a = shortcode_atts([
-    'frame' => false,
-    'columns' => 1
+    'columns' => 1,
+    'title' => false
   ], $atts);
-  if ($a['columns'] == 1) {
-    $size = 'text-columns-1 ';
-  } elseif ($a['columns'] == 2) {
-    $size = 'text-columns-2 ';
-  } elseif ($a['columns'] == 3) {
-    $size = 'text-columns-3 ';
-  } elseif ($a['columns'] == 4) {
-    $size = 'text-columns-4 ';
+  if ($a['columns'] >= 0 && $a['columns'] <= 6) {
+    $size = 'text-columns-'.$a['columns'];
   }
-  if ($a['frame'] == 'light') {
-    $frame = 'has-frame';
-  } elseif ($a['frame'] == 'light') {
-    $frame = 'has-frame-dark';
-  } else {
-    $frame = null;
+  if ($a['title'] != false) {
+    $title = '<header class="tile-header lined"><h2>'.$a['title'].'</h2></header>';
   }
 
-  return '<div class="'.$size.$frame.'" >'.do_shortcode($content).'</div>';
+  $str = '<article class="flex-container">'
+    .'<section class="flex-1 tile-outer" >'
+    .$title
+    .'<div class="'.$size.'">'
+    .do_shortcode($content)
+    .'</div></section></article>';
+  return $str;
 }
 
 /* ---- debug arrays ------------------------------------------------------------------*/
