@@ -1,43 +1,41 @@
 <?php
   // featured items on front page
 ?>
-<article>
-  <ul class="menu-featured flex-container" >
-    <li class="tile-outer dark flex-4">
-      <a href="<?php echo site_url('products/arrivals/') ?>" >
-        <img class="framed" src="<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>" alt="Equipment just in" >
+<article class="flex-container">
+  <section class="tile-outer dark list-featured flex-4">
+    <a href="<?php echo site_url('products/arrivals/') ?>">
+      <header class="tile-header dark">
         <h2>Latest Arrivals</h2>
-      </a>
-    </li>
-    <li class="tile-outer dark flex-4">
-      <a href="<?php echo site_url('brands/') ?>" >
-        <img class="framed" src="<?php echo jr_siteImg('icons/btn-brands.jpg') ?>" alt="Shop By Brands" >
+      </header>
+      <img class="framed" src="<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>" alt="Equipment just in">
+    </a>
+  </section>
+  <section class="tile-outer dark list-featured flex-4">
+    <a href="<?php echo site_url('brands/') ?>">
+      <header class="tile-header dark">
         <h2>Brands</h2>
-      </a>
-    </li>
-    <li class="tile-outer dark flex-4">
-      <a href="<?php echo site_url('services/') ?>" >
-        <img class="framed" src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="Our Other Services" >
-        <h2>Other Services</h2>
-      </a>
-    </li>
-    <li class="tile-outer dark flex-4">
-      <a href="<?php echo site_url('about/') ?>" >
-        <img class="framed" src="<?php echo jr_siteImg('icons/btn-about.jpg') ?>" alt="About Us" >
-        <h2>About Red Hot Chilli</h2>
-      </a>
-    </li>
-  </ul>
+      </header>
+      <img class="framed" src="<?php echo jr_siteImg('icons/btn-brands.jpg') ?>" alt="Shop By Brands">
 
-  <?php /*wp_nav_menu(array(
-    'container' => '',                           // remove nav container
-    'menu' => __( 'Front Page Links', 'bonestheme' ),  // nav name
-    'menu_class' => 'menu-featured flex-container',                             // adding custom nav class
-    'theme_location' => 'front-page-list',          // where it's located in the theme
-    'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
-    'link_before' => '<h2>',                            // before each link
-    'link_after' => '</h2>',                             // after each link
-    'fallback_cb' => ''                             // fallback function (if there is one)
-  )); */?>
+    </a>
+  </section>
+  <section class="tile-outer dark list-featured flex-4">
+    <a href="<?php echo site_url('services/') ?>">
+      <header class="tile-header dark">
+        <h2>Other Services</h2>
+      </header>
+      <img class="framed" src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="Our Other Services">
+
+    </a>
+  </section>
+  <section class="tile-outer dark list-featured flex-4">
+    <a href="<?php echo site_url('about/') ?>">
+      <header class="tile-header dark">
+        <h2>About Red Hot Chilli</h2>
+      </header>
+      <img class="framed" src="<?php echo jr_siteImg('icons/btn-about.jpg') ?>" alt="About Us">
+
+    </a>
+  </section>
 
 </article>

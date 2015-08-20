@@ -1,14 +1,14 @@
 
 <article class="flex-container">
 
-  <section class="flex-2 form-contact tile-outer padded dark">
+  <section class="flex-2 form-contact tile-outer dark">
     <header class="tile-header lined">
       <h2>Contact us</h2>
     </header>
     <?php include('form-base.php') ?>
   </section>
 
-  <section class="flex-2 tile-outer padded dark">
+  <section class="flex-2 tile-outer dark">
     <header class="tile-header lined">
       <h2>What our customers say</h2>
     </header>

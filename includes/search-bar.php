@@ -8,5 +8,5 @@
     <h3 class="text-icon search-w">Go</h3>
   </button>
 
-  <ul class="search-out dark-block"></ul>
+  <ul class="tile-outer dark search-out"></ul>
 </form>

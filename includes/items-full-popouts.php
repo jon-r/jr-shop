@@ -6,7 +6,7 @@
     <h4 class="text-icon question-w" >Need more info</h4>
   </button>
 
-  <div id="js-query-modal" class="modal right block dark-block">
+  <div id="js-query-modal" class="tile-outer dark modal right">
     <div class="modal-close btn-icon close-w"></div>
     <div class="form-modal" >
       <?php $formPopout = true ?>

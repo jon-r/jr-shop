@@ -11,7 +11,7 @@ if ( $jr_safeArray['ss'] ) {
 
 <article class="flex-column">
 
-  <section class="tile-outer padded flex-1 item-gallery">
+  <section class="tile-outer flex-1 item-gallery">
     <header class="tile-header lined">
       <h1><?php echo $shop_item['name']; ?></h1>
     </header>
@@ -19,14 +19,14 @@ if ( $jr_safeArray['ss'] ) {
       <div id="js-gallery-primary" class="tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
         <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
              class="framed" alt="<?php echo $shop_item['name'] ?>">
-        <button class="tile-hover zoom block dark-block text-icon-left expand-w"></button>
+        <button id="js-gallery-zoom" class="tile-float text-icon-left expand-w"><h3>Zoom in</h3></button>
         <?php if (count($shop_item['imgAll'])> 1) : ?>
-        <button id="js-gallery-prev" class="gallery-nav text-icon-left arrow-l"></button>
-        <button id="js-gallery-next" class="gallery-nav text-icon arrow-r"></button>
+        <button id="js-gallery-prev" class="tile-button text-icon-left arrow-l"></button>
+        <button id="js-gallery-next" class="tile-button text-icon arrow-r"></button>
         <?php endif ?>
       </div>
 
-      <div id="js-gallery-modal" class="modal image block dark-block">
+      <div id="js-gallery-modal" class="tile-outer dark modal">
         <div class="modal-close btn-icon close-w"></div>
       </div>
 
@@ -46,7 +46,7 @@ if ( $jr_safeArray['ss'] ) {
 </article>
 <article id="js-tabs-frame" class="flex-column tabs-frame">
 
-  <section class="tile-outer padded item-info flex-1 active">
+  <section class="tile-outer item-info flex-1 active">
     <header class="tile-header lined">
       <h2><?php echo $shop_item['price'] ?> <span class='text-right'><?php echo $shop_item['quantity'] ?></span></h2>
       <h3><?php echo $shop_item['rhc'] ?></h3>
@@ -61,7 +61,7 @@ if ( $jr_safeArray['ss'] ) {
     <?php include("items-full-popouts.php"); ?>
     <div class="tab-toggle text-icon arrow"></div>
   </section>
-  <section class="item-features tile-outer dark padded flex-1">
+  <section class="item-features tile-outer dark flex-1">
     <header class="tile-header lined">
       <h2>Features</h2>
     </header>
@@ -87,7 +87,7 @@ if ( $jr_safeArray['ss'] ) {
     <div class="tab-toggle text-icon arrow-w"></div>
   </section>
 
-    <section class="tile-outer padded flex-2 item-specs">
+    <section class="tile-outer flex-2 item-specs">
       <header class="tile-header lined">
         <h2>Specs</h2>
       </header>
@@ -111,7 +111,7 @@ if ( $jr_safeArray['ss'] ) {
       ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Decor & Lighting')
     ) : ?>
   <?php $box = jr_boxGen($item) ; ?>
-    <section class="tile-outer padded flex-2 item-scale">
+    <section class="tile-outer flex-2 item-scale">
       <header class="tile-header lined">
         <h2>Scale</h2>
       </header>
@@ -144,7 +144,7 @@ if ( $jr_safeArray['ss'] ) {
 
   <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
   <?php if (count($related) > 0) : ?>
-    <section class="tile-outer padded item-related flex-1">
+    <section class="tile-outer item-related flex-1">
       <header class="tile-header lined">
         <h2>More <?php echo $jr_safeArray['filterVal2']; ?></h2>
       </header>

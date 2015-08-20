@@ -1,4 +1,4 @@
-<nav class="container flex-container">
+<nav class="container flex-container centre">
 
   <div class="flex-5">
     <h3>Shop Today</h3>

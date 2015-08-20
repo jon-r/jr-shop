@@ -1,8 +1,6 @@
 
-<article class="flex-container four-oh-four" >
-  <img class="flex-2" src="<?php echo site_url(jr_siteImg('icons/404.png')); ?>" alt="four-oh-four">
-
-  <section class="tile-outer padded dark flex-2" >
+<article class="flex-container centre four-oh-four" >
+  <section class="tile-outer dark flex-1" >
     <header class="tile-header lined">
       <h1>Something Went Wrong!</h1>
     </header>
@@ -10,4 +8,5 @@
     <?php echo do_shortcode( "[jr-shop id='search-bar']"); ?>
   </section>
 
+  <img class="flex-2" src="<?php echo site_url(jr_siteImg('icons/404.png')); ?>" alt="four-oh-four">
 </article>

@@ -10,7 +10,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
     <h3>
       <a href="<?php echo jr_linkTo('all categories') ?>" >Shop by Category</a>
       <a href="<?php echo jr_linkTo('all brands') ?>" >Shop by Manufacturer</a>
-      <a href="<?php echo jr_linkTo('arrivals') ?>" >Latest Stock</a>
+      <a href="<?php echo jr_linkTo('all items') ?>" >All Equipment</a>
     </h3>
   </header>
 

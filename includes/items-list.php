@@ -18,7 +18,7 @@ $itemsNew = jrQ_ItemsNew();
   ?>
   <?php if(count($items['list']) < $itemCountMin) : ?>
 
-  <section class="flex-1 form-contact wider tile-outer padded dark">
+  <section class="flex-1 form-contact wider tile-outer dark">
     <header class="tile-header lined">
       <h2>More in store</h2>
     </header>
@@ -30,7 +30,7 @@ $itemsNew = jrQ_ItemsNew();
 
 <?php if ($items['paginate']) : ?>
 
-<nav class="flex-container ">
+<nav class="flex-container centre">
   <section class="nav-paginate tile-outer">
     <?php if ($pageNumber > 1) : ?>
     <a href="<?php  echo jr_pgSet(1) ?>"><h3>&laquo;</h3></a>
