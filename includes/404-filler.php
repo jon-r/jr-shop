@@ -1,6 +1,6 @@
 
 <article class="flex-container centre four-oh-four" >
-  <section class="tile-outer dark flex-1" >
+  <section class="tile-outer dark flex-2" >
     <header class="tile-header lined">
       <h1>Something Went Wrong!</h1>
     </header>

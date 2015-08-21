@@ -4,10 +4,23 @@ uses javascript to check valid info before supbimtting.
 also uses php validators, to check without java script
 */
 
-/*function jr_enqueue_validate() {
-  wp_enqueue_script( 'validate', plugin_dir_url( __FILE__ ) . 'js/validate.min.js', '', '1.4.1', true );
+function jr_getQuestions() {
+  $questions = jrCached_FAQ();
+  $out = '';
+  $optCount = 0;
+  foreach ($questions as $faq) {
+    $optCount++;
+    $answer = jr_format($faq['answer']);
+    $out .= '<label class="form-question" for="opt-'.$optCount.'"><h3>'.$faq['question'].'</h3></label>'
+      .'<input id="opt-'.$optCount.'" type="radio" name="subject" value="'.$faq['question'].'"></input>'
+      .'<p class="form-answer">'.$answer
+      .'<button class="js_nextBtn btn-red form-btn" type="button">'
+      .'<span class="text-icon arrow-r-w" >'.$faq['next'].'</span>'
+      .'</button>'
+      .'</p>';
+  }
+  return $out;
 }
-add_action( 'wp_enqueue_scripts', 'jr_enqueue_validate' );*/
 
 function jr_getAnswers() {
   global $jr_safeArray;
