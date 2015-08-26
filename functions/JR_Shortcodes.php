@@ -38,37 +38,6 @@ function jr_modules($atts) {
   }
 }
 /* ---- columns -----------------------------------------------------------------------*/
-// adds flex-(2,3,4) dividers
-/* add_shortcode("column", "jr_columns");
-add_shortcode("columns", "jr_columnContainer");
-
-function jr_columns($atts, $content = null) {
-  $a = shortcode_atts([
-    'size' => 'half',
-    'frame' => false
-  ], $atts);
-  if ($a['size'] == 'full') {
-    $size = 'flex-1 ';
-  } elseif ($a['size'] == 'half') {
-    $size = 'flex-2 ';
-  } elseif ($a['size'] == 'third') {
-    $size = 'flex-3 ';
-  } elseif ($a['size'] == 'quarter') {
-    $size = 'flex-4 ';
-  }
-  if ($a['frame'] == 'light') {
-    $frame = 'has-frame';
-  } elseif ($a['frame'] == 'light') {
-    $frame = 'has-frame-dark';
-  } else {
-    $frame = null;
-  }
-
-  return '<div class="'.$size.$frame.'" >'.do_shortcode($content).'</div>';
-}
-function jr_columnContainer($atts, $content = null) {
-  return '<div class="flex-container" >'.do_shortcode($content).'</div>';
-}*/
 
 add_shortcode("text-block", "jr_textBlock");
 function jr_textBlock($atts, $content = null) {
@@ -81,6 +50,8 @@ function jr_textBlock($atts, $content = null) {
   }
   if ($a['title'] != false) {
     $title = '<header class="tile-header lined"><h2>'.$a['title'].'</h2></header>';
+  } else {
+    $title = '';
   }
 
   $str = '<article class="flex-container">'

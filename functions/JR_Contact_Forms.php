@@ -54,8 +54,7 @@ function jr_formSubmit() {
 
   if(empty($params['name'])  ||
      empty($params['email']) ||
-     empty($params['postcode']) ||
-     empty($params['phone_number'])
+     empty($params['postcode'])
     ) {
     $errors .= "All fields marked with '*' are required.";
    //validate email
@@ -67,20 +66,16 @@ function jr_formSubmit() {
     //requireds, enforced by the first errorcheck
     $form_name = $params['name'];
     $form_email = $params['email'];
-    $form_phone = $params['phone_number'];
     $form_postcode = $params['postcode'];
     //optionals
     $form_ref = $params['formRef'] ?: null;
-    $form_business = $params['business'] ?: null;
     $form_subject = $params['subject'] ?: null;
-    $form_address = $params['address'] ?: null;
+    $form_phone = $params['phone_number'] ?: null;
     $form_message = wordwrap($params['message'], 70);
     //extra
     $formURL = $_GET['url'] ?: null;
 
     $subject = "Message from $form_name - $form_subject";
-    $business = isset($form_business) ? "Business Name: $form_business \n" : null;
-    $address = isset($form_address) ? "Address: $form_address \n" : null;
     $ref = isset ($form_ref) ? "Ref: $form_ref \n" : null;
 
     $message = "You have a message from $form_name. \n"
@@ -89,8 +84,6 @@ function jr_formSubmit() {
       ."$ref"
       ."--- \n"
       ."Contact Details \n"
-      .$business
-      .$address
       ."Postcode: $form_postcode \n"
       ."Phone Number: $form_phone \n"
       ."Email: $form_email"

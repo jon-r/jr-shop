@@ -55,19 +55,13 @@
     <input type="text" name="name" placeholder="Your Name" size="40" class="text-input req">
     <span class="form-output error"></span>
 
-    <label>Company Name</label>
-    <input type="text" name="business" placeholder="Business Name" size="40" class="text-input">
-
     <label class="required">Email Address</label>
     <input type="email" name="email" placeholder="Email" size="40" class="text-input req">
     <span class="form-output error"></span>
 
-    <label class="required">Phone Number</label>
-    <input type="tel" name="phone number" placeholder="Your Number" size="40" class="text-input req">
+    <label>Phone Number</label>
+    <input type="tel" name="phone number" placeholder="Your Number" size="40" class="text-input">
     <span class="form-output error"></span>
-
-    <label>Address</label>
-    <input type="text" name="address" placeholder="Your Address" class="text-input">
 
     <label class="required">Postcode</label>
     <input type="text" name="postcode" placeholder="Postcode" size="10" class="text-input req">

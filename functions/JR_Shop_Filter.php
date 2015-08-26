@@ -8,12 +8,6 @@ function jr_categoryFilter() {
       'Name' => $c['Name'],
       'RefName' => $c['RefName']
     ];
-    if ($c['CategoryGroup2'] != '0') {
-      $out[$c['CategoryGroup2']][$c['Name']] = [
-        'Name' => $c['Name'],
-        'RefName' => $c['RefName']
-      ];
-    }
   }
   return $out;
 }

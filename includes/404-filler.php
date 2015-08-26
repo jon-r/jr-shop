@@ -1,12 +1,12 @@
 
 <article class="flex-container centre four-oh-four" >
+  <img class="flex-2" src="<?php echo site_url(jr_siteImg('icons/404.png')); ?>" alt="four-oh-four">
   <section class="tile-outer dark flex-2" >
     <header class="tile-header lined">
       <h1>Something Went Wrong!</h1>
     </header>
     <p>We can't find what you're looking for, or it may have sold. Maybe try searching for something else!</p>
-    <?php echo do_shortcode( "[jr-shop id='search-bar']"); ?>
   </section>
-
-  <img class="flex-2" src="<?php echo site_url(jr_siteImg('icons/404.png')); ?>" alt="four-oh-four">
 </article>
+
+<?php echo do_shortcode( "[jr-shop id='search-bar']"); ?>

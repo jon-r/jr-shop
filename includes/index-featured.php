@@ -2,6 +2,11 @@
   // featured items on front page
 ?>
 <article class="flex-container">
+
+  <header class="article-header flex-1" >
+    <h1><?php echo $title ?></h1>
+  </header>
+
   <section class="tile-outer dark list-featured flex-4">
     <a href="<?php echo site_url('products/arrivals/') ?>">
       <header class="tile-header dark">
