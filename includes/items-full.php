@@ -76,12 +76,8 @@ if ( $jr_safeArray['ss'] ) {
       <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
     </ul>
     <div class="social-shares">
-      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>">
-          Share on Facebook
-      </a>
-      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering">
-        Share on Twitter
-      </a>
+      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>"><h3>Share on Facebook</h3></a>
+      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering"><h3>Tweet on Twitter</h3></a>
     </div>
 
     <div class="tab-toggle text-icon arrow-w"></div>

@@ -1,51 +1,30 @@
 <?php
-$grpFilter = $jr_safeArray['filterVal'];
-if ($grpFilter == 'all') {
-  $getCategories = jrCached_Categories_Sorted();
-} elseif ($grpFilter == 'brand') {
-  $brands = jrCached_Brands();
-  $getCategories[$jr_safeArray['title']] = $brands['images'];
-  $otherBrands = $brands['text'];
-
-} else {
-  $allCategories = jrCached_Categories_Sorted();
-  $getCategories[$jr_safeArray['title']] = $allCategories[$grpFilter];
-}
+$brands = jrCached_Brands();
+$keyBrands = $brands['images'];
+$otherBrands = $brands['text'];
 ?>
 
 <article class="flex-container">
 
-<?php foreach ($getCategories as $title => $filteredCategories) : ?>
-
-  <?php if ($grpFilter == 'all') : ?>
   <header class="article-header flex-1" >
-    <h1><?php echo $title ?></h1>
+    <h1>Browse Popular Brands</h1>
   </header>
-  <?php endif; foreach ($filteredCategories as $category) :
-    if ($grpFilter  == 'brand') {
-      $link = site_url('products/brand/'.$category['RefName']);
-      $imgUrl = jr_siteImg('brands/square/'.$category['RefName'].'.jpg');
-    } else {
-      $link = site_url('/products/category/'.$category['RefName']);
-      $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
-    }
-  ?>
 
-  <section class="tile-outer list-category flex-4">
+  <?php foreach ($keyBrands as $brand) :
+    $link = site_url('products/brand/'.$brand['RefName']);
+    $imgUrl = jr_siteImg('brands/square/'.$brand['RefName'].'.jpg');
+  ?>
+  <section class="tile-outer list-category flex-6">
     <a href="<?php echo $link ?>" >
       <header class="tile-header red">
-        <h2><?php echo $category['Name'] ?></h2>
+        <h2><?php echo $brand['Name'] ?></h2>
       </header>
       <img class="framed" src="<?php echo site_url($imgUrl) ?>" />
     </a>
   </section>
   <?php endforeach ?>
 
-<?php endforeach ?>
-
 </article>
-
-<?php if ($grpFilter == 'brand') : ?>
 
 <article class="extra-brands">
   <header class="article-header flex-1">
@@ -58,7 +37,4 @@ if ($grpFilter == 'all') {
   </a>
   <?php endforeach; ?>
 </article>
-
-<?php endif ?>
-
 
