@@ -19,10 +19,10 @@ if ( $jr_safeArray['ss'] ) {
       <div id="js-gallery-primary" class="tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
         <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
              class="framed" alt="<?php echo $shop_item['name'] ?>">
-        <button id="js-gallery-zoom" class="tile-float text-icon-left expand-w"><h3>Zoom in</h3></button>
+        <button id="js-gallery-zoom" class="tile-float btn-grey text-icon expand-w"><h3>Zoom in</h3></button>
         <?php if (count($shop_item['imgAll'])> 1) : ?>
-        <button id="js-gallery-prev" class="tile-button text-icon-left arrow-l"></button>
-        <button id="js-gallery-next" class="tile-button text-icon arrow-r"></button>
+        <button id="js-gallery-prev" class="tile-button btn-light text-icon-left arrow-l"></button>
+        <button id="js-gallery-next" class="tile-button btn-light text-icon arrow-r"></button>
         <?php endif ?>
       </div>
 
