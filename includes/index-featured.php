@@ -4,7 +4,7 @@
 <article class="flex-container">
 
   <header class="article-header flex-1" >
-    <h1><?php echo $title ?></h1>
+    <h1>Shop for Catering Equipment</h1>
   </header>
 
   <section class="tile-outer dark list-featured flex-4">
