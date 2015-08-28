@@ -3,7 +3,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
 ?>
 <div class="nav-top flex-container" >
 
-  <div id="js-sticky-left" class="is-fixed left">
+  <div id="js-sticky-left" class="left">
     <label class="top-btn left" for="menu-toggle">
       <h2 class="text-icon-left basket-w" >Browse our Store</h2>
     </label>
