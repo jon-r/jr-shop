@@ -6,13 +6,16 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
   $out1 = $out2 = $out3 = [];
   switch ($detail) {
   case 'itemSS' :
+    $specList = [
+      'Height'  => $ref['Height'] ? $ref['Height'].'mm / '.jr_MMtoFeet($ref['Height']) : null,
+      'Width'   => $ref['Width'] ? $ref['Width'].'mm / '.jr_MMtoFeet($ref['Width']) : null,
+      'Depth'   => $ref['Depth'] ? $ref['Depth'].'mm / '.jr_MMtoFeet($ref['Depth']) : null,
+    ];
     $out1 = [
       'height'  => $ref['Height'] ?: null,
       'width'   => $ref['Width'] ?: null,
       'depth'   => $ref['Depth'] ?: null,
-      'hFull'   => $ref['Height'] ? "<b>Height</b>: ".$ref['Height']."mm / ".jr_MMtoFeet($ref['Height'])."inch" : null,
-      'wFull'   => $ref['Width'] ? "<b>Width:</b> ".$ref['Width']."mm / ".jr_MMtoFeet($ref['Width'])."inch" : null,
-      'dFull'   => $ref['Depth'] ? "<b>Depth:</b> ".$ref['Depth']."mm / ".jr_MMtoFeet($ref['Depth'])."inch" : null,
+      'specs'    => $specList,
       'desc'    => ($ref['Line1'] != "0" ? $ref['Line1']."<br>" : null),
       'imgAll'  => glob('images/gallery/RHCs'.$ref['RHCs'].'*')
     ];
