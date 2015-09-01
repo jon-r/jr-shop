@@ -6,9 +6,9 @@
     <h4 class="text-icon question-w" >Need more info</h4>
   </button>
 
-  <div id="js-query-modal" class="tile-outer dark modal right">
+  <div id="js-query-modal" class="tile-outer dark modal-frame right">
     <div class="modal-close btn-icon close-w"></div>
-    <div class="form-modal" >
+    <div class="form-contact modal" >
       <?php $formPopout = 'query' ?>
       <?php include('form-base.php') ?>
 
@@ -19,9 +19,9 @@
     <h4 class="text-icon basket-w" >Get a Delivery Quote</h4>
   </button>
 
-  <div id="js-buy-modal" class="tile-outer dark modal right is-open-small">
+  <div id="js-buy-modal" class="tile-outer dark modal-frame right">
     <div class="modal-close btn-icon close-w"></div>
-    <div class="form-modal" >
+    <div class="form-contact modal" >
       <?php $formPopout = 'buy' ?>
       <?php include('form-base.php') ?>
 

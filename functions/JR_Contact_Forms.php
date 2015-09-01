@@ -3,7 +3,7 @@
 uses javascript to check valid info before supbimtting.
 also uses php validators, to check without java script
 */
-
+/*
 function jr_getQuestions() {
   $questions = jrCached_FAQ();
   $out = '';
@@ -43,7 +43,7 @@ function jr_getAnswers() {
 add_action('wp_ajax_jr_getAnswers', 'jr_getAnswers');
 add_action('wp_ajax_nopriv_jr_getAnswers', 'jr_getAnswers');
 
-
+*/
 function jr_formSubmit() {
 
   $errors = '';
@@ -84,7 +84,7 @@ function jr_formSubmit() {
       ."$ref"
       ."--- \n"
       ."Contact Details \n"
-      ."Postcode: $form_postcode \n"
+      ."Location: $form_postcode \n"
       ."Phone Number: $form_phone \n"
       ."Email: $form_email"
       ."--- \n"

@@ -19,6 +19,10 @@
     <textarea name="message" cols="40" rows="10" class="text-input req"></textarea>
     <span class="form-output error"></span>
 
+    <label class="required">Postcode</label>
+    <input type="text" name="postcode" size="10" class="text-input req">
+    <span class="form-output error"></span>
+
     <button class="js_nextBtn btn-red form-btn" type="button">
       <h3 class="text-icon arrow-r-w">Next</h3>
     </button>
@@ -33,8 +37,11 @@
     <input type="text" name="subject" value="<?php echo $formSubject ?> - Delivery Quote" class="text-input">
 
     <label class="required">Your Address</label>
-    <textarea name="message" cols="40" rows="10" class="text-input req"></textarea>
+    <textarea name="postcode" cols="40" rows="10" class="text-input req"></textarea>
     <span class="form-output error"></span>
+
+    <label>Special Delivery Notes</label>
+    <textarea name="message" cols="40" rows="10" class="text-input" ></textarea>
 
     <button class="js_nextBtn btn-red form-btn" type="button">
       <h3 class="text-icon arrow-r-w">Next</h3>
@@ -56,11 +63,11 @@
     <input type="tel" name="phone number" placeholder="Your Number" size="40" class="text-input">
     <span class="form-output error"></span>
 
+<?php if (!isset($formPopout)) : ?>
+
     <label class="required">Postcode</label>
     <input type="text" name="postcode" placeholder="Postcode" size="10" class="text-input req">
     <span class="form-output error"></span>
-
-<?php if (!isset($formPopout)) : ?>
 
       </fieldset>
 

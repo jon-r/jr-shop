@@ -26,7 +26,7 @@ if ( $jr_safeArray['ss'] ) {
         <?php endif ?>
       </div>
 
-      <div id="js-gallery-modal" class="tile-outer dark modal">
+      <div id="js-gallery-modal" class="tile-outer dark modal-frame">
         <div class="modal-close btn-icon close-w"></div>
       </div>
 
