@@ -86,7 +86,7 @@ function jrQ_itemsSold($safeArr, $itemsOnPage) {
   if ($safeArr['pgType'] == 'arrivals' || $safeArr['pgType'] == 'sold') {
     $out = null;
   } else {
-    $soldCount = 8 - ($itemsOnPage % 8);
+    $soldCount = 4 - ($itemsOnPage % 4);
     $safeArr['sold'] = true;
     $safeArr['count'] = $soldCount;
     $query = jrQ_itemString($safeArr);
@@ -152,6 +152,7 @@ function jrQ_debug($safeArr,$sold=false) {
 }
 
 function jrQ_itemString($safeArr) {
+  global $itemSoldDuration;
   $qType = $safeArr['pgType'];
   $qFilter = $safeArr['filterType'];
   $qValue = $safeArr['filterVal'];
@@ -197,7 +198,7 @@ function jrQ_itemString($safeArr) {
   if ($qFilter == 'soon' ) {
     $orderBy = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY $itemRef DESC";
   } elseif ($isSold) {
-    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0) ORDER BY `DateSold` DESC LIMIT $limit";
+    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
   } elseif ($qFilter == 'related' ) {
     $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT 4";
   } elseif ($qType == 'counter') {

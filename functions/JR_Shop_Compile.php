@@ -50,7 +50,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg');
       if (file_exists($brandImg)) {
         $brandText = '<img class="framed" src="'.site_url($brandImg).'" alt="'.$ref['Brand'].'" >'
-          .'<a href="'.site_url('brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
+          .'<a href="'.site_url('products/brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
       } else {
         $brandText = $ref['Brand'].' (<a href="'.site_url('brand/'.$brandUrl).'" >More</a>)';
       }

@@ -2,8 +2,8 @@
 /*
 SEARCH:
   > semi inteligent search input, but fairly vague output if the smart keywords arent triggered
-    > the triggers are loose guides, prefer that they are skipped unless 90% likely to be what the customer is looking for.
-    > mostly designed to help with common multi word phrases, that an A OR B would break on ("three phase", "blue seal" "oven range")
+  > the triggers are loose guides, prefer that they are skipped unless 90% likely to be what the customer is looking for.
+  > mostly designed to help with common multi word phrases, that an A OR B would break on ("three phase", "blue seal" "oven range")
 */
 
 
@@ -16,7 +16,7 @@ function jr_smartSearch() {
   if (stripos($rawSearchTerm, "rhc") === 0) {
     $findRef = '/(rhc|rhcs)(\d+)/i';
     $replaceRef ='$1/$2';
-    $url =  site_url(preg_replace($findRef, $replaceRef, $safeSearch));
+    $url =  site_url(strtolower(preg_replace($findRef, $replaceRef, $safeSearch)));
   //the '- brand'/'- category' are taken from the autocomplete. One could type them in manually,
   //but unlikely to unless intentionally knows about this
   } elseif (strpos($rawSearchTerm, "- Category") > 0) {
