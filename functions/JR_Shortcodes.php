@@ -4,15 +4,31 @@
 add_shortcode("jr-shop", "jr_modules");
 
 function jr_modules($atts) {
-   global $jr_safeArray;
+  global $jr_safeArray;
   $a = shortcode_atts([
     'id' => '404',
     'cached'=> false
   ], $atts);
   $file = 'wp-content/plugins/jr-shop/includes/'.$a['id'].'.php';
-  if (file_exists($file) && $a['cached']) {
+  if (file_exists($file)) {
 
-    $cachefile = 'cached-files/'.$a['id'].'-cached.html';
+    if ($a['cached'] == 'unique') {
+      $pageName = $jr_safeArray['pgType'].'-'.$jr_safeArray['filterVal'].'-'.sanitize_title($jr_safeArray['title']);
+      jrCached_HTML($file, $pageName, 1);
+
+    } elseif ($a['cached']) {
+
+      jrCached_HTML($file, $a['id'], 7);
+
+    } else  {
+
+      ob_start();
+      include($file);
+      return ob_get_clean();
+    }
+
+
+    /*$cachefile = 'cached-files/'.$a['id'].'-cached.html';
     $cachetime = 604800;
 
     if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
@@ -27,12 +43,8 @@ function jr_modules($atts) {
       fwrite($fp, ob_get_contents());
       fclose($fp);
       ob_get_flush();
-    }
+    }*/
 
-  } elseif (file_exists($file)) {
-    ob_start();
-    include($file);
-    return ob_get_clean();
   } else {
     echo "[check $file]";
   }

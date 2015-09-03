@@ -99,6 +99,7 @@ function jr_validate_urls($url) {
     }
 
   } elseif ($params[1] == 'rhc') { //product
+    $out['pgType'] = 'Item';
 
     if (jrQ_rhc($params[2])) {
       $getItem = jrQ_titles($params[2]);
@@ -110,7 +111,7 @@ function jr_validate_urls($url) {
     } else {
       $out['filterVal'] = 'Not Found';
     }
-    $out['pgType'] = 'Item';
+
 
   } elseif ($params[1] == 'rhcs') { //product-ss
     $out['pgType'] = 'Item';

@@ -3,6 +3,25 @@
  in theory (nearly) everything could be set to a year or even endless,
  since a clear cache would be used to hard reset */
 
+function jrCached_HTML($file, $cacheName, $timeInDays) {
+  global $jr_safeArray;
+  $cachefile = 'cached-files/'.$cacheName.'-cached.html';
+  $cachetime = $timeInDays * 86400;
+
+  if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
+
+    readfile($cachefile);
+
+  } else {
+    ob_start();
+    include($file);
+    echo '<!-- Page '.$cacheName.' cached on '.date(DATE_COOKIE).' -->';
+    $fp = fopen($cachefile, 'w');
+    fwrite($fp, ob_get_contents());
+    fclose($fp);
+    ob_get_flush();
+  }
+}
 
 /* setting the general settings as a year long transient*/
 function jrCached_Settings() {
