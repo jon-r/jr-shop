@@ -28,17 +28,6 @@ function jr_validate_urls($url) {
     $out['title'] = $out['pgType'] = 'Home';
     $out['formRef'] = 'Hello';
 
-  } elseif ($params[1]  == 'departments') {
-    $out['pgType'] = 'Group';
-    $out['filterType'] = 'categories';
-
-    if ($params[2] == 'all') {
-      $out['title'] = "Shop by Category";
-      $out['filterVal'] = 'all';
-    } else {
-      $out['title'] = $out['filterVal'] = jr_urlToTitle($params[2],'grp');
-    }
-
   } elseif ($params[1] == 'brands') {
     $out['title'] = "Shop by Brand";
     $out['pgType'] = 'Group';

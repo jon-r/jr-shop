@@ -9,7 +9,7 @@ SEARCH:
 
 function jr_smartSearch() {
   $rawSearchTerm = $_GET['search'];
-  $safeSearch = preg_replace('/[^\w +-]/i','', $rawSearchTerm );
+  $safeSearch = preg_replace('/[^\w &+-]/i','', $rawSearchTerm );
   $ref = http_build_query(['q' => $safeSearch]);
   $url = site_url("products/search-results/?$ref");
 
@@ -21,7 +21,7 @@ function jr_smartSearch() {
   //but unlikely to unless intentionally knows about this
   } elseif (strpos($rawSearchTerm, "- Category") > 0) {
     $ref = str_replace(" - Category", "", $safeSearch);
-    $categoryID = jrQ_categoryID($ref);
+    $categoryID = jrQ_categoryID($ref) ?: $ref;
     $url = site_url('products/category/'.$categoryID.'/'.sanitize_title($ref));
   } elseif (strpos($rawSearchTerm, "- Brand") > 0) {
     $ref = str_replace(" - Brand", "", $safeSearch);
@@ -35,38 +35,30 @@ add_shortcode("jr-search", "jr_smartSearch");
 //setup data for the search autocomplete ajax
 //http://code.tutsplus.com/tutorials/add-jquery-autocomplete-to-your-sites-search--wp-25155
 function jr_autoComplete() {
-  $in = $_GET['keyword'];
+  $input = $_GET['keyword'];
+
   $getBrands = jr_allBrands();
-
-  $filteredBrand = array_filter($getBrands, function($var) {
-    return (stripos($var, $_GET['keyword']) !== false);
-  });
-
   $getCats = jrCached_Categories_Full();
-  $catList = array_column($getCats, 'Name');
-  $filteredCat = array_filter($catList, function($var) {
-    return (stripos($var, $_GET['keyword']) !== false);
-  });
 
-  $listBrands = array_map(function($var) {
-    $out = [
-      'name' => $var,
-      'url' => sanitize_title($var),
-      'filter' => 'brand'
-    ];
-    return $out;
-  }, $filteredBrand);
+  foreach($getBrands as $brand) {
+    if (stripos($brand, $input) !== false) {
+      $listFull[] = [
+        'name' => $brand,
+        'url' => sanitize_title($brand),
+        'filter' => 'brand'
+      ];
+    }
+  };
 
-  $listCats = array_map(function($var) {
-    $out = [
-      'name' => $var,
-      'url' => sanitize_title($var),
-      'filter' => 'category'
-    ];
-    return $out;
-  }, $filteredCat);
-
-  $listFull = array_merge($listCats, $listBrands);
+  foreach($getCats as $cat) {
+    if (stripos($cat['Name'], $input) !== false) {
+      $listFull[] = [
+        'name' => $cat['Name'],
+        'url' => $cat['Category_ID'].'/'.$cat['RefName'],
+        'filter' => 'category'
+      ];
+    }
+  };
 
   echo json_encode($listFull);
   wp_die();
@@ -74,21 +66,4 @@ function jr_autoComplete() {
 add_action('wp_ajax_jr_autocomplete', 'jr_autoComplete');
 add_action('wp_ajax_nopriv_jr_autocomplete', 'jr_autoComplete');
 
-
-/*function jr_addBrand($word) {
-  $out = [
-    'name' => $word,
-    'url' => sanitize_title($word),
-    'filter' => 'brand'
-  ];
-  return $out;
-}
-function jr_addCategory($word) {
-  $out = [
-    'name' => $word,
-    'url' => sanitize_title($word),
-    'filter' => 'products'
-  ];
-  return $out;
-}*/
 ?>
