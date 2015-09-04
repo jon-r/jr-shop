@@ -8,7 +8,7 @@
     <h1><?php echo $title ?></h1>
   </header>
   <?php foreach ($filteredCategories as $category) :
-      $link = site_url('/products/category/'.$category['RefName']);
+      $link = site_url('/products/category/'.$category['ID'].'/'.$category['RefName']);
       $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
   ?>
 

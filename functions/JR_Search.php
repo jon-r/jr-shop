@@ -21,7 +21,8 @@ function jr_smartSearch() {
   //but unlikely to unless intentionally knows about this
   } elseif (strpos($rawSearchTerm, "- Category") > 0) {
     $ref = str_replace(" - Category", "", $safeSearch);
-    $url = site_url('products/'.sanitize_title($ref));
+    $categoryID = jrQ_categoryID($ref);
+    $url = site_url('products/category/'.$categoryID.'/'.sanitize_title($ref));
   } elseif (strpos($rawSearchTerm, "- Brand") > 0) {
     $ref = str_replace(" - Brand", "", $safeSearch);
     $url = site_url('brand/'.sanitize_title($ref));

@@ -31,12 +31,22 @@ function jrQ_rhcs($rhcs) {
 }
 function jrQ_categories() {
   global $wpdb;
-  $results = $wpdb->get_results("SELECT `Name`, `CategoryGroup`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `ShowMe` = 1 ORDER BY `List_Order` DESC", ARRAY_A);
+  $results = $wpdb->get_results("SELECT `Category_ID`, `Name`, `CategoryGroup`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `ShowMe` = 1 ORDER BY `List_Order` DESC", ARRAY_A);
   foreach ($results as $c) {
     $c['RefName'] = sanitize_title($c['Name']);
     $out[] = $c;
   }
   return $out;
+}
+
+function jrQ_categoryDetails($catID) {
+  global $wpdb;
+  return $wpdb->get_row("SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$catID'", ARRAY_A);
+}
+
+function jrQ_categoryID($catName) {
+  global $wpdb;
+  return $wpdb->get_var("SELECT `Category_ID` FROM `rhc_categories` WHERE `Name` LIKE '$catName'");
 }
 
 function jrQ_titles($safeRHC, $SS = null) {

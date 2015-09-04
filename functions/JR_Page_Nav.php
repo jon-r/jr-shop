@@ -8,8 +8,11 @@ function jr_pageCrumbles ($safeArr) {
     $crumbs[1] = ['Page Not Found' => home_url()];
   } else {
     if ($safeArr['pgType'] == 'Item') {
-      $cat_info =
-      $crumbs[1] = [$safeArr['filterVal2'] => site_url('/products/category/'.sanitize_title($safeArr['filterVal2']))];
+      $categoryID = jrQ_categoryID($safeArr['filterVal2']);
+      //  jrQ_categoryDetails($safeArr['filterVal2']);
+      $crumbs[1] = [
+        $safeArr['filterVal2'] => site_url('/products/category/'.$categoryID.'/'.sanitize_title($safeArr['filterVal2']))
+      ];
       $crumbs[2] = [$safeArr['title'] => jr_getUrl()];
     } elseif (isset($safeArr['title'])) {
       $crumbs[1] = [$safeArr['title'] => jr_pgSet()];

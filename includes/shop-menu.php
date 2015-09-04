@@ -20,7 +20,7 @@ $jr_groupArray = jrCached_Categories_Sorted();
             <h3 class="touch-toggle text-icon close-w">Back</h3>
 
             <?php foreach ($grpList as $category) :
-              $link=site_url( '/products/category/'.$category['RefName']);
+              $link=site_url( '/products/category/'.$category['ID'].'/'.$category['RefName']);
             ?>
             <li><a class="text-icon nav-btn arrow-r" href="<?php echo $link ?>">
                 <?php echo $category['Name'] ?>

@@ -5,6 +5,7 @@ function jr_categoryFilter() {
   $getCategory = jrQ_categories();
   foreach ($getCategory as $c) {
     $out[$c['CategoryGroup']][$c['Name']] = [
+      'ID' => $c['Category_ID'],
       'Name' => $c['Name'],
       'RefName' => $c['RefName']
     ];

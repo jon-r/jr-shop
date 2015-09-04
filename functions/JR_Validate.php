@@ -58,17 +58,14 @@ function jr_validate_urls($url) {
       $out['filterVal'] = str_replace(' ', '|', $_GET['q']);
       $out['filterVal2'] = jr_categoryInfo('search');
 
-    } elseif ($params[2] == 'category') {
-      $title = jr_urlToTitle($params[3],'cat');
+    } elseif ($params[2] == 'category') { //categories
+      $getCategory = jrQ_categoryDetails($params[3]);
+      $title = $getCategory['Name'];
       $out['title'] = $out['filterVal'] = $title;
       $out['filterType'] = 'items';
-
       $cat = jrCached_Categories_Full();
-      $n = array_search($title, array_column($cat, 'Name'));
-      $out['filterVal2'] = $cat[$n]['CategoryDescription'] != '0' ? jr_format($cat[$n]['CategoryDescription']) : null;
-      $out['catRef'] = $cat[$n]['RefName'];
-      $out['ss'] = $cat[$n]['Is_RHCs'] ? true : false;
-
+      $out['filterVal2'] = $getCategory['CategoryDescription'] != '0' ? jr_format($getCategory['CategoryDescription']) : null;
+      $out['ss'] = $getCategory['Is_RHCs'] ? true : false;
 
     } elseif ($params[2] == 'arrivals') { //new in
       $out['filterType'] = 'arrivals';
