@@ -13,7 +13,9 @@ function jr_modules($atts) {
   if (file_exists($file)) {
 
     if ($a['cached'] == 'unique') {
-      $pageName = $jr_safeArray['pgType'].'-'.$jr_safeArray['filterVal'].'-'.sanitize_title($jr_safeArray['title']);
+     // $ref = $jr_safeArray['pgType'];
+      $pageName = sanitize_title($jr_safeArray['formRef']);
+        //$jr_safeArray['pgType'].'-'.$jr_safeArray['filterVal'];
       jrCached_HTML($file, $pageName, 1);
 
     } elseif ($a['cached']) {

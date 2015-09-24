@@ -1,4 +1,8 @@
-<?php /* list of groups on front page */ ?>
+<?php /*
+
+OBSOLETE
+
+list of groups on front page  ?>
 <?php
 $jr_groupArray = jrCached_Categories_Sorted();
 ?>

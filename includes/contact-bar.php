@@ -16,7 +16,7 @@
     <blockquote class="testimonials">
       <?php $singleFeedback = jr_randomFeedback(); ?>
       <p>"<?php echo addslashes ($singleFeedback['Testimonial_Short']);?>"</p>
-      <h4><?php echo addslashes ($singleFeedback['Name']); ?></h4>
+      <h3><?php echo addslashes ($singleFeedback['Name']); ?></h3>
     </blockquote>
 
     <header class="tile-header lined">

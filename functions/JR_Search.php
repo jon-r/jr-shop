@@ -17,6 +17,7 @@ function jr_smartSearch() {
     $findRef = '/(rhc|rhcs)(\d+)/i';
     $replaceRef ='$1/$2';
     $url =  site_url(strtolower(preg_replace($findRef, $replaceRef, $safeSearch)));
+
   //the '- brand'/'- category' are taken from the autocomplete. One could type them in manually,
   //but unlikely to unless intentionally knows about this
   } elseif (strpos($rawSearchTerm, "- Category") > 0) {

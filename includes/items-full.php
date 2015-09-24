@@ -61,29 +61,8 @@ if ( $jr_safeArray['ss'] ) {
     <?php include("items-full-popouts.php"); ?>
     <div class="tab-toggle text-icon arrow"></div>
   </section>
-  <section class="item-features tile-outer dark flex-1">
-    <header class="tile-header lined">
-      <h2>Features</h2>
-    </header>
-    <ul >
-      <?php if (!$jr_safeArray[ 'ss']) : ?>
-      <li class="text-icon-left tick-w">Photos of actual product</li>
-      <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
-      <?php endif ?>
-      <li class="text-icon-left tick-w">Competitive UK &amp; EU Delivery Quotes</li>
-      <li class="text-icon-left tick-w">Finance Options On Request</li>
-      <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
-      <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
-    </ul>
-    <div class="social-shares">
-      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>"><h3>Share on Facebook</h3></a>
-      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering"><h3>Tweet on Twitter</h3></a>
-    </div>
 
-    <div class="tab-toggle text-icon arrow-w"></div>
-  </section>
-
-    <section class="tile-outer flex-2 item-specs">
+  <section class="tile-outer flex-2 item-specs">
       <header class="tile-header lined">
         <h2>Specs</h2>
       </header>
@@ -92,7 +71,8 @@ if ( $jr_safeArray['ss'] ) {
 
       <?php $list = "";
         foreach ($shop_item['specs'] as $key => $value) {
-          echo $value ? "<li><b>$key:</b> $value</li>" : null;
+          $key = is_int($key) ? "" : "<b>$key:</b>";
+          echo $value ? "<li>$key $value</li>" : null;
         }
       ?>
       </ul>
@@ -137,6 +117,28 @@ if ( $jr_safeArray['ss'] ) {
       <div class="tab-toggle text-icon arrow"></div>
     </section>
   <?php endif ?>
+
+  <section class="item-features tile-outer dark flex-1">
+    <header class="tile-header lined">
+      <h2>Features</h2>
+    </header>
+    <ul >
+      <?php if (!$jr_safeArray[ 'ss']) : ?>
+      <li class="text-icon-left tick-w">Photos of actual product</li>
+      <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
+      <?php endif ?>
+      <li class="text-icon-left tick-w">Competitive UK &amp; EU Delivery Quotes</li>
+      <li class="text-icon-left tick-w">Finance Options On Request</li>
+      <li class="text-icon-left tick-w">Viewing available at our showroom in Warrington, Cheshire</li>
+      <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
+    </ul>
+    <div class="social-shares">
+      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>"><h3>Share on Facebook</h3></a>
+      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering"><h3>Tweet on Twitter</h3></a>
+    </div>
+
+    <div class="tab-toggle text-icon arrow-w"></div>
+  </section>
 
   <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
   <?php if (count($related) > 0) : ?>

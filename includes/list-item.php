@@ -9,7 +9,7 @@ if ( $jr_safeArray['ss'] ) {
 
   <a href="<?php echo site_url($shopItem['webLink']) ?>">
     <header class="tile-header red">
-      <h3><?php echo $shopItem['name'] ?></h3>
+      <h2><?php echo $shopItem['name'] ?></h2>
     </header>
 
     <img src="<?php echo site_url(jr_imgResize($shopItem['imgFirst'], 'tile')); ?>"

@@ -3,7 +3,7 @@
 <aside class="shop-buttons">
 
   <button id="js-query-btn" class="btn-grey">
-    <h4 class="text-icon question-w" >Need more info</h4>
+    <h3 class="text-icon question-w" >Need more info</h3>
   </button>
 
   <div id="js-query-modal" class="tile-outer dark modal-frame right">
@@ -16,7 +16,7 @@
   </div>
 
   <button id="js-buy-btn" class="btn-red">
-    <h4 class="text-icon basket-w" >Get a Delivery Quote</h4>
+    <h3 class="text-icon basket-w" >Get a Delivery Quote</h3>
   </button>
 
   <div id="js-buy-modal" class="tile-outer dark modal-frame right">

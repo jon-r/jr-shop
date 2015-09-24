@@ -166,6 +166,7 @@ function jrQ_itemString($safeArr) {
   $qType = $safeArr['pgType'];
   $qFilter = $safeArr['filterType'];
   $qValue = $safeArr['filterVal'];
+  $qValue2 = $safeArr['filterVal2'];
   $isSteel = $safeArr['ss'];
   $isSold = $safeArr['sold'];
   $limit = $safeArr['count'];
@@ -193,7 +194,7 @@ function jrQ_itemString($safeArr) {
   } elseif ($qFilter == 'items' || $qFilter == 'related') {
     $filters = "(`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND";
   } elseif ($qFilter == 'search') {
-    $filters = "(`ProductName` REGEXP %s OR `Brand` REGEXP %s) AND";
+    $filters = "(`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s) AND";
   } elseif ($qFilter == 'brand') {
     $filters = "(`Brand` LIKE %s) AND";
   } elseif ($qFilter =='sale') {
@@ -220,9 +221,9 @@ function jrQ_itemString($safeArr) {
   if ($qFilter == 'items') {
     $qArray = [ $qValue, $qValue, $qValue, $qValue ];
   } elseif ($qFilter == 'related') {
-    $qArray = [ $safeArr['filterVal2'], $safeArr['filterVal2'], $safeArr['filterVal2'], $safeArr['filterVal2'] ];
+    $qArray = [ $qValue2, $qValue2, $qValue2, $qValue2 ];
   } elseif ($qFilter == 'search') {
-    $qArray = [ $qValue, $qValue, $qValue ];
+    $qArray = [ $qValue, $qValue, $qValue, $qValue, $qValue, $qValue ];
   } elseif ($isSteel || $qFilter == 'brand' || $qFilter =='sale') {
     $qArray = [ $qValue ];
   }

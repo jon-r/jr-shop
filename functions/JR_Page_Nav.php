@@ -9,7 +9,6 @@ function jr_pageCrumbles ($safeArr) {
   } else {
     if ($safeArr['pgType'] == 'Item') {
       $categoryID = jrQ_categoryID($safeArr['filterVal2']);
-      //  jrQ_categoryDetails($safeArr['filterVal2']);
       $crumbs[1] = [
         $safeArr['filterVal2'] => site_url('/products/category/'.$categoryID.'/'.sanitize_title($safeArr['filterVal2']))
       ];

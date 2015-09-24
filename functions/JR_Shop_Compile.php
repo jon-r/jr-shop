@@ -77,8 +77,12 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
     if ($ref['ExtraMeasurements']) {
       $extras = explode(';',$ref['ExtraMeasurements']);
       foreach($extras as $extra) {
-        $item = explode(':',$extra);
-        $specList[trim($item[0])] = $item[1] ? trim($item[1]) : null;
+        if (strpos($extra, ":") === false) {
+          $specList[] = trim($extra);
+        } else {
+          $item = explode(':',$extra);
+          $specList[trim($item[0])] = trim($item[1]);
+        }
       }
     };
 
