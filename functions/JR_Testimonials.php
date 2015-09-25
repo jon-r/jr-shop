@@ -1,7 +1,5 @@
 <?php
 //output functions
-//this is where the shop database is processed into content
-
 
 //-------------- pick testimonial -----------------------------------------------
 // grabs a single testimonial at random

@@ -240,8 +240,15 @@ function jrQ_carousel() {
 }
 function jrQ_tesimonial($detail = null) {
   global $wpdb;
-  $query = ($detail) ? 'Testimonial_Full' : 'Testimonial_Short';
-  return $wpdb->get_results("SELECT `$query`, `Name` FROM `rhc_testimonial`;", ARRAY_A);
+  if ($detail) {
+    $query = 'Testimonial_Full';
+    $limit = null;
+  } else {
+    $query = 'Testimonial_Short';
+    $limit = null;//"ORDER BY RAND() LIMIT 1";
+  }
+
+  return $wpdb->get_results("SELECT `$query`, `Name` FROM `rhc_testimonial` $limit", ARRAY_A);
 }
 function jrQ_faq() {
   global $wpdb;

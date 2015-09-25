@@ -28,7 +28,7 @@ function jr_modules($atts) {
 
     } elseif ($a['cached']) {
 
-      jrCached_HTML($file, $a['id'], 28);
+      jrCached_HTML($file, $a['id'], 30);
 
     } else  {
 
