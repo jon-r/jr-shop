@@ -13,14 +13,22 @@ function jr_modules($atts) {
   if (file_exists($file)) {
 
     if ($a['cached'] == 'unique') {
-     // $ref = $jr_safeArray['pgType'];
-      $pageName = sanitize_title($jr_safeArray['formRef']);
-        //$jr_safeArray['pgType'].'-'.$jr_safeArray['filterVal'];
-      jrCached_HTML($file, $pageName, 1);
+
+      if ($jr_safeArray['unique']) {
+
+        jrCached_HTML($file, $jr_safeArray['unique'], 7);
+
+      } else {
+
+        ob_start();
+        include($file);
+        return ob_get_clean();
+
+      }
 
     } elseif ($a['cached']) {
 
-      jrCached_HTML($file, $a['id'], 7);
+      jrCached_HTML($file, $a['id'], 28);
 
     } else  {
 

@@ -8,7 +8,7 @@ $itemsNew = jrQ_ItemsNew();
 <article class="flex-container">
   <header class="article-header flex-1">
     <h1><?php echo $jr_safeArray['title']; ?></h1>
-    <p><?php echo $jr_safeArray['filterVal2'] ?></p>
+    <p><?php echo $jr_safeArray['pageText'] ?></p>
   </header>
 
   <?php

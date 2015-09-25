@@ -23,6 +23,69 @@ function jrCached_HTML($file, $cacheName, $timeInDays) {
   }
 }
 
+/* --- cache clearing -----------------------------------------------------------------*/
+/*
+  takes an array of rhc numbers from the url. uses this to target and remove specific bits of cache.
+  this is a fairly significant hole into the back of the site, that is actually deleting files.
+  therefore the input is very strict - accepting only an array of rhc(s) references).
+  anything that doesnt start with will print an error message on the html
+*/
+
+
+function jr_clearCache() {
+  $getRefs = $_GET['refs'];
+  $ssRefs = $_GET['ssrefs'];
+  $error = '';
+  $success = '';
+
+  //first gets the list of categories + items
+  foreach($getRefs as $ref) {
+    //check its an int
+    if (is_numeric($ref)) {
+      $fileList[] = 'item-rhc'.$ref;
+      $c = jrQA_cacheValues($ref);
+      $catsList[] = $c['Category'] ;//!= 0 ? $c['Category'] : null;
+      $catsList[] = $c['Cat1'] ;//!= 0 ? $c['Cat1'] : null;
+      $catsList[] = $c['Cat2'] ;//!= 0 ? $c['Cat2'] : null;
+      $catsList[] = $c['Cat3'] ;//!= 0 ? $c['Cat3'] : null;
+
+    } else {
+      $error .= "<li>The value '$ref' is invalid</li>";
+    }
+  }
+  foreach($ssRefs as $ref) {
+    //check its an int
+    if (is_numeric($ref)) {
+      $fileList[] = 'item-rhcs'.$ref;
+      $c = jrQA_cacheValues($ref, $ss = true);
+      $catsList[] = $c['Category'] ;
+
+    } else {
+      $error .= "<li>The value '$ref' is invalid</li>";
+    }
+
+    //gets the filenames of each category
+    foreach ($catsList as $catName) {
+      $id = jrQ_categoryID($catName);
+
+      $fileList[] = $id ? 'category-'.$id : null;
+    }
+
+    //now we have a list of categorys and items to be "reset"
+    foreach ($fileList as $file) {
+      $cachefileName = 'cached-files/'.$file.'-cached.html';
+      if ($file != '' && file_exists($cachefileName)) {
+        $success .= "<li>The cache file '$file' was removed</li>";
+         unlink($cachefileName);
+      }
+    }
+
+  }
+  $out = ['success' => $success, 'fail' => $error];
+  return $out;
+}
+
+
 /* setting the general settings as a year long transient*/
 function jrCached_Settings() {
   $transient = get_transient('jr_t_settings');
@@ -43,7 +106,7 @@ function jrCached_FAQ() {
     return $transient;
   } else {
     $results = jrQ_faq();
-    set_transient('jr_t_faq', $results, WEEK_IN_SECONDS);
+    set_transient('jr_t_faq', $results, YEAR_IN_SECONDS);
     return $results;
   }
 }
@@ -56,7 +119,7 @@ function jrCached_Categories_Full() {
     return $transient;
   } else {
     $results = jrQ_categories();
-    set_transient('jr_t_categories_full', $results, WEEK_IN_SECONDS);
+    set_transient('jr_t_categories_full', $results, YEAR_IN_SECONDS);
     return $results;
   }
 }
@@ -68,7 +131,7 @@ function jrCached_Categories_Sorted() {
     return $transient;
   } else {
     $results = jr_categoryFilter();
-    set_transient('jr_t_categories_sorted', $results, WEEK_IN_SECONDS);
+    set_transient('jr_t_categories_sorted', $results, YEAR_IN_SECONDS);
     return $results;
   }
 }
@@ -80,7 +143,7 @@ function jrCached_Groups() {
     return $transient;
   } else {
     $results = jr_getGroups();
-    set_transient('jr_t_groups', $results, WEEK_IN_SECONDS);
+    set_transient('jr_t_groups', $results, YEAR_IN_SECONDS);
     return $results;
   }
 }

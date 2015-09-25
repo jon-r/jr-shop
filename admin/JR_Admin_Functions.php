@@ -45,9 +45,9 @@ function jrA_clearCache() {
   $count1 = count($transientList);
 
   foreach($filteredFiles as $file) {
-    $fireDir = "../cached-files/$file";
-    if (file_exists($fireDir )) {
-      unlink($fireDir );
+    $fileDir = "../cached-files/$file";
+    if (file_exists($fileDir )) {
+      unlink($fileDir );
     }
   }
 
