@@ -26,14 +26,10 @@
       <?php echo $lists['fail']; ?>
     </ul>
   </body>
-  <?php else :
-    $blah = [
-      'refs' => [123, 456, 789],
-      'ssrefs' => [987, 654, 321]
-    ];
-  echo http_build_query($blah);
-  ?>
-  404 not found
 
+  <?php else : ?>
+  <body>
+    <p>not found - check your references</p>
+  </body>
   <?php endif ?>
 </html>

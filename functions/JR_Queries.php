@@ -283,7 +283,7 @@ function jrQA_transients() {
 function jrQA_cacheValues($safeRef, $ss = false) {
   global $wpdb;
   $query = $ss ?
-    "SELECT `Category` FROM `benchessinksdb` WHERE `RHCs` LIKE $safeRef" :
+    "SELECT `Category` FROM `benchessinksdb` WHERE `RHCs` LIKE %d" :
     "SELECT `Category`, `Cat1`, `Cat2`, `Cat3` FROM `networked db` WHERE `RHC` LIKE %d";
   //wpdb prepare - just in case
   $safeQuery = $wpdb->prepare($query, $safeRef);

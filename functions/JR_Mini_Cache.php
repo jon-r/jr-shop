@@ -33,10 +33,10 @@ function jrCached_HTML($file, $cacheName, $timeInDays) {
 
 
 function jr_clearCache() {
-  $getRefs = $_GET['refs'];
-  $ssRefs = $_GET['ssrefs'];
-  $error = '';
-  $success = '';
+  $getRefs = isset($_GET['refs']) ? $_GET['refs'] : [];
+  $ssRefs = isset($_GET['ssrefs']) ? $_GET['ssrefs'] : [];
+  $out['fail'] = '';
+  $out['success'] = '';
 
   //first gets the list of categories + items
   foreach($getRefs as $ref) {
@@ -44,13 +44,14 @@ function jr_clearCache() {
     if (is_numeric($ref)) {
       $fileList[] = 'item-rhc'.$ref;
       $c = jrQA_cacheValues($ref);
-      $catsList[] = $c['Category'] ;//!= 0 ? $c['Category'] : null;
-      $catsList[] = $c['Cat1'] ;//!= 0 ? $c['Cat1'] : null;
-      $catsList[] = $c['Cat2'] ;//!= 0 ? $c['Cat2'] : null;
-      $catsList[] = $c['Cat3'] ;//!= 0 ? $c['Cat3'] : null;
+      $catsList[] = $c['Category'] != '0' ? $c['Category'] : null;
+      $catsList[] = $c['Cat1'] != '0' ? $c['Cat1'] : null;
+      $catsList[] = $c['Cat2'] != '0' ? $c['Cat2'] : null;
+      $catsList[] = $c['Cat3'] != '0' ? $c['Cat3'] : null;
+      //$out['success'] .= 'item-rhc'.$ref;
 
     } else {
-      $error .= "<li>The value '$ref' is invalid</li>";
+      $out['fail'] .= "<li>The value '$ref' is invalid</li>";
     }
   }
   foreach($ssRefs as $ref) {
@@ -58,30 +59,33 @@ function jr_clearCache() {
     if (is_numeric($ref)) {
       $fileList[] = 'item-rhcs'.$ref;
       $c = jrQA_cacheValues($ref, $ss = true);
-      $catsList[] = $c['Category'] ;
+      $catsList[] = $c['Category'];
+
 
     } else {
-      $error .= "<li>The value '$ref' is invalid</li>";
+      $out['fail'] .= "<li>The value '$ref' is invalid</li>";
     }
 
     //gets the filenames of each category
+  }
     foreach ($catsList as $catName) {
-      $id = jrQ_categoryID($catName);
 
-      $fileList[] = $id ? 'category-'.$id : null;
+      $id = jrQ_categoryID($catName);
+      if (!is_null($id))
+        $fileList[] =  'category-'.$id;
+
     }
 
     //now we have a list of categorys and items to be "reset"
     foreach ($fileList as $file) {
       $cachefileName = 'cached-files/'.$file.'-cached.html';
+      $out['success'] .= "<li>The cache file '$file' was removed</li>";
       if ($file != '' && file_exists($cachefileName)) {
-        $success .= "<li>The cache file '$file' was removed</li>";
-         unlink($cachefileName);
+        unlink($cachefileName);
       }
-    }
 
-  }
-  $out = ['success' => $success, 'fail' => $error];
+    }
+  //$out = ['success' => $success, 'fail' => $error];
   return $out;
 }
 
