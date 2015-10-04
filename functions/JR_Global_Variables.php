@@ -31,7 +31,7 @@ function jr_linkTo($target) {
     'all brands'     => site_url('brands/'),
     'sold items'     => site_url('products/sold/'),
     'new items'      => site_url('new-items/'),
-    'soon items'     => site_url('products/coming-soon/'),
+    //'soon items'     => site_url('products/coming-soon/'),
     'arrivals'       => site_url('products/arrivals/')
   ];
 
@@ -49,7 +49,7 @@ function jr_categoryInfo($catType) {
   global $jr_config;
   $categoryFilterArr = [
     'new'   => $jr_config['pageInfo_arrivals'],
-    'soon'  => $jr_config['pageInfo_soon'],
+    //'soon'  => $jr_config['pageInfo_soon'],
     'sold'  => $jr_config['pageInfo_sold'],
     'sale'  => $jr_config['pageInfo_sale'],
     'search' => $jr_config['pageInfo_search'],

@@ -18,7 +18,7 @@ function jr_setPermalinks() {
     '^products/special-offers/?'  => jr_page('cat'),
     '^products/all/?'             => jr_page('cat'),
     '^products/sold/?'            => jr_page('cat'),
-    '^products/coming-soon/?'     => jr_page('cat'),
+    //'^products/coming-soon/?'     => jr_page('cat'),
     '^products/arrivals/?'        => jr_page('cat'),
     '^products/category/([^/]*)/?'=> jr_page('cat'),
     '^products/brand/([^/]*)/?'   => jr_page('cat'),

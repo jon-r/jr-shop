@@ -66,7 +66,7 @@ function jrQ_item($safeRHC, $SS = null) {
   if ($SS) {
     $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE RHCs = $safeRHC", ARRAY_A);
   } else {
-    $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice`, `IsSoon` FROM `networked db` WHERE RHC = $safeRHC", ARRAY_A);
+    $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice`, FROM `networked db` WHERE RHC = $safeRHC", ARRAY_A);
   }
   return $queryFull;
 }
@@ -184,7 +184,7 @@ function jrQ_itemString($safeArr) {
   } elseif ($qType == 'lite' || $isSteel) {
     $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
   } else {
-    $querySelection = "$itemRef, `ProductName`, `IsSoon`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";
+    $querySelection = "$itemRef, `ProductName`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";
   }
 
   //the query "middle". what is the data filtered by?
@@ -206,9 +206,10 @@ function jrQ_itemString($safeArr) {
 //the query end. how is the data sorted and limited?
   $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, $itemRef DESC LIMIT $limit";
 
-  if ($qFilter == 'soon' ) {
-    $orderBy = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY $itemRef DESC";
-  } elseif ($isSold) {
+//  if ($qFilter == 'soon' ) {
+//    $orderBy = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY $itemRef DESC";
+//  } else
+  if ($isSold) {
     $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
   } elseif ($qFilter == 'related' ) {
     $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT 4";

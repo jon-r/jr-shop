@@ -114,8 +114,8 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
     } else {
       $iconCheck = null;
     };
-    if ($ref['IsSoon']) {
-      $infoCheck = "soon";
+    if ($ref['IsSoon'] ) {
+      //$infoCheck = "soon"; NOT IMPLEMENTED
     } elseif (isset($ref['isSale'])) {
       $infoCheck = "sale";
     } elseif ($ref['Quantity'] == 0) {

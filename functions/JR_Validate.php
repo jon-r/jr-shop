@@ -65,10 +65,10 @@ function jr_validate_urls($url) {
       $out['title'] = 'Just In';
       $out['filterVal2'] = jr_categoryInfo('new');
 
-    } elseif ($params[2] == 'coming-soon') { //soon
-      $out['filterType'] = 'soon';
-      $out['title'] = 'Coming Soon';
-      $out['filterVal2'] = jr_categoryInfo('soon');
+//    } elseif ($params[2] == 'coming-soon') { //soon
+//      $out['filterType'] = 'soon';
+//      $out['title'] = 'Coming Soon';
+//      $out['filterVal2'] = jr_categoryInfo('soon');
 
     } elseif ($params[2] == 'sold') { //sold
       $out['sold'] = true;
