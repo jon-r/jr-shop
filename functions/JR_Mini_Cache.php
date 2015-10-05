@@ -49,11 +49,21 @@ function jr_clearCache() {
       $catsList[] = $c['Cat2'] != '0' ? $c['Cat2'] : null;
       $catsList[] = $c['Cat3'] != '0' ? $c['Cat3'] : null;
       //$out['success'] .= 'item-rhc'.$ref;
+    } elseif ($ref == "full") { //clear all. will probably end up being the main one to use
+
+
+      $fileListScan = glob('../RHC*/cached-files/*');
+      foreach ($fileListScan as $file) {
+        $fileList[] = str_replace(['../RHC_Online/cached-files/','../RHC/cached-files/','-cached.html'],
+                                  ['','',''], $file);
+      }
+      $catlist = []; //all covered in the glob so can skip
 
     } else {
       $out['fail'] .= "<li>The value '$ref' is invalid</li>";
     }
   }
+
   foreach($ssRefs as $ref) {
     //check its an int
     if (is_numeric($ref)) {
@@ -68,13 +78,13 @@ function jr_clearCache() {
 
     //gets the filenames of each category
   }
-    foreach ($catsList as $catName) {
+  foreach ($catsList as $catName) {
 
-      $id = jrQ_categoryID($catName);
-      if (!is_null($id))
-        $fileList[] =  'category-'.$id;
-
+    $id = jrQ_categoryID($catName);
+    if (!is_null($id)) {
+      $fileList[] =  'category-'.$id;
     }
+  }
 
     //now we have a list of categorys and items to be "reset"
     foreach ($fileList as $file) {
