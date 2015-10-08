@@ -17,7 +17,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'depth'   => $ref['Depth'] ?: null,
       'specs'    => $specList,
       'desc'    => ($ref['Line1'] != "0" ? $ref['Line1']."<br>" : null),
-      'imgAll'  => glob('images/gallery/RHCs'.$ref['RHCs'].'*')
+      'imgAll'  => glob('images/gallery/RHC'.$ref['RHC'].'{-,_,%20, }*', GLOB_BRACE)
     ];
 
   case 'listSS':
@@ -93,11 +93,11 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'height'    => $ref['Height'] ?: null,
       'width'     => $ref['Width'] ?: null,
       'depth'     => $ref['Depth'] ?: null,
-      'desc'      => ($ref['Line 1'] != "0" ? $ref['Line 1']." " : null).
-                     ($ref['Line 2'] != "0" ? $ref['Line 2']." " : null).
+      'desc'      => ($ref['Line 1'] != "0" ? $ref['Line 1']."<br>" : null).
+                     ($ref['Line 2'] != "0" ? $ref['Line 2']."<br>" : null).
                      ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
       'specs'     => $specList,
-      'imgAll'    => glob('images/gallery/RHC'.$ref['RHC'].'*'),
+      'imgAll'    => glob('images/gallery/RHC'.$ref['RHC'].'{-,_,%20, }*', GLOB_BRACE),
       'category'  => $ref['Category']
     ];
 
@@ -114,9 +114,10 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
     } else {
       $iconCheck = null;
     };
-    if ($ref['IsSoon'] ) {
-      //$infoCheck = "soon"; NOT IMPLEMENTED
-    } elseif (isset($ref['isSale'])) {
+//    if ($ref['IsSoon'] ) {
+//      $infoCheck = "soon"; NOT IMPLEMENTED
+//    } elseif...
+    if (isset($ref['isSale'])) {
       $infoCheck = "sale";
     } elseif ($ref['Quantity'] == 0) {
       $infoCheck = "sold";

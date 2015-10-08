@@ -26,8 +26,7 @@ function jrCached_HTML($file, $cacheName, $timeInDays) {
 /* --- cache clearing -----------------------------------------------------------------*/
 /*
   takes an array of rhc numbers from the url. uses this to target and remove specific bits of cache.
-  this is a fairly significant hole into the back of the site, that is actually deleting files.
-  therefore the input is very strict - accepting only an array of rhc(s) references).
+  the input is very strict - accepting only an array of rhc(s) references).
   anything that doesnt start with will print an error message on the html
 */
 
@@ -51,13 +50,14 @@ function jr_clearCache() {
       //$out['success'] .= 'item-rhc'.$ref;
     } elseif ($ref == "full") { //clear all. will probably end up being the main one to use
 
-
-      $fileListScan = glob('../RHC*/cached-files/*');
+      //note full scan code includes
+      $fileListScan = glob('../rhc*/cached-files/*-cached.html');
       foreach ($fileListScan as $file) {
-        $fileList[] = str_replace(['../RHC_Online/cached-files/','../RHC/cached-files/','-cached.html'],
+        $fileList[] = str_ireplace(['../RHC_Online/cached-files/','../rhc/cached-files/','-cached.html'],
                                   ['','',''], $file);
       }
-      $catlist = []; //all covered in the glob so can skip
+     // var_dump(glob('../*'));
+      $catsList = []; //all covered in the glob so can skip
 
     } else {
       $out['fail'] .= "<li>The value '$ref' is invalid</li>";
@@ -70,7 +70,6 @@ function jr_clearCache() {
       $fileList[] = 'item-rhcs'.$ref;
       $c = jrQA_cacheValues($ref, $ss = true);
       $catsList[] = $c['Category'];
-
 
     } else {
       $out['fail'] .= "<li>The value '$ref' is invalid</li>";
