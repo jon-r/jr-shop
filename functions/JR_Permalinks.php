@@ -54,33 +54,17 @@ function jr_titleToUrl($in) {
   return $out;
 }
 
-// turns url string into a proper title.
-//only works on category, brand, group, as they are databased
-function jr_urlToTitle($url,$type) {
-  $getGroup = jrCached_Groups();
-  $out = "Not Found";
-  $getCategories = jrCached_Categories_Full();
+// turns url string into a proper brand name.
+function jr_urlToBrand($url) {
 
-  if ($type == 'cat') {
-    $catUrls = array_column($getCategories, 'RefName');
+  $getBrands = jrQ_brands();
+  $brandUrls = array_map('sanitize_title', $getBrands);
 
-    if (in_array($url,$catUrls)) {
-      $cat = array_search($url, $catUrls);
-      $out = $getCategories[$cat]['Name'];
-    }
-  } elseif ($type == 'grp') {
-    if (in_array($url,$getGroup)) {
-      $out = array_search($url, $getGroup);
-    }
-  } elseif ($type == 'brand') {
-    $getBrands = jrQ_brands();
-    $brandUrls = array_map('sanitize_title', $getBrands);
-
-    if (in_array($url,$brandUrls)) {
-      $brands = array_combine($getBrands, $brandUrls);
-      $out = array_search($url, $brands);
-    }
+  if (in_array($url,$brandUrls)) {
+    $brands = array_combine($getBrands, $brandUrls);
+    $out = array_search($url, $brands);
   }
+
   return $out;
 }
 

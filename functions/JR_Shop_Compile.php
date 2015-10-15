@@ -16,7 +16,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'width'   => $ref['Width'] ?: null,
       'depth'   => $ref['Depth'] ?: null,
       'specs'    => $specList,
-      'desc'    => ($ref['Line1'] != "0" ? $ref['Line1']."<br>" : null),
+      'desc'    => ($ref['Line1'] != "0" ? '<p>'.$ref['Line1'].'</p>' : null),
       'imgAll'  => glob('images/gallery/RHC'.$ref['RHC'].'{-,_,%20, }*', GLOB_BRACE)
     ];
 
@@ -93,9 +93,9 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'height'    => $ref['Height'] ?: null,
       'width'     => $ref['Width'] ?: null,
       'depth'     => $ref['Depth'] ?: null,
-      'desc'      => ($ref['Line 1'] != "0" ? $ref['Line 1']."<br>" : null).
-                     ($ref['Line 2'] != "0" ? $ref['Line 2']."<br>" : null).
-                     ($ref['Line 3'] != "0" ? $ref['Line 3'] : null),
+      'desc'      => ($ref['Line 1'] != "0" ? '<p>'.$ref['Line 1'].'</p>' : null).
+                     ($ref['Line 2'] != "0" ? '<p>'.$ref['Line 2'].'</p>' : null).
+                     ($ref['Line 3'] != "0" ? '<p>'.$ref['Line 3'].'</p>' : null),
       'specs'     => $specList,
       'imgAll'    => glob('images/gallery/RHC'.$ref['RHC'].'{-,_,%20, }*', GLOB_BRACE),
       'category'  => $ref['Category']

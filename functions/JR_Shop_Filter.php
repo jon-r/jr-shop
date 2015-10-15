@@ -32,7 +32,6 @@ function jr_featuredBrands() {
     $img = jr_siteImg('brands/square/'.$url.'.jpg');
     if (file_exists($img)) {
       $brandsImages[$brand] = [
-        'Ref'     => $i,
         'Name'    => $brand,
         'RefName' => $url
       ];

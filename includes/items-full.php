@@ -52,10 +52,10 @@ if ( $jr_safeArray['ss'] ) {
       <h3><?php echo $shop_item['rhc'] ?></h3>
     </header>
 
-    <p><?php echo $shop_item['desc'] ?></p>
+    <?php echo $shop_item['desc'] ?>
 
     <?php if ($shop_item['icon']=="natural-gas" ) : ?>
-    <em class="greater">Ask today about conversions to LPG</em>
+    <p><em class="greater">Ask today about conversions to LPG</em></p>
     <?php endif ?>
 
     <?php include("items-full-popouts.php"); ?>

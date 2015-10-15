@@ -1,11 +1,7 @@
 <?php
 //query functions
 //these are pretty much purpose built covers over the wpdb class
-function jrQ_settings() {
-  global $wpdb;
-  $queryStr = 'SELECT `option_name`, `option_value` FROM `rhc_web_options`';
-  return $wpdb->get_results($queryStr, ARRAY_A);
-}
+
 /*Validate querys ---------------------------------------------------------------------*/
 function jrQ_brands() {
   global $wpdb;

@@ -1,4 +1,4 @@
-<?php $getCategories = jrCached_Categories_Sorted(); ?>
+<?php $getCategories = jr_categoryFilter(); ?>
 
 <article class="flex-container">
 

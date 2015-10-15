@@ -43,7 +43,7 @@ function jr_magicRoundabout($slideIn) {
     'style1'  => jr_styleCarousel($slideIn['Desc1Emphasis']),
     'style2'  => jr_styleCarousel($slideIn['Desc2Emphasis']),
     'style3'  => jr_styleCarousel($slideIn['Desc3Emphasis']),
-    'image'   => jr_siteImg('carousel/'.$slideIn['ImageRef'].'.jpg'),
+    'image'   => jr_siteImg('gallery/'.$slideIn['ImageRef'].'.jpg'),
     'link'    => is_numeric($slideIn['WebLink']) ? '?page_id=16&sale='.$slideIn['WebLink'] : $slideIn['WebLink'],
     'linkPos' => jr_positionCarousel($slideIn['ClickHerePos']),
     'linkCol' => jr_styleCarousel($slideIn['ClickHereColour'])

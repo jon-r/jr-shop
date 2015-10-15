@@ -1,5 +1,5 @@
 <?php
-$brands = jrCached_Brands();
+$brands = jr_featuredBrands();
 $keyBrands = $brands['images'];
 $otherBrands = $brands['text'];
 ?>

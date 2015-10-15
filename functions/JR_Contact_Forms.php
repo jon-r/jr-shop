@@ -1,48 +1,7 @@
 <?php
 /* sends the contact form info via ajax.
 uses javascript to check valid info before supbimtting.
-also uses php validators, to check without java script
-*/
-/*
-function jr_getQuestions() {
-  $questions = jrCached_FAQ();
-  $out = '';
-  $optCount = 0;
-  foreach ($questions as $faq) {
-    $optCount++;
-    $answer = jr_format($faq['answer']);
-    $out .= '<label class="form-question" for="opt-'.$optCount.'"><h3>'.$faq['question'].'</h3></label>'
-      .'<input id="opt-'.$optCount.'" type="radio" name="subject" value="'.$faq['question'].'"></input>'
-      .'<p class="form-answer">'.$answer
-      .'<button class="js_nextBtn btn-red form-btn" type="button">'
-      .'<span class="text-icon arrow-r-w" >'.$faq['next'].'</span>'
-      .'</button>'
-      .'</p>';
-  }
-  return $out;
-}
-
-function jr_getAnswers() {
-  global $jr_safeArray;
-  $getQuery = $_GET['keyword'];
-  $questions = jrCached_FAQ();
-
-
-  if ($getQuery != "") {
-    $answer = array_search($getQuery, array_column($questions, 'question'));
-    $out['answer'] = jr_format($questions[$answer]['answer']);
-    $out['next'] = '<h3 class="text-icon arrow-r-w">'
-      .$questions[$answer]['next'].'</h3>';
-  } else {
-    $out['answer'] = $out['next'] = "";
-  }
-
-  echo json_encode($out);
-  wp_die();
-}
-add_action('wp_ajax_jr_getAnswers', 'jr_getAnswers');
-add_action('wp_ajax_nopriv_jr_getAnswers', 'jr_getAnswers');
-
+also uses php validators, to check without javascript
 */
 function jr_formSubmit() {
 

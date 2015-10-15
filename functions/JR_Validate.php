@@ -84,7 +84,7 @@ function jr_validate_urls($url) {
 
     } elseif ($params[2] == 'brand') { //brand
       $out['filterType'] = 'brand';
-      $out['filterVal'] =  jr_urlToTitle($params[3],'brand');
+      $out['filterVal'] =  jr_urlToBrand($params[3]);
       $out['title'] = 'Products from '.$out['filterVal'];
 
     }
