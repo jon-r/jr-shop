@@ -22,19 +22,6 @@ add_option('jr_shop_opening_Times_Week','','','yes');
 add_option('jr_shop_opening_Times_Sat','','','yes');
 
 
-//hooks the old settings on this page with the new db settings
-//function jr_settings_hook() {
-//  $settings = jrQ_settings();
-//  foreach ($settings as $x) {
-//      $out[$x['option_name']] = $x['option_value'] ;
-//    }
-//  return $out;
-//}
-
-
-//settings are cached
-//$jr_config = jrCached_Settings();
-
 function jr_linkTo($target) {
   global $jr_config;
   $linkArr = [

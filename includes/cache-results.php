@@ -2,7 +2,7 @@
 <!doctype html>
 
 <html >
-  <?php if (isset($_GET['refs']) || isset($_GET['ssrefs'])) : ?>
+  <?php if (isset($_GET['refs']) ) : ?>
   <?php $lists = jr_clearCache() ?>
 
   <style>
@@ -30,6 +30,7 @@
   <?php else : ?>
   <body>
     <p>not found - check your references</p>
+    <?php soldWipe() ?>
   </body>
   <?php endif ?>
 </html>

@@ -44,9 +44,12 @@ include ('functions/JR_Shortcodes.php');
 include ('functions/JR_Testimonials.php');
 include ('functions/JR_Validate.php');
 include ('functions/JR_Contact_Forms.php');
+include ('functions/JR_File_Cleanup.php');
 
- if (is_admin()) {
+/* if (is_admin()) {
+   ADMIN HAS BEEN REMOVED FOR NOW - all options have been moved to the database
+
    include 'admin/JR_Shop_Admin.php';
- }
+ }*/
 
 ?>

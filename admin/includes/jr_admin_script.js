@@ -70,7 +70,7 @@ function listSpecific(data) {
   if (results) {
     var firstImg = results.first;
     var allImg = results.all;
-
+    console.log(results);
     output = '<p class="box col-12">Layout reset. The following images will be on the site.<br>' +
         'If wrong, make sure all images are correctly named and organised before hitting the database \'sync\' button </p>' +
         '<div class="row box col-4"><b>First Image</b><br>' +

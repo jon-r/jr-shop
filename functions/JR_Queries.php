@@ -235,6 +235,12 @@ function jrQ_carousel() {
   global $wpdb;
   return $wpdb->get_results("SELECT * FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC, `Slide_ID` DESC;", ARRAY_A);
 }
+function jrQ_carouselPics() {
+  global $wpdb;
+  $query = $wpdb->get_col("SELECT `ImageRef` FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC, `Slide_ID` DESC;");
+  return array_map(function($n) {return $n.'.jpg';}, $query);
+}
+
 function jrQ_tesimonial($detail = null) {
   global $wpdb;
   if ($detail) {
@@ -252,6 +258,7 @@ function jrQ_faq() {
   $query = "SELECT `question`,`answer`,`next` FROM `form_faqs`";
   return $wpdb->get_results($query, ARRAY_A);
 }
+
 /* -- admin only querys ---------------------------------------------------------------*/
 function jrQA_validItems() {
   global $wpdb, $itemSoldDuration;

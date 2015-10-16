@@ -40,6 +40,7 @@ function jr_autoComplete() {
 
   $getBrands = jr_allBrands();
   $getCats = jrCached_Categories_Full();
+  $listFull = [];
 
   foreach($getBrands as $brand) {
     if (stripos($brand, $input) !== false) {
