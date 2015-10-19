@@ -15,7 +15,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'height'  => $ref['Height'] ?: null,
       'width'   => $ref['Width'] ?: null,
       'depth'   => $ref['Depth'] ?: null,
-      'specs'    => $specList,
+      'specs'    => array_filter($specList),
       'desc'    => ($ref['Line1'] != "0" ? '<p>'.$ref['Line1'].'</p>' : null),
       'imgAll'  => glob('images/gallery/RHCs'.$ref['RHCs'].'[!0-9]*')
       //this glob targets only the valid RHC reference. ie 'RHC10', 'RHC10 b', NOT 'RHC101'
@@ -88,7 +88,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
     };
 
     //put last to keep in order
-    $specList['Condition'] = $ref['Condition/Damages'] != "0" ? $ref['Condition/Damages'] : null;
+    $specList['Please Note'] = $ref['Condition/Damages'] != "0" ? $ref['Condition/Damages'] : null;
 
     $out1 = [
       'height'    => $ref['Height'] ?: null,
@@ -97,7 +97,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'desc'      => ($ref['Line 1'] != "0" ? '<p>'.$ref['Line 1'].'</p>' : null).
                      ($ref['Line 2'] != "0" ? '<p>'.$ref['Line 2'].'</p>' : null).
                      ($ref['Line 3'] != "0" ? '<p>'.$ref['Line 3'].'</p>' : null),
-      'specs'     => $specList,
+      'specs'    => array_filter($specList),
       'imgAll'  => glob('images/gallery/RHC'.$ref['RHC'].'[!0-9]*', GLOB_BRACE),
 //this glob targets only the valid RHC reference. ie 'RHC10', 'RHC10 b', NOT 'RHC101'
       'category'  => $ref['Category']

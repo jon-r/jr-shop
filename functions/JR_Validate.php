@@ -27,7 +27,7 @@ function jr_validate_urls($url) {
 
   if ($params[1] == '') { // index
     $out['title'] = $out['pgType'] = 'Home';
-    $out['formRef'] = 'Hello';
+    $out['formRef'] = ''; //this page is intentionally left blank
 
   } elseif ($params[1] == 'brands') {
     $out['title'] = "Shop by Brand";

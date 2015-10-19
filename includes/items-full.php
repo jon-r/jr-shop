@@ -9,7 +9,7 @@ if ( $jr_safeArray['ss'] ) {
 }
 ?>
 
-<article class="flex-column">
+<article class="flex-column photos-frame">
 
   <section class="tile-outer flex-1 item-gallery">
     <header class="tile-header lined">
@@ -43,6 +43,11 @@ if ( $jr_safeArray['ss'] ) {
       <?php endif ?>
   </section>
 
+  <?php if (count($shop_item['imgAll']) < 5) : ?>
+      <img src="<?php echo site_url(jr_siteImg('rhc/chilli_filling.jpg')); ?>"
+         class="framed flex-1" alt="Red Hot Chilli - Used Catering Equipment"/>
+  <?php endif ?>
+
 </article>
 <article id="js-tabs-frame" class="flex-column tabs-frame">
 
@@ -54,14 +59,15 @@ if ( $jr_safeArray['ss'] ) {
 
     <?php echo $shop_item['desc'] ?>
 
-    <?php if ($shop_item['icon']=="natural-gas" ) : ?>
+    <?php if ($shop_item['icon']=="natural-gas") : ?>
     <p><em class="greater">Ask today about conversions to LPG</em></p>
     <?php endif ?>
 
     <?php include("items-full-popouts.php"); ?>
     <div class="tab-toggle text-icon arrow"></div>
   </section>
-
+<?php //hide the specs on the rare occasion of no specs
+if (count($shop_item['specs']) != 0): ?>
   <section class="tile-outer flex-2 item-specs">
       <header class="tile-header lined">
         <h2>Specs</h2>
@@ -69,17 +75,17 @@ if ( $jr_safeArray['ss'] ) {
 
       <ul class="item-dimensions tile-inner">
 
-      <?php $list = "";
+      <?php
         foreach ($shop_item['specs'] as $key => $value) {
           $key = is_int($key) ? "" : "<b>$key:</b>";
-          echo $value ? "<li>$key $value</li>" : null;
+          echo "<li>$key $value</li>";
         }
       ?>
       </ul>
 
       <div class="tab-toggle text-icon arrow"></div>
     </section>
-
+<?php endif ?>
   <?php
     //show the box sim, if not furnishings and valid height/width
     if (
