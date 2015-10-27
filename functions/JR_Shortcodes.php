@@ -9,7 +9,8 @@ function jr_modules($atts) {
     'id' => '404',
     'cached'=> false
   ], $atts);
-  $file = str_replace(home_url('/'),'',plugins_url('jr-shop/includes/'.$a['id'].'.php'));
+  $file = is_front_page() ? 'rhc/' : '';
+  $file .= 'wp-content/plugins/jr-shop/includes/'.$a['id'].'.php';
   if (file_exists($file)) {
 
     if ($a['cached'] == 'unique') {

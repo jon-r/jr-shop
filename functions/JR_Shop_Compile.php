@@ -40,7 +40,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'webLink'   => 'rhcs/'.$ref['RHCs'].'/'.sanitize_title($ref['ProductName']),
       'rhc'       => 'Ref: RHCs'.$ref['RHCs'],
       'name'      => $ref['ProductName'],
-      'imgFirst'  => jr_siteImg('gallery/RHCs'.$ref['RHCs'].'.jpg', $relative = true),
+      'imgFirst'  => jr_siteImg('gallery/RHCs'.$ref['RHCs'].'.jpg'),
       'price'     => $priceCheck
     ];
     break;
@@ -48,12 +48,12 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
   case 'item':
     if ($ref['Brand']) {
       $brandUrl = sanitize_title($ref['Brand']);
-      $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg', $relative = true);
+      $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg');
       if (file_exists($brandImg)) {
         $brandText = '<img class="framed" src="'.site_url($brandImg).'" alt="'.$ref['Brand'].'" >'
           .'<a href="'.home_url('products/brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
       } else {
-        $brandText = $ref['Brand'].' (<a href="'.home_url('brand/'.$brandUrl).'" >More</a>)';
+        $brandText = $ref['Brand'].' (<a href="'.home_url('products/brand/'.$brandUrl).'" >More</a>)';
       }
     } else {
       $brandText = null;
@@ -147,7 +147,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'webLink'  => 'rhc/'.$ref['RHC'].'/'.sanitize_title($ref['ProductName']),
       'rhc'      => 'ref: RHC'.$ref['RHC'],
       'name'     => $ref['ProductName'],
-      'imgFirst' => jr_siteImg('gallery/RHC'.$ref['RHC'].'.jpg', $relative = true),
+      'imgFirst' => jr_siteImg('gallery/RHC'.$ref['RHC'].'.jpg'),
     ];
   break;
   };

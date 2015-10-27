@@ -11,7 +11,7 @@ function jr_clearCache() {
 
   $out['fail'] = '';
   $out['success'] = '';
-  $cacheDir = str_replace(home_url('/'),'',site_url('cached-files/'));
+  $cacheDir = 'cached-files/';
 
   if (isset($_GET['refs'])) {
     $ref = $_GET['refs'];
@@ -89,7 +89,7 @@ function jr_clearCache() {
 /* - periodically removes old thumbnails. */
 function jr_imgWipe($size) {
 
-  $fileDir = str_replace(home_url('/'),'',site_url("images/gallery-$size/"));
+  $fileDir = "images/gallery-$size/";
   $oneMonth = 30 * 86400;
 
   $fileList = scanDir($fileDir);
@@ -117,7 +117,7 @@ function jr_imgWipe($size) {
 function jr_soldWipe() {
   global $itemSoldDuration;
 
-  $fileDir = str_replace(home_url('/'),'',site_url('/images/gallery/'));
+  $fileDir = 'images/gallery/';
   $fileList = scanDir($fileDir);
   $filteredFiles = array_diff($fileList, ['..', '.']);
   $n = 0;
