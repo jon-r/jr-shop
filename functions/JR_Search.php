@@ -11,22 +11,22 @@ function jr_smartSearch() {
   $rawSearchTerm = $_GET['search'];
   $safeSearch = preg_replace('/[^\w &+-]/i','', $rawSearchTerm );
   $ref = http_build_query(['q' => $safeSearch]);
-  $url = site_url("products/search-results/?$ref");
+  $url = home_url("products/search-results/?$ref");
 
   if (stripos($rawSearchTerm, "rhc") === 0) {
     $findRef = '/(rhc|rhcs)(\d+)/i';
     $replaceRef ='$1/$2';
-    $url =  site_url(strtolower(preg_replace($findRef, $replaceRef, $safeSearch)));
+    $url =  home_url(strtolower(preg_replace($findRef, $replaceRef, $safeSearch)));
 
   //the '- brand'/'- category' are taken from the autocomplete. One could type them in manually,
   //but unlikely to unless intentionally knows about this
   } elseif (strpos($rawSearchTerm, "- Category") > 0) {
     $ref = str_replace(" - Category", "", $safeSearch);
     $categoryID = jrQ_categoryID($ref) ?: $ref;
-    $url = site_url('products/category/'.$categoryID.'/'.sanitize_title($ref));
+    $url = home_url('products/category/'.$categoryID.'/'.sanitize_title($ref));
   } elseif (strpos($rawSearchTerm, "- Brand") > 0) {
     $ref = str_replace(" - Brand", "", $safeSearch);
-    $url = site_url('brand/'.sanitize_title($ref));
+    $url = home_url('brand/'.sanitize_title($ref));
   }
   return wp_redirect( $url , 301 );
 }

@@ -12,7 +12,7 @@ $jr_groupArray = jr_categoryFilter();
     <menu class="nav-left-menu" >
       <ul class="main-menu" id="js-main-list" >
         <?php foreach($jr_groupArray as $grpName => $grpList) : ?>
-        <?php $menuHeaderImg = site_url(jr_siteImg('icons/menu-'.strtolower(strtok($grpName, ' ')).'.jpg')); ?>
+        <?php $menuHeaderImg = jr_siteImg('icons/menu-'.strtolower(strtok($grpName, ' ')).'.jpg'); ?>
 
         <li>
           <h3 class="nav-btn"><?php echo $grpName ?></h3>
@@ -20,7 +20,7 @@ $jr_groupArray = jr_categoryFilter();
             <h3 class="touch-toggle text-icon close-w">Back</h3>
 
             <?php foreach ($grpList as $category) :
-              $link=site_url( '/products/category/'.$category['ID'].'/'.$category['RefName']);
+              $link=home_url( '/products/category/'.$category['ID'].'/'.$category['RefName']);
             ?>
             <li><a class="text-icon nav-btn arrow-r" href="<?php echo $link ?>">
                 <?php echo $category['Name'] ?>

@@ -8,7 +8,7 @@
   </header>
 
   <section class="tile-outer dark list-featured flex-4">
-    <a href="<?php echo site_url('products/arrivals/') ?>">
+    <a href="<?php echo home_url('products/arrivals/') ?>">
       <header class="tile-header dark">
         <h2>Latest Arrivals</h2>
       </header>
@@ -16,7 +16,7 @@
     </a>
   </section>
   <section class="tile-outer dark list-featured flex-4">
-    <a href="<?php echo site_url('brands/') ?>">
+    <a href="<?php echo home_url('brands/') ?>">
       <header class="tile-header dark">
         <h2>Brands</h2>
       </header>
@@ -25,16 +25,16 @@
     </a>
   </section>
   <section class="tile-outer dark list-featured flex-4">
-    <a href="<?php echo site_url('services/') ?>">
+    <a href="<?php echo home_url('deliveries/') ?>">
       <header class="tile-header dark">
-        <h2>Other Services</h2>
+        <h2>Deliveries</h2>
       </header>
-      <img class="framed" src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="Our Other Services">
+      <img class="framed" src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="National and International Deliveries">
 
     </a>
   </section>
   <section class="tile-outer dark list-featured flex-4">
-    <a href="<?php echo site_url('about/') ?>">
+    <a href="<?php echo home_url('about/') ?>">
       <header class="tile-header dark">
         <h2>About Red Hot Chilli</h2>
       </header>

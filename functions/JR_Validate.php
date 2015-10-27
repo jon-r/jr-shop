@@ -16,7 +16,7 @@ $jr_safeArray = jr_validate_urls(jr_getUrl());
 //the user can input whatever they want, but only strings on this function are used in sql queries
 
 function jr_validate_urls($url) {
-  $slashedParams = str_replace(site_url(), '', $url);
+  $slashedParams = str_replace(home_url(), '', $url);
   $params = explode('/',$slashedParams);
   $out = [
     'title' => null, 'pgType' => null, 'unique' => false,

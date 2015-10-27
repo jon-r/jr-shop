@@ -11,7 +11,7 @@ $otherBrands = $brands['text'];
   </header>
 
   <?php foreach ($keyBrands as $brand) :
-    $link = site_url('products/brand/'.$brand['RefName']);
+    $link = home_url('products/brand/'.$brand['RefName']);
     $imgUrl = jr_siteImg('brands/square/'.$brand['RefName'].'.jpg');
   ?>
   <section class="tile-outer list-category flex-6">
@@ -19,7 +19,7 @@ $otherBrands = $brands['text'];
       <header class="tile-header red">
         <h2><?php echo $brand['Name'] ?></h2>
       </header>
-      <img class="framed" src="<?php echo site_url($imgUrl) ?>" />
+      <img class="framed" src="<?php echo $imgUrl ?>" />
     </a>
   </section>
   <?php endforeach ?>
@@ -32,7 +32,7 @@ $otherBrands = $brands['text'];
   </header>
 
   <?php foreach ($otherBrands as $brand) : ?>
-  <a href="<?php echo site_url('products/brand/'.$brand['RefName']); ?>">
+  <a href="<?php echo home_url('products/brand/'.$brand['RefName']); ?>">
     <?php echo $brand['Name']; ?>
   </a>
   <?php endforeach; ?>

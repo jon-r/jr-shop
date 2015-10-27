@@ -33,13 +33,13 @@ function jr_linkTo($target) {
     'phone'     => get_option('jr_shop_contact_phone'),
     'address'   => str_replace(';', '<br>', get_option('jr_shop_contact_address')),
     //internal links
-    'all categories' => site_url('departments/all/'),
-    'all items'      => site_url('products/all/'),
-    'all brands'     => site_url('brands/'),
-    'sold items'     => site_url('products/sold/'),
-    'new items'      => site_url('new-items/'),
-    //'soon items'     => site_url('products/coming-soon/'),
-    'arrivals'       => site_url('products/arrivals/')
+    'all categories' => home_url('departments/all/'),
+    'all items'      => home_url('products/all/'),
+    'all brands'     => home_url('brands/'),
+    'sold items'     => home_url('products/sold/'),
+    'new items'      => home_url('new-items/'),
+    //'soon items'     => home_url('products/coming-soon/'),
+    'arrivals'       => home_url('products/arrivals/')
   ];
 
   return $linkArr[$target];

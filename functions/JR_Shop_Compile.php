@@ -40,7 +40,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'webLink'   => 'rhcs/'.$ref['RHCs'].'/'.sanitize_title($ref['ProductName']),
       'rhc'       => 'Ref: RHCs'.$ref['RHCs'],
       'name'      => $ref['ProductName'],
-      'imgFirst'  => jr_siteImg('gallery/RHCs'.$ref['RHCs'].'.jpg'),
+      'imgFirst'  => jr_siteImg('gallery/RHCs'.$ref['RHCs'].'.jpg', $relative = true),
       'price'     => $priceCheck
     ];
     break;
@@ -48,12 +48,12 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
   case 'item':
     if ($ref['Brand']) {
       $brandUrl = sanitize_title($ref['Brand']);
-      $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg');
+      $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg', $relative = true);
       if (file_exists($brandImg)) {
         $brandText = '<img class="framed" src="'.site_url($brandImg).'" alt="'.$ref['Brand'].'" >'
-          .'<a href="'.site_url('products/brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
+          .'<a href="'.home_url('products/brand/'.$brandUrl).'" >More from '.$ref['Brand'].'</a>';
       } else {
-        $brandText = $ref['Brand'].' (<a href="'.site_url('brand/'.$brandUrl).'" >More</a>)';
+        $brandText = $ref['Brand'].' (<a href="'.home_url('brand/'.$brandUrl).'" >More</a>)';
       }
     } else {
       $brandText = null;
@@ -147,7 +147,7 @@ function jr_itemComplile($ref,$detail,$newCheck = []) {
       'webLink'  => 'rhc/'.$ref['RHC'].'/'.sanitize_title($ref['ProductName']),
       'rhc'      => 'ref: RHC'.$ref['RHC'],
       'name'     => $ref['ProductName'],
-      'imgFirst' => jr_siteImg('gallery/RHC'.$ref['RHC'].'.jpg'),
+      'imgFirst' => jr_siteImg('gallery/RHC'.$ref['RHC'].'.jpg', $relative = true),
     ];
   break;
   };
@@ -183,7 +183,7 @@ function jr_format($in) {
     '/\[email\]/i',
   ];
   $replaceBasic = [
-    '<a href="'.site_url('$1/$2').'" >$1$2</a>',
+    '<a href="'.home_url('$1/$2').'" >$1$2</a>',
     '<a href="$1" >$2</a>',
     '<em>$1</em>',
     '<strong>$1</strong>',
@@ -196,7 +196,7 @@ function jr_format($in) {
 
   foreach ($getCats as $cat) {
     $findCat[] = '[category:'.$cat['Name'].']';
-    $replaceCat[] = '<a href="'.site_url('products/category/'.$cat['RefName']).'" >'.$cat['Name'].'</a>';
+    $replaceCat[] = '<a href="'.home_url('products/category/'.$cat['RefName']).'" >'.$cat['Name'].'</a>';
   }
   $out = preg_replace($findBasic,$replaceBasic,$in);
   $out = str_ireplace($findCat,$replaceCat, $out);

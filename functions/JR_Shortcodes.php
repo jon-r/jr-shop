@@ -9,7 +9,7 @@ function jr_modules($atts) {
     'id' => '404',
     'cached'=> false
   ], $atts);
-  $file = 'wp-content/plugins/jr-shop/includes/'.$a['id'].'.php';
+  $file = str_replace(home_url('/'),'',plugins_url('jr-shop/includes/'.$a['id'].'.php'));
   if (file_exists($file)) {
 
     if ($a['cached'] == 'unique') {
@@ -17,7 +17,7 @@ function jr_modules($atts) {
       if ($jr_safeArray['unique']) {
 
         jrCached_HTML($file, $jr_safeArray['unique'], 7);
-
+  //      return "success -.$file"
       } else {
 
         ob_start();
@@ -36,24 +36,6 @@ function jr_modules($atts) {
       include($file);
       return ob_get_clean();
     }
-
-
-    /*$cachefile = 'cached-files/'.$a['id'].'-cached.html';
-    $cachetime = 604800;
-
-    if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
-      ob_start();
-      readfile($cachefile);
-      return ob_get_clean();
-    } else {
-      ob_start();
-      include($file);
-      echo '<!-- Page '.$a['id'].' cached on '.date(DATE_COOKIE).' -->';
-      $fp = fopen($cachefile, 'w');
-      fwrite($fp, ob_get_contents());
-      fclose($fp);
-      ob_get_flush();
-    }*/
 
   } else {
     echo "[check $file]";

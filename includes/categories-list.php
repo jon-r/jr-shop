@@ -8,7 +8,7 @@
     <h1><?php echo $title ?></h1>
   </header>
   <?php foreach ($filteredCategories as $category) :
-      $link = site_url('/products/category/'.$category['ID'].'/'.$category['RefName']);
+      $link = home_url('/products/category/'.$category['ID'].'/'.$category['RefName']);
       $imgUrl = jr_siteImg('thumbnails/'.$category['RefName'].'.jpg');
   ?>
 
@@ -17,7 +17,7 @@
       <header class="tile-header red">
         <h2><?php echo $category['Name'] ?></h2>
       </header>
-      <img class="framed" src="<?php echo site_url($imgUrl) ?>" />
+      <img class="framed" src="<?php echo $imgUrl ?>" />
     </a>
   </section>
   <?php endforeach ?>

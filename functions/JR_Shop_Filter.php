@@ -29,7 +29,7 @@ function jr_featuredBrands() {
 
   foreach ($brandsListed as $brand) {
     $url = sanitize_title($brand);
-    $img = jr_siteImg('brands/square/'.$url.'.jpg');
+    $img = jr_siteImg('brands/square/'.$url.'.jpg', $relative = true);
     if (file_exists($img)) {
       $brandsImages[$brand] = [
         'Name'    => $brand,

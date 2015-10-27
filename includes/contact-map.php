@@ -27,7 +27,7 @@
   </section>
 
   <section class="map-container tile-outer" >
-    <iframe class="contact-map" src="https://www.google.com/maps/embed/v1/place?q=Red%20Hot%20Chilli%20Northwest%2C%20Winwick%20Street%2C%20Warrington%2C%20United%20Kingdom&attribution_source=Red+Hot+Chilli+Northwest&attribution_web_url=<?php echo urlencode(site_url()) ?>&zoom=10&key=AIzaSyBxcWgYfqrqVij6i74K1hrQyt2tDnXvMXs">
+    <iframe class="contact-map" src="https://www.google.com/maps/embed/v1/place?q=Red%20Hot%20Chilli%20Northwest%2C%20Winwick%20Street%2C%20Warrington%2C%20United%20Kingdom&attribution_source=Red+Hot+Chilli+Northwest&attribution_web_url=<?php echo urlencode(home_url()) ?>&zoom=10&key=AIzaSyBxcWgYfqrqVij6i74K1hrQyt2tDnXvMXs">
     </iframe>
   </section>
 </article>

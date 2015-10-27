@@ -5,7 +5,7 @@
 
 function jrCached_HTML($file, $cacheName, $timeInDays) {
   global $jr_safeArray;
-  $cachefile = 'cached-files/'.$cacheName.'-cached.html';
+  $cachefile = str_replace(home_url('/'),'',site_url('cached-files/'.$cacheName.'-cached.html'));
   $cachetime = $timeInDays * 86400;
 
   if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {

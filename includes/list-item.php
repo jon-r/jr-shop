@@ -7,12 +7,12 @@ if ( $jr_safeArray['ss'] ) {
 ?>
 <section class="tile-outer list-item btn-icon flex-4 <?php echo trim($shopItem['info'].' '.$shopItem['icon']); ?>">
 
-  <a href="<?php echo site_url($shopItem['webLink']) ?>">
+  <a href="<?php echo home_url($shopItem['webLink']) ?>">
     <header class="tile-header red">
       <h2><?php echo $shopItem['name'] ?></h2>
     </header>
 
-    <img src="<?php echo site_url(jr_imgResize($shopItem['imgFirst'], 'tile')); ?>"
+    <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'tile'); ?>"
          class="framed" alt="<?php echo $shopItem['name'] ?>">
     <button class="tile-float btn-grey text-icon-left search-w"><h3>More</h3></button>
 

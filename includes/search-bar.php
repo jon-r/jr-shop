@@ -1,7 +1,7 @@
 <article class="flex-container centre">
   <section class="flex-2 tile-outer">
     <form class="form-search" method="get"
-          action="<?php echo site_url('search-me'); ?>" autocomplete="off">
+          action="<?php echo home_url('search-me'); ?>" autocomplete="off">
 
       <h2 class="text-icon-left search-w">Search Catering Equipment</h2>
 

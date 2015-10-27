@@ -17,7 +17,7 @@ if ( $jr_safeArray['ss'] ) {
     </header>
 
       <div id="js-gallery-primary" class="tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
-        <img src="<?php echo site_url(jr_imgResize($shop_item['imgFirst'], 'tile')) ?>"
+        <img src="<?php echo jr_imgResize($shop_item['imgFirst'], 'tile') ?>"
              class="framed" alt="<?php echo $shop_item['name'] ?>">
         <button id="js-gallery-zoom" class="tile-float btn-grey text-icon expand-w"><h3>Zoom in</h3></button>
         <?php if (count($shop_item['imgAll'])> 1) : ?>
@@ -34,7 +34,7 @@ if ( $jr_safeArray['ss'] ) {
       <ul id="js-gallery-thumbs" class="flex-container">
         <?php foreach ($shop_item['imgAll'] as $galleryImg) : ?>
         <li class="tile-inner item-thumb">
-          <img src="<?php echo site_url(jr_imgResize($galleryImg, 'thumb')) ?>"
+          <img src="<?php echo jr_imgResize($galleryImg, 'thumb') ?>"
                class="framed" alt="<?php echo $shop_item['name'] ?>"
                data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
         </li>
@@ -44,7 +44,7 @@ if ( $jr_safeArray['ss'] ) {
   </section>
 
   <?php if (count($shop_item['imgAll']) < 5) : ?>
-      <img src="<?php echo site_url(jr_siteImg('rhc/chilli_filling.jpg')); ?>"
+      <img src="<?php echo jr_siteImg('rhc/chilli_filling.jpg'); ?>"
          class="framed flex-1" alt="Red Hot Chilli - Used Catering Equipment"/>
   <?php endif ?>
 
@@ -63,9 +63,10 @@ if ( $jr_safeArray['ss'] ) {
     <p><em class="greater">Ask today about conversions to LPG</em></p>
     <?php endif ?>
 
-    <?php include("items-full-popouts.php"); ?>
     <div class="tab-toggle text-icon arrow"></div>
   </section>
+
+<?php include("items-full-popouts.php"); ?>
 <?php //hide the specs on the rare occasion of no specs
 if (count($shop_item['specs']) != 0): ?>
   <section class="tile-outer flex-2 item-specs">
@@ -102,18 +103,18 @@ if (count($shop_item['specs']) != 0): ?>
         <em>(For size only, shape is not accurate)</em>
         <svg  xmlns="http://www.w3.org/2000/svg" height="90%" width="100%" viewBox="0 0 500 500">
           <rect id="floor" width="490" height="5" x="5" y="490" fill="#5A6372"  />
-          <image id="item" xlink:href="<?php echo site_url(jr_siteImg('icons/'.$box['itemImg'].'.png'))?>"
+          <image id="item" xlink:href="<?php echo jr_siteImg('icons/'.$box['itemImg'].'.png')?>"
                  preserveAspectRatio="none"
                  x="<?php echo $box['itemX'] ?>" y="<?php echo $box['itemY'] ?>"
                  height="<?php echo $box['itemH']?>" width="<?php echo $box['itemW'] ?>"  />
 
           <?php if (isset($box['tableY'])) : ?>
-          <image id="table" xlink:href="<?php echo site_url(jr_siteImg('icons/'.$box['tableImg'].'.png'))?>"
+          <image id="table" xlink:href="<?php echo jr_siteImg('icons/'.$box['tableImg'].'.png')?>"
                  preserveAspectRatio="none"
                  x="<?php echo $box['tableX'] ?>" y="<?php echo $box['tableY'] ?>"
                  height="<?php echo $box['tableH']?>" width="<?php echo $box['tableW'] ?>" />
           <?php endif ?>
-          <image id="man" xlink:href="<?php echo site_url(jr_siteImg('icons/man.png'))?>"
+          <image id="man" xlink:href="<?php echo jr_siteImg('icons/man.png')?>"
                  preserveAspectRatio="none" opacity="0.5"
                  x="<?php echo $box['manX'] ?>" y="<?php echo $box['manY'] ?>"
                  height="<?php echo $box['manH']?>" width="<?php echo $box['manW'] ?>"  />

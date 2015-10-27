@@ -1,5 +1,5 @@
 <div id="js-sticky-right" data-fixed="0" class="right">
-  <form class="form-search" method="get" action="<?php echo site_url('search-me'); ?>" autocomplete="off">
+  <form class="form-search" method="get" action="<?php echo home_url('search-me'); ?>" autocomplete="off">
 
     <h2 class="text-icon-left search-w">Search Catering Equipment</h2>
 

@@ -44,8 +44,10 @@ function jr_getUrl() {
 function jr_imgSrc($itemType,$itemName,$filetype) {
   return 'images/'.$itemType.'/'.$itemName.'.'.$filetype;
 }
-function jr_siteImg($fileName) {
-  return 'images/'.$fileName;
+function jr_siteImg($fileName,$relative = false) {
+  $image = 'images/'.$fileName;
+  $out = $relative ? $image : site_url($image);
+  return $out;
 }
 // turns a title into an array of [Name, URL]
 function jr_titleToUrl($in) {

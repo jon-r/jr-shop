@@ -6,8 +6,8 @@ if ( $jr_safeArray['ss'] ) {
 }
 ?>
 <li class="item-thumb">
-  <a href="<?php echo site_url($shopItem['webLink']) ?>">
-    <img src="<?php echo site_url(jr_imgResize($shopItem['imgFirst'], 'thumb')); ?>"
+  <a href="<?php echo home_url($shopItem['webLink']) ?>">
+    <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'thumb'); ?>"
          class="framed" alt="<?php echo $shopItem['name'] ?>">
     <em class="greater"><?php echo $shopItem['price'] ?></em>
   </a>

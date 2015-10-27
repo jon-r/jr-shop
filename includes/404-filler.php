@@ -1,6 +1,6 @@
 
 <article class="flex-container centre four-oh-four" >
-  <img class="flex-2" src="<?php echo site_url(jr_siteImg('icons/404.png')); ?>" alt="four-oh-four">
+  <img class="flex-2" src="<?php echo jr_siteImg('icons/404.png'); ?>" alt="four-oh-four">
   <section class="tile-outer dark flex-2" >
     <header class="tile-header lined">
       <h1>Something Went Wrong!</h1>

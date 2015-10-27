@@ -29,7 +29,7 @@ function jrA_getTransients() {
 }
 
 function jrA_getHTMLCache() {
-  $htmlFiles = scandir("../cached-files/");
+  $htmlFiles = scandir(site_url("cached-files/"));
   $filteredFiles = array_diff($htmlFiles, ['..', '.']);
   $out = count($filteredFiles);
 
@@ -38,7 +38,7 @@ function jrA_getHTMLCache() {
 
 function jrA_clearCache() {
   $transientList = jrQA_transients();
-  $htmlFiles = scandir("../cached-files/");
+  $htmlFiles = scandir(site_url("cached-files/"));
   $filteredFiles = array_diff($htmlFiles, ['..', '.']);
 
   foreach ($transientList as $t) {
@@ -48,7 +48,7 @@ function jrA_clearCache() {
   $count1 = count($transientList);
 
   foreach($filteredFiles as $file) {
-    $fileDir = "../cached-files/$file";
+    $fileDir = site_url("cached-files/$file");
     if (file_exists($fileDir )) {
       unlink($fileDir );
     }
