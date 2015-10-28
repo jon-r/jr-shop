@@ -44,8 +44,10 @@ if ( $jr_safeArray['ss'] ) {
   </section>
 
   <?php if (count($shop_item['imgAll']) < 5) : ?>
+    <div class="hot-chilli-filling flex-1">
       <img src="<?php echo jr_siteImg('rhc/chilli_filling.jpg'); ?>"
-         class="framed flex-1" alt="Red Hot Chilli - Used Catering Equipment"/>
+         class="framed" alt="Red Hot Chilli - Used Catering Equipment"/>
+    </div>
   <?php endif ?>
 
 </article>
