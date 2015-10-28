@@ -13,7 +13,9 @@ function jr_smartSearch() {
   $ref = http_build_query(['q' => $safeSearch]);
   $url = home_url("products/search-results/?$ref");
 
-  if (stripos($rawSearchTerm, "rhc") === 0) {
+  if (is_numeric($rawSearchTerm)) {
+    $url = home_url('rhc/'.$rawSearchTerm);
+  } elseif (stripos($rawSearchTerm, "rhc") === 0) {
     $findRef = '/(rhc|rhcs)(\d+)/i';
     $replaceRef ='$1/$2';
     $url =  home_url(strtolower(preg_replace($findRef, $replaceRef, $safeSearch)));
