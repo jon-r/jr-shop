@@ -25,9 +25,9 @@
     </a>
   </section>
   <section class="tile-outer dark list-featured flex-4">
-    <a href="<?php echo home_url('deliveries/') ?>">
+    <a href="<?php echo home_url('exports/') ?>">
       <header class="tile-header dark">
-        <h2>Deliveries</h2>
+        <h2>Exports</h2>
       </header>
       <img class="framed" src="<?php echo jr_siteImg('icons/btn-services.jpg') ?>" alt="National and International Deliveries">
 

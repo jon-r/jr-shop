@@ -5,8 +5,8 @@
 
 function jrCached_HTML($file, $cacheName, $timeInDays) {
   global $jr_safeArray;
-  $cachefile = is_front_page() ? 'rhc/' : '';
-  $cachefile .= 'cached-files/'.$cacheName.'-cached.html';
+
+  $cachefile = ABSPATH.'cached-files/'.$cacheName.'-cached.html';
   $cachetime = $timeInDays * 86400;
 
   if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {

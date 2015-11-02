@@ -34,6 +34,12 @@ function jr_validate_urls($url) {
     $out['pgType'] = 'Group';
     $out['filterVal'] = 'brand';
     $out['unique'] = 'group-brand';
+
+  } elseif ($params[1] == 'categories') {
+    $out['title'] = 'All Products'; //everything - google search override
+    $out['filterType'] = 'all';
+    $out['pageText'] = jr_categoryInfo('all');
+
   } elseif ($params[1] == 'products') {
     $out['pgType'] = 'category';
 

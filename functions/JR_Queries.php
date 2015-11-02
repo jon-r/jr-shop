@@ -19,7 +19,7 @@ function jrQ_rhc($rhc) {
 }
 function jrQ_rhcs($rhcs) {
   global $wpdb, $itemSoldDuration;
-  $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `RHCs` = %s AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `RHCs` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
   $out = $wpdb->get_var(
     $wpdb->prepare($queryStr, $rhcs)
   );

@@ -11,7 +11,7 @@ function jr_clearCache() {
 
   $out['fail'] = '';
   $out['success'] = '';
-  $cacheDir = 'cached-files/';
+  $cacheDir = ABSPATH.'cached-files/';
 
   if (isset($_GET['refs'])) {
     $ref = $_GET['refs'];

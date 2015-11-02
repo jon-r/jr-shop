@@ -1,4 +1,7 @@
 <?php
+/*
+BIG NOTICE: since disabling this, ive not tested. if, when turning it on you cant get the stuff to work, check file locations. (site/home url, abspath, etc)
+*/
 /*--- init ----------------------------------------------------------------------------*/
 function rhc_getScripts() {
   if (isset($_GET['page']) && $_GET['page'] == 'rhc-maintenance') {

@@ -6,6 +6,7 @@
 
   <header class="article-header flex-1" >
     <h1><?php echo $title ?></h1>
+    <a href="#" class="text-right" ><em class="greater">Scroll to Top</em></a>
   </header>
   <?php foreach ($filteredCategories as $category) :
       $link = home_url('/products/category/'.$category['ID'].'/'.$category['RefName']);

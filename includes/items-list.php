@@ -3,6 +3,7 @@ global $itemCountMin;
 $pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
 $itemsNew = jrQ_ItemsNew();
+$thisPageCount = count($items['list']); $n = 0;
 ?>
 
 <article class="flex-container">
@@ -11,12 +12,15 @@ $itemsNew = jrQ_ItemsNew();
     <p><?php echo $jr_safeArray['pageText'] ?></p>
   </header>
 
-  <?php
-  foreach ($items['list'] as $item) {
+  <?php foreach ($items['list'] as $item) :
     include( "list-item.php");
-  }
+    $n++; if ($n % 8 == 0) :
   ?>
-  <?php if(count($items['list']) < $itemCountMin) : ?>
+    <section class="flex-1">
+      <a href="#" class="text-right" ><em class="greater">Scroll to Top</em></a>
+    </section>
+    <?php endif; endforeach; ?>
+  <?php if($thisPageCount < $itemCountMin) : ?>
 
   <section class="flex-1 form-contact wider tile-outer dark">
     <header class="tile-header lined">

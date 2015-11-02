@@ -28,7 +28,7 @@ function jr_smartSearch() {
     $url = home_url('products/category/'.$categoryID.'/'.sanitize_title($ref));
   } elseif (strpos($rawSearchTerm, "- Brand") > 0) {
     $ref = str_replace(" - Brand", "", $safeSearch);
-    $url = home_url('brand/'.sanitize_title($ref));
+    $url = home_url('products/brand/'.sanitize_title($ref));
   }
   return wp_redirect( $url , 301 );
 }

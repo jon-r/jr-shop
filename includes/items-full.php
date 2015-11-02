@@ -34,7 +34,7 @@ if ( $jr_safeArray['ss'] ) {
       <ul id="js-gallery-thumbs" class="flex-container">
         <?php foreach ($shop_item['imgAll'] as $galleryImg) : ?>
         <li class="tile-inner item-thumb">
-          <img src="<?php echo jr_imgResize($galleryImg, 'thumb') ?>"
+          <img src="<?php echo jr_imgResize(home_url($galleryImg), 'thumb') ?>"
                class="framed" alt="<?php echo $shop_item['name'] ?>"
                data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
         </li>

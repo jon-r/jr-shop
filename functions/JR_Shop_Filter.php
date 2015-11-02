@@ -26,11 +26,11 @@ function jr_getGroups() {
 function jr_featuredBrands() {
   $brandsAll = jrQ_brands();
   $brandsListed = jr_get_multiple($brandsAll);
-
+  $brandsImages = [];
   foreach ($brandsListed as $brand) {
     $url = sanitize_title($brand);
     $img = jr_siteImg('brands/square/'.$url.'.jpg', $relative = true);
-    if (file_exists($img)) {
+    if (file_exists(ABSPATH.$img)) {
       $brandsImages[$brand] = [
         'Name'    => $brand,
         'RefName' => $url
