@@ -74,9 +74,10 @@ if (count($shop_item['specs']) != 0): ?>
   <section class="tile-outer flex-2 item-specs">
       <header class="tile-header lined">
         <h2>Specs</h2>
+        <span id="js-specs-copy" class="specs-hover">(Copy as Text)</span>
       </header>
 
-      <ul class="item-dimensions tile-inner">
+      <ul id="js-specs-list" class="item-dimensions tile-inner">
 
       <?php
         foreach ($shop_item['specs'] as $key => $value) {
@@ -84,17 +85,23 @@ if (count($shop_item['specs']) != 0): ?>
           echo "<li>$key $value</li>";
         }
       ?>
+
       </ul>
 
       <div class="tab-toggle text-icon arrow"></div>
     </section>
 <?php endif ?>
-  <?php
-    //show the box sim, if not furnishings and valid height/width
-    if (
-      ($item['Height'] > 0 && $item['Width'] > 0) &&
-      ($item['Category'] != 'Soft Furnishings' && $item['Category'] != 'Tables & Chairs' && $item['Category'] != 'Decor & Lighting')
-    ) : ?>
+<?php //show the box sim, if not furnishings and valid height/width
+        $badCats = ['Soft Furnishings',
+                    'Tables & Chairs',
+                    'Decor & Lighting',
+                    'Dishwashers',
+                    'Other Stainless Steel'];
+        if ($item['Height'] > 0
+            && $item['Width'] > 0
+            && !in_array($item['Category'], $badCats)) :
+  ?>
+
   <?php $box = jr_boxGen($item) ; ?>
     <section class="tile-outer flex-2 item-scale">
       <header class="tile-header lined">
