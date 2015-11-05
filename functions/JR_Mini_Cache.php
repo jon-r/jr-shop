@@ -17,13 +17,33 @@ function jrCached_HTML($file, $cacheName, $timeInDays) {
     ob_start();
     include($file);
     echo '<!-- Page '.$cacheName.' cached on '.date(DATE_COOKIE).' -->';
+    $htmlMin = compress_page(ob_get_contents());
     $fp = fopen($cachefile, 'w');
-    fwrite($fp, ob_get_contents());
+    fwrite($fp, $htmlMin);
     fclose($fp);
     ob_get_flush();
   }
 }
 
+/* this html doesnt need to be user friendly. the removal of whitespace cuts ~25% of the size.
+only like 10kb saving on the front page (compared to the 1-2mb gained by img compression), but it all adds up
+http://stackoverflow.com/questions/6225351/how-to-minify-php-page-html-output
+*/
+
+function compress_page($buffer) {
+  $search = array(
+    '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
+    '/[^\S ]+\</s',  // strip whitespaces before tags, except space
+    '/(\s)+/s'       // shorten multiple whitespace sequences
+  );
+  $replace = array(
+    '>',
+    '<',
+    '\\1'
+  );
+  $buffer = preg_replace($search, $replace, $buffer);
+  return $buffer;
+}
 
 /* setting transients of some of the most common querys. */
 function jrCached_Categories_Full() {
@@ -38,7 +58,7 @@ function jrCached_Categories_Full() {
   }
 }
 
-
+//currently not used, kept just in case.
 function jrCached_Groups() {
   $transient = get_transient('jr_t_groups');
 

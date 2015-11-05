@@ -34,7 +34,7 @@
     <h3>Get a delivery quote</h3>
 
     <label>Subject</label>
-    <input type="text" name="subject" value="<?php echo $formSubject ?> - Delivery Quote" class="text-input">
+    <input type="text" name="subject" value="Delivery Quote Request - <?php echo $formSubject ?>" class="text-input">
 
     <label class="required">Your Address</label>
     <textarea name="postcode" cols="40" rows="10" class="text-input req"></textarea>

@@ -59,12 +59,11 @@ function jr_textBlock($atts, $content = null) {
     $title = '';
   }
 
-  $str = '<article class="flex-container">'
-    .'<section class="flex-1 tile-outer" >'
+  $str = '<section class="flex-1 tile-outer" >'
     .$title
     .'<div class="'.$size.'">'
     .do_shortcode($content)
-    .'</div></section></article>';
+    .'</div></section>';
   return $str;
 }
 
