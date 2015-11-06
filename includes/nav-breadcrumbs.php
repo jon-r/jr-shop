@@ -9,3 +9,7 @@ foreach ($breadLinks as $breadSlices) {
 }
 ?>
 </div>
+
+<?php //hooking the shopping cart here. for now anyway
+ // include('shop-cart.php');
+?>
