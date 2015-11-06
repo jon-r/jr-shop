@@ -17,7 +17,7 @@ $thisPageCount = count($items['list']); $n = 0;
     $n++; if ($n % 8 == 0) :
   ?>
     <section class="flex-1">
-      <a href="#" class="text-right" ><em class="greater">Scroll to Top</em></a>
+      <a href="#" class="text-right" ><h2>&uarr; Scroll to Top</h2></a>
     </section>
     <?php endif; endforeach; ?>
   <?php if($thisPageCount < $itemCountMin) : ?>

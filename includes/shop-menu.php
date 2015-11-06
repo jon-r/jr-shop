@@ -5,7 +5,7 @@ $jr_groupArray = jr_categoryFilter();
 
   <div id="js-sticky-left" data-fixed="0" class="left">
     <label class="top-btn left" for="menu-toggle">
-      <h2 class="text-icon-left basket-w" >Shop Menu</h2>
+      <h2 class="text-icon-left menu-w" >Shop Menu</h2>
     </label>
     <input type="checkbox" class="toggle-check" id="menu-toggle">
 
