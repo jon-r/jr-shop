@@ -1,8 +1,11 @@
 <?php
-/* most of the cache is set to reset every 7 days.
- in theory (nearly) everything could be set to a year or even endless,
- since a clear cache would be used to hard reset */
 
+/**
+ * caches php generated content to minified html files.
+ * @param string  $file       name of the php file template
+ * @param string  $cacheName  unique file to save the html
+ * @param integer $timeInDays how long to keep the cache before remaking it.
+ */
 function jrCached_HTML($file, $cacheName, $timeInDays) {
   global $jr_safeArray;
 
@@ -25,6 +28,7 @@ function jrCached_HTML($file, $cacheName, $timeInDays) {
   }
 }
 
+
 /* this html doesnt need to be user friendly. the removal of whitespace cuts ~25% of the size.
 only like 10kb saving on the front page (compared to the 1-2mb gained by img compression), but it all adds up
 http://stackoverflow.com/questions/6225351/how-to-minify-php-page-html-output
@@ -45,7 +49,11 @@ function compress_page($buffer) {
   return $buffer;
 }
 
-/* setting transients of some of the most common querys. */
+/* most of the cache is set to reset every 7 days.
+ in theory (nearly) everything could be set to a year or even endless,
+ since a clear cache would be used to hard reset */
+
+/* setting transients of some of the most common (large) query - the categories. */
 function jrCached_Categories_Full() {
   $transient = get_transient('jr_t_categories_full');
 

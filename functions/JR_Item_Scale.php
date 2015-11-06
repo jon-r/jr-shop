@@ -1,17 +1,23 @@
 <?php
 
 // ---------------------- box scaler ------------------------------------------------------
-// gives relative sizes of HxW for items page. also "average man" to scale
+/**
+ * Genherates relative sizes of HxW for the items page. also "average man" to scale
+ * @param  array $item compiled product data
+ * @return array relative dimensions and correct image
+ */
 function jr_boxGen($item) {
+
   //size of the svg, 500x500units square with 10units padding
   $boxDims =     480;
   $boxPadding =   10;
   $tableHeight = 800; // a generic worktop
-  $tableWidth = 1200; //... that is 1.2m wide
+  $tableWidth = 1200; //... that is 1.2m long
   $manHeight =  1750; // average male
-  $manWidth =    875; // the image will be half height
+  $manWidth =    875; // the man image will be half height
   $shortH =      550; //stuff on tables
   $tallH =      1500; //the tallest things
+
   $bottomPoint =  $boxPadding + $boxDims; //used for most of the X/Y Coordinates
   $itemH =        $item['Height'];
   $itemW =        $item['Width'];
@@ -28,6 +34,7 @@ function jr_boxGen($item) {
   ];
   //shortest items "propped up" on a table. unless it IS a table
   if ($itemH < $shortH && !isset($item['RHCs'])) {
+
     $out2 = [
       'itemX'  => ($boxDims - $out1['itemW']) / 2,
       'itemY'  => $bottomPoint - $out1['itemH'] - $out1['tableH'],
@@ -35,24 +42,37 @@ function jr_boxGen($item) {
       'tableX' => ($boxDims - $out1['tableW']) / 2,
       'manY'   => $boxPadding,
     ];
+
   } else {
+
     $out2 = [
       'itemX' => ($boxDims - $out1['itemW']) / 2,
       'itemY' => $bottomPoint - $out1['itemH'],
       'manY'  => $bottomPoint - $out1['manH'],
     ];
+
   }
  //set the image based on the size, and if its stainless steel
   if ($itemH < $shortH) {
+
     $out3 = ['itemImg' => 'appliance-short','tableImg' => 'appliance-table'];
+
   } elseif ($itemH > $tallH) {
+
     $out3 = ['itemImg' => isset($item['RHCs']) ? 'appliance-table-tall' : 'appliance-tall'];
+
   } elseif (isset($item['RHCs'])) {
+
     $out3 = ['itemImg' => ($item['Category'] == 'Sinks') ? 'appliance-sink' : 'appliance-table'];
+
   } else {
+
     $out3 = ['itemImg' => 'appliance-med'];
+
   }
+
   $out = array_merge($out1, $out2, $out3);
+
   return $out;
 }
 

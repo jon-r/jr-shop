@@ -1,8 +1,9 @@
 <?php
-/* sends the contact form info via ajax.
-uses javascript to check valid info before supbimtting.
-also uses php validators, to check without javascript
-*/
+/**
+ * ajax attached contact form.
+ * uses javascript to check valid info before submitting.
+ * also uses php validators, to check without javascript
+ */
 function jr_formSubmit() {
 
   $errors = '';
@@ -15,13 +16,18 @@ function jr_formSubmit() {
      empty($params['email']) ||
      empty($params['postcode'])
     ) {
+
     $errors .= "All fields marked with '*' are required.";
-   //validate email
+
+    //validate email
   } elseif (!filter_var($params['email'], FILTER_VALIDATE_EMAIL)) {
+
     $errors .= "Please check your email address.";
+
   }
 
   if(empty($errors)) {
+
     //requireds, enforced by the first errorcheck
     $form_name = $params['name'];
     $form_email = $params['email'];
@@ -58,9 +64,11 @@ function jr_formSubmit() {
   } else {
     $out = $errors;
   }
+
   echo json_encode($out);
   wp_die();
 }
+
 add_action('wp_ajax_jr_formsubmit', 'jr_formSubmit');
 add_action('wp_ajax_nopriv_jr_formsubmit', 'jr_formSubmit');
 
