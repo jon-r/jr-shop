@@ -33,7 +33,7 @@ function jr_validate_urls($url) {
     $out['title'] = "Shop by Brand";
     $out['pgType'] = 'Group';
     $out['filterVal'] = 'brand';
-    $out['unique'] = 'group-brand';
+    $out['unique'] = 'category-brands-all';
 
   } elseif ($params[1] == 'categories') {
     $out['title'] = 'All Products'; //everything - google search override
@@ -81,6 +81,7 @@ function jr_validate_urls($url) {
       $out['filterType'] = 'all';
       $out['title'] = 'Recently Sold';
       $out['filterVal2'] = jr_categoryInfo('sold');
+      $out['unique'] = 'category-sold';
 
     } elseif ($params[2] == 'special-offers') { //sale
       $out['filterType'] = 'sale';
@@ -92,7 +93,7 @@ function jr_validate_urls($url) {
       $out['filterType'] = 'brand';
       $out['filterVal'] =  jr_urlToBrand($params[3]);
       $out['title'] = 'Products from '.$out['filterVal'];
-
+      $out['unique'] = 'category-brand-'.$params[3];
     }
 
   } elseif ($params[1] == 'rhc') { //product
