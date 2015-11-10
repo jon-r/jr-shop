@@ -7,8 +7,10 @@
 function jr_formSubmit() {
 
   $errors = '';
-  $to = jr_linkTo('email');
+
+  $source = jr_linkTo('email');
   $in = $_GET['keyword'];
+  $to = 'red.hotchilli@outlook.com';
 
   parse_str($in, $params);
 
@@ -55,7 +57,7 @@ function jr_formSubmit() {
       ."--- \n"
       ."This email was sent from page: \n $formURL";
 
-    $headers = "From: $to \n";
+    $headers = "From: $source \n";
     $headers .= "Reply-To: $form_email";
 
     mail($to, $subject, $message, $headers);
