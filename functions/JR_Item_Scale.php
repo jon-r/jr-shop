@@ -71,7 +71,21 @@ function jr_boxGen($item) {
 
   }
 
-  $out = array_merge($out1, $out2, $out3);
+  //adding line measurements. several are the same as the actual box
+  $outLines = [
+    'heightLineX' =>  $boxDims - $out2['itemX'] + 10, //right sided
+    'widthLineY' =>  $out2['itemY'] - 10 //top sided
+  ];
+  $out4 = [
+    'pathA' => 'M'.$outLines['heightLineX'].' '.$out2['itemY'].'v'.$out1['itemH'],
+    'pathB' => 'M'.$out2['itemX'].' '.$outLines['widthLineY'].'h'.$out1['itemW'],
+    'heightText' =>   $item['Height'] + 'mm',
+    'heightTextY' =>  ($bottomPoint - $out1['itemH'])/2, //text halfway down
+    'widthText' =>    $item['Width'] + 'mm',
+    'widthTextX' =>    ($out1['itemW'] + 'mm')/2,
+  ];
+
+  $out = array_merge($out1, $out2, $out3, $out4);
 
   return $out;
 }
