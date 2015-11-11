@@ -17,6 +17,7 @@ function jrQ_rhc($rhc) {
   );
   return($out);
 }
+
 function jrQ_rhcs($rhcs) {
   global $wpdb, $itemSoldDuration;
   $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `RHCs` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
@@ -25,6 +26,9 @@ function jrQ_rhcs($rhcs) {
   );
   return($out);
 }
+
+
+
 function jrQ_categories() {
   global $wpdb;
   $results = $wpdb->get_results("SELECT `Category_ID`, `Name`, `CategoryGroup`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `ShowMe` = 1 ORDER BY `List_Order` DESC, `CategoryGroup` DESC", ARRAY_A);
@@ -63,6 +67,16 @@ function jrQ_item($safeRHC, $SS = null) {
     $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$safeRHC'", ARRAY_A);
   } else {
     $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'", ARRAY_A);
+  }
+  return $queryFull;
+}
+/* query for 'items full' OBJECT RESULT ----------------------------------------------*/
+function jrQ_getItem($table,$safeRHC) {
+  global $wpdb;
+  if ($table == 'RHCs') {
+    $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$safeRHC'");
+  } else {
+    $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'");
   }
   return $queryFull;
 }
