@@ -153,11 +153,11 @@ class compile {
     return $infoCheck;
   }
 
-  public function compile($dbRaw) {
+  public function compile($dbRaw,$detail) {
 
-    switch ($this->detail) {
+    switch ($detail) {
       case ('Full') :
-        $out = [
+        $out1 = [
           'height'    => $dbRaw->Height ?: null,
           'width'     => $dbRaw->Width ?: null,
           'depth'     => $dbRaw->Depth ?: null,
@@ -170,12 +170,15 @@ class compile {
           'category'  => $dbRaw->'Category'
         ];
       case ('Tile') :
-        $out = [
+        $out2 = [
           'icon'     => $dbRaw->iconCheck(),
           'info'     => $dbRaw->infoCheck(),
           'quantity' => $ref['Quantity'] > 1 ? $ref['Quantity']." in Stock" : null,
-        ]
+        ];
+      case ('Lite') :
+        $out3 = [
 
+        ]
     }
 
   }
