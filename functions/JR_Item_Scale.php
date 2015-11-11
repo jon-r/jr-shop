@@ -77,12 +77,14 @@ function jr_boxGen($item) {
     'widthLineY' =>  $out2['itemY'] - 10 //top sided
   ];
   $out4 = [
-    'pathA' => 'M'.$outLines['heightLineX'].' '.$out2['itemY'].'v'.$out1['itemH'],
-    'pathB' => 'M'.$out2['itemX'].' '.$outLines['widthLineY'].'h'.$out1['itemW'],
-    'heightText' =>   $item['Height'] + 'mm',
-    'heightTextY' =>  ($bottomPoint - $out1['itemH'])/2, //text halfway down
-    'widthText' =>    $item['Width'] + 'mm',
-    'widthTextX' =>    ($out1['itemW'] + 'mm')/2,
+    'pathA' =>        'M'.$outLines['heightLineX'].' '.$out2['itemY'].'v'.$out1['itemH'],
+    'pathB' =>        'M'.$out2['itemX'].' '.$outLines['widthLineY'].'h'.$out1['itemW'],
+    'heightText'  =>  $item['Height'].'mm',
+    'heightTextX' =>  $outLines['heightLineX'] + 3,
+    'heightTextY' =>  $out2['itemY'] + ($out1['itemH']/2),
+    'widthText'   =>  $item['Width'].'mm',
+    'widthTextX'  =>  $out2['itemX'] + ($out1['itemW']/2),
+    'widthTextY'  =>  $outLines['widthLineY'] - 3
   ];
 
   $out = array_merge($out1, $out2, $out3, $out4);
@@ -91,3 +93,4 @@ function jr_boxGen($item) {
 }
 
 ?>
+

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="90%" width="100%" viewBox="0 0 500 500">
+  <defs>
+    <marker id="Tri" viewBox="0 0 8 4" refX="0" refY="2" orient="auto" markerWidth="8" markerHeight="4" >
+      <path d="M0 2l8 2v-4z" />
+    </marker>
+    <marker id="TriEnd" viewBox="0 0 8 4" refX="8" refY="2" orient="auto" markerWidth="8" markerHeight="4" >
+      <path d="M8 2l-8 2v-4z" />
+    </marker>
+
+  </defs>
+  <g stroke="#5A6372" stroke-width="3">
+    <path id="floor" d="M5 490h490z" />
+    <path id="heightLine" d="M304.857 229.429v260.571" marker-start="url(#Tri)" marker-end="url(#TriEnd)"/>
+    <path id="widthLine" d="M185.143 219.429h109.714" marker-start="url(#Tri)" marker-end="url(#TriEnd)"/>
+  </g>
+  <g>
+    <image id="item" xlink:href="http://localhost/rhc/images/icons/appliance-med.png" preserveAspectRatio="none" x="185.143" y="229.429" height="260.571" width="109.714" />
+    <image id="man" xlink:href="http://localhost/rhc/images/icons/man.png" preserveAspectRatio="none" opacity="0.5" x="0" y="10" height="480" width="240" />
+  </g>
+  <g fill="black" font-size="20">
+    <text x="310" y="320" >hello</text>
+    <text text-anchor="middle" x="220" y="200" >hello</text>
+    <text text-anchor="middle" x="100" y="100" >man=1750mm</text>
+  </g>
+</svg>
