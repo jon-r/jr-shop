@@ -46,6 +46,10 @@ include ('functions/JR_Validate.php');
 include ('functions/JR_Contact_Forms.php');
 include ('functions/JR_File_Cleanup.php');
 
+include('functions/classes/JR_class_product.php');
+include('functions/classes/JR_class_compile.php');
+
+
 /* if (is_admin()) {
    ADMIN HAS BEEN REMOVED FOR NOW - all options have been moved to the database
 

@@ -1,11 +1,12 @@
 <?php
 class compile {
 
+  private $ss;
 /*
 private $refNum;
   private $rawArr;
   private $detail;
-  private $ss;
+
   */
 
 /*  public function setArr($arr) {
@@ -87,7 +88,7 @@ private $refNum;
 
   private function setIcon() {
     if ($this->ss) {
-      $catArray = [$this->Category;
+      $catArray = [$this->Category];
     } else {
       $catArray = [$this->Category,  $this->Cat1,  $this->Cat2, $this->Cat3 ];
     }
@@ -119,9 +120,10 @@ private $refNum;
     return $infoCheck;
   }
 
-  public function compile($dbRaw,$detail) {
+  public function compile($dbRaw,$detail,$isSS) {
 
     $out = array();
+    $this->ss = $isSS;
 
     switch ($detail) {
       case ('Full') :
@@ -135,7 +137,7 @@ private $refNum;
           'specs'     => $dbRaw->setSpecs(),
           'imgAll'    => $dbRaw->setImgs(),
           //this glob targets only the valid RHC reference. ie 'RHC10', 'RHC10 b', NOT 'RHC101'
-          'category'  => $dbRaw->'Category'
+          'category'  => $dbRaw->Category
         ]);
       case ('Tile') :
         array_push($out, [
@@ -155,4 +157,5 @@ private $refNum;
     }
     return $out;
   }
+};
   ?>

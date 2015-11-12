@@ -49,7 +49,6 @@ if ( $jr_safeArray['ss'] ) {
          class="framed" alt="Red Hot Chilli - Used Catering Equipment"/>
     </div>
   <?php endif ?>
-
 </article>
 <article id="js-tabs-frame" class="flex-column tabs-frame">
 

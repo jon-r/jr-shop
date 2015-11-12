@@ -4,10 +4,15 @@ class productSingle {
 
   private $refNum;
   private $table;
-  private $err;
+  private $err = '';
 
   private $dbRaw = array();
-  private $ss = strtolower($table) == 'rhcs';
+  private $ss;
+
+
+  private function ss() {
+    return (strtolower($table) == 'rhcs');
+  }
 
   public function setRef($rhcRef) {
     preg_match('/(RHCs?)(\d+)/i',$rhcRef, $refArray);
@@ -24,8 +29,8 @@ class productSingle {
   private function validate() {
     global $wpdb, $itemSoldDuration;
 
-    $tbl = $this->ss ? 'benchessinksdb' : 'networked db';
-    $ref = $this->ss ? 'RHCs' : 'RHC';
+    $tbl = $this->ss() ? 'benchessinksdb' : 'networked db';
+    $ref = $this->ss() ? 'RHCs' : 'RHC';
 
     $q =  "SELECT `$ref` FROM `$tbl` ";
     $q .= "WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ";
@@ -35,14 +40,14 @@ class productSingle {
     return $out != null;
   }
 
-  private $isValid = $this->validate();
+  //private $isValid = $this->validate();
 
   private function setDbInfo() {
     if ($this->err == '') {
-      if ($this->isValid) {
+      if ($this->validate()) {
         $this->dbRaw = jrQ_getItem($table,$rhcRef);
       } else {
-        $this->err = 'Not Found'
+        $this->err = 'Not Found';
       }
     }
   }

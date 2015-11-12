@@ -202,6 +202,7 @@ function jr_format($in) {
   $out = str_ireplace($findCat,$replaceCat, $out);
   return $out;
 }
+
 ?>
 
 
