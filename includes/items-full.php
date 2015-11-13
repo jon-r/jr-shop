@@ -1,12 +1,14 @@
 <?php /* style for the individual items page */
+//TEMP UNTIL I FIX MORE CLASSES
 if ( $jr_safeArray['ss'] ) {
-  $item = jrQ_item($jr_safeArray['filterVal'], 1);
-  $shop_item = jr_itemComplile($item,'itemSS');
+  $item = 'RHCs'.$jr_safeArray['filterVal'];
 } else {
-  $item = jrQ_item($jr_safeArray['filterVal']);
-  $itemsNew = jrQ_ItemsNew();
-  $shop_item = jr_itemComplile($item,'item', $itemsNew);
+  $item = 'RHC'.$jr_safeArray['filterVal'];
 }
+$product = new productSingle;
+$product->setRef($item);
+$shop_item = $product->compiler('full');
+var_dump($shop_item);
 ?>
 
 <article class="flex-column photos-frame">
@@ -48,13 +50,13 @@ if ( $jr_safeArray['ss'] ) {
 
   <?php
   /*--------- CLASS TESTS BEGIN HERE --------------------------------------------------\
-  \-----------------------------------------------------------------------------------*/
+  \-----------------------------------------------------------------------------------
   $rhc = 'RHC'.$jr_safeArray['filterVal'];
   $temp = new productSingle;
   $temp->setRef($rhc);
   $out = $temp->compiler('full');
   var_dump($out);
-
+  */
   ?>
     <div class="hot-chilli-filling flex-1">
       <img src="<?php echo jr_siteImg('rhc/chilli_filling.jpg'); ?>"

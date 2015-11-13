@@ -19,8 +19,8 @@ function jr_boxGen($item) {
   $tallH =      1500; //the tallest things
 
   $bottomPoint =  $boxPadding + $boxDims; //used for most of the X/Y Coordinates
-  $itemH =        $item['Height'];
-  $itemW =        $item['Width'];
+  $itemH =        $item['height'];
+  $itemW =        $item['width'];
   $findMax = max($itemH, $itemW, $manHeight);//the largest dimension sets the scale
   // dimensions of the svg rectangles
   $out1 = [
@@ -79,10 +79,10 @@ function jr_boxGen($item) {
   $out4 = [
     'pathA' =>        'M'.$outLines['heightLineX'].' '.$out2['itemY'].'v'.$out1['itemH'],
     'pathB' =>        'M'.$out2['itemX'].' '.$outLines['widthLineY'].'h'.$out1['itemW'],
-    'heightText'  =>  $item['Height'].'mm',
+    'heightText'  =>  $item['height'].'mm',
     'heightTextX' =>  $outLines['heightLineX'] + 3,
     'heightTextY' =>  $out2['itemY'] + ($out1['itemH']/2),
-    'widthText'   =>  $item['Width'].'mm',
+    'widthText'   =>  $item['width'].'mm',
     'widthTextX'  =>  $out2['itemX'] + ($out1['itemW']/2),
     'widthTextY'  =>  $outLines['widthLineY'] - 3
   ];
@@ -93,4 +93,6 @@ function jr_boxGen($item) {
 }
 
 ?>
+
+
 

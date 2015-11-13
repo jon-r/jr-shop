@@ -7,13 +7,13 @@ $badCats = [
   'Other Stainless Steel'
 ];
 
-if ($item['Height'] > 0
-    && $item['Width'] > 0
-    && !in_array($item['Category'], $badCats)
+if ($shop_item['height'] > 0
+    && $shop_item['width'] > 0
+    && !in_array($shop_item['category'], $badCats)
    ) :
 ?>
 
-<?php $box = jr_boxGen($item) ; ?>
+<?php $box = jr_boxGen($shop_item) ; ?>
 <section class="tile-outer flex-2 item-scale">
   <header class="tile-header lined">
     <h2>Scale</h2>
