@@ -29,6 +29,9 @@
 
 include ('functions/JR_Mini_Cache.php');
 
+include('functions/classes/JR_class_product.php');
+include('functions/classes/JR_class_compile.php');
+
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');
 include ('functions/JR_Site_Options.php');
@@ -45,9 +48,6 @@ include ('functions/JR_Testimonials.php');
 include ('functions/JR_Validate.php');
 include ('functions/JR_Contact_Forms.php');
 include ('functions/JR_File_Cleanup.php');
-
-include('functions/classes/JR_class_product.php');
-include('functions/classes/JR_class_compile.php');
 
 
 /* if (is_admin()) {

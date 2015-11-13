@@ -2,6 +2,7 @@
 class compile {
 
   private $ss;
+  //private $rawArr;
 /*
 private $refNum;
   private $rawArr;
@@ -9,12 +10,13 @@ private $refNum;
 
   */
 
-/*  public function setArr($arr) {
+/*
+public function setVal($arr) {
     $this->rawArr = $arr;
   }*/
 
-  private function MMtoFeet() {
-    $justInches = $this / 25.4;
+  private function MMtoFeet($mm) {
+    $justInches = $mm / 25.4;
     if ($justInches < 24) {
       $out = ceil($justInches).'in';
     } else {
@@ -26,15 +28,15 @@ private $refNum;
     return $out;
   }
 
-  private function setBrand() {
-    if ($this->Brand) {
-      $brandUrl = sanitize_title($this->Brand);
+  private function setBrand($dbRaw) {
+    if ($dbRaw->Brand) {
+      $brandUrl = sanitize_title($dbRaw->Brand);
       $brandImg = jr_siteImg('brands/long/'.$brandUrl.'-logo.jpg', $relative = true);
       if (file_exists(ABSPATH.$brandImg)) {
-        $brandText = '<img class="framed" src="'.site_url($brandImg).'" alt="'.$this->Brand.'" >'
-          .'<a href="'.home_url('products/brand/'.$brandUrl).'" >More from '.$this->Brand.'</a>';
+        $brandText = '<img class="framed" src="'.site_url($brandImg).'" alt="'.$dbRaw->Brand.'" >'
+          .'<a href="'.home_url('products/brand/'.$brandUrl).'" >More from '.$dbRaw->Brand.'</a>';
       } else {
-        $brandText = $this->Brand.' (<a href="'.home_url('products/brand/'.$brandUrl).'" >More</a>)';
+        $brandText = $dbRaw->Brand.' (<a href="'.home_url('products/brand/'.$brandUrl).'" >More</a>)';
       }
     } else {
       $brandText = null;
@@ -42,30 +44,30 @@ private $refNum;
     return $brandText;
   }
 
-  private function setPower() {
-    if ($this->Wattage >= 1500) {
-      $pwrCheck = ($this->Wattage / 1000).'kw, '.$this->Power;
-    } elseif ($this->Wattage < 1500 && $this->Wattage > 0) {
-      $pwrCheck = $this->Wattage.' watts, '.$this->Power;
-    } elseif ($this->Power) {
-      $pwrCheck = $this->Power;
+  private function setPower($dbRaw) {
+    if ($dbRaw->Wattage >= 1500) {
+      $pwrCheck = ($dbRaw->Wattage / 1000).'kw, '.$dbRaw->Power;
+    } elseif ($dbRaw->Wattage < 1500 && $dbRaw->Wattage > 0) {
+      $pwrCheck = $dbRaw->Wattage.' watts, '.$dbRaw->Power;
+    } elseif ($dbRaw->Power) {
+      $pwrCheck = $dbRaw->Power;
     } else {
       $pwrCheck = null;
     };
     return $pwrCheck;
   }
 
-  private function setSpecs() {
+  private function setSpecs($dbRaw) {
     $out = [
-      'Brand'   => $this->setBrand() ?:null,
-      'Model'   => $this->Model ?: null,
-      'Power'   => $this->setPower() ?: null,
-      'Height'  => $this->Height ? $this->Height.'mm / '.MMtoFeet($this->Height) : null,
-      'Width'   => $this->Width ? $this->Width.'mm / '.MMtoFeet($this->Width) : null,
-      'Depth'   => $this->Depth ? $this->Depth.'mm / '.MMtoFeet($this->Depth) : null,
+      'Brand'   => $this->setBrand($dbRaw) ?:null,
+      'Model'   => $dbRaw->Model ?: null,
+      'Power'   => $this->setPower($dbRaw) ?: null,
+      'Height'  => $dbRaw->Height ? $dbRaw->Height.'mm / '.$this->MMtoFeet($dbRaw->Height) : null,
+      'Width'   => $dbRaw->Width ? $dbRaw->Width.'mm / '.$this->MMtoFeet($dbRaw->Width) : null,
+      'Depth'   => $dbRaw->Depth ? $dbRaw->Depth.'mm / '.$this->MMtoFeet($dbRaw->Depth) : null,
     ];
-    if ($this->ExtraMeasurements) {
-      $extras = explode(';',$this->ExtraMeasurements);
+    if ($dbRaw->ExtraMeasurements) {
+      $extras = explode(';',$dbRaw->ExtraMeasurements);
       foreach($extras as $extra) {
         if (strpos($extra, ":") === false) {
           $out[] = trim($extra);
@@ -76,43 +78,41 @@ private $refNum;
       }
     };
     //put last to keep in order
-    $out['Please Note'] = $this->{'Condition/Damages'} != "0" ? $this->{'Condition/Damages'} : null;
+    $out['Please Note'] = $dbRaw->{'Condition/Damages'} != "0" ? $dbRaw->{'Condition/Damages'} : null;
     return array_filter($out);
   }
 
-  private function setImgs() {
+  private function setImgs($dbRaw) {
     $name = ($this->ss) ? 'RHCs' : 'RHC';
-    $out = glob('rhc/images/gallery/'.$name.$this->refNum.'[!0-9]*', GLOB_BRACE);
+    $out = glob('images/gallery/'.$name.$dbRaw->RHC.'[!0-9]*', GLOB_BRACE);
     return $out;
   }
 
-  private function setIcon() {
-    if ($this->ss) {
-      $catArray = [$this->Category];
-    } else {
-      $catArray = [$this->Category,  $this->Cat1,  $this->Cat2, $this->Cat3 ];
-    }
+  private function setIcon($dbRaw) {
+    $iconCheck = null;
 
-    if (in_array('Fridges', $catArray) && in_array('Freezers', $catArray)) {
-      $iconCheck = 'fridge-freezer';
-    } elseif (in_array('Fridges', $catArray)) {
-      $iconCheck = 'fridge';
-    } elseif (in_array('Freezers', $catArray)) {
-      $iconCheck = 'freezer';
-    } elseif ($this->Power) {
-      $iconCheck = str_replace(' ', '-', strtolower($this->Power));
-    } else {
-      $iconCheck = null;
-    };
+    if (!$this->ss) {
+      $catArray = [$dbRaw->Category,  $dbRaw->Cat1,  $dbRaw->Cat2, $dbRaw->Cat3 ];
+
+      if (in_array('Fridges', $catArray) && in_array('Freezers', $catArray)) {
+        $iconCheck = 'fridge-freezer';
+      } elseif (in_array('Fridges', $catArray)) {
+        $iconCheck = 'fridge';
+      } elseif (in_array('Freezers', $catArray)) {
+        $iconCheck = 'freezer';
+      } elseif ($dbRaw->Power) {
+        $iconCheck = str_replace(' ', '-', strtolower($dbRaw->Power));
+      }
+    }
     return $iconCheck;
   }
 
-  private function setInfo() {
-    if (isset($this->isSale)) {
+  private function setInfo($dbRaw) {
+    if (isset($dbRaw->isSale)) {
       $infoCheck = "sale";
-    } elseif ($this->Quantity == 0) {
+    } elseif ($dbRaw->Quantity == 0) {
       $infoCheck = "sold";
-    } elseif (in_array($this->RHC, $newCheck)) {
+    } elseif (in_array($dbRaw->RHC, jrQ_ItemsNew())) {
       $infoCheck = "new";
     } else {
       $infoCheck = null;
@@ -120,42 +120,76 @@ private $refNum;
     return $infoCheck;
   }
 
-  public function compile($dbRaw,$detail,$isSS) {
+  private function setPrice($dbRaw) {
+    if ($dbRaw->Quantity == 0) {
+      $priceCheck = 'Sold';
+    } elseif ($dbRaw->Price) {
+      $priceCheck = "£".$dbRaw->Price." + VAT";
+    } else {
+      $priceCheck = "Price Coming Soon";
+    };
+    return $priceCheck;
+  }
+
+  private function setWebLink($dbRaw) {
+    if ($this->ss) {
+      $url = 'rhcs/';
+    } else {
+      $url = 'rhc/';
+    }
+    return $url.$dbRaw->RHC.'/'.sanitize_title($dbRaw->ProductName);
+  }
+
+  private function setRefNum($dbRaw) {
+    if ($this->ss) {
+      $id = 'RHCs';
+    } else {
+      $id = 'RHC';
+    }
+    return $id.$dbRaw->RHC;
+  }
+
+  public function itemCompile($dbRaw,$detail,$ss) {
 
     $out = array();
-    $this->ss = $isSS;
+    //$this->rawArr = $dbRaw;
+    $this->ss = $ss;
 
     switch ($detail) {
-      case ('Full') :
-        array_push($out, [
+      case ('full') :
+        $out1 = [
           'height'    => $dbRaw->Height ?: null,
           'width'     => $dbRaw->Width ?: null,
           'depth'     => $dbRaw->Depth ?: null,
           'desc'      => ($dbRaw->{'Line 1'} != "0" ? '<p>'.$dbRaw->{'Line 1'}.'</p>' : null).
                          ($dbRaw->{'Line 2'} != "0" ? '<p>'.$dbRaw->{'Line 2'}.'</p>' : null).
                          ($dbRaw->{'Line 3'} != "0" ? '<p>'.$dbRaw->{'Line 3'}.'</p>' : null),
-          'specs'     => $dbRaw->setSpecs(),
-          'imgAll'    => $dbRaw->setImgs(),
+          'specs'     => $this->setSpecs($dbRaw),
+          'imgAll'    => $this->setImgs($dbRaw),
           //this glob targets only the valid RHC reference. ie 'RHC10', 'RHC10 b', NOT 'RHC101'
           'category'  => $dbRaw->Category
-        ]);
-      case ('Tile') :
-        array_push($out, [
-          'widthFt'  => $dbRaw->Width ? MMtoFeet($dbRaw->Width) : null,
-          'icon'     => $dbRaw->setIcon(),
-          'info'     => $dbRaw->setInfo(),
+        ];
+      case ('tile') :
+        $out2 = [
+          'widthFt'  => $dbRaw->Width ? $this->MMtoFeet($dbRaw->Width) : null,
+          'icon'     => $this->setIcon($dbRaw),
+          'info'     => $this->setInfo($dbRaw),
           'quantity' => $dbRaw->Quantity > 1 ? $dbRaw->Quantity." in Stock" : null,
-        ]);
-      case ('Lite') :
-        array_push($out, [
-          'price'    => $priceCheck,
-          'webLink'  => 'rhc/'.$dbRaw->RHC.'/'.sanitize_title($dbRaw->ProductName),
-          'rhc'      => 'ref: RHC'.$dbRaw->RHC,
+        ];
+      case ('lite') :
+        $out3 = [
+          'price'    => $this->setPrice($dbRaw),
+          'webLink'  => $this->setWebLink($dbRaw),
+          'rhc'      => $this->setRefNum($dbRaw),
           'name'     => $dbRaw->ProductName,
           'imgFirst' => jr_siteImg('gallery/RHC'.$dbRaw->RHC.'.jpg'),
-        ]);
+        ];
+        break;
+      default:
+        $out1 = ['error' => 'invalid term "'.$detail.'"'];
+        break;
     }
-    return $out;
+    return array_merge($out1,$out2,$out3);
   }
 };
   ?>

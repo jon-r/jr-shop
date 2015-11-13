@@ -44,6 +44,18 @@ if ( $jr_safeArray['ss'] ) {
   </section>
 
   <?php if (count($shop_item['imgAll']) < 5) : ?>
+
+
+  <?php
+  /*--------- CLASS TESTS BEGIN HERE --------------------------------------------------\
+  \-----------------------------------------------------------------------------------*/
+  $rhc = 'RHC'.$jr_safeArray['filterVal'];
+  $temp = new productSingle;
+  $temp->setRef($rhc);
+  $out = $temp->compiler('full');
+  var_dump($out);
+
+  ?>
     <div class="hot-chilli-filling flex-1">
       <img src="<?php echo jr_siteImg('rhc/chilli_filling.jpg'); ?>"
          class="framed" alt="Red Hot Chilli - Used Catering Equipment"/>

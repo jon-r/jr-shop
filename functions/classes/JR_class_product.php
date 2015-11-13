@@ -9,17 +9,13 @@ class productSingle {
   private $dbRaw = array();
   private $ss;
 
-
-  private function ss() {
-    return (strtolower($table) == 'rhcs');
-  }
-
   public function setRef($rhcRef) {
     preg_match('/(RHCs?)(\d+)/i',$rhcRef, $refArray);
 //    $ref = preg_split('/(RHCs?)(\d+)/i', $rhcRef, PREG_SPLIT_DELIM_CAPTURE);
     if ($refArray !== false) {
-      $this->refNum = $refArray[0];
       $this->table = $refArray[1];
+      $this->refNum = $refArray[2];
+      $this->ss = $refArray[1] == 'rhcs';
     } else {
       $this->err = 'Invalid Ref: '.$rhcRef;
     }
@@ -29,8 +25,8 @@ class productSingle {
   private function validate() {
     global $wpdb, $itemSoldDuration;
 
-    $tbl = $this->ss() ? 'benchessinksdb' : 'networked db';
-    $ref = $this->ss() ? 'RHCs' : 'RHC';
+    $tbl = $this->ss ? 'benchessinksdb' : 'networked db';
+    $ref = $this->ss ? 'RHCs' : 'RHC';
 
     $q =  "SELECT `$ref` FROM `$tbl` ";
     $q .= "WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ";
@@ -45,18 +41,19 @@ class productSingle {
   private function setDbInfo() {
     if ($this->err == '') {
       if ($this->validate()) {
-        $this->dbRaw = jrQ_getItem($table,$rhcRef);
+        $this->dbRaw = jrQ_getItem($this->table,$this->refNum);
       } else {
         $this->err = 'Not Found';
       }
     }
+
   }
 
-  public function getCompiled($detail) {
+  public function compiler($detail) {
     if ($this->err == '') {
-      $array = $this->setDbInfo();
+      $this->setDbInfo();
       $item = new compile;
-      $out = $item->complile($array,$detail);
+      $out = $item->itemCompile($this->dbRaw,$detail,$this->ss);
     } else {
       $out['err'] = $this->err;
     }
