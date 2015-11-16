@@ -1,17 +1,18 @@
-<?
-class productList {
+<?php
+class itemList {
 
-  private $err = '';
-  private $wpdb = $GLOBALS['wpdb'];
-  private $countMax = $GLOBALS['itemCountMax'];
-  private $duration = $GLOBALS['itemSoldDuration']
   private $dbRaw = array();
 
-  public function getItems($filterType,$filterList) {
+  public function get($filterList) {
+    global $wpdb, $itemCountMax, $itemSoldDuration;
+    $this->wpdb = $wpdb;
+    $this->countMax = $itemCountMax;
+    $this->duration = $itemSoldDuration;
+    $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
+
     foreach ($filterList as $f => $value) {
       $this->filters[$f] = $value;
     }
-
     return $this->queryList();
   }
 
@@ -20,62 +21,44 @@ class productList {
     $out['paginate'] = false;
     $lastPage = 1;
 
-    if ($this->filters['filterType'] != 'arrivals' && $this->filters['sold'] == false) {
+    if ($this->filters['pgType'] != 'arrivals' && $this->filters['pgType'] != 'sold') {
       //the "sold" and "new" already capped at a single page, no need to count
-      $fullItemCount = $this->itemsCount();
+      $fullItemCount =  $this->getQueryResults('counter');
       //breaks down into pages
       if ($fullItemCount > $this->countMax) {
         $out['paginate'] = $lastPage = intval(ceil($fullItemCount / $this->countMax));
       }
       //fills up the last page with sold items
-      if ($pageNumber == $lastPage) {
-        $itemsOnLastPage = $fullItemCount % $this->countMax;
-        $listSold = $this->querySold($itemsOnLastPage);
+      if ($this->pgNum == $lastPage) {
+        //$itemsOnPage =  % $this->countMax;
+        $soldCount = 4 - ($fullItemCount % 4);
+        $this->filters['count'] = $soldCount;
+        $listSold = $this->getQueryResults('sold');
       }
     }
     $out['list'] = isset($listSold) ? array_merge($listUnsold, $listSold) : $listUnsold;
     return $out;
   }
 
-  private function itemsCount() {
-    $this->filters['pgType'] = 'counter';
-
-    $result = $this->getQueryResults();
-    return count($result[0]);
-  }
 
   private function queryUnsold() {
 
-    $pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1;
-
-    $queryOffset = ($pageNumber - 1) * $this->countMax;
+    $queryOffset = ($this->pgNum - 1) * $this->countMax;
     $queryLimiter = "$queryOffset,$this->countMax";
 
     $this->filters['count'] = $queryLimiter;
-    return $this->getQueryResults();
+    return $this->getQueryResults('count');
   }
 
-  private function querySold($itemsOnPage) {
 
-    if ($this->filters['pgType'] == 'arrivals' || $this->filters['pgType'] == 'sold') {
-      $out = null;
-    } else {
-      $soldCount = 4 - ($itemsOnPage % 4);
-      $this->filters['sold'] = true;
-      $this->filters['count'] = $soldCount;
-
-    }
-    return $out;
-  }
-
-  private function queryString() {
+  private function queryString($value) {
 
     $qType = $this->filters['pgType'];
     $qFilter = $this->filters['filterType'];
     $qValue = $this->filters['filterVal'];
     $qValue2 = $this->filters['filterVal2'];
     $isSteel = $this->filters['ss'];
-    $isSold = $this->filters['sold'];
+    //$isSold = $this->filters['sold'];
     $limit = $this->filters['count'];
 
     if ($isSteel) {
@@ -86,8 +69,8 @@ class productList {
       $itemDB = "`networked db`";
     }
     //the query "start". how much data are we getting?
-    if ($qType == 'counter') {
-      $querySelection = "$itemRef";
+    if ($value == 'counter') {
+      $querySelection = "COUNT(*)";
     } elseif ($qType == 'lite' || $isSteel) {
       $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
     } else {
@@ -113,14 +96,11 @@ class productList {
   //the query end. how is the data sorted and limited?
     $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, $itemRef DESC LIMIT $limit";
 
-  //  if ($qFilter == 'soon' ) {
-  //    $orderBy = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY $itemRef DESC";
-  //  } else
-    if ($isSold) {
+    if ($qFilter == 'sold' || $value == 'sold') {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $this->duration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
     } elseif ($qFilter == 'related' ) {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT 4";
-    } elseif ($qType == 'counter') {
+    } elseif ($value == 'counter') {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0)";
     }
 
@@ -141,8 +121,9 @@ class productList {
     return $out;
   }
 
-  private function getQueryResults() {
-    $query = $this->queryString();
+  private function getQueryResults($queryType = 'default') {
+
+    $query = $this->queryString($queryType);
 
     if ($query['placeholders']) {
       $out = $this->wpdb->get_results(
@@ -151,9 +132,11 @@ class productList {
     } else {
       $out = $this->wpdb->get_results($query['str']);
     }
+    if ($queryType == 'counter') {
+      $out = $out[0]->{'COUNT(*)'};
+    }
     return $out;
   }
 
 }
-*/
 ?>

@@ -8,7 +8,8 @@ if ( $jr_safeArray['ss'] ) {
 }*/
 $product = new product;
 $product->setRef($jr_safeArray['filterVal'],$jr_safeArray['ss']);
-$shop_item = $product->compiler('full');
+$shop_item = $product->compiler();
+var_dump($product->OUTTEMP);
 var_dump($shop_item);
 ?>
 

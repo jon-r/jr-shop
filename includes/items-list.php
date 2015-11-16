@@ -4,6 +4,11 @@ $pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1;
 $items = jr_itemsList($jr_safeArray, $pageNumber);
 $itemsNew = jrQ_ItemsNew();
 $thisPageCount = count($items['list']); $n = 0;
+
+$itemList = new itemList;
+$list = $itemList->get($jr_safeArray);
+//var_dump($list);
+//var_dump();
 ?>
 
 <article class="flex-container">
@@ -12,8 +17,10 @@ $thisPageCount = count($items['list']); $n = 0;
     <p><?php echo $jr_safeArray['pageText'] ?></p>
   </header>
 
-  <?php foreach ($items['list'] as $item) :
-    include( "list-item.php");
+
+  <?php foreach ($list['list'] as $item) :
+//
+  include( "list-item.php");
     $n++; if ($n % 8 == 0) :
   ?>
     <section class="flex-1">

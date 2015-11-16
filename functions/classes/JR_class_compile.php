@@ -1,5 +1,5 @@
 <?php
-class compiled {
+class compile {
 
   public function itemCompile($dbRaw,$detail,$ss) {
 

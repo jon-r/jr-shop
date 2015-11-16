@@ -8,6 +8,8 @@ class product {
   private $dbRaw = array();
   private $ss;
 
+  public $OUTTEMP;
+
   public function setRef($ref,$ss) {
     $this->refNum = $ref;
     $this->ss = $ss;
@@ -31,6 +33,7 @@ class product {
     if ($this->err == '') {
       if ($this->validate()) {
         $this->dbRaw = jrQ_getItem($this->refNum,$this->ss);
+        $this->OUTTEMP = $this->dbRaw;
       } else {
         $this->err = 'Not Found';
       }
@@ -38,11 +41,11 @@ class product {
 
   }
 
-  public function compiler($detail) {
+  public function compiler() {
     if ($this->err == '') {
       $this->setDbInfo();
       $item = new compile;
-      $out = $item->itemCompile($this->dbRaw,$detail,$this->ss);
+      $out = $item->itemCompile($this->dbRaw,'full',$this->ss);
     } else {
       $out['err'] = $this->err;
     }
