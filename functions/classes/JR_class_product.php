@@ -1,25 +1,16 @@
 <?php
 //combine all the product number crunching into one class
-class productSingle {
+class product {
 
   private $refNum;
-  private $table;
   private $err = '';
 
   private $dbRaw = array();
   private $ss;
 
-  public function setRef($rhcRef) {
-    preg_match('/(RHCs?)(\d+)/i',$rhcRef, $refArray);
-//    $ref = preg_split('/(RHCs?)(\d+)/i', $rhcRef, PREG_SPLIT_DELIM_CAPTURE);
-    if ($refArray !== false) {
-      $this->table = $refArray[1];
-      $this->refNum = $refArray[2];
-      $this->ss = $refArray[1] == 'rhcs';
-    } else {
-      $this->err = 'Invalid Ref: '.$rhcRef;
-    }
-
+  public function setRef($ref,$ss) {
+    $this->refNum = $ref;
+    $this->ss = $ss;
   }
 
   private function validate() {
@@ -36,12 +27,10 @@ class productSingle {
     return $out != null;
   }
 
-  //private $isValid = $this->validate();
-
   private function setDbInfo() {
     if ($this->err == '') {
       if ($this->validate()) {
-        $this->dbRaw = jrQ_getItem($this->table,$this->refNum);
+        $this->dbRaw = jrQ_getItem($this->refNum,$this->ss);
       } else {
         $this->err = 'Not Found';
       }
@@ -62,14 +51,5 @@ class productSingle {
 
 }
 
-/*
-class productMulti {
-
-  private $refArray;
-  private $table;
-
-
-}
-*/
-
+?>
 

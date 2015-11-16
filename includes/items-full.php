@@ -1,12 +1,13 @@
 <?php /* style for the individual items page */
 //TEMP UNTIL I FIX MORE CLASSES
+/*
 if ( $jr_safeArray['ss'] ) {
-  $item = 'RHCs'.$jr_safeArray['filterVal'];
+  $ss = true;
 } else {
-  $item = 'RHC'.$jr_safeArray['filterVal'];
-}
-$product = new productSingle;
-$product->setRef($item);
+  $rhc = 'rhc';
+}*/
+$product = new product;
+$product->setRef($jr_safeArray['filterVal'],$jr_safeArray['ss']);
 $shop_item = $product->compiler('full');
 var_dump($shop_item);
 ?>
