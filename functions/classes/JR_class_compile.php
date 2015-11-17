@@ -1,11 +1,12 @@
 <?php
 class compile {
 
-  public function itemCompile($dbRaw,$detail,$ss) {
+  public function itemCompile($dbRaw,$detail,$ss,$newItems=[]) {
 
-    $out = array();
+    $out1 = $out2 = $out3 = array();
     $this->db = $dbRaw;
     $this->ss = $ss;
+    $this->newCheck = $newItems;
     $this->rhc = $ss ? 'RHCs' : 'RHC';
     $this->ref = $ss ? $this->db->RHCs : $this->db->RHC;
 
@@ -160,7 +161,7 @@ class compile {
       $infoCheck = "sale";
     } elseif ($this->db->Quantity == 0) {
       $infoCheck = "sold";
-    } elseif (in_array($this->ref, jrQ_ItemsNew())) {
+    } elseif (in_array($this->ref, $this->newCheck)) {
       $infoCheck = "new";
     } else {
       $infoCheck = null;

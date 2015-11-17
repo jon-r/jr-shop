@@ -7,24 +7,23 @@ if ( $jr_safeArray['ss'] ) {
   $rhc = 'rhc';
 }*/
 $product = new product;
-$product->setRef($jr_safeArray['filterVal'],$jr_safeArray['ss']);
-$shop_item = $product->compiler();
-var_dump($product->OUTTEMP);
-var_dump($shop_item);
+$product->setRef($jr_safeArray);
+$shopItem = $product->compiler();
+
 ?>
 
 <article class="flex-column photos-frame">
 
   <section class="tile-outer flex-1 item-gallery">
     <header class="tile-header lined">
-      <h1><?php echo $shop_item['name']; ?></h1>
+      <h1><?php echo $shopItem['name']; ?></h1>
     </header>
 
-      <div id="js-gallery-primary" class="tile-inner btn-icon-lrg <?php echo $shop_item['icon']; ?>">
-        <img src="<?php echo jr_imgResize($shop_item['imgFirst'], 'tile') ?>"
-             class="framed" alt="<?php echo $shop_item['name'] ?>">
+      <div id="js-gallery-primary" class="tile-inner btn-icon-lrg <?php echo $shopItem['icon']; ?>">
+        <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'tile') ?>"
+             class="framed" alt="<?php echo $shopItem['name'] ?>">
         <button id="js-gallery-zoom" class="tile-float btn-grey text-icon expand-w"><h3>Zoom in</h3></button>
-        <?php if (count($shop_item['imgAll'])> 1) : ?>
+        <?php if (count($shopItem['imgAll'])> 1) : ?>
         <button id="js-gallery-prev" class="tile-button btn-light text-icon-left arrow-l"></button>
         <button id="js-gallery-next" class="tile-button btn-light text-icon arrow-r"></button>
         <?php endif ?>
@@ -34,12 +33,12 @@ var_dump($shop_item);
         <div class="modal-close btn-icon close-w"></div>
       </div>
 
-      <?php if (count($shop_item['imgAll'])> 1) : ?>
+      <?php if (count($shopItem['imgAll'])> 1) : ?>
       <ul id="js-gallery-thumbs" class="flex-container">
-        <?php foreach ($shop_item['imgAll'] as $galleryImg) : ?>
+        <?php foreach ($shopItem['imgAll'] as $galleryImg) : ?>
         <li class="tile-inner item-thumb">
           <img src="<?php echo jr_imgResize(home_url($galleryImg), 'thumb') ?>"
-               class="framed" alt="<?php echo $shop_item['name'] ?>"
+               class="framed" alt="<?php echo $shopItem['name'] ?>"
                data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
         </li>
         <?php endforeach ?>
@@ -47,19 +46,8 @@ var_dump($shop_item);
       <?php endif ?>
   </section>
 
-  <?php if (count($shop_item['imgAll']) < 5) : ?>
+  <?php if (count($shopItem['imgAll']) < 5) : ?>
 
-
-  <?php
-  /*--------- CLASS TESTS BEGIN HERE --------------------------------------------------\
-  \-----------------------------------------------------------------------------------
-  $rhc = 'RHC'.$jr_safeArray['filterVal'];
-  $temp = new productSingle;
-  $temp->setRef($rhc);
-  $out = $temp->compiler('full');
-  var_dump($out);
-  */
-  ?>
     <div class="hot-chilli-filling flex-1">
       <img src="<?php echo jr_siteImg('rhc/chilli_filling.jpg'); ?>"
          class="framed" alt="Red Hot Chilli - Used Catering Equipment"/>
@@ -70,13 +58,13 @@ var_dump($shop_item);
 
   <section class="tile-outer item-info flex-1 active">
     <header class="tile-header lined">
-      <h2><?php echo $shop_item['price'] ?> <span class='text-right'><?php echo $shop_item['quantity'] ?></span></h2>
-      <h3><?php echo $shop_item['rhc'] ?></h3>
+      <h2><?php echo $shopItem['price'] ?> <span class='text-right'><?php echo $shopItem['quantity'] ?></span></h2>
+      <h3><?php echo $shopItem['rhc'] ?></h3>
     </header>
 
-    <?php echo $shop_item['desc'] ?>
+    <?php echo $shopItem['desc'] ?>
 
-    <?php if ($shop_item['icon']=="natural-gas") : ?>
+    <?php if ($shopItem['icon']=="natural-gas") : ?>
     <p><em class="greater">Ask today about conversions to LPG</em></p>
     <?php endif ?>
 
@@ -85,7 +73,7 @@ var_dump($shop_item);
 
 <?php include("items-full-popouts.php"); ?>
 <?php //hide the specs on the rare occasion of no specs
-if (count($shop_item['specs']) != 0): ?>
+if (count($shopItem['specs']) != 0): ?>
   <section class="tile-outer flex-2 item-specs">
       <header class="tile-header lined">
         <h2>Specs</h2>
@@ -95,7 +83,7 @@ if (count($shop_item['specs']) != 0): ?>
       <ul id="js-specs-list" class="item-dimensions tile-inner">
 
       <?php
-        foreach ($shop_item['specs'] as $key => $value) {
+        foreach ($shopItem['specs'] as $key => $value) {
           $key = is_int($key) ? "" : "<b>$key:</b>";
           echo "<li>$key $value</li>";
         }
@@ -131,7 +119,7 @@ if (count($shop_item['specs']) != 0): ?>
     <div class="tab-toggle text-icon arrow-w"></div>
   </section>
 
-  <?php $related = jrQ_itemsRelated($jr_safeArray); ?>
+  <?php $related = $product->related(); ?>
   <?php if (count($related) > 0) : ?>
     <section class="tile-outer item-related flex-1">
       <header class="tile-header lined">

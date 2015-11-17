@@ -2,7 +2,7 @@
 
 // ---------------------- box scaler ------------------------------------------------------
 /**
- * Genherates relative sizes of HxW for the items page. also "average man" to scale
+ * Generates relative sizes of HxW for the items page. also "average man" to scale
  * @param  array $item compiled product data
  * @return array relative dimensions and correct image
  */

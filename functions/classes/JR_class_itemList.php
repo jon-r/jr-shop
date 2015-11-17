@@ -3,22 +3,49 @@ class itemList {
 
   private $dbRaw = array();
 
+  public $paginate = false;
+  public $newCheck;
+  public $pgCount = 0;
+  public $pgList;
+
   public function get($filterList) {
+    $this->setGlobals();
+    foreach ($filterList as $f => $value) {
+      $this->filters[$f] = $value;
+    }
+    $this->pgList = $this->queryList();
+    $this->pgCount = count($this->pgList);
+  }
+
+  public function getRelated($filterList) {
+    $this->setGlobals();
+    foreach ($filterList as $f => $value) {
+      $this->filters[$f] = $value;
+    }
+    $this->filters['pgType'] = 'lite';
+    $this->filters['filterType'] = 'related';
+    $this->pgList = $this->getQueryResults();
+
+  }
+
+  private function setGlobals() {
     global $wpdb, $itemCountMax, $itemSoldDuration;
     $this->wpdb = $wpdb;
     $this->countMax = $itemCountMax;
     $this->duration = $itemSoldDuration;
     $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
-
-    foreach ($filterList as $f => $value) {
-      $this->filters[$f] = $value;
-    }
-    return $this->queryList();
   }
+
+/*
+public function count() {
+    $num = $this->queryList || [];
+    return count($num);
+  }*/
+
 
   private function queryList() {
     $listUnsold = $this->queryUnsold();
-    $out['paginate'] = false;
+    $this->paginate = false;
     $lastPage = 1;
 
     if ($this->filters['pgType'] != 'arrivals' && $this->filters['pgType'] != 'sold') {
@@ -26,7 +53,7 @@ class itemList {
       $fullItemCount =  $this->getQueryResults('counter');
       //breaks down into pages
       if ($fullItemCount > $this->countMax) {
-        $out['paginate'] = $lastPage = intval(ceil($fullItemCount / $this->countMax));
+        $this->paginate = $lastPage = intval(ceil($fullItemCount / $this->countMax));
       }
       //fills up the last page with sold items
       if ($this->pgNum == $lastPage) {
@@ -36,7 +63,7 @@ class itemList {
         $listSold = $this->getQueryResults('sold');
       }
     }
-    $out['list'] = isset($listSold) ? array_merge($listUnsold, $listSold) : $listUnsold;
+    $out = isset($listSold) ? array_merge($listUnsold, $listSold) : $listUnsold;
     return $out;
   }
 

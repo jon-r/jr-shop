@@ -1,8 +1,8 @@
 <?php
-var_dump($item);
+$item = $items->pgList[$n];
 $product = new compile;
 
-$shopItem = $product->itemCompile($item,'lite',$jr_safeArray['ss']);
+$shopItem = $product->itemCompile($item,'tile',$jr_safeArray['ss'],$newItems);
 
 
 /*if ( $jr_safeArray['ss'] ) {
@@ -11,10 +11,12 @@ $shopItem = $product->itemCompile($item,'lite',$jr_safeArray['ss']);
   $shopItem = jr_itemComplile($item, 'list', $itemsNew);
 }*/
 ?>
-<section class="tile-outer list-item btn-icon flex-4 <?php echo trim($shopItem['info'].' '.$shopItem['icon']); ?>">
-  <?php var_dump($shopItem); ?>
 
-<!--  <a href="<?php echo home_url($shopItem['webLink']) ?>">
+
+<section class="tile-outer list-item btn-icon flex-4 <?php echo trim($shopItem['info'].' '.$shopItem['icon']); ?>">
+
+
+  <a href="<?php echo home_url($shopItem['webLink']) ?>">
     <header class="tile-header red">
       <h2><?php echo $shopItem['name'] ?></h2>
     </header>
@@ -32,7 +34,8 @@ $shopItem = $product->itemCompile($item,'lite',$jr_safeArray['ss']);
       <br>
       <strong><?php echo $shopItem['rhc'] ?></strong>
     </div>
-  </a>-->
+  </a>
 
 </section>
+
 

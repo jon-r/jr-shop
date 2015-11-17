@@ -3,19 +3,19 @@
 class product {
 
   private $refNum;
-  private $err = '';
 
   private $dbRaw = array();
   private $ss;
+  private $safeArray;
 
-  public $OUTTEMP;
-
-  public function setRef($ref,$ss) {
-    $this->refNum = $ref;
-    $this->ss = $ss;
+  public function setRef($arr) {
+    $this->safeArray = $arr;
+    $this->refNum = $this->safeArray['filterVal'];
+    $this->ss = $this->safeArray['ss'];
   }
 
-  private function validate() {
+/*
+private function validate() {
     global $wpdb, $itemSoldDuration;
 
     $tbl = $this->ss ? 'benchessinksdb' : 'networked db';
@@ -27,29 +27,24 @@ class product {
 
     $out = $wpdb->get_var($wpdb->prepare($q, $this->refNum));
     return $out != null;
-  }
+  }*/
 
   private function setDbInfo() {
-    if ($this->err == '') {
-      if ($this->validate()) {
-        $this->dbRaw = jrQ_getItem($this->refNum,$this->ss);
-        $this->OUTTEMP = $this->dbRaw;
-      } else {
-        $this->err = 'Not Found';
-      }
-    }
-
+    $this->dbRaw = jrQ_getItem($this->refNum,$this->ss);
   }
 
+
   public function compiler() {
-    if ($this->err == '') {
-      $this->setDbInfo();
-      $item = new compile;
-      $out = $item->itemCompile($this->dbRaw,'full',$this->ss);
-    } else {
-      $out['err'] = $this->err;
-    }
+    $this->setDbInfo();
+    $item = new compile;
+    $out = $item->itemCompile($this->dbRaw,'full',$this->ss);
     return $out;
+  }
+
+  public function related() {
+    $related = new itemList();
+    $related->getRelated($this->safeArray);
+    return $related->pgList;
   }
 
 }
