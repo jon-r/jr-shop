@@ -31,6 +31,7 @@ include ('functions/JR_Mini_Cache.php');
 include('functions/classes/JR_class_product.php');
 include('functions/classes/JR_class_itemList.php');
 include('functions/classes/JR_class_compile.php');
+include('functions/classes/JR_class_sitemap.php');
 
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');

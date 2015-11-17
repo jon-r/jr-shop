@@ -23,9 +23,10 @@ class compile {
           'category'  => $this->db->Category
         ];
       case ('tile') :
-        $w = $this->db->Width;
+        $w = isset($this->db->Width) ? $this->db->Width : 0;
         $out2 = [
-          'widthFt'  => $this->db->Width ? $this->MMtoFeet($w,$justFeet = true) : null,
+
+          'widthFt'  => $this->MMtoFeet($w,$justFeet = true),
           'icon'     => $this->setIcon(),
           'info'     => $this->setInfo(),
           'quantity' => $this->db->Quantity > 1 ? $this->db->Quantity." in Stock" : null,
@@ -47,7 +48,6 @@ class compile {
   }
 
   private function MMtoFeet($mm,$justFeet = false) {
-
     if ($mm > 0) {
 
       $out = $justFeet ? $mm.'mm / ' : null;

@@ -77,7 +77,6 @@ public function count() {
     return $this->getQueryResults('count');
   }
 
-
   private function queryString($value) {
 
     $qType = $this->filters['pgType'];

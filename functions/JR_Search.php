@@ -11,6 +11,7 @@ function jr_smartSearch() {
   $rawSearchTerm = $_GET['search'];
   $safeSearch = preg_replace('/[^\w &+-]/i','', $rawSearchTerm );
   $ref = http_build_query(['q' => $safeSearch]);
+
   $url = home_url("products/search-results/?$ref");
 
   if (is_numeric($rawSearchTerm)) {
