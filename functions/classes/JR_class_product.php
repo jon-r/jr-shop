@@ -14,21 +14,6 @@ class product {
     $this->ss = $this->safeArray['ss'];
   }
 
-/*
-private function validate() {
-    global $wpdb, $itemSoldDuration;
-
-    $tbl = $this->ss ? 'benchessinksdb' : 'networked db';
-    $ref = $this->ss ? 'RHCs' : 'RHC';
-
-    $q =  "SELECT `$ref` FROM `$tbl` ";
-    $q .= "WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ";
-    $q .= "( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-
-    $out = $wpdb->get_var($wpdb->prepare($q, $this->refNum));
-    return $out != null;
-  }*/
-
   private function setDbInfo() {
     $this->dbRaw = jrQ_getItem($this->refNum,$this->ss);
   }

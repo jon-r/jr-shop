@@ -1,6 +1,5 @@
 <?php
 /* this is all the (easily) adjustable variables */
-global $jr_config, $itemCountMax, $itemCountMin, $itemSoldDuration;
 
 /* adding options to WP_Options table */
 add_option('jr_shop_contact_phone','','','yes');
@@ -23,7 +22,7 @@ add_option('jr_shop_opening_Times_Sat','','','yes');
 
 
 function jr_linkTo($target) {
-  global $jr_config;
+
   $linkArr = [
     'facebook'  => get_option('jr_shop_contact_facebook'),
     'twitter'   => 'https://twitter.com/'.get_option('jr_shop_contact_twitter_id'),
@@ -53,7 +52,7 @@ $itemSoldDuration = get_option('jr_shop_itemSoldDuration');
 /*Category Text \
 \ phrases for the category page */
 function jr_categoryInfo($catType) {
-  global $jr_config;
+
   $categoryFilterArr = [
     'new'   => get_option('jr_shop_pageInfo_arrivals'),
     'sold'  => get_option('jr_shop_pageInfo_sold'),
@@ -65,7 +64,7 @@ function jr_categoryInfo($catType) {
 }
 
 function jr_openingTimes($day = 'weekday') {
-  global $jr_config;
+
   return ($day == 'saturday') ? get_option('jr_shop_openingTimes_Sat') : get_option('jr_shop_openingTimes_Week');
 }
 
