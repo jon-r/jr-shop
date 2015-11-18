@@ -1,8 +1,11 @@
 <?php $map = new sitemap ;
 
 $map->build();
-
-var_dump($map->outTEMP);
+echo $map->test;
+//var_dump($map->outTEMP);
+/*echo '<xmp>';
+echo $map->urlset;
+echo '</xmp>';*/
 
 ?>
 
