@@ -12,6 +12,7 @@ class sitemap {
     global $wpdb;
 
     $this->urlset = '<?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="sitemapstyle.xsl"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" >';
 
@@ -36,7 +37,7 @@ class sitemap {
   }
 
   private function getWP() {
-    $pageList = get_pages(['exclude'=>'16,21,24,30']);//array of "shop" pages
+    $pageList = get_pages(['exclude'=>'16,21,24,30,92,238']);//array of "shop" pages
 
     foreach($pageList as $pg) {
       $url = get_permalink($pg->ID);
@@ -52,7 +53,8 @@ class sitemap {
     foreach($pageList as $pg) {
       $url = home_url('/products/category/'.$pg->Category_ID.'/'.sanitize_title($pg->Name));
       $freq = 'weekly';
-      $this->urlset .= $this->printXML(['url'=>$url,'freq'=>$freq]);
+      $prio = '0.8';
+      $this->urlset .= $this->printXML(['url'=>$url,'freq'=>$freq,'prio'=>$prio]);
     }
   }
 
@@ -104,7 +106,6 @@ class sitemap {
     }
 
   }
-
 
   private function printXML( $args = array() ) {
     $defaults = [

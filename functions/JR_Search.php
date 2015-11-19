@@ -9,15 +9,19 @@ SEARCH:
 
 function jr_smartSearch() {
   $rawSearchTerm = $_GET['search'];
+
   $safeSearch = preg_replace('/[^\w &+-]/i','', $rawSearchTerm );
   $ref = http_build_query(['q' => $safeSearch]);
-
   $url = home_url("products/search-results/?$ref");
 
-  if (is_numeric($rawSearchTerm)) {
+  if (empty($safeSearch)) { //if searching for nothing, show everything.
+    $url = home_url("products/all/");
+
+  } elseif (is_numeric($rawSearchTerm)) {
     $url = home_url('rhc/'.$rawSearchTerm);
+
   } elseif (stripos($rawSearchTerm, "rhc") === 0) {
-    $findRef = '/(rhc|rhcs)(\d+)/i';
+    $findRef = '/(rhcs?)(\d+)/i';
     $replaceRef ='$1/$2';
     $url =  home_url(strtolower(preg_replace($findRef, $replaceRef, $safeSearch)));
 
@@ -27,9 +31,11 @@ function jr_smartSearch() {
     $ref = str_replace(" - Category", "", $safeSearch);
     $categoryID = jrQ_categoryID($ref) ?: $ref;
     $url = home_url('products/category/'.$categoryID.'/'.sanitize_title($ref));
+
   } elseif (strpos($rawSearchTerm, "- Brand") > 0) {
     $ref = str_replace(" - Brand", "", $safeSearch);
     $url = home_url('products/brand/'.sanitize_title($ref));
+
   }
   return wp_redirect( $url , 301 );
 }
