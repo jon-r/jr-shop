@@ -19,9 +19,8 @@ function jr_validate_urls($url) {
   $params = explode('/',$slashedParams);
   $out = [
     'title' => null, 'pgType' => null, 'unique' => false,
-    'count' => $GLOBALS['itemCountMax'], 'ss' => false, 'sold' => false,
-    'filterType' => null, 'filterVal' => null, 'filterVal2' => null,
-    'pageText' => null
+    'count' => $GLOBALS['itemCountMax'], 'ss' => false,
+    'filterType' => null, 'filterVal' => null
   ];
 
   if ($params[1] == '') { // index
@@ -37,56 +36,43 @@ function jr_validate_urls($url) {
   } elseif ($params[1] == 'categories') {
     $out['title'] = 'All Products'; //everything - google search override
     $out['filterType'] = 'all';
-    $out['pageText'] = jr_categoryInfo('all');
 
   } elseif ($params[1] == 'products') {
     $out['pgType'] = 'category';
 
-    if ($params[2] == 'all') {
+    if ($params[2] == 'all' || $params[2] == '') {
       $out['title'] = 'All Products'; //everything
       $out['filterType'] = 'all';
-      $out['pageText'] = jr_categoryInfo('all');
 
     } elseif ($params[2] == 'search-results') {
       $out['title'] = 'Search Results for \''.$_GET['q'].'\'';
       $out['filterType'] = 'search';
       $out['filterVal'] = str_replace(' ', '|', $_GET['q']);
-      $out['pageText'] = jr_categoryInfo('search');
 
     } elseif ($params[2] == 'category') { //categories
       $getCategory = jrQ_categoryDetails($params[3]);
-      $title = $getCategory['Name'];
-      $out['title'] = $out['filterVal'] = $title;
+      //$out['filterVal'] = $title;
+      $out['id'] = $params[3];
       $out['filterType'] = 'items';
-
       $cat = jrCached_Categories_Full();
-      $out['pageText'] = $getCategory['CategoryDescription'] != '0' ? jr_format($getCategory['CategoryDescription']) : null;
       $out['ss'] = $getCategory['Is_RHCs'] ? true : false;
       $out['unique'] = 'category-'.$params[3];
+      $out['formRef'] = $getCategory['Name'];
       $out['unique'] .= (isset($_GET['pg']) && $_GET['pg'] > 1) ? '-pg'.$_GET['pg'] : null;
 
     } elseif ($params[2] == 'arrivals') { //new in
       $out['filterType'] = 'arrivals';
       $out['title'] = 'Just In';
-      $out['filterVal2'] = jr_categoryInfo('new');
-
-//    } elseif ($params[2] == 'coming-soon') { //soon
-//      $out['filterType'] = 'soon';
-//      $out['title'] = 'Coming Soon';
-//      $out['filterVal2'] = jr_categoryInfo('soon');
 
     } elseif ($params[2] == 'sold') { //sold
-      $out['sold'] = true;
-      $out['filterType'] = 'all';
+      $out['filterType'] = 'sold';
       $out['title'] = 'Recently Sold';
-      $out['filterVal2'] = jr_categoryInfo('sold');
       $out['unique'] = 'category-sold';
 
     } elseif ($params[2] == 'special-offers') { //sale
       $out['filterType'] = 'sale';
       $out['filterVal'] = $params[3];
       $out['title'] = 'Special Offers';
-      $out['filterVal2'] = jr_categoryInfo('sale');
 
     } elseif ($params[2] == 'brand') { //brand
       $out['filterType'] = 'brand';
@@ -103,7 +89,6 @@ function jr_validate_urls($url) {
       $out['filterVal'] = $params[2];
       $out['title'] = $getItem['ProductName'];
       $out['ss'] = false;
-      $out['filterVal2'] = $getItem['Category'];
       $out['formRef'] = 'RHC'.$out['filterVal'].' - '.$out['title'];
       $out['unique'] = 'item-rhc'.$params[2];
     } else {
@@ -118,7 +103,6 @@ function jr_validate_urls($url) {
       $out['filterVal'] = $params[2];
       $out['ss'] = true;
       $out['title'] = $getItem['ProductName'];
-      $out['filterVal2'] = $getItem['Category'];
       $out['formRef'] = 'RHCs'.$out['filterVal'].' - '.$out['title'];
       $out['unique'] = 'item-rhcs'.$params[2];
     } else {

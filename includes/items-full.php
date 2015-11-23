@@ -123,11 +123,11 @@ if (count($shopItem['specs']) != 0): ?>
   <?php if (count($related) > 0) : ?>
     <section class="tile-outer item-related flex-1">
       <header class="tile-header lined">
-        <h2>More <?php echo $jr_safeArray['filterVal2']; ?></h2>
+        <h2>More <?php echo $related->title; ?></h2>
       </header>
 
       <ul class="item-thumbs flex-container">
-         <?php foreach ($related as $itemTiny) { include( "list-item-small.php"); } ?>
+         <?php foreach ($related->pgList as $itemTiny) { include( "list-item-small.php"); } ?>
       </ul>
 
       <div class="tab-toggle text-icon arrow"></div>

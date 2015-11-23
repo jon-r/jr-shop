@@ -28,8 +28,17 @@ class product {
 
   public function related() {
     $related = new itemList();
-    $related->getRelated($this->safeArray);
-    return $related->pgList;
+    $filters = [
+      'title' => $this->dbRaw->Category,
+      'filterVal' => $this->refNum,
+      'ss' => $this->ss,
+      'count' => '4',
+      'pgType' => 'lite',
+      'filterType' => 'related'
+    ];
+    $related->getRelated($filters);
+   // print_r();
+    return $related;
   }
 
 }

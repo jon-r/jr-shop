@@ -1,5 +1,5 @@
 <?php
-$item = $items->pgList[$n];
+$item = $pgCategory->pgList[$n];
 $product = new compile;
 
 $shopItem = $product->itemCompile($item,'tile',$jr_safeArray['ss'],$newItems);

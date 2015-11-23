@@ -49,19 +49,6 @@ $itemCountMax = get_option('jr_shop_itemCountMax');
 $itemCountMin = get_option('jr_shop_itemCountMin');
 //how long to leave sold items searchable (days)
 $itemSoldDuration = get_option('jr_shop_itemSoldDuration');
-/*Category Text \
-\ phrases for the category page */
-function jr_categoryInfo($catType) {
-
-  $categoryFilterArr = [
-    'new'   => get_option('jr_shop_pageInfo_arrivals'),
-    'sold'  => get_option('jr_shop_pageInfo_sold'),
-    'sale'  => get_option('jr_shop_pageInfo_sale'),
-    'search' => get_option('jr_shop_pageInfo_search'),
-    'all'   =>  get_option('jr_shop_pageInfo_all')
-  ];
-  return jr_format($categoryFilterArr[$catType]);
-}
 
 function jr_openingTimes($day = 'weekday') {
 

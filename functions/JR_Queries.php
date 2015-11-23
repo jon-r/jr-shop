@@ -80,7 +80,14 @@ function jrQ_getItem($safeRHC,$table) {
   }
   return $queryFull;
 }
-/*--querys for items list -------------------------------------------------------------*/
+
+//tags items as new
+function jrQ_ItemsNew() {
+  global $itemCountMax, $wpdb;
+  return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
+}
+
+/*--querys for items list -------------------------------------------------------------
 //firstly lists the items on sale.
 function jrQ_items( $safeArr, $pageNumber) {
   global $wpdb, $itemCountMax;
@@ -151,11 +158,7 @@ function jrQ_itemsCount($safeArr) {
   $out = count($column);
   return $out;
 }
-//tags items as new
-function jrQ_ItemsNew() {
-  global $itemCountMax, $wpdb;
-  return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
-}
+
 //returns the mysql query string. for debug purposes
 function jrQ_debug($safeArr,$sold=false) {
   global $wpdb, $itemSoldDuration;
@@ -243,6 +246,7 @@ function jrQ_itemString($safeArr) {
   $out['placeholders'] = $qArray;
   return $out;
 }
+*/
 
 /* -- get other content -------------------------------------------------------------*/
 function jrQ_carousel() {

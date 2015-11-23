@@ -7,25 +7,41 @@ class itemList {
   public $newCheck;
   public $pgCount = 0;
   public $pgList;
+  public $description;
+  public $title;
 
   public function get($filterList) {
     $this->setGlobals();
     foreach ($filterList as $f => $value) {
       $this->filters[$f] = $value;
     }
+    $this->setVars();
     $this->pgList = $this->queryList();
     $this->pgCount = count($this->pgList);
   }
 
   public function getRelated($filterList) {
     $this->setGlobals();
-    foreach ($filterList as $f => $value) {
-      $this->filters[$f] = $value;
-    }
-    $this->filters['pgType'] = 'lite';
-    $this->filters['filterType'] = 'related';
+    $this->title = $filterList['title'];
+    $this->filters = $filterList;
     $this->pgList = $this->getQueryResults();
+  }
 
+  private function setVars() {
+    if ($this->filters['filterType'] == 'items') {
+      $catID = $this->filters['id'];
+      $cat = $this->wpdb->get_row("SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$catID'");
+
+      $this->title = $cat->Name;
+      $desc = $cat->CategoryDescription != '0' ? $cat->CategoryDescription : null;
+    } else {
+      $cat = $this->filters['filterType'];
+      $desc = get_option("jr_shop_pageInfo_$cat");
+
+      $this->title = $this->filters['title'];
+
+    }
+    $this->description = $desc ? jr_format($desc) : null;
   }
 
   private function setGlobals() {
@@ -34,6 +50,9 @@ class itemList {
     $this->countMax = $itemCountMax;
     $this->duration = $itemSoldDuration;
     $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
+
+
+
   }
 
 /*
@@ -48,7 +67,7 @@ public function count() {
     $this->paginate = false;
     $lastPage = 1;
 
-    if ($this->filters['pgType'] != 'arrivals' && $this->filters['pgType'] != 'sold') {
+    if ($this->filters['filterType'] != 'arrivals' && $this->filters['filterType'] != 'sold') {
       //the "sold" and "new" already capped at a single page, no need to count
       $fullItemCount =  $this->getQueryResults('counter');
       //breaks down into pages
@@ -74,7 +93,7 @@ public function count() {
     $queryLimiter = "$queryOffset,$this->countMax";
 
     $this->filters['count'] = $queryLimiter;
-    return $this->getQueryResults('count');
+    return $this->getQueryResults();
   }
 
   private function queryString($value) {
@@ -82,9 +101,9 @@ public function count() {
     $qType = $this->filters['pgType'];
     $qFilter = $this->filters['filterType'];
     $qValue = $this->filters['filterVal'];
-    $qValue2 = $this->filters['filterVal2'];
+
     $isSteel = $this->filters['ss'];
-    //$isSold = $this->filters['sold'];
+
     $limit = $this->filters['count'];
 
     if ($isSteel) {
@@ -124,18 +143,19 @@ public function count() {
 
     if ($qFilter == 'sold' || $value == 'sold') {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $this->duration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
-    } elseif ($qFilter == 'related' ) {
-      $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT 4";
+    } elseif ($qFilter == 'arrivals') {
+
+    }elseif ($qFilter == 'related' ) {
+      $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT $limit";
     } elseif ($value == 'counter') {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0)";
     }
 
     //queryPlaceholders (for wpdb->prepare)
     $qArray = false; //no prepare for non-variables
-    if ($qFilter == 'items') {
-      $qArray = [ $qValue, $qValue, $qValue, $qValue ];
-    } elseif ($qFilter == 'related') {
-      $qArray = [ $qValue2, $qValue2, $qValue2, $qValue2 ];
+    if ($qFilter == 'items' || $qFilter == 'related') {
+      $v = $this->title;
+      $qArray = [ $v, $v, $v, $v ];
     } elseif ($qFilter == 'search') {
       $qArray = [ $qValue, $qValue, $qValue, $qValue, $qValue, $qValue ];
     } elseif ($isSteel || $qFilter == 'brand' || $qFilter =='sale') {

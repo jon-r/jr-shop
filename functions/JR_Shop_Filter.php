@@ -10,6 +10,7 @@ function jr_categoryFilter() {
       'RefName' => $c['RefName']
     ];
   }
+  ksort($out);
   return $out;
 }
 
