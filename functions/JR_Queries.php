@@ -9,23 +9,33 @@ function jrQ_brands() {
   return $wpdb->get_col($queryStr);
 }
 
-function jrQ_rhc($rhc) {
+function jrQ_rhc($params) {
   global $wpdb, $itemSoldDuration;
-  $queryStr = "SELECT `ProductName`,`Category` FROM `networked db` WHERE `RHC` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  if ($params[1] == 'rhc') {
+    $ref = 'RHC';
+    $tbl = 'networked db';
+  } else {
+    $ref = 'RHCs';
+    $tbl = 'benchessinksdb';
+  }
+  $num = $params[2];
+
+  $queryStr = "SELECT `ProductName`,`Category` FROM `$tbl` WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
   $out = $wpdb->get_row(
-    $wpdb->prepare($queryStr, $rhc)
+    $wpdb->prepare($queryStr, $num)
   );
   return($out);
 }
 
-function jrQ_rhcs($rhcs) {
+/*function jrQ_rhcs($rhcs) {
   global $wpdb, $itemSoldDuration;
+
   $queryStr = "SELECT `ProductName`, `Category` FROM `benchessinksdb` WHERE `RHCs` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
   $out = $wpdb->get_row(
     $wpdb->prepare($queryStr, $rhcs)
   );
   return($out);
-}
+}*/
 
 
 

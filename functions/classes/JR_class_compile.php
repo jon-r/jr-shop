@@ -1,14 +1,14 @@
 <?php
 class compile {
 
-  public function itemCompile($dbRaw,$detail,$ss,$newItems=[]) {
+  public function itemCompile($dbRaw,$detail,$newItems=[]) {
 
     $out1 = $out2 = $out3 = array();
     $this->db = $dbRaw;
-    $this->ss = $ss;
+    $this->ss = $dbRaw->ss;
     $this->newCheck = $newItems;
-    $this->rhc = $ss ? 'RHCs' : 'RHC';
-    $this->ref = $ss ? $this->db->RHCs : $this->db->RHC;
+    $this->rhc = $this->ss ? 'RHCs' : 'RHC';
+    $this->ref = $this->ss ? $this->db->RHCs : $this->db->RHC;
 
     switch ($detail) {
       case ('full') :

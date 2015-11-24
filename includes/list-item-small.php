@@ -1,6 +1,6 @@
 <?php
 $product = new compile;
-$shopItem = $product->itemCompile($itemTiny,'lite',$jr_safeArray['ss']);
+$shopItem = $product->itemCompile($itemTiny,'lite');
 /*if ( $jr_safeArray['ss'] ) {
   $shopItem = jr_itemComplile($itemTiny, 'tinySS');
 } else {

@@ -11,7 +11,7 @@ class product {
   public function setRef($arr) {
     $this->safeArray = $arr;
     $this->refNum = $this->safeArray['filterVal'];
-    $this->ss = $this->safeArray['ss'];
+    $this->ss = $this->safeArray['ref'] == 'rhcs';
   }
 
   private function setDbInfo() {
@@ -24,13 +24,13 @@ class product {
       $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'");
     }
     $this->dbRaw = $queryFull;
+    $this->dbRaw->ss = $this->ss;
   }
-
 
   public function compiler() {
     $this->setDbInfo();
     $item = new compile;
-    $out = $item->itemCompile($this->dbRaw,'full',$this->ss);
+    $out = $item->itemCompile($this->dbRaw,'full');
     return $out;
   }
 
@@ -38,9 +38,9 @@ class product {
     $related = new itemList();
     $filters = [
       'title' => $this->dbRaw->Category,
-      'filterVal' => $this->refNum,
-      'ss' => $this->ss,
-      'filterType' => 'related'
+      'filterVal' => 'related',
+      'filterType' => $this->ss ? 'items' : 'itemsSS',
+      'refNum'   => $this->refNum
     ];
     $related->getRelated($filters);
    // print_r();

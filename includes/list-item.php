@@ -2,7 +2,7 @@
 $item = $pgCategory->pgList[$n];
 $product = new compile;
 
-$shopItem = $product->itemCompile($item,'tile',$jr_safeArray['ss'],$newItems);
+$shopItem = $product->itemCompile($item,'tile',$newItems);
 
 
 /*if ( $jr_safeArray['ss'] ) {
