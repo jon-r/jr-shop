@@ -18,18 +18,16 @@ function jr_validate_urls($url) {
   $slashedParams = str_replace(home_url(), '', $url);
   $params = explode('/',$slashedParams);
   $out = [
-    'title' => null, 'pgType' => null, 'unique' => false,
-    'count' => $GLOBALS['itemCountMax'], 'ss' => false,
-    'filterType' => null, 'filterVal' => null
+    'title' => null, 'unique' => false,
+    'ss' => false, 'filterType' => null, 'filterVal' => null
   ];
 
   if ($params[1] == '') { // index
-    $out['title'] = $out['pgType'] = 'Home';
+    $out['title'] = 'Home';
     $out['formRef'] = ''; //this page is intentionally left blank
 
   } elseif ($params[1] == 'brands') {
     $out['title'] = "Shop by Brand";
-    $out['pgType'] = 'Group';
     $out['filterVal'] = 'brand';
     $out['unique'] = 'category-brands-all';
 
@@ -38,7 +36,6 @@ function jr_validate_urls($url) {
     $out['filterType'] = 'all';
 
   } elseif ($params[1] == 'products') {
-    $out['pgType'] = 'category';
 
     if ($params[2] == 'all' || $params[2] == '') {
       $out['title'] = 'All Products'; //everything
@@ -51,14 +48,16 @@ function jr_validate_urls($url) {
 
     } elseif ($params[2] == 'category') { //categories
       $getCategory = jrQ_categoryDetails($params[3]);
-      //$out['filterVal'] = $title;
-      $out['id'] = $params[3];
-      $out['filterType'] = 'items';
-      $cat = jrCached_Categories_Full();
-      $out['ss'] = $getCategory['Is_RHCs'] ? true : false;
-      $out['unique'] = 'category-'.$params[3];
-      $out['formRef'] = $getCategory['Name'];
-      $out['unique'] .= (isset($_GET['pg']) && $_GET['pg'] > 1) ? '-pg'.$_GET['pg'] : null;
+      if ($getCategory) {
+        $out['id'] = $params[3];
+        $out['filterType'] = 'items';
+        $out['ss'] = $getCategory['Is_RHCs'] ? true : false;
+        $out['unique'] = 'category-'.$params[3];
+        $out['title'] = $out['formRef'] = $getCategory['Name'];
+        $out['unique'] .= (isset($_GET['pg']) && $_GET['pg'] > 1) ? '-pg'.$_GET['pg'] : null;
+      } else {
+        $out['filterVal'] = 'Not Found';
+      }
 
     } elseif ($params[2] == 'arrivals') { //new in
       $out['filterType'] = 'arrivals';
@@ -76,35 +75,35 @@ function jr_validate_urls($url) {
 
     } elseif ($params[2] == 'brand') { //brand
       $out['filterType'] = 'brand';
-      $out['filterVal'] =  jr_urlToBrand($params[3]);
+      $out['filterVal'] = jr_urlToBrand($params[3]);
       $out['title'] = 'Products from '.$out['filterVal'];
       $out['unique'] = 'category-brand-'.$params[3];
     }
 
   } elseif ($params[1] == 'rhc') { //product
-    $out['pgType'] = 'Item';
-
-    if (jrQ_rhc($params[2])) {
-      $getItem = jrQ_titles($params[2]);
+    $out['filterType'] = 'item';
+    $getItem = jrQ_rhc($params[2]);
+    if ($getItem) {
       $out['filterVal'] = $params[2];
-      $out['title'] = $getItem['ProductName'];
+      $out['title'] = $getItem->ProductName;
       $out['ss'] = false;
       $out['formRef'] = 'RHC'.$out['filterVal'].' - '.$out['title'];
       $out['unique'] = 'item-rhc'.$params[2];
+      $out['category'] = $getItem->Category;
     } else {
       $out['filterVal'] = 'Not Found';
     }
 
   } elseif ($params[1] == 'rhcs') { //product-ss
-    $out['pgType'] = 'Item';
-
-    if (jrQ_rhcs($params[2])) {
-      $getItem = jrQ_titles($params[2], $SS = true);
+    $out['filterType'] = 'item';
+    $getItem = jrQ_rhcs($params[2]);
+    if ($getItem) {
       $out['filterVal'] = $params[2];
       $out['ss'] = true;
-      $out['title'] = $getItem['ProductName'];
+      $out['title'] = $getItem->ProductName;
       $out['formRef'] = 'RHCs'.$out['filterVal'].' - '.$out['title'];
       $out['unique'] = 'item-rhcs'.$params[2];
+      $out['category'] = $getItem->Category;
     } else {
       $out['filterVal'] = 'Not Found';
     }

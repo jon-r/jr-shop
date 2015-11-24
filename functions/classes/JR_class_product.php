@@ -15,7 +15,15 @@ class product {
   }
 
   private function setDbInfo() {
-    $this->dbRaw = jrQ_getItem($this->refNum,$this->ss);
+    global $wpdb;
+    $safeRHC = $this->refNum;
+
+    if ($this->ss) {
+      $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$safeRHC'");
+    } else {
+      $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'");
+    }
+    $this->dbRaw = $queryFull;
   }
 
 
@@ -32,8 +40,6 @@ class product {
       'title' => $this->dbRaw->Category,
       'filterVal' => $this->refNum,
       'ss' => $this->ss,
-      'count' => '4',
-      'pgType' => 'lite',
       'filterType' => 'related'
     ];
     $related->getRelated($filters);

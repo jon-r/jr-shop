@@ -7,10 +7,10 @@ function jr_pageCrumbles ($safeArr) {
   if ($safeArr['filterVal'] == 'Not Found'  || is_404()) {
     $crumbs[1] = ['Page Not Found' => home_url()];
   } else {
-    if ($safeArr['pgType'] == 'Item') {
-      $categoryID = jrQ_categoryID($safeArr['filterVal2']);
+    if ($safeArr['filterType'] == 'item') {
+      $categoryID = jrQ_categoryID($safeArr['category']);
       $crumbs[1] = [
-        $safeArr['filterVal2'] => home_url('/products/category/'.$categoryID.'/'.sanitize_title($safeArr['filterVal2']))
+        $safeArr['category'] => home_url('/products/category/'.$categoryID.'/'.sanitize_title($safeArr['category']))
       ];
       $crumbs[2] = [$safeArr['title'] => jr_getUrl()];
     } elseif (isset($safeArr['title'])) {

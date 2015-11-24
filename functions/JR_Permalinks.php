@@ -1,13 +1,13 @@
 <?php
 /* Setting up url_rewrite names. The ones that arent automagically made by wordpress */
-function jr_page($pgtype) {
+function jr_page($type) {
   $pageNum = [
     'grp' =>  '24',
     'cat' =>  '16',
     'item' => '21',
     'srch' => '30'
   ];
-  return $pageNum[$pgtype];
+  return $pageNum[$type];
 }
 function jr_setPermalinks() {
   $permalinks = [

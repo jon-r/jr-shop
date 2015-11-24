@@ -25,7 +25,7 @@ $shopItem = $product->itemCompile($item,'tile',$jr_safeArray['ss'],$newItems);
          class="framed" alt="<?php echo $shopItem['name'] ?>">
     <button class="tile-float btn-grey text-icon-left search-w"><h3>More</h3></button>
 
-  <?php if ($jr_safeArray['pgType'] == 'CategorySS' || $jr_safeArray['ss'] ) : ?>
+  <?php if ($jr_safeArray['ss'] ) : ?>
     <span class="ss-length btn-red"><h2><?php echo $shopItem['widthFt'] ?></h2></span>
   <?php endif ?>
 

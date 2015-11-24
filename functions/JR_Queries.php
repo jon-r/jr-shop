@@ -11,8 +11,8 @@ function jrQ_brands() {
 
 function jrQ_rhc($rhc) {
   global $wpdb, $itemSoldDuration;
-  $queryStr = "SELECT `RHC` FROM `networked db` WHERE `RHC` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-  $out = $wpdb->get_var(
+  $queryStr = "SELECT `ProductName`,`Category` FROM `networked db` WHERE `RHC` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $out = $wpdb->get_row(
     $wpdb->prepare($queryStr, $rhc)
   );
   return($out);
@@ -20,8 +20,8 @@ function jrQ_rhc($rhc) {
 
 function jrQ_rhcs($rhcs) {
   global $wpdb, $itemSoldDuration;
-  $queryStr = "SELECT `RHCs` FROM `benchessinksdb` WHERE `RHCs` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-  $out = $wpdb->get_var(
+  $queryStr = "SELECT `ProductName`, `Category` FROM `benchessinksdb` WHERE `RHCs` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+  $out = $wpdb->get_row(
     $wpdb->prepare($queryStr, $rhcs)
   );
   return($out);
@@ -49,7 +49,7 @@ function jrQ_categoryID($catName) {
   return $wpdb->get_var("SELECT `Category_ID` FROM `rhc_categories` WHERE `Name` LIKE '$catName'");
 }
 
-function jrQ_titles($safeRHC, $SS = null) {
+/*function jrQ_titles($safeRHC, $SS = null) {
   global $wpdb;
   if ($SS) {
     $ref = "RHCs";
@@ -58,195 +58,14 @@ function jrQ_titles($safeRHC, $SS = null) {
     $ref = "RHC";
     $db = "networked db";
   }
-  return $wpdb->get_row("SELECT `ProductName`,`Category` FROM `$db` WHERE `$ref` LIKE '$safeRHC'", ARRAY_A);
-}
-/* query for 'items full' -------------------------------------------------------------*/
-function jrQ_item($safeRHC, $SS = null) {
-  global $wpdb;
-  if ($SS) {
-    $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$safeRHC'", ARRAY_A);
-  } else {
-    $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'", ARRAY_A);
-  }
-  return $queryFull;
-}
-/* query for 'items full' OBJECT RESULT ----------------------------------------------*/
-function jrQ_getItem($safeRHC,$table) {
-  global $wpdb;
-  if ($table) {
-    $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$safeRHC'");
-  } else {
-    $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'");
-  }
-  return $queryFull;
-}
+  return $wpdb->get_row("SELECT  FROM `$db` WHERE `$ref` LIKE '$safeRHC'", ARRAY_A);
+}*/
 
 //tags items as new
 function jrQ_ItemsNew() {
   global $itemCountMax, $wpdb;
   return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
 }
-
-/*--querys for items list -------------------------------------------------------------
-//firstly lists the items on sale.
-function jrQ_items( $safeArr, $pageNumber) {
-  global $wpdb, $itemCountMax;
-  $queryOffset = ($pageNumber - 1) * $itemCountMax;
-  $queryLimiter = "$queryOffset,$itemCountMax";
-
-  $safeArr['count'] = $queryLimiter;
-  $query = jrQ_itemString($safeArr);
-
-  if ($query['placeholders']) {
-    $out = $wpdb->get_results(
-      $wpdb->prepare($query['str'], $query['placeholders'])
-    , ARRAY_A);
-  } else {
-    $out = $wpdb->get_results($query['str'], ARRAY_A);
-  }
-  return $out;
-}
-//fills page with sold items. Mix of filler for design balance and show past sales.
-function jrQ_itemsSold($safeArr, $itemsOnPage) {
-  global $wpdb, $itemSoldDuration;
-
-  if ($safeArr['pgType'] == 'arrivals' || $safeArr['pgType'] == 'sold') {
-    $out = null;
-  } else {
-    $soldCount = 4 - ($itemsOnPage % 4);
-    $safeArr['sold'] = true;
-    $safeArr['count'] = $soldCount;
-    $query = jrQ_itemString($safeArr);
-
-    if ($query['placeholders']) {
-      $out = $wpdb->get_results(
-        $wpdb->prepare($query['str'], $query['placeholders'])
-      , ARRAY_A);
-    } else {
-      $out = $wpdb->get_results($query['str'], ARRAY_A);
-    }
-  }
-  return $out;
-}
-// get random four items in the category - currently just for 'item full' page.
-function jrQ_itemsRelated($safeArr) {
-  global $wpdb;
-
-  $safeArr['pgType'] = 'lite';
-  $safeArr['filterType'] = 'related';
-
-  $query = jrQ_itemString($safeArr, 'lite');
-
-  $out = $wpdb->get_results(
-    $wpdb->prepare($query['str'], $query['placeholders']),
-    ARRAY_A);
-  return $out;
-}
-//count all items from query, for pagination
-function jrQ_itemsCount($safeArr) {
-  global $wpdb;
-  $safeArr['pgType'] = 'counter';
-  $query = jrQ_itemString($safeArr);
-
-  if ($query['placeholders']) {
-    $column = $wpdb->get_col(
-      $wpdb->prepare($query['str'], $query['placeholders'])
-    );
-  } else {
-    $column = $wpdb->get_col($query['str']);
-  }
-  $out = count($column);
-  return $out;
-}
-
-//returns the mysql query string. for debug purposes
-function jrQ_debug($safeArr,$sold=false) {
-  global $wpdb, $itemSoldDuration;
-  $query = jrQ_itemString($safeArr, 'counter');
-  $out['noPrep'] = $query['str'];
-  $out['prep'] = $query['placeholders'] ? $wpdb->prepare($query['str'], $query['placeholders']) : null;
-  if ($sold) {
-
-    $safeArr['sold'] = true;
-    $safeArr['count'] = 8;
-    $query = jrQ_itemString($safeArr);
-  }
-  return $out;
-}
-
-function jrQ_itemString($safeArr) {
-  global $itemSoldDuration;
-  $qType = $safeArr['pgType'];
-  $qFilter = $safeArr['filterType'];
-  $qValue = $safeArr['filterVal'];
-  $qValue2 = $safeArr['filterVal2'];
-  $isSteel = $safeArr['ss'];
-  $isSold = $safeArr['sold'];
-  $limit = $safeArr['count'];
-
-  if ($isSteel) {
-    $itemRef = "`RHCs`";
-    $itemDB = "`benchessinksdb`";
-  } else {
-    $itemRef = "`RHC`";
-    $itemDB = "`networked db`";
-  }
-  //the query "start". how much data are we getting?
-  if ($qType == 'counter') {
-    $querySelection = "$itemRef";
-  } elseif ($qType == 'lite' || $isSteel) {
-    $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
-  } else {
-    $querySelection = "$itemRef, `ProductName`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";
-  }
-
-  //the query "middle". what is the data filtered by?
-
-  if ($isSteel) {
-    $filters = "(`Category` LIKE %s) AND";
-  } elseif ($qFilter == 'items' || $qFilter == 'related') {
-    $filters = "(`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND";
-  } elseif ($qFilter == 'search') {
-    $filters = "(`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s) AND";
-  } elseif ($qFilter == 'brand') {
-    $filters = "(`Brand` LIKE %s) AND";
-  } elseif ($qFilter =='sale') {
-    $filters = "(`SalePrice` = %d) AND";
-  } else {
-    $filters = "";
-  }
-
-//the query end. how is the data sorted and limited?
-  $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, $itemRef DESC LIMIT $limit";
-
-//  if ($qFilter == 'soon' ) {
-//    $orderBy = "(`LiveonRHC` = 0 AND `IsSoon` = 1) ORDER BY $itemRef DESC";
-//  } else
-  if ($isSold) {
-    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
-  } elseif ($qFilter == 'related' ) {
-    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT 4";
-  } elseif ($qType == 'counter') {
-    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0)";
-  }
-
-  //queryPlaceholders (for wpdb->prepare)
-  $qArray = false; //no prepare for non-variables
-  if ($qFilter == 'items') {
-    $qArray = [ $qValue, $qValue, $qValue, $qValue ];
-  } elseif ($qFilter == 'related') {
-    $qArray = [ $qValue2, $qValue2, $qValue2, $qValue2 ];
-  } elseif ($qFilter == 'search') {
-    $qArray = [ $qValue, $qValue, $qValue, $qValue, $qValue, $qValue ];
-  } elseif ($isSteel || $qFilter == 'brand' || $qFilter =='sale') {
-    $qArray = [ $qValue ];
-  }
-
-  $out['str'] = "SELECT $querySelection FROM $itemDB WHERE $filters $orderBy";
-  $out['placeholders'] = $qArray;
-  return $out;
-}
-*/
 
 /* -- get other content -------------------------------------------------------------*/
 function jrQ_carousel() {
@@ -270,11 +89,6 @@ function jrQ_tesimonial($detail = null) {
   }
 
   return $wpdb->get_results("SELECT `$query`, `Name` FROM `rhc_testimonial` $limit", ARRAY_A);
-}
-function jrQ_faq() {
-  global $wpdb;
-  $query = "SELECT `question`,`answer`,`next` FROM `form_faqs`";
-  return $wpdb->get_results($query, ARRAY_A);
 }
 
 /* -- admin only querys ---------------------------------------------------------------*/
@@ -300,15 +114,5 @@ function jrQA_transients() {
   global $wpdb;
   $query = "SELECT `option_name` FROM $wpdb->options WHERE `option_name` LIKE '%transient_jr_t%' ORDER BY `option_name`";
   return $wpdb->get_col( $query );
-}
-
-function jrQA_cacheValues($safeRef, $ss = false) {
-  global $wpdb;
-  $query = $ss ?
-    "SELECT `Category` FROM `benchessinksdb` WHERE `RHCs` LIKE %d" :
-    "SELECT `Category`, `Cat1`, `Cat2`, `Cat3` FROM `networked db` WHERE `RHC` LIKE %d";
-  //wpdb prepare - just in case
-  $safeQuery = $wpdb->prepare($query, $safeRef);
-  return $wpdb->get_row($safeQuery, ARRAY_A);
 }
 ?>

@@ -95,7 +95,7 @@ function jr_itemsList($safeArr,$pageNumber) {
       $out['paginate'] = $lastPage = intval(ceil($fullItemCount / $itemCountMax));
     }
     //fills up the last page with sold items
-    if ($pageNumber == $lastPage && $safeArr['pgType'] != 'Soon') {
+    if ($pageNumber == $lastPage) {
       $itemsOnLastPage = $fullItemCount % $itemCountMax;
       $listSold = jrQ_itemsSold($safeArr, $itemsOnLastPage);
     }

@@ -24,6 +24,7 @@ class itemList {
     $this->setGlobals();
     $this->title = $filterList['title'];
     $this->filters = $filterList;
+    $this->limit = 4;
     $this->pgList = $this->getQueryResults();
   }
 
@@ -55,13 +56,6 @@ class itemList {
 
   }
 
-/*
-public function count() {
-    $num = $this->queryList || [];
-    return count($num);
-  }*/
-
-
   private function queryList() {
     $listUnsold = $this->queryUnsold();
     $this->paginate = false;
@@ -78,7 +72,7 @@ public function count() {
       if ($this->pgNum == $lastPage) {
         //$itemsOnPage =  % $this->countMax;
         $soldCount = 4 - ($fullItemCount % 4);
-        $this->filters['count'] = $soldCount;
+        $this->limit = $soldCount;
         $listSold = $this->getQueryResults('sold');
       }
     }
@@ -92,19 +86,18 @@ public function count() {
     $queryOffset = ($this->pgNum - 1) * $this->countMax;
     $queryLimiter = "$queryOffset,$this->countMax";
 
-    $this->filters['count'] = $queryLimiter;
+    $this->limit = $queryLimiter;
     return $this->getQueryResults();
   }
 
   private function queryString($value) {
 
-    $qType = $this->filters['pgType'];
     $qFilter = $this->filters['filterType'];
     $qValue = $this->filters['filterVal'];
 
     $isSteel = $this->filters['ss'];
 
-    $limit = $this->filters['count'];
+    $limit = $this->limit;
 
     if ($isSteel) {
       $itemRef = "`RHCs`";
@@ -116,7 +109,7 @@ public function count() {
     //the query "start". how much data are we getting?
     if ($value == 'counter') {
       $querySelection = "COUNT(*)";
-    } elseif ($qType == 'lite' || $isSteel) {
+    } elseif ($qFilter == 'related' || $isSteel) {
       $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
     } else {
       $querySelection = "$itemRef, `ProductName`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";
@@ -143,9 +136,7 @@ public function count() {
 
     if ($qFilter == 'sold' || $value == 'sold') {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $this->duration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
-    } elseif ($qFilter == 'arrivals') {
-
-    }elseif ($qFilter == 'related' ) {
+    } elseif ($qFilter == 'related' ) {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT $limit";
     } elseif ($value == 'counter') {
       $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0)";
