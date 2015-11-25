@@ -2,6 +2,7 @@
 class itemList {
 
   private $dbRaw = array();
+  private $args;
 
   public $paginate = false;
   public $newCheck;
@@ -10,19 +11,16 @@ class itemList {
   public $description;
   public $title;
 
-  public function get($filterList) {
+  public function get($DELETE) {
     $this->setGlobals();
-    foreach ($filterList as $f => $value) {
-      $this->filters[$f] = $value;
-    }
-    $this->setVars();
+    //$this->setVars();
     $this->pgList = $this->queryList();
     $this->pgCount = count($this->pgList);
   }
 
   public function getRelated($filterList) {
     $this->setGlobals();
-    $this->title = $filterList['title'];
+    //$this->title = $filterList['title'];
     $this->filters = $filterList;
     $this->limit = 4;
     $this->pgList = $this->getQueryResults();
@@ -30,11 +28,11 @@ class itemList {
 
   private function setVars() {
     if ($this->filters['filterType'] == 'items') {
-      $catID = $this->filters['id'];
-      $cat = $this->wpdb->get_row("SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$catID'");
+      //$catID = $this->filters['id'];
+      //$cat = $this->wpdb->get_row("SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$catID'");
 
-      $this->title = $cat->Name;
-      $desc = $cat->CategoryDescription != '0' ? $cat->CategoryDescription : null;
+      //$this->title = $cat->Name;
+      //$desc = $cat->CategoryDescription != '0' ? $cat->CategoryDescription : null;
     } else {
       $cat = $this->filters['filterType'];
       $desc = get_option("jr_shop_pageInfo_$cat");
@@ -47,48 +45,6 @@ class itemList {
 
   private function setGlobals() {
     global $jr_page, $wpdb, $itemCountMax, $itemSoldDuration;
-    $this->page = $jr_page;
-    $this->wpdb = $wpdb;
-    $this->countMax = $itemCountMax;
-    $this->duration = $itemSoldDuration;
-    $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
-  }
-
-  private function queryList() {
-    $listUnsold = $this->queryUnsold();
-    $this->paginate = false;
-    $lastPage = 1;
-
-    if ($this->filters['filterType'] != 'arrivals' && $this->filters['filterType'] != 'sold') {
-      //the "sold" and "new" already capped at a single page, no need to count
-      $fullItemCount =  $this->getQueryResults('counter');
-      //breaks down into pages
-      if ($fullItemCount > $this->countMax) {
-        $this->paginate = $lastPage = intval(ceil($fullItemCount / $this->countMax));
-      }
-      //fills up the last page with sold items
-      if ($this->pgNum == $lastPage) {
-        //$itemsOnPage =  % $this->countMax;
-        $soldCount = 4 - ($fullItemCount % 4);
-        $this->limit = $soldCount;
-        $listSold = $this->getQueryResults('sold');
-      }
-    }
-    $out = isset($listSold) ? array_merge($listUnsold, $listSold) : $listUnsold;
-    return $out;
-  }
-
-
-  private function queryUnsold() {
-
-    $queryOffset = ($this->pgNum - 1) * $this->countMax;
-    $queryLimiter = "$queryOffset,$this->countMax";
-
-    $this->limit = $queryLimiter;
-    return $this->getQueryResults();
-  }
-
-  public function setQuery($args = []) {
 
     $defaults = [
       'brand' => null,
@@ -96,13 +52,54 @@ class itemList {
       'search' => null,
       'sale' => null,
       'sold' => false,
-      'limit' => $this->countMax,
+      'limit' => $itemCountMax,
       'type' => null,
       'ss' => false,
+      'arrivals' => false,
       'refNum' => null
     ];
 
-    $f = wp_parse_args($args, $defaults);
+    $this->page = $jr_page;
+    $this->args = wp_parse_args($this->page->args, $defaults);
+
+    $this->wpdb = $wpdb;
+    $this->countMax = $itemCountMax;
+    $this->duration = $itemSoldDuration;
+    $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
+  }
+
+  private function queryList() {
+
+    $this->paginate = false;
+    $lastPage = 1;
+
+    $offset = ($this->pgNum - 1) * $this->countMax;
+
+    $listUnsold = $this->queryResults(['limit'=>"$offset,$this->countMax"]);
+    $listSold = array();
+
+    if (!$this->args['arrivals'] && !$this->args['sold']) {
+      //counts whole query. the "sold" and "new" already capped at a single page, no need to count
+      $fullItemCount =  $this->queryResults(['type'=>'count']);
+      //breaks down into pages
+      if ($fullItemCount > $this->countMax) {
+        $this->paginate = intval(ceil($fullItemCount / $this->countMax));
+      }
+
+      //fills up the last page with sold items
+      if ($this->pgNum == $this->paginate) {
+        //$itemsOnPage =  % $this->countMax;
+        $soldCount = 4 - ($fullItemCount % 4);
+        //$this->limit = $soldCount;
+        $listSold = $this->queryResults(['sold'=>true,'limit'=>$soldCount]);
+      }
+    }
+    $out = array_merge($listUnsold, $listSold);
+    return $out;
+  }
+
+
+  public function setQuery($f) {
 
     //INITIAL SETUP
     if ($f['ss']) {
@@ -171,35 +168,32 @@ class itemList {
 
     $queryFull = "SELECT $values FROM $tbl WHERE ($filterStr) $limit";
 
-    return $this->wpdb->prepare($queryFull,$placeholders);
-/*
+    if (!empty($placeholders)) {
+      return $this->wpdb->prepare($queryFull,$placeholders);
+    } else {
+      return $queryFull;
+    }
 
-    querys
-
-    all = rhc;
-    brand = rhc;
-    items = rhc OR rhcs;
-    search = rhc AND rhcs;
-    sale = rhc;
-
-
-
-    type:
-      'all'
-      'brand'
-      'items'
-      'search'
-      'sale'
-    val:
-      'forsale'
-      'count'
-      'related'
-      'sold'
-    toggle:
-      'ss'*/
   }
 
-  private function queryString($value) {
+  private function queryResults($tweaks = []) {
+
+    $argsTweaked = array_replace($this->args,$tweaks);
+    $query = $this->setQuery($argsTweaked);
+    $out = $this->wpdb->get_results($query);
+
+    if ($argsTweaked['type'] == 'count') {
+      $out = $out[0]->{'COUNT(*)'};
+    } else {
+      foreach ($out as $item) {
+        $item->ss = property_exists($item, 'RHCs');
+      }
+    }
+
+    return $out;
+  }
+
+  /*private function queryString($value) {
 
     $qFilter = $this->filters['filterType'];
     $qValue = $this->filters['filterVal'];
@@ -211,7 +205,7 @@ class itemList {
 
     $limit = $this->limit;
 
-    /*
+
     $generic = "$itemRef, `ProductName`, `Price`, `Quantity`";
     $dataList = [
       'RHCs'  => "$data `Width`",
@@ -277,16 +271,6 @@ class itemList {
 
 
 
-
-
-    */
-
-
-
-
-    /*OLD BELOW --------------------------------------*/
-
-
     if ($isSteel) {
       $itemRef = "`RHCs`";
       $itemDB = "`benchessinksdb`";
@@ -344,9 +328,9 @@ class itemList {
     $out['str'] = "SELECT $querySelection FROM $itemDB WHERE $filters $orderBy";
     $out['placeholders'] = $qArray;
     return $out;
-  }
+  }*/
 
-  private function getQueryResults($queryType = 'default') {
+/*  private function getQueryResults($queryType = 'default') {
 
     $query = $this->queryString($queryType);
 
@@ -367,7 +351,7 @@ class itemList {
 
 
     return $out;
-  }
+  }*/
 
 }
 ?>

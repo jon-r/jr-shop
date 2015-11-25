@@ -4,7 +4,7 @@
 add_shortcode("jr-shop", "jr_modules");
 
 function jr_modules($atts) {
-  global $jr_safeArray;
+  global $jr_safeArray, $jr_page;
   $a = shortcode_atts([
     'id' => '404',
     'cached'=> false
