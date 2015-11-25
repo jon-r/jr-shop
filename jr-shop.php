@@ -32,6 +32,7 @@ include('functions/classes/JR_class_product.php');
 include('functions/classes/JR_class_itemList.php');
 include('functions/classes/JR_class_compile.php');
 include('functions/classes/JR_class_sitemap.php');
+include('functions/classes/JR_class_validate.php');
 
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');
@@ -56,5 +57,8 @@ include ('functions/JR_File_Cleanup.php');
 
    include 'admin/JR_Shop_Admin.php';
  }*/
+
+$jr_page = new pageValidate;
+$jr_page->init();
 
 ?>

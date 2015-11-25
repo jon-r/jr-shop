@@ -46,7 +46,8 @@ class itemList {
   }
 
   private function setGlobals() {
-    global $wpdb, $itemCountMax, $itemSoldDuration;
+    global $jr_page, $wpdb, $itemCountMax, $itemSoldDuration;
+    $this->page = $jr_page;
     $this->wpdb = $wpdb;
     $this->countMax = $itemCountMax;
     $this->duration = $itemSoldDuration;

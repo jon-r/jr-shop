@@ -4,49 +4,58 @@ class pageValidate {
   private $params;
 
   public $title;  //title of the page
-  public $ref;    //user friendly reference (ie forms)
-  //public $ID      //unique URL friendly reference (ie cache)
-  public $args = array(); //filters for the wpdb queries;
+  public $ref;    //user friendly reference (ie forms). if unused defaults to $this->title
+  public $unique;  //unique URL friendly reference (ie cache). if unused the "unique" cache is ingored (ie search results)
+  public $args; //filters for the wpdb queries;
 
 
-  private getParams() {
+  private function getParams() {
     $url = jr_getUrl();
     $slashedParams = str_replace(home_url(), '', $url);
     $this->params = explode('/',strtolower($slashedParams));
   }
 
-  private getCategory($id) {
+  private function getCategory($id) {
     global $wpdb;
-    $query = "SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$id'"
+    $query = "SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$id'";
     return $wpdb->get_row($query);
   }
 
-  public init() {
+  private function getItem() {
+     global $wpdb, $itemSoldDuration;
+    if ($p[1] == 'rhc') {
+      $ref = 'RHC'; $tbl = 'networked db';
+    } else {
+      $ref = 'RHCs'; $tbl = 'benchessinksdb';
+    }
+    $num = $p[2];
+
+    $queryStr = "SELECT `ProductName`,`Category` FROM `$tbl` WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+    $out = $wpdb->get_row($wpdb->prepare($queryStr, $num));
+    return($out);
+  }
+
+  public function init() {
     $this->getParams();
-    $th
     $p = $this->params;
 
     switch ($p[1]) {
       case '':
-        //$this->title = "Home";
-        $this->ref = ''; //this page is intentionally left blank
+        $this->ref = ''; //blank to leave the form blank.
         break;
       case 'categories':
       case 'products':
-
         switch ($p[2]) {
           case 'category':
-            $category = $this->getCategory($params[3]);
-            if ($gcategory) {
-              $this->title = $category['Name']
-              $out['id'] = $params[3];
-        $out['unique'] = 'category-'.$params[3];
-        $out['title'] = $out['formRef'] = $getCategory['Name'];
-        $out['unique'] .= (isset($_GET['pg']) && $_GET['pg'] > 1) ? '-pg'.$_GET['pg'] : null;
-              $out['args'] = ['category'=>$getCategory['Name'],'ss'=>$getCategory['Is_RHCs']];
-      } else {
-        $out['filterVal'] = 'Not Found';
-      }
+            $category = $this->getCategory($p[3]);
+            if ($category) {
+              $this->title = $category->Name;
+              $this->args = ['category'=>$category->Name,'ss'=>$category->Is_RHCs];
+              $this->unique = 'category-'.$p[3];
+            } else {
+              $this->title = 'Not Found';
+            }
+            break;
           case 'search-results':
             $search = $_GET['q'];
             $this->title = "Search results for $search";
@@ -55,45 +64,48 @@ class pageValidate {
           case 'arrivals':
             $this->title = "Just In";
             $this->args = ['arrivals'=>true];
+            $this->unique = 'category-arrivals';
             break;
           case 'sold':
             $this->title = "Just In";
             $this->args = ['sold'=>true];
+            $this->unique = 'category-sold';
             break;
           case 'special-offers':
             $this->title = "Sales";
             $this->args = ['sale'=>true];
+            $this->unique = 'category-sale';
             break;
           case 'brand':
             $brand = jr_urlToBrand($params[3]);
             $this->title = "Products from $brand";
-            $out['args'] = ['brand'=>$brand];
-            break
+            $this->args = ['brand'=>$brand];
+            $this->unique = 'category-brand-'.$brand;
+            break;
           default:
             $this->title = "All Products";
             $this->args = [];
+            $this->unique = 'category-all';
         }
         break;
-
-'category'
-
-'sold'
-'special-offers'
-'brand'
+      case 'brands' :
+        $this->title = "Shop by Brand";
+        $this->unique = 'category-brands-all';
+        break;
+      case 'rhcs' :
+      case 'rhc' :
+        $item = $this->getItem();
+        if ($item) {
+          $this->title = $item->ProductName;
+          $this->args = ['ref'=>$p[1],'id'=>$p[2],'category'=>$item->Category];
+          $this->ref = $p[1].$p[2].' - '.$item->ProductName;
+          $this->unique = 'item-'.$p[1].$p[2];
+        } else {
+          $this->title = 'Not Found';
         }
-
-
-
-
-        'brands'
-'categories'
-'products'
-'rhc'
-'rhcs'
+        break;
     }
   }
-
-
 }
 
 /*

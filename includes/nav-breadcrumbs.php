@@ -9,6 +9,7 @@ foreach ($breadLinks as $breadSlices) {
 }
 ?>
 </div>
+<?php global $jr_page; var_dump($jr_page)?>
 
 <?php //hooking the shopping cart here. for now anyway
  // include('shop-cart.php');
