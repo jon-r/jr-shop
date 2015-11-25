@@ -40,6 +40,8 @@ class product {
       'title' => $this->dbRaw->Category,
       'filterVal' => 'related',
       'filterType' => $this->ss ? 'items' : 'itemsSS',
+      //TEMP
+      'ss' => $this->ss,
       'refNum'   => $this->refNum
     ];
     $related->getRelated($filters);

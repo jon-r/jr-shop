@@ -204,9 +204,8 @@ class itemList {
     $qValue = $this->filters['filterVal'];
 
     $qRHC = $qValue == 'related' ? $this->filters['refNum'] : null;
+
     $isSteel = $this->filters['ss'];
-
-
 
 
     $limit = $this->limit;
