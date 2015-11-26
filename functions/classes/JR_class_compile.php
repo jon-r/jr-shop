@@ -37,7 +37,7 @@ class compile {
           'webLink'  => $this->setWebLink(),
           'rhc'      => $this->rhc.$this->ref,
           'name'     => $this->db->ProductName,
-          'imgFirst' => jr_siteImg('gallery/'.$this->rhc.$this->ref.'.jpg'),
+          'imgFirst' => 'images/gallery/'.$this->rhc.$this->ref.'.jpg',
         ];
         break;
       default:

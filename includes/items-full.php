@@ -30,7 +30,7 @@ $shopItem = $product->compiler();
       <ul id="js-gallery-thumbs" class="flex-container">
         <?php foreach ($shopItem['imgAll'] as $galleryImg) : ?>
         <li class="tile-inner item-thumb">
-          <img src="<?php echo jr_imgResize(home_url($galleryImg), 'thumb') ?>"
+          <img src="<?php echo jr_imgResize($galleryImg, 'thumb') ?>"
                class="framed" alt="<?php echo $shopItem['name'] ?>"
                data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
         </li>

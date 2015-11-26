@@ -11,17 +11,17 @@
  */
 function jr_imgResize ($src, $size) {
   //wipes the file relativity, to be redadded later
-  $relSrc = str_replace(site_url('/'),'',$src);
-  $newSrc = str_replace("gallery", "gallery-$size", $relSrc);
+  //$src = str_replace(site_url(''),'',$src);
+  $newSrc = str_replace("gallery", "gallery-$size", $src);
   $reSize = jr_imgSize($size);
 
-  if (jr_imgSizeCheck($relSrc,$newSrc)) {
+  if (jr_imgSizeCheck($src,$newSrc)) {
 
     $out = site_url($newSrc);
 
-  } elseif (file_exists(ABSPATH.$relSrc)) {
+  } elseif (file_exists(ABSPATH.$src)) {
 
-    $img = wp_get_image_editor( ABSPATH.$relSrc );
+    $img = wp_get_image_editor( ABSPATH.$src );
     $img->resize( $reSize, $reSize, false );
     $img->set_quality( 80 );
     $img->save(ABSPATH.$newSrc);
@@ -29,7 +29,7 @@ function jr_imgResize ($src, $size) {
 
   } else {
 
-    $out = jr_siteImg('icons/ComingSoon.jpg#'.$relSrc);
+    $out = jr_siteImg('icons/ComingSoon.jpg#'.$src);
 
   }
 
