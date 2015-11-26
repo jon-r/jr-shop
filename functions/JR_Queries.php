@@ -9,36 +9,6 @@ function jrQ_brands() {
   return $wpdb->get_col($queryStr);
 }
 
-function jrQ_rhc($params) {
-  global $wpdb, $itemSoldDuration;
-  if ($params[1] == 'rhc') {
-    $ref = 'RHC';
-    $tbl = 'networked db';
-  } else {
-    $ref = 'RHCs';
-    $tbl = 'benchessinksdb';
-  }
-  $num = $params[2];
-
-  $queryStr = "SELECT `ProductName`,`Category` FROM `$tbl` WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-  $out = $wpdb->get_row(
-    $wpdb->prepare($queryStr, $num)
-  );
-  return($out);
-}
-
-/*function jrQ_rhcs($rhcs) {
-  global $wpdb, $itemSoldDuration;
-
-  $queryStr = "SELECT `ProductName`, `Category` FROM `benchessinksdb` WHERE `RHCs` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
-  $out = $wpdb->get_row(
-    $wpdb->prepare($queryStr, $rhcs)
-  );
-  return($out);
-}*/
-
-
-
 function jrQ_categories() {
   global $wpdb;
   $results = $wpdb->get_results("SELECT `Category_ID`, `Name`, `CategoryGroup`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `ShowMe` = 1 ORDER BY `List_Order` DESC, `CategoryGroup` DESC", ARRAY_A);
@@ -49,32 +19,9 @@ function jrQ_categories() {
   return $out;
 }
 
-function jrQ_categoryDetails($catID) {
-  global $wpdb;
-  return $wpdb->get_row("SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$catID'", ARRAY_A);
-}
-
 function jrQ_categoryID($catName) {
   global $wpdb;
   return $wpdb->get_var("SELECT `Category_ID` FROM `rhc_categories` WHERE `Name` LIKE '$catName'");
-}
-
-/*function jrQ_titles($safeRHC, $SS = null) {
-  global $wpdb;
-  if ($SS) {
-    $ref = "RHCs";
-    $db = "benchessinksdb";
-  } else {
-    $ref = "RHC";
-    $db = "networked db";
-  }
-  return $wpdb->get_row("SELECT  FROM `$db` WHERE `$ref` LIKE '$safeRHC'", ARRAY_A);
-}*/
-
-//tags items as new
-function jrQ_ItemsNew() {
-  global $itemCountMax, $wpdb;
-  return $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
 }
 
 /* -- get other content -------------------------------------------------------------*/

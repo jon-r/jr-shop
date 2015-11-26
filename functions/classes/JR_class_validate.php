@@ -20,7 +20,6 @@ class pageValidate {
   public $args; //filters for the wpdb queries;
   public $url;
 
-
   private function getParams() {
     $this->getUrl();
     $slashedParams = str_replace(home_url(), '', $this->url);
@@ -96,8 +95,8 @@ class pageValidate {
             $this->unique = 'category-sale';
             break;
           case 'brand':
-            $brand = jr_urlToBrand($params[3]);
-            $this->title = "Products from $brand";
+            $brand = jr_urlToBrand($p[3]);
+            $this->title = "Products by $brand";
             $this->args = ['brand'=>$brand];
             $this->unique = 'category-brand-'.$brand;
             break;

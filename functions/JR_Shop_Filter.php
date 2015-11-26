@@ -78,30 +78,4 @@ function jr_get_multiple($arrIn) {
   return array_keys($arrMultiple);
 }
 
-// ---------------------- items list setup ----------------------------------------------
-// figures out what to show on output page, based on safeArr and the page number
-function jr_itemsList($safeArr,$pageNumber) {
-  global $itemCountMax;
-  //the full list query will always be the same, since this function is preset to cap at one page
-  $listUnsold = jrQ_items($safeArr, $pageNumber);
-  $out['paginate'] = false;
-  $lastPage = 1;
-
-  if ($safeArr['filterType'] != 'arrivals' && $safeArr['sold'] == false) {
-    //the "sold" and "new" already capped at a single page, no need to count
-    $fullItemCount = jrQ_itemsCount($safeArr);
-    //breaks down into pages
-    if ($fullItemCount > $itemCountMax) {
-      $out['paginate'] = $lastPage = intval(ceil($fullItemCount / $itemCountMax));
-    }
-    //fills up the last page with sold items
-    if ($pageNumber == $lastPage) {
-      $itemsOnLastPage = $fullItemCount % $itemCountMax;
-      $listSold = jrQ_itemsSold($safeArr, $itemsOnLastPage);
-    }
-  }
-  $out['list'] = isset($listSold) ? array_merge($listUnsold, $listSold) : $listUnsold;
-  return $out;
-}
-
 ?>

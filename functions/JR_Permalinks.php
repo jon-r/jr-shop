@@ -1,6 +1,6 @@
 <?php
 /* Setting up url_rewrite names. The ones that arent automagically made by wordpress */
-function jr_page($type) {
+function jr_pageID($type) {
   $pageNum = [
     'grp' =>  '24',
     'cat' =>  '16',
@@ -12,20 +12,20 @@ function jr_page($type) {
 function jr_setPermalinks() {
   $permalinks = [
     //depts
-    '^brands/?'               => jr_page('grp'),
-    '^departments/([^/]*)/?'  => jr_page('grp'),
+    '^brands/?'               => jr_pageID('grp'),
+    '^departments/([^/]*)/?'  => jr_pageID('grp'),
     //cats
-    '^products/special-offers/?'  => jr_page('cat'),
-    '^products/all/?'             => jr_page('cat'),
-    '^products/sold/?'            => jr_page('cat'),
-    //'^products/coming-soon/?'     => jr_page('cat'),
-    '^products/arrivals/?'        => jr_page('cat'),
-    '^products/category/([^/]*)/?'=> jr_page('cat'),
-    '^products/brand/([^/]*)/?'   => jr_page('cat'),
-    '^products/search-results/?'  => jr_page('cat'),
+    '^products/special-offers/?'  => jr_pageID('cat'),
+    '^products/all/?'             => jr_pageID('cat'),
+    '^products/sold/?'            => jr_pageID('cat'),
+    //'^products/coming-soon/?'     => jr_pageID('cat'),
+    '^products/arrivals/?'        => jr_pageID('cat'),
+    '^products/category/([^/]*)/?'=> jr_pageID('cat'),
+    '^products/brand/([^/]*)/?'   => jr_pageID('cat'),
+    '^products/search-results/?'  => jr_pageID('cat'),
     //items
-    '^rhc/([^/]*)/?'  => jr_page('item'),
-    '^rhcs/([^/]*)/?' => jr_page('item')
+    '^rhc/([^/]*)/?'  => jr_pageID('item'),
+    '^rhcs/([^/]*)/?' => jr_pageID('item')
   ];
 
   foreach ($permalinks as $find => $replace) {
