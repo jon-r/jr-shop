@@ -3,13 +3,6 @@ $item = $pgCategory->pgList[$n];
 $product = new compile;
 
 $shopItem = $product->itemCompile($item,'tile');
-
-
-/*if ( $jr_safeArray['ss'] ) {
-  $shopItem = jr_itemComplile($item, 'listSS');
-} else {
-  $shopItem = jr_itemComplile($item, 'list', $itemsNew);
-}*/
 ?>
 
 
@@ -25,7 +18,7 @@ $shopItem = $product->itemCompile($item,'tile');
          class="framed" alt="<?php echo $shopItem['name'] ?>">
     <button class="tile-float btn-grey text-icon-left search-w"><h3>More</h3></button>
 
-  <?php if ($jr_safeArray['ss'] ) : ?>
+  <?php if ($shopItem['ss'] ) : ?>
     <span class="ss-length btn-red"><h2><?php echo $shopItem['widthFt'] ?></h2></span>
   <?php endif ?>
 

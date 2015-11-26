@@ -58,7 +58,10 @@ include ('functions/JR_File_Cleanup.php');
    include 'admin/JR_Shop_Admin.php';
  }*/
 
+/* this is the first point of action. gets the baseline validateion/variables used on every page.
+this stuff is on everypage (in the main menu at very least), so called straight away */
 $jr_page = new pageValidate;
 $jr_page->init();
+
 
 ?>

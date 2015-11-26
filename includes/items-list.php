@@ -6,7 +6,6 @@ $pgCategory->get();
 ?>
 
 <article class="flex-container">
-  <?php //print($pgCategory->setQuery($jr_safeArray['args'])) ?>
   <header class="article-header flex-1">
     <h1><?php echo $pgCategory->title ?></h1>
     <p><?php echo $pgCategory->description ?></p>

@@ -1,19 +1,12 @@
 <?php /* style for the individual items page */
-//TEMP UNTIL I FIX MORE CLASSES
-/*
-if ( $jr_safeArray['ss'] ) {
-  $ss = true;
-} else {
-  $rhc = 'rhc';
-}*/
+
 $product = new product;
-$product->setRef($jr_safeArray);
+$product->setRef();
 $shopItem = $product->compiler();
 
 ?>
 
 <article class="flex-column photos-frame">
-
   <section class="tile-outer flex-1 item-gallery">
     <header class="tile-header lined">
       <h1><?php echo $shopItem['name']; ?></h1>
@@ -102,7 +95,7 @@ if (count($shopItem['specs']) != 0): ?>
       <h2>Features</h2>
     </header>
     <ul >
-      <?php if (!$jr_safeArray[ 'ss']) : ?>
+      <?php if (!$shopItem['ss']) : ?>
       <li class="text-icon-left tick-w">Photos of actual product</li>
       <li class="text-icon-left tick-w">Fully Tested &amp; Cleaned</li>
       <?php endif ?>
@@ -112,8 +105,8 @@ if (count($shopItem['specs']) != 0): ?>
       <li class="text-icon-left tick-w">Aftercare &amp; Warranty</li>
     </ul>
     <div class="social-shares">
-      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(jr_getUrl()); ?>"><h3>Share on Facebook</h3></a>
-      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode(jr_getUrl()); ?>&via=RHC_Catering&hashtags=RHC,Catering"><h3>Tweet on Twitter</h3></a>
+      <a class="text-icon-left facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($jr_page->url); ?>"><h3>Share on Facebook</h3></a>
+      <a class="text-icon-left twitter" href="https://twitter.com/intent/tweet/?url=<?php echo urlencode($jr_page->url); ?>&via=RHC_Catering&hashtags=RHC,Catering"><h3>Tweet on Twitter</h3></a>
     </div>
 
     <div class="tab-toggle text-icon arrow-w"></div>

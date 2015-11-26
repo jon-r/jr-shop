@@ -3,7 +3,7 @@
   dot indicators for the form
 
 */?>
-<?php $formSubject = isset($jr_safeArray['formRef']) ? $jr_safeArray['formRef'] : get_the_title(); ?>
+<?php $formSubject = isset($jr_page->ref) ? $jr_page->ref : get_the_title(); ?>
 
 <form name="contact_form" class="js_contact_form" method="POST" action="">
 

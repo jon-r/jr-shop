@@ -1,11 +1,6 @@
 <?php
 $product = new compile;
 $shopItem = $product->itemCompile($itemTiny,'lite');
-/*if ( $jr_safeArray['ss'] ) {
-  $shopItem = jr_itemComplile($itemTiny, 'tinySS');
-} else {
-  $shopItem = jr_itemComplile($itemTiny, 'tiny');
-}*/
 ?>
 <li class="item-thumb">
   <a href="<?php echo home_url($shopItem['webLink']) ?>">

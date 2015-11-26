@@ -16,13 +16,10 @@ class itemList {
     $this->pgCount = count($this->pgList);
   }
 
-  public function getRelated($filterList) {
+  public function getCustom($args) {
     $this->setArgs();
-    $this->filters = $filterList;
-    $this->limit = 4;
-    $this->pgList = $this->getQueryResults();
+    $this->pgList = $this->queryResults($args);
   }
-
 
   private function setArgs() {
     global $jr_page, $itemCountMax, $wpdb;
@@ -49,7 +46,7 @@ class itemList {
     $listUnsold = $this->queryResults(['limit'=>"$offset,$itemCountMax"]);
     $listSold = array();
 
-    if (!$this->args['arrivals'] && !$this->args['sold']) {
+    if (!$this->args['arrivals'] && !$this->args['sold'] && $this->args['type'] != 'related') {
       //counts whole query. the "sold" and "new" already capped at a single page, no need to count
       $fullItemCount =  $this->queryResults(['type'=>'count']);
       //breaks down into pages
@@ -68,7 +65,7 @@ class itemList {
   }
 
 
-  public function setQuery($args) {
+  private function setQuery($args) {
 
     global $itemSoldDuration;
     //INITIAL SETUP
@@ -96,8 +93,9 @@ class itemList {
 
     } elseif ($args['type'] == 'related') {
       $values = "$generic";
-      $refNum = $args['refNum'];
-      $filterList = ["AND ($refNum != 0) "];
+      $ref = $args['ref'];
+      $id = $args['id'];
+      $filterList = ["AND ($ref != $id) "];
       $limit = "ORDER BY RAND() LIMIT ".$args['limit'];
 
     } else {

@@ -20,8 +20,8 @@ add_action( 'init', 'disable_wp_emojicons' );
 
 //fix title for custom shop pages
 function jr_wp_title($title, $sep)  {
-  global $jr_safeArray;
-  $t = $jr_safeArray['title'];
+  global $jr_page;
+  $t = $jr_page->title;
 
   if (is_null($t)) {
     return $title;

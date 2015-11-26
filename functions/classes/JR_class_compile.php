@@ -6,8 +6,8 @@ class compile {
     $out1 = $out2 = $out3 = array();
     $this->db = $dbRaw;
     $this->ss = $dbRaw->ss;
-    $this->rhc = $this->ss ? 'RHCs' : 'RHC';
-    $this->ref = $this->ss ? $this->db->RHCs : $this->db->RHC;
+    $this->rhc = $dbRaw->ss ? 'RHCs' : 'RHC';
+    $this->ref = $dbRaw->ss ? $this->db->RHCs : $this->db->RHC;
 
     switch ($detail) {
       case ('full') :
@@ -29,6 +29,7 @@ class compile {
           'icon'     => $this->setIcon(),
           'info'     => $this->setInfo(),
           'quantity' => $this->db->Quantity > 1 ? $this->db->Quantity." in Stock" : null,
+          'ss'        => $this->ss
         ];
       case ('lite') :
         $out3 = [

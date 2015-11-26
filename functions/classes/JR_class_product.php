@@ -6,25 +6,28 @@ class product {
 
   private $dbRaw = array();
   private $ss;
-  private $safeArray;
 
-  public function setRef($arr) {
-    $this->safeArray = $arr;
-    $this->refNum = $this->safeArray['filterVal'];
-    $this->ss = $this->safeArray['ref'] == 'rhcs';
+  public function setRef() {
+    global $jr_page;
+
+    $this->refNum = $jr_page->args['id'];
+    $this->ss = $jr_page->args['ref'] == 'rhcs';
+    $this->category = $jr_page->args['category'];
   }
 
   private function setDbInfo() {
     global $wpdb;
-    $safeRHC = $this->refNum;
+    $refNum = $this->refNum;
 
     if ($this->ss) {
-      $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$safeRHC'");
+      $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$refNum'");
     } else {
-      $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$safeRHC'");
+      $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$refNum'");
     }
     $this->dbRaw = $queryFull;
     $this->dbRaw->ss = $this->ss;
+    $this->dbRaw->isNew = false;
+
   }
 
   public function compiler() {
@@ -36,17 +39,35 @@ class product {
 
   public function related() {
     $related = new itemList();
-    $filters = [
-      'title' => $this->dbRaw->Category,
-      'filterVal' => 'related',
-      'filterType' => $this->ss ? 'items' : 'itemsSS',
-      //TEMP
+    $args = [
+      'type' => 'related',
       'ss' => $this->ss,
-      'refNum'   => $this->refNum
+      'limit' => '4'
     ];
-    $related->getRelated($filters);
-   // print_r();
+    $related->getCustom($args);
     return $related;
+  }
+
+  public function scaleBox() {
+     //show the box sim, if not furnishings and valid height/width
+    $badCats = [
+      'Soft Furnishings',
+      'Tables & Chairs',
+      'Decor & Lighting',
+      'Dishwashers',
+      'Other Stainless Steel'
+    ];
+
+    if ($this->dbRaw->Height > 0
+        && $this->dbRaw->Width > 0
+        && !in_array($this->dbRaw->Category, $badCats)
+       ) {
+      return jr_boxGen($this->dbRaw);
+    } else {
+      return false;
+    }
+
+
   }
 
 }

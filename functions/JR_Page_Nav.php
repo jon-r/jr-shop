@@ -1,23 +1,24 @@
 <?php
 // ----------------------breadcrumb builder----------------------------------------------
 // Makes the breadcrumbs
-function jr_pageCrumbles ($safeArr) {
+function jr_pageCrumbles () {
+  global $jr_page;
   $crumbs[0] = ['Home' => home_url()];
 
-  if ($safeArr['filterVal'] == 'Not Found'  || is_404()) {
+  if ($jr_page->title == 'Not Found'  || is_404()) {
     $crumbs[1] = ['Page Not Found' => home_url()];
   } else {
-    if ($safeArr['filterType'] == 'item') {
-      $categoryID = jrQ_categoryID($safeArr['category']);
+    if (isset($jr_page->args['ref'])) {
+      $categoryID = jrQ_categoryID($jr_page->args['category']);
       $crumbs[1] = [
-        $safeArr['category'] => home_url('/products/category/'.$categoryID.'/'.sanitize_title($safeArr['category']))
+        $jr_page->args['category'] => home_url('/products/category/'.$categoryID.'/'.sanitize_title($jr_page->args['category']))
       ];
-      $crumbs[2] = [$safeArr['title'] => jr_getUrl()];
-    } elseif (isset($safeArr['title'])) {
-      $crumbs[1] = [$safeArr['title'] => jr_pgSet()];
+      $crumbs[2] = [$jr_page->title => $jr_page->url];
+    } elseif (isset($jr_page->title)) {
+      $crumbs[1] = [$jr_page->title => jr_pgSet()];
       //page set instead of getURL to reset to page1 on paginated output
     } else {
-      $crumbs[1] = [get_the_title() => jr_getUrl()];
+      $crumbs[1] = [get_the_title() => $jr_page->url];
     };
   }
   return $crumbs;

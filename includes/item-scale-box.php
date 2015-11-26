@@ -1,19 +1,7 @@
-<?php //show the box sim, if not furnishings and valid height/width
-$badCats = [
-  'Soft Furnishings',
-  'Tables & Chairs',
-  'Decor & Lighting',
-  'Dishwashers',
-  'Other Stainless Steel'
-];
 
-if ($shopItem['height'] > 0
-    && $shopItem['width'] > 0
-    && !in_array($shopItem['category'], $badCats)
-   ) :
-?>
 
-<?php $box = jr_boxGen($shopItem) ; ?>
+<?php $box = $product->scaleBox(); ?>
+<?php if ($box) : ?>
 <section class="tile-outer flex-2 item-scale">
   <header class="tile-header lined">
     <h2>Scale</h2>

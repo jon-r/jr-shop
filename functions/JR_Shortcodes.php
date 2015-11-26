@@ -4,7 +4,7 @@
 add_shortcode("jr-shop", "jr_modules");
 
 function jr_modules($atts) {
-  global $jr_safeArray, $jr_page;
+  global $jr_page;
   $a = shortcode_atts([
     'id' => '404',
     'cached'=> false
@@ -15,9 +15,9 @@ function jr_modules($atts) {
 
     if ($a['cached'] == 'unique') {
 
-      if ($jr_safeArray['unique']) {
+      if ($jr_page->unique) {
 
-        jrCached_HTML($file, $jr_safeArray['unique'], 7);
+        jrCached_HTML($file, $jr_page->unique, 7);
   //      return "success -.$file"
       } else {
 

@@ -19,8 +19,8 @@ function jr_boxGen($item) {
   $tallH =      1500; //the tallest things
 
   $bottomPoint =  $boxPadding + $boxDims; //used for most of the X/Y Coordinates
-  $itemH =        $item['height'];
-  $itemW =        $item['width'];
+  $itemH =        $item->Height;
+  $itemW =        $item->Width;
   $findMax = max($itemH, $itemW, $manHeight);//the largest dimension sets the scale
   // dimensions of the svg rectangles
   $out1 = [
@@ -33,7 +33,7 @@ function jr_boxGen($item) {
     'tableW'  => round($tableWidth / $findMax * $boxDims, 3),
   ];
   //shortest items "propped up" on a table. unless it IS a table
-  if ($itemH < $shortH && !isset($item['RHCs'])) {
+  if ($itemH < $shortH && !$item->ss) {
 
     $out2 = [
       'itemX'  => ($boxDims - $out1['itemW']) / 2,
@@ -59,11 +59,11 @@ function jr_boxGen($item) {
 
   } elseif ($itemH > $tallH) {
 
-    $out3 = ['itemImg' => isset($item['RHCs']) ? 'appliance-table-tall' : 'appliance-tall'];
+    $out3 = ['itemImg' => ($item->ss) ? 'appliance-table-tall' : 'appliance-tall'];
 
-  } elseif (isset($item['RHCs'])) {
+  } elseif ($item->ss) {
 
-    $out3 = ['itemImg' => ($item['Category'] == 'Sinks') ? 'appliance-sink' : 'appliance-table'];
+    $out3 = ['itemImg' => ($item->Category == 'Sinks') ? 'appliance-sink' : 'appliance-table'];
 
   } else {
 
@@ -79,10 +79,10 @@ function jr_boxGen($item) {
   $out4 = [
     'pathA' =>        'M'.$outLines['heightLineX'].' '.$out2['itemY'].'v'.$out1['itemH'],
     'pathB' =>        'M'.$out2['itemX'].' '.$outLines['widthLineY'].'h'.$out1['itemW'],
-    'heightText'  =>  $item['height'].'mm',
+    'heightText'  =>  $item->Height.'mm',
     'heightTextX' =>  $outLines['heightLineX'] + 3,
     'heightTextY' =>  $out2['itemY'] + ($out1['itemH']/2),
-    'widthText'   =>  $item['width'].'mm',
+    'widthText'   =>  $item->Width.'mm',
     'widthTextX'  =>  $out2['itemX'] + ($out1['itemW']/2),
     'widthTextY'  =>  $outLines['widthLineY'] - 3
   ];

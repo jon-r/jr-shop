@@ -1,6 +1,6 @@
 <div class="nav-breadcrumbs" >
 <?php
-$breadLinks = jr_pageCrumbles ($jr_safeArray);
+$breadLinks = jr_pageCrumbles ();
 
 foreach ($breadLinks as $breadSlices) {
   foreach ($breadSlices as $name => $link) {
