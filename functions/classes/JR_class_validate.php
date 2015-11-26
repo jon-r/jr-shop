@@ -22,7 +22,7 @@ class pageValidate {
   }
 
   private function getItem() {
-     global $wpdb, $itemSoldDuration;
+    global $wpdb, $itemSoldDuration;
     if ($p[1] == 'rhc') {
       $ref = 'RHC'; $tbl = 'networked db';
     } else {

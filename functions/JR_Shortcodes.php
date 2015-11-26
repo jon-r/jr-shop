@@ -72,8 +72,8 @@ function jr_textBlock($atts, $content = null) {
 add_shortcode("jr-debug", "jr_debugger");
 
 function jr_debugger() {
-  global $jr_safeArray;
-  var_dump($jr_safeArray);
+  global $jr_page;
+  var_dump($jr_page);
 }
 
 ?>

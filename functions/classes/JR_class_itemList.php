@@ -1,96 +1,65 @@
 <?php
 class itemList {
 
-  private $dbRaw = array();
   private $args;
 
+
   public $paginate = false;
-  public $newCheck;
   public $pgCount = 0;
   public $pgList;
   public $description;
   public $title;
 
-  public function get($DELETE) {
-    $this->setGlobals();
-    //$this->setVars();
+  public function get() {
+    $this->setArgs();
     $this->pgList = $this->queryList();
     $this->pgCount = count($this->pgList);
   }
 
   public function getRelated($filterList) {
-    $this->setGlobals();
-    //$this->title = $filterList['title'];
+    $this->setArgs();
     $this->filters = $filterList;
     $this->limit = 4;
     $this->pgList = $this->getQueryResults();
   }
 
-  private function setVars() {
-    if ($this->filters['filterType'] == 'items') {
-      //$catID = $this->filters['id'];
-      //$cat = $this->wpdb->get_row("SELECT `Name`, `CategoryDescription`, `Is_RHCs` FROM `rhc_categories` WHERE `Category_ID` LIKE '$catID'");
 
-      //$this->title = $cat->Name;
-      //$desc = $cat->CategoryDescription != '0' ? $cat->CategoryDescription : null;
-    } else {
-      $cat = $this->filters['filterType'];
-      $desc = get_option("jr_shop_pageInfo_$cat");
-
-      $this->title = $this->filters['title'];
-
-    }
-    $this->description = $desc ? jr_format($desc) : null;
-  }
-
-  private function setGlobals() {
-    global $jr_page, $wpdb, $itemCountMax, $itemSoldDuration;
+  private function setArgs() {
+    global $jr_page, $itemCountMax, $wpdb;
 
     $defaults = [
-      'brand' => null,
-      'category' => null,
-      'search' => null,
-      'sale' => null,
-      'sold' => false,
-      'limit' => $itemCountMax,
-      'type' => null,
-      'ss' => false,
-      'arrivals' => false,
-      'refNum' => null
+      'brand' => null,'category' => null, 'search' => null,
+      'sale' => null, 'sold' => false,    'limit' => $itemCountMax,
+      'type' => null, 'ss' => false,      'arrivals' => false,'refNum' => null
     ];
 
-    $this->page = $jr_page;
-    $this->args = wp_parse_args($this->page->args, $defaults);
+    $this->args = wp_parse_args($jr_page->args, $defaults);
+    $this->newList = $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
 
-    $this->wpdb = $wpdb;
-    $this->countMax = $itemCountMax;
-    $this->duration = $itemSoldDuration;
     $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
   }
 
   private function queryList() {
-
+    global $itemCountMax;
     $this->paginate = false;
     $lastPage = 1;
 
-    $offset = ($this->pgNum - 1) * $this->countMax;
+    $offset = ($this->pgNum - 1) * $itemCountMax;
 
-    $listUnsold = $this->queryResults(['limit'=>"$offset,$this->countMax"]);
+    $listUnsold = $this->queryResults(['limit'=>"$offset,$itemCountMax"]);
     $listSold = array();
 
     if (!$this->args['arrivals'] && !$this->args['sold']) {
       //counts whole query. the "sold" and "new" already capped at a single page, no need to count
       $fullItemCount =  $this->queryResults(['type'=>'count']);
       //breaks down into pages
-      if ($fullItemCount > $this->countMax) {
-        $this->paginate = intval(ceil($fullItemCount / $this->countMax));
+      if ($fullItemCount > $itemCountMax) {
+        $this->paginate = intval(ceil($fullItemCount / $itemCountMax));
       }
 
       //fills up the last page with sold items
-      if ($this->pgNum == $this->paginate) {
-        //$itemsOnPage =  % $this->countMax;
+      if ($this->pgCount < $itemCountMax) {
         $soldCount = 4 - ($fullItemCount % 4);
-        //$this->limit = $soldCount;
         $listSold = $this->queryResults(['sold'=>true,'limit'=>$soldCount]);
       }
     }
@@ -99,68 +68,74 @@ class itemList {
   }
 
 
-  public function setQuery($f) {
+  public function setQuery($args) {
 
+    global $itemSoldDuration;
     //INITIAL SETUP
-    if ($f['ss']) {
+    if ($args['ss']) {
       $refName = "`RHCs`";
       $tbl = "`benchessinksdb`";
     } else {
       $refName = "`RHC`";
       $tbl = "`networked db`";
     }
-    if ($f['sold']) {
-      $order = "`DateSold`";
-      $soldSwitch = "`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $this->duration DAY AND CURDATE())";
+    if ($args['sold']) {
+      $order = "`DateSold` DESC";
+      $soldSwitch = "`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE())";
     } else {
-      $order = "`DateLive`";
+      $order = "`DateLive` DESC";
       $soldSwitch = "`LiveonRHC` = 1 AND `Quantity` > 0";
     }
 
     //SELECT
     $generic = "$refName, `ProductName`, `Price`, `Quantity`";
 
-    if ($f['type'] == 'count') {
+    if ($args['type'] == 'count') {
       $values = "COUNT(*)";
       $limit = "";
 
-    } elseif ($f['type'] == 'related') {
+    } elseif ($args['type'] == 'related') {
       $values = "$generic";
-      $refNum = $f['refNum'];
+      $refNum = $args['refNum'];
       $filterList = ["AND ($refNum != 0) "];
-      $limit = "ORDER BY RAND() LIMIT ".$f['limit'];
+      $limit = "ORDER BY RAND() LIMIT ".$args['limit'];
 
     } else {
 
-      if ($f['ss']) {
-        $values = "$generic `Width`";
+      if ($args['ss']) {
+        $values = "$generic, `Width`";
       } else {
-        $values = "$generic `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `SalePrice`";
+        $values = "$generic, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `SalePrice`";
       }
-      $limit = "ORDER BY $order LIMIT ".$f['limit'];
+      $limit = "ORDER BY $order LIMIT ".$args['limit'];
     }
 
     //WHERE
     $filterList = [];
     $placeholders = [];
 
-    if ($f['brand']) {
+    if ($args['brand']) {
       $filterList['brand'] = "`Brand` LIKE %s";
-      $placeholders = [$f['brand']];
+      $placeholders = [$args['brand']];
     }
-    if ($f['category']) {
-      $filterList['cat'] = "`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s";
-      $placeholders = [$f['category'],$f['category'],
-                   $f['category'],$f['category']]; //*4
+    if ($args['category']) {
+      if ($args['ss']) {
+        $filterList['cat'] = "`Category` LIKE %s";
+        $placeholders = [$args['category']]; //*1
+      } else {
+        $filterList['cat'] = "`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s";
+        $placeholders = [$args['category'],$args['category'],$args['category'],$args['category']]; //*4
+      }
+
     }
-    if ($f['search']) {
+    if ($args['search']) {
       $filterList['search'] = "`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s";
-      $placeholders = [$f['search'],$f['search'],$f['search'],
-                   $f['search'],$f['search'],$f['search']]; //*6
+      $placeholders = [$args['search'],$args['search'],$args['search'],
+                   $args['search'],$args['search'],$args['search']]; //*6
     }
-    if ($f['sale']) {
+    if ($args['sale']) {
       $filterList['sale'] = "`SalePrice` = %d";
-      $placeholders = [$f['sale']];
+      $placeholders = [$args['sale']];
     }
     $filterList['sold'] = $soldSwitch;
 
@@ -169,7 +144,8 @@ class itemList {
     $queryFull = "SELECT $values FROM $tbl WHERE ($filterStr) $limit";
 
     if (!empty($placeholders)) {
-      return $this->wpdb->prepare($queryFull,$placeholders);
+      global $wpdb;
+      return $wpdb->prepare($queryFull,$placeholders);
     } else {
       return $queryFull;
     }
@@ -177,181 +153,23 @@ class itemList {
   }
 
   private function queryResults($tweaks = []) {
-
+    global $wpdb;
     $argsTweaked = array_replace($this->args,$tweaks);
     $query = $this->setQuery($argsTweaked);
-    $out = $this->wpdb->get_results($query);
+    $out = $wpdb->get_results($query);
 
     if ($argsTweaked['type'] == 'count') {
       $out = $out[0]->{'COUNT(*)'};
     } else {
       foreach ($out as $item) {
+        //settings not taken directly from DB
         $item->ss = property_exists($item, 'RHCs');
+        $item->isNew = property_exists($item, 'RHC') && in_array($item->RHC, $this->newList);
       }
     }
 
     return $out;
   }
-
-  /*private function queryString($value) {
-
-    $qFilter = $this->filters['filterType'];
-    $qValue = $this->filters['filterVal'];
-
-    $qRHC = $qValue == 'related' ? $this->filters['refNum'] : null;
-
-    $isSteel = $this->filters['ss'];
-
-
-    $limit = $this->limit;
-
-
-    $generic = "$itemRef, `ProductName`, `Price`, `Quantity`";
-    $dataList = [
-      'RHCs'  => "$data `Width`",
-      'RHC'   => "$data `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `SalePrice`",
-      'count' => "COUNT(*)",
-    ];
-
-    $data = $datalist[$qType];
-
-    $filterList = [
-      'all'       => "",
-      'brand'     => "(`Brand` like %s) AND",
-      'items'     => "(`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND",
-      'itemsSS'   => "(`Category` LIKE %s) AND",
-      'search'    => "(`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s) AND",
-      'searchSS'  => "(`ProductName` REGEXP %s OR `Category`) AND",
-      'sale'      => "(`SalePrice` = %d) AND"
-    ];
-
-    $filter = $filterList[$qFilter];
-
-    $forSale = "(`LiveonRHC` = 1 AND `Quantity` > 0)";
-    $sortList = [
-      'sold'    => "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $this->duration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit",
-      'related' => "$forSale AND ($itemRef != 0) ORDER BY RAND() LIMIT $limit",
-      'count' => $forSale
-    ];
-
-    if ( array_key_exists ( $qValue , $sortList )) {
-      $sort = $sortList[$qValue];
-    } else {
-      $sort = "$forSale ORDER BY `DateLive` DESC, $itemRef DESC LIMIT $limit";
-    }
-
-    $placeholders = [
-      'items'  => [$this->title, $this->title, $this->title, $this->title],
-      'search' => [$qValue, $qValue, $qValue, $qValue, $qValue, $qValue]
-    ];
-
-    if (array_key_exists($qFilter, $placeholders)) {
-      $placeholders = $placeholders[$qFilter];
-    } else {
-      $placeholders = [$qValue];
-    };
-
-    $str = "SELECT %s FROM $itemDB WHERE %s %s";
-    $query = sprintf($str, $data, $filter, $sort);
-
-
-
-    if ($isSteel) {
-      $itemRef = "`RHCs`";
-      $itemDB = "`benchessinksdb`";
-    } else {
-      $itemRef = "`RHC`";
-      $itemDB = "`networked db`";
-    }
-
-
-
-    var_dump($this->wpdb->prepare($query,$placeholders));
-
-
-
-
-    if ($isSteel) {
-      $itemRef = "`RHCs`";
-      $itemDB = "`benchessinksdb`";
-    } else {
-      $itemRef = "`RHC`";
-      $itemDB = "`networked db`";
-    }
-    //the query "start". how much data are we getting?
-    if ($value == 'counter') {
-      $querySelection = "COUNT(*)";
-    } elseif ($qFilter == 'related' || $isSteel) {
-      $querySelection = "$itemRef, `ProductName`, `Price`, `Width`, `Quantity`";
-    } else {
-      $querySelection = "$itemRef, `ProductName`, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `Price`, `SalePrice`, `Quantity`";
-    }
-
-    //the query "middle". what is the data filtered by?
-
-    if ($isSteel) {
-      $filters = "(`Category` LIKE %s) AND";
-    } elseif ($qFilter == 'items' || $qFilter == 'related') {
-      $filters = "(`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s) AND";
-    } elseif ($qFilter == 'search') {
-      $filters = "(`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s) AND";
-    } elseif ($qFilter == 'brand') {
-      $filters = "(`Brand` LIKE %s) AND";
-    } elseif ($qFilter =='sale') {
-      $filters = "(`SalePrice` = %d) AND";
-    } else {
-      $filters = "";
-    }
-
-  //the query end. how is the data sorted and limited?
-    $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, $itemRef DESC LIMIT $limit";
-
-    if ($qFilter == 'sold' || $value == 'sold') {
-      $orderBy = "(`LiveonRHC` = 1 AND `Quantity` = 0 AND (`DateSold` BETWEEN CURDATE() - INTERVAL $this->duration DAY AND CURDATE())) ORDER BY `DateSold` DESC LIMIT $limit";
-    } elseif ($qFilter == 'related' ) {
-      $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0) AND ($itemRef != $qValue) ORDER BY RAND() LIMIT $limit";
-    } elseif ($value == 'counter') {
-      $orderBy = "(`LiveonRHC` = 1 AND `Quantity` > 0)";
-    }
-
-    //queryPlaceholders (for wpdb->prepare)
-    $qArray = false; //no prepare for non-variables
-    if ($qFilter == 'items' || $qFilter == 'related') {
-      $v = $this->title;
-      $qArray = [ $v, $v, $v, $v ];
-    } elseif ($qFilter == 'search') {
-      $qArray = [ $qValue, $qValue, $qValue, $qValue, $qValue, $qValue ];
-    } elseif ($isSteel || $qFilter == 'brand' || $qFilter =='sale') {
-      $qArray = [ $qValue ];
-    }
-
-    $out['str'] = "SELECT $querySelection FROM $itemDB WHERE $filters $orderBy";
-    $out['placeholders'] = $qArray;
-    return $out;
-  }*/
-
-/*  private function getQueryResults($queryType = 'default') {
-
-    $query = $this->queryString($queryType);
-
-    if ($query['placeholders']) {
-      $out = $this->wpdb->get_results(
-        $this->wpdb->prepare($query['str'], $query['placeholders'])
-      );
-    } else {
-      $out = $this->wpdb->get_results($query['str']);
-    }
-    if ($queryType == 'counter') {
-      $out = $out[0]->{'COUNT(*)'};
-    } else {
-      foreach ($out as $item) {
-        $item->ss = property_exists($item, 'RHCs');
-      }
-    }
-
-
-    return $out;
-  }*/
 
 }
 ?>

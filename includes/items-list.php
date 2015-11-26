@@ -1,9 +1,8 @@
 <?php /* Filtered items list */
 global $itemCountMin;
-$newItems = jrQ_ItemsNew();
-$pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1;
+
 $pgCategory = new itemList;
-$pgCategory->get($jr_safeArray);
+$pgCategory->get();
 ?>
 
 <article class="flex-container">
@@ -31,7 +30,7 @@ $pgCategory->get($jr_safeArray);
 <?php endif ?>
 </article>
 
-<?php if ($pgCategory->paginate) : ?>
+<?php if ($pgCategory->paginate) : $pageNumber = isset($_GET['pg']) ? $_GET['pg'] : 1; ?>
 
 <nav class="flex-container centre">
   <section class="nav-paginate tile-outer">
