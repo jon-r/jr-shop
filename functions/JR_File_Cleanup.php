@@ -11,6 +11,7 @@ function jr_clearCache() {
   $out['fail'] = '';
   $out['success'] = '';
   $cacheDir = ABSPATH.'cached-files/';
+  $map = new sitemap;
 
   if (isset($_GET['refs'])) {
 
@@ -21,21 +22,38 @@ function jr_clearCache() {
       $htmlFiles = scandir($cacheDir);
       $filteredFiles = array_diff($htmlFiles, ['..', '.']);
 
+      $itemCount = 0;
+      $catCount = 0;
       foreach($filteredFiles as $file) {
 
-        if (strpos($file,'item-') === 0
-           || strpos($file,'category-') === 0
-           || strpos($file,'carousel-') === 0) {
-
+        if (strpos($file,'item-') === 0) {
           $fileDir = $cacheDir.$file;
-
           if (file_exists($fileDir)) {
-
             unlink($fileDir);
-            $out['success'] .= "<li>The cached file $file has been removed</li>";
+            $itemCount++;
           }
-       }
+
+        } elseif (strpos($file,'category-') === 0) {
+          $fileDir = $cacheDir.$file;
+          if (file_exists($fileDir)) {
+            unlink($fileDir);
+            $catCount++;
+          }
+
+        } elseif (strpos($file,'carousel-') === 0) {
+          $fileDir = $cacheDir.$file;
+          if (file_exists($fileDir)) {
+            unlink($fileDir);
+            $catCount++;
+            $out['success'] .= "<li>The carousel has been refreshed</li>";
+          }
+        }
+
      };
+      $out['success'] .= "<li>$catCount cached category lists have been reset</li>";
+      $out['success'] .= "<li>$itemCount cached Items have been reset</li>";
+
+      $map->build();
 
     } elseif ($ref == "full") {
 
@@ -73,6 +91,8 @@ function jr_clearCache() {
       $out['success'] .= jr_imgWipe('thumb');
       $out['success'] .= jr_imgWipe('tile');
       $out['success'] .= jr_soldWipe();
+
+      $map->build();
 
     } else {
 

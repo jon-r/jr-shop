@@ -1,6 +1,4 @@
-<?php $map = new sitemap ;
-
-$map->build();
+<?php
 echo $map->test;
 //var_dump($map->outTEMP);
 /*echo '<xmp>';
