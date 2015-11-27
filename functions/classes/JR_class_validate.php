@@ -72,7 +72,7 @@ class pageValidate {
               $this->title = $category->Name;
               $this->args = ['category'=>$category->Name,'ss'=>$category->Is_RHCs];
               $this->unique = 'category-'.$p[3];
-              $this->desc = $category->CategoryDescription != 0 ? jr_format($category->CategoryDescription) : null;
+              $this->desc = $category->CategoryDescription != '0' ? jr_format($category->CategoryDescription) : null;
             } else {
               $this->title = 'Not Found';
             }

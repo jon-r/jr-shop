@@ -37,7 +37,7 @@ class compile {
           'webLink'  => $this->setWebLink(),
           'rhc'      => $this->rhc.$this->ref,
           'name'     => $this->db->ProductName,
-          'imgFirst' => 'images/gallery/'.$this->rhc.$this->ref.'.jpg',
+          'imgFirst' => '../rhc/images/gallery/'.$this->rhc.$this->ref.'.jpg',
         ];
         break;
       default:
@@ -130,7 +130,7 @@ class compile {
 
   private function setImgs() {
     if ($this->ref > 0) {
-      $out = glob('images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
+      $out = glob('rhc/images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
     } else {
       $out = null;
     }

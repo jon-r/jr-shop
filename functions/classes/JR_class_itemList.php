@@ -58,7 +58,7 @@ class itemList {
 
       //fills up the last page with sold items
       if ($this->pgCount < $this->maxList) {
-        $soldCount = 4 - ($fullItemCount % 4);
+        $soldCount = 8 - ($fullItemCount % 4);
         $listSold = $this->queryResults(['sold'=>true,'limit'=>$soldCount]);
       }
     }

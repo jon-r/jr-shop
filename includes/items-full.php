@@ -8,6 +8,7 @@ $shopItem = $product->compiler();
 
 <article class="flex-column photos-frame">
   <section class="tile-outer flex-1 item-gallery">
+
     <header class="tile-header lined">
       <h1><?php echo $shopItem['name']; ?></h1>
     </header>
@@ -37,6 +38,7 @@ $shopItem = $product->compiler();
         <?php endforeach ?>
       </ul>
       <?php endif ?>
+    <?php if (is_user_logged_in()) {var_dump($shopItem);} ?>
   </section>
 
   <?php if (count($shopItem['imgAll']) < 5) : ?>
@@ -127,3 +129,5 @@ if (count($shopItem['specs']) != 0): ?>
     </section>
   <?php endif ?>
 </article>
+
+

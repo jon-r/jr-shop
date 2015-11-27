@@ -30,7 +30,7 @@ class sitemap {
     $this->urlset .= '</urlset>';
 
 
-    $mapFile = fopen('../sitemap.xml', 'w');
+    $mapFile = fopen('../rhc/sitemap/sitemap.xml', 'w');
 
     fwrite($mapFile, compress_page($this->urlset));
     fclose($mapFile);
