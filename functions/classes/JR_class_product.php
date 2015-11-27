@@ -50,13 +50,7 @@ class product {
 
   public function scaleBox() {
      //show the box sim, if not furnishings and valid height/width
-    $badCats = [
-      'Soft Furnishings',
-      'Tables & Chairs',
-      'Decor & Lighting',
-      'Dishwashers',
-      'Other Stainless Steel'
-    ];
+    $badCats = explode(',',get_option('jr_shop_hide_scale'));
 
     if ($this->dbRaw->Height > 0
         && $this->dbRaw->Width > 0

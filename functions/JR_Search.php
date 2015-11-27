@@ -9,9 +9,11 @@ SEARCH:
 
 function jr_smartSearch() {
   $rawSearchTerm = $_GET['search'];
-
   $safeSearch = preg_replace('/[^\w &+-]/i','', $rawSearchTerm );
-  $ref = http_build_query(['q' => $safeSearch]);
+
+  $ssToggle = searchSteel($safeSearch);
+
+  $ref = http_build_query(['q' => $safeSearch,'ss' => $ssToggle]);
   $url = home_url("products/search-results/?$ref");
 
   if (empty($safeSearch)) { //if searching for nothing, show everything.
@@ -39,6 +41,17 @@ function jr_smartSearch() {
   }
   return wp_redirect( $url , 301 );
 }
+
+//simple check for steel keywords
+function searchSteel($str) {
+  $steelKeys = explode(',',get_option('jr_shop_steel_keywords'));
+
+  foreach ($steelKeys as $key) {
+    if (stripos($str,$key) !== false) return true;
+  }
+  return false;
+}
+
 //calls the "smart search" function
 add_shortcode("jr-search", "jr_smartSearch");
 /* ---- autocomplete ------------------------------------------------------------------*/

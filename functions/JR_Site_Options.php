@@ -19,6 +19,8 @@ add_option('jr_shop_page_text_all','','','yes');
 add_option('jr_shop_Local_Image_Location','','','yes');
 add_option('jr_shop_opening_Times_Week','','','yes');
 add_option('jr_shop_opening_Times_Sat','','','yes');
+add_option('jr_shop_steel_keywords','','','yes');
+add_option('jr_shop_hide_scale','','','yes');
 
 
 function jr_linkTo($target) {

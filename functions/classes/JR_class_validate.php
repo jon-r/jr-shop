@@ -19,6 +19,7 @@ class pageValidate {
   public $unique;  //unique URL friendly reference (ie cache). if unused the "unique" cache is ingored (ie search results)
   public $args; //filters for the wpdb queries;
   public $url;
+  public $desc; //
 
   private function getParams() {
     $this->getUrl();
@@ -63,6 +64,7 @@ class pageValidate {
         break;
       case 'categories':
       case 'products':
+        $page = isset($_GET['pg']) ? '_pg'.$_GET['pg'] : null;
         switch ($p[2]) {
           case 'category':
             $category = $this->getCategory($p[3]);
@@ -70,40 +72,48 @@ class pageValidate {
               $this->title = $category->Name;
               $this->args = ['category'=>$category->Name,'ss'=>$category->Is_RHCs];
               $this->unique = 'category-'.$p[3];
+              $this->desc = $category->CategoryDescription != 0 ? jr_format($category->CategoryDescription) : null;
             } else {
               $this->title = 'Not Found';
             }
             break;
           case 'search-results':
             $search = $_GET['q'];
+            $urlSearch = str_replace(' ','-',$search);
             $this->title = "Search results for $search";
-            $this->args = ['search'=>$search];
+            $this->args = ['search'=>$search,'ss'=>$_GET['ss']];
+            $this->unique = 'category-search-'.$urlSearch.$page;
+            $this->desc = jr_format(get_option('jr_shop_page_text_search'));
             break;
           case 'arrivals':
             $this->title = "Just In";
             $this->args = ['arrivals'=>true];
-            $this->unique = 'category-arrivals';
+            $this->unique = 'category-arrivals'.$page;
+            $this->desc = jr_format(get_option('jr_shop_page_text_arrivals'));
             break;
           case 'sold':
             $this->title = "Just In";
             $this->args = ['sold'=>true];
-            $this->unique = 'category-sold';
+            $this->unique = 'category-sold'.$page;
+            $this->desc = jr_format(get_option('jr_shop_page_text_sold'));
             break;
           case 'special-offers':
             $this->title = "Sales";
             $this->args = ['sale'=>true];
-            $this->unique = 'category-sale';
+            $this->unique = 'category-sale'.$page;
+            $this->desc = jr_format(get_option('jr_shop_page_text_sale'));
             break;
           case 'brand':
             $brand = jr_urlToBrand($p[3]);
             $this->title = "Products by $brand";
             $this->args = ['brand'=>$brand];
-            $this->unique = 'category-brand-'.$brand;
+            $this->unique = 'category-brand-'.$brand.$page;
             break;
           default:
             $this->title = "All Products";
             $this->args = [];
-            $this->unique = 'category-all';
+            $this->unique = 'category-all'.$page;
+            $this->desc = jr_format(get_option('jr_shop_page_text_all'));
         }
         $this->ref = $this->title;
         break;
@@ -127,6 +137,30 @@ class pageValidate {
   }
 }
 
+// adds basic find/replace, with custom "markdown".
+function jr_format($in) {
+  // basic formatting replaces the 'easier' bits
+  $find = [
+    '/\[ref:(rhc|rhcs)(\d+)\]/i',
+    '/\[italic:([^\]]+)\]/i',
+    '/\[bold:([^\]]+)\]/i',
+    '/\[red:([^\]]+)\]/i',
+    '/\[tel\]/i',
+    '/\[email\]/i',
+  ];
+  $replace = [
+    '<a href="'.home_url('$1/$2').'" >$1$2</a>',
+    '<em>$1</em>',
+    '<strong>$1</strong>',
+    '<em class="greater">$1</em>',
+    jr_linkTo('phone'),
+    jr_linkTo('eLink')
+  ];
 
+
+  $out = preg_replace($find,$replace,$in);
+
+  return $out;
+}
 
 ?>

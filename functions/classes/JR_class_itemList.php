@@ -127,9 +127,14 @@ class itemList {
 
     }
     if ($args['search']) {
-      $filterList['search'] = "`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s";
-      $placeholders = [$args['search'],$args['search'],$args['search'],
-                   $args['search'],$args['search'],$args['search']]; //*6
+      if ($args['ss']) {
+        $filterList['search'] = "`ProductName` REGEXP %s OR `Category` REGEXP %s";
+        $placeholders = [$args['search'],$args['search']]; //*2
+      } else {
+        $filterList['search'] = "`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s";
+        $placeholders = [$args['search'],$args['search'],$args['search'],
+                     $args['search'],$args['search'],$args['search']]; //*6
+      }
     }
     if ($args['sale']) {
       $filterList['sale'] = "`SalePrice` = %d";

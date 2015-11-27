@@ -7,7 +7,7 @@
  * @param integer $timeInDays how long to keep the cache before remaking it.
  */
 function jrCached_HTML($file, $cacheName, $timeInDays) {
-
+  global $jr_page;
 
   $cachefile = ABSPATH.'cached-files/'.$cacheName.'-cached.html';
   $cachetime = $timeInDays * 86400;

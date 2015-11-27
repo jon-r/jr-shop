@@ -7,8 +7,8 @@ $pgCategory->get();
 
 <article class="flex-container">
   <header class="article-header flex-1">
-    <h1><?php echo $pgCategory->title ?></h1>
-    <p><?php echo $pgCategory->description ?></p>
+    <h1><?php echo $jr_page->title ?></h1>
+    <p><?php echo $jr_page->desc ?></p>
   </header>
 
 
