@@ -1,5 +1,5 @@
 <?php /* Filtered items list */
-global $itemCountMin;
+$itemCountMin = get_option('jr_shop_itemCountMin');
 
 $pgCategory = new itemList;
 $pgCategory->get();

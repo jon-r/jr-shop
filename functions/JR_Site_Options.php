@@ -45,10 +45,8 @@ function jr_linkTo($target) {
 
   return $linkArr[$target];
 }
-//how many items before pagination. Also limits some pages.
-$itemCountMax = get_option('jr_shop_itemCountMax');
-//How many items before the "try elsewhere" kicks in.
-$itemCountMin = get_option('jr_shop_itemCountMin');
+
+
 //how long to leave sold items searchable (days)
 $itemSoldDuration = get_option('jr_shop_itemSoldDuration');
 

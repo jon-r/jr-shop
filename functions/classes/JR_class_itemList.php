@@ -22,40 +22,42 @@ class itemList {
   }
 
   private function setArgs() {
-    global $jr_page, $itemCountMax, $wpdb;
+    global $jr_page, $wpdb;
+
+    $this->maxList = get_option('jr_shop_itemCountMax');
 
     $defaults = [
       'brand' => null,'category' => null, 'search' => null,
-      'sale' => null, 'sold' => false,    'limit' => $itemCountMax,
+      'sale' => null, 'sold' => false,    'limit' => $this->maxList,
       'type' => null, 'ss' => false,      'arrivals' => false,'refNum' => null
     ];
 
     $this->args = wp_parse_args($jr_page->args, $defaults);
-    $this->newList = $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $itemCountMax") ;
+    $this->newList = $wpdb->get_col("SELECT `rhc` FROM `networked db` WHERE (`LiveonRHC` = 1 AND `Quantity` > 0) ORDER BY `DateLive` DESC, `rhc` DESC LIMIT $this->maxList") ;
 
     $this->pgNum = isset($_GET['pg']) ? $_GET['pg'] : 1;
   }
 
   private function queryList() {
-    global $itemCountMax;
+
     $this->paginate = false;
     $lastPage = 1;
 
-    $offset = ($this->pgNum - 1) * $itemCountMax;
+    $offset = ($this->pgNum - 1) * $this->maxList;
 
-    $listUnsold = $this->queryResults(['limit'=>"$offset,$itemCountMax"]);
+    $listUnsold = $this->queryResults(['limit'=>"$offset,$this->maxList"]);
     $listSold = array();
 
     if (!$this->args['arrivals'] && !$this->args['sold'] && $this->args['type'] != 'related') {
       //counts whole query. the "sold" and "new" already capped at a single page, no need to count
       $fullItemCount =  $this->queryResults(['type'=>'count']);
       //breaks down into pages
-      if ($fullItemCount > $itemCountMax) {
-        $this->paginate = intval(ceil($fullItemCount / $itemCountMax));
+      if ($fullItemCount > $this->maxList) {
+        $this->paginate = intval(ceil($fullItemCount / $this->maxList));
       }
 
       //fills up the last page with sold items
-      if ($this->pgCount < $itemCountMax) {
+      if ($this->pgCount < $this->maxList) {
         $soldCount = 4 - ($fullItemCount % 4);
         $listSold = $this->queryResults(['sold'=>true,'limit'=>$soldCount]);
       }
