@@ -37,7 +37,7 @@ class compile {
           'webLink'  => $this->setWebLink(),
           'rhc'      => $this->rhc.$this->ref,
           'name'     => $this->db->ProductName,
-          'imgFirst' => '../rhc/images/gallery/'.$this->rhc.$this->ref.'.jpg',
+          'imgFirst' => 'images/gallery/'.$this->rhc.$this->ref.'.jpg',
         ];
         break;
       default:
@@ -50,14 +50,14 @@ class compile {
   private function MMtoFeet($mm,$justFeet = false) {
     if ($mm > 0) {
 
-      $out = $justFeet ? $mm.'mm / ' : null;
+      $out = !$justFeet ? $mm.'mm / ' : null;
       $justInches = $mm / 25.4;
       if ($justInches < 24) {
         $out .= ceil($justInches).'in';
       } else {
         $feet = floor($justInches / 12);
         $inches = $justInches % 12;
-        $out = $feet."ft ";
+        $out .= $feet."ft ";
         $out .= $inches > 0 ? $inches.'in' : null;
       }
     } else {
@@ -130,7 +130,12 @@ class compile {
 
   private function setImgs() {
     if ($this->ref > 0) {
-      $out = glob('rhc/images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
+      if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+        $r = './rhc';
+      } else {
+        $r = '';
+      }
+      $out = glob($r.'images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
     } else {
       $out = null;
     }

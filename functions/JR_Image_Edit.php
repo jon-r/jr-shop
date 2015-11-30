@@ -11,6 +11,7 @@
  */
 function jr_imgResize ($src, $size) {
   //wipes the file relativity, to be redadded later
+  $src = str_replace(site_url('/'),'',$src);
   $src = str_replace('rhc/','',$src);
   $newSrc = str_replace("gallery", "gallery-$size", $src);
   $reSize = jr_imgSize($size);
@@ -21,7 +22,7 @@ function jr_imgResize ($src, $size) {
 
   } elseif (file_exists(ABSPATH.$src)) {
 
-    $img = wp_get_image_editor( ABSPATH.$src );
+    $img = wp_get_image_editor(ABSPATH.$src );
     $img->resize( $reSize, $reSize, false );
     $img->set_quality( 80 );
     $img->save(ABSPATH.$newSrc);

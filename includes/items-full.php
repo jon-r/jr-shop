@@ -38,7 +38,7 @@ $shopItem = $product->compiler();
         <?php endforeach ?>
       </ul>
       <?php endif ?>
-    <?php if (is_user_logged_in()) {var_dump($shopItem);} ?>
+    <?php if (is_user_logged_in()) {var_dump(dirname($shopItem['imgFirst']));} ?>
   </section>
 
   <?php if (count($shopItem['imgAll']) < 5) : ?>
