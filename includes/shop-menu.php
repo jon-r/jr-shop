@@ -45,18 +45,6 @@ $jr_groupArray = jr_categoryFilter();
           )); ?>
         </li>
 
-        <li><h3 class="nav-btn">Other Services</h3>
-          <?php wp_nav_menu(array(
-              'container' => '',
-              'menu' => __( 'Services Menu links', 'bonestheme' ),  // nav name
-              'before' => '<span class="nav-btn text-icon arrow-r">',
-              'after' => '</span>',
-              'items_wrap'      => '<ul class="sub-menu" ><h3 class="touch-toggle text-icon close-w">Back</h3>%3$s</ul>',
-              'theme_location' => 'services-menu',         // where it's located in the theme
-              'fallback_cb' => ''                          // fallback function (if there is one)
-          )); ?>
-        </li>
-
       </ul>
     </menu>
   </div>

@@ -62,9 +62,11 @@ function jr_formSubmit() {
 
     mail($to, $subject, $message, $headers);
 
-    $out = "Form mailed successfully";
+    $out['output'] = "Thankyou for your message. Someone will be in touch as soon as possible.";
+    $out['success'] = true;
   } else {
-    $out = $errors;
+    $out['output'] = $errors;
+    $out['success'] = false;
   }
 
   echo json_encode($out);
