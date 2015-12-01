@@ -5,14 +5,14 @@ $carouselCount = count($carouselList);
 
 <article class="flex-container" >
 
-  <section class="flex-1 tile-outer carousel" >
+  <section class="flex-1 tile-outer carousel" ng-controller="carouselCtrl" >
     <ul id="js-carousel-main" class="carousel-container">
 
       <?php for ($i = 0; $i < $carouselCount; $i++) :
         $slide = jr_magicRoundabout($carouselList[$i]);
       ?>
 
-      <li class="slide<?php echo $i == 0 ? ' is-active' : null ?>" >
+      <li carousel-slide class="slide<?php echo $i == 0 ? ' is-active' : null ?>" >
         <a href="<?php echo $slide['link']; ?>">
           <img class="framed" class="" src="<?php echo $slide['image']; ?>" alt="<?php echo $slide['title']; ?>" >
           <h2 class="slider-title <?php echo $slide['titlePos'].' '.$slide['titleCol']; ?>"><?php echo $slide['title']; ?></h2>
