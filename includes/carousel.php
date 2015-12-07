@@ -5,15 +5,16 @@ $carouselCount = count($carouselList);
 
 <article class="flex-container" >
 
-  <section class="flex-1 tile-outer carousel" ng-controller="carouselCtrl" >
-    <ul id="js-carousel-main" class="carousel-container">
+  <section class="flex-1 tile-outer carousel"
+           ng-controller="carouselCtrl" ng-mouseover="slidePause=true;" ng-mouseleave="slidePause=false;">
+    <ul id="js-carousel-main" class="carousel-container" >
 
       <?php for ($i = 0; $i < $carouselCount; $i++) :
         $slide = jr_magicRoundabout($carouselList[$i]);
       ?>
 
-      <li carousel-slide class="slide<?php echo $i == 0 ? ' is-active' : null ?>" >
-        <a href="<?php echo $slide['link']; ?>">
+      <li class="slide" ng-class="sl<?php echo $i ?>" >
+        <!--<a href="<?php echo $slide['link']; ?>">-->
           <img class="framed" class="" src="<?php echo $slide['image']; ?>" alt="<?php echo $slide['title']; ?>" >
           <h2 class="slider-title <?php echo $slide['titlePos'].' '.$slide['titleCol']; ?>"><?php echo $slide['title']; ?></h2>
 
@@ -24,17 +25,17 @@ $carouselCount = count($carouselList);
           </div>
 
           <h3 class="slider-link <?php echo $slide['linkPos'].' '.$slide['linkCol']; ?>">Click Here</h3>
-        </a>
+        <!--</a>-->
       </li>
 
       <?php endfor ?>
     </ul>
 
-    <ul id="js-carousel-blips" class="carousel-blips" >
+    <ul class="carousel-blips" >
       <?php for ($i = 0; $i < $carouselCount; $i++) :
         $title = $carouselList[$i]['Slide_Tab'];
       ?>
-        <li class="blip <?php echo $i == 0 ? 'active' : null ?>" ></li>
+        <li class="blip" ng-class="sl<?php echo $i ?>" ng-click="go(<?php echo $i ?>);" ></li>
       <?php endfor ?>
     </ul>
   </section>
