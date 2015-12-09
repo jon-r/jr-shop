@@ -92,7 +92,7 @@ class pageValidate {
             $this->desc = jr_format(get_option('jr_shop_page_text_arrivals'));
             break;
           case 'sold':
-            $this->title = "Just In";
+            $this->title = "Recently Sold";
             $this->args = ['sold'=>true];
             $this->unique = 'category-sold'.$page;
             $this->desc = jr_format(get_option('jr_shop_page_text_sold'));
