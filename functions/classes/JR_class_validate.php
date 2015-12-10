@@ -121,10 +121,13 @@ class pageValidate {
         $this->title = "Shop by Brand";
         $this->unique = 'category-brands-all';
         break;
+      case 'product' :
+        $this->title = 'Not Found';
+        break;
       case 'rhcs' :
       case 'rhc' :
         $item = $this->getItem();
-        if ($item) {
+        if ($item && isset($p[2])) {
           $this->title = $item->ProductName;
           $this->args = ['ref'=>$p[1],'id'=>$p[2],'category'=>$item->Category];
           $this->ref = $p[1].$p[2].' - '.$item->ProductName;

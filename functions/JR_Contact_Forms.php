@@ -10,9 +10,10 @@ function jr_formSubmit() {
 
   $source = jr_linkTo('email');
   $in = $_GET['keyword'];
-  $to = 'red.hotchilli@outlook.com';
 
   parse_str($in, $params);
+
+  $to = $params['rmg'] ? 'jon.richards@outlook.com' : 'red.hotchilli@outlook.com' ;
 
   if(empty($params['name'])  ||
      empty($params['email']) ||
@@ -35,7 +36,6 @@ function jr_formSubmit() {
     $form_email = $params['email'];
     $form_postcode = $params['postcode'];
     //optionals
-    $form_ref = $params['formRef'] ?: null;
     $form_subject = $params['subject'] ?: null;
     $form_phone = $params['phone_number'] ?: null;
     $form_message = wordwrap($params['message'], 70);
@@ -43,12 +43,10 @@ function jr_formSubmit() {
     $formURL = $_GET['url'] ?: null;
 
     $subject = "Message from $form_name - $form_subject";
-    $ref = isset ($form_ref) ? "Ref: $form_ref \n" : null;
 
     $message = "You have a message from $form_name. \n"
       ."--- \n"
       ."$form_message \n"
-      ."$ref"
       ."--- \n"
       ."Contact Details \n"
       ."Location: $form_postcode \n"
