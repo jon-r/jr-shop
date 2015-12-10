@@ -4,6 +4,7 @@
 /* adding options to WP_Options table */
 add_option('jr_shop_contact_phone','','','yes');
 add_option('jr_shop_contact_email','','','yes');
+add_option('jr_shop_contact_boss','','','yes');
 add_option('jr_shop_contact_address','','','yes');
 add_option('jr_shop_contact_facebook','','','yes');
 add_option('jr_shop_contact_twitter_id','','','yes');

@@ -13,7 +13,7 @@ function jr_formSubmit() {
 
   parse_str($in, $params);
 
-  $to = $params['rmg'] ? 'jon.richards@outlook.com' : 'red.hotchilli@outlook.com' ;
+  $to = $params['rmg'] ? get_option('jr_shop_contact_boss') : 'red.hotchilli@outlook.com' ;
 
   if(empty($params['name'])  ||
      empty($params['email']) ||
