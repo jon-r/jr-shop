@@ -1,4 +1,20 @@
 <?php
+/*TO DO
+
+  - add/fill in for q/a. perhaps submit the question rather than wierd number references? would prob save on db queries
+  - add an "optional" overide for the manadtory messages
+  - new thankyou message.
+
+  - add a 'text input' option
+
+  LATER
+  - put the old form stuff into the form class?
+
+*/
+
+
+
+
 /**
  * ajax attached contact form.
  * uses javascript to check valid info before submitting.
@@ -13,7 +29,7 @@ function jr_formSubmit() {
 
   parse_str($in, $params);
 
-  $to = $params['rmg'] ? get_option('jr_shop_contact_boss') : 'red.hotchilli@outlook.com' ;
+  $to = $params['rmg'] ? get_option('jr_shop_contact_boss') : 'red.hotchilli@outlook.com';
 
   if(empty($params['name'])  ||
      empty($params['email']) ||

@@ -2,23 +2,23 @@
 
 <form name="contact_form" class="js_contact_form" method="POST" action="">
   <h1>I want to...</h1>
-  <div class="form-radio flex-container" >
+  <div class="form-radio" >
 
     <input id="select-equip" type="radio" name="subject" value="Feedback - Equipment" checked>
-    <label class="btn-light flex-4" for="select-equip" >
-      <h2>Talk about equipment I have purchased.</h2>
+    <label class="radio-text" for="select-equip" >
+      <h3>Talk about equipment I have purchased.</h3>
     </label>
     <input id="select-staff" type="radio" name="subject" value="Feedback - Staff">
-    <label class="btn-light flex-4" for="select-staff" >
-      <h2>Talk about a staff member.</h2>
+    <label class="radio-text" for="select-staff" >
+      <h3>Talk about a staff member.</h3>
     </label>
     <input id="select-review" type="radio" name="subject" value="Feedback - Review">
-    <label class="btn-light flex-4" for="select-review" >
-      <h2>Write a company review.</h2>
+    <label class="radio-text" for="select-review" >
+      <h3>Talk about Red Hot Chilli catering.</h3>
     </label>
     <input id="select-suggestion" type="radio" name="subject" value="Feedback - Suggestion">
-    <label class="btn-light flex-4" for="select-suggestion" >
-      <h2>Make a suggestion.</h2>
+    <label class="radio-text" for="select-suggestion" >
+      <h3>Make a suggestion.</h3>
     </label>
   </div>
 
