@@ -80,7 +80,7 @@
     <textarea name="message" cols="40" rows="10" class="text-input"></textarea>
 
 <?php endif ?>
-    <input type="hidden" name="rmg" value="0" >
+    <input type="hidden" name="formType" value="default" >
 
     <span class="form-output response"><em>(Items with an asterisk (*) are required)</em></span>
 

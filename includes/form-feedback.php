@@ -13,45 +13,47 @@
             <h3 ><?php echo $key.'. '.$qu['question'] ?></h3>
           </header>
 
-          <div class="form-radio <?php echo $qu['type'] ?>">
-          <?php foreach ($qu['answer'] as $key2=>$answer) : ?>
+          <div class="form-survey <?php echo $qu['type'] ?>">
+
+          <?php if ($qu['type'] == 'input') : ?>
+            <textarea name="SURVEY~<?php echo $qu['question'] ?>" cols="40" rows="10" class="text-input">
+            </textarea>
+
+
+          <?php else : foreach ($qu['answer'] as $key2=>$answer) : ?>
 
             <input id="<?php echo "q{$key}a{$key2}" ?>" type="radio"
-                   name="<?php echo "q_$key" ?>" value="<?php echo "a_$key2" ?>">
+                   name="SURVEY~<?php echo $qu['question'] ?>" value="<?php echo $answer ?>">
             <label class="radio-<?php echo $qu['type'] ?>" for="<?php echo "q{$key}a{$key2}" ?>">
               <h3><?php echo $answer ?></h3>
             </label>
 
-          <?php endforeach; ?>
+          <?php endforeach; endif; ?>
           </div>
         <?php endforeach ?>
 
+          <header class="tile-header lined">
+            <h3 >A few extra details</h3>
+          </header>
+
           <fieldset>
-            <label class="required input-tag">Name</label>
-            <input type="text" name="name" placeholder="Your Name" size="40" class="text-input req">
+            <span class="form-output"><em>(Please provide your email address. We will not link it to this survey but will be entered in a prize draw to win big monies!)</em></span>
+            <label class="input-tag">Email Address</label>
+            <input type="email" name="email" placeholder="Email" size="40" class="text-input">
             <span class="form-output error"></span>
 
-            <label class="required input-tag">Email Address</label>
-            <input type="email" name="email" placeholder="Email" size="40" class="text-input req">
-            <span class="form-output error"></span>
-
-            <label class="input-tag">Phone Number</label>
-            <input type="tel" name="phone number" placeholder="Your Number" size="40" class="text-input">
-            <span class="form-output error"></span>
-
-            <label class="required input-tag">Postcode</label>
-            <input type="text" name="postcode" placeholder="Postcode" size="10" class="text-input req">
-            <span class="form-output error"></span>
 
           </fieldset>
 
           <fieldset>
-            <input type="hidden" name="rmg" value="0">
 
-            <label class="input-tag">Your Message</label>
+
+            <input type="hidden" name="formType" value="survey" >
+
+            <label class="input-tag">Any extra comments</label>
             <textarea name="message" cols="40" rows="10" class="text-input"></textarea>
 
-            <span class="form-output response"><em>(Items with an asterisk (*) are required)</em></span>
+            <span class="form-output response"></span>
 
             <button id="js-test" class="btn-red form-btn" name="submit" type="submit">
               <h3 class="text-icon email-w">Send</h3>

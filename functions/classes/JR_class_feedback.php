@@ -5,15 +5,15 @@ class feedbackForm {
 
   private $tbl;
   public $questions = [];
-  //public $answers = [];
-  //public $answer_class;
 
   public function init() {
-    global $wpdb;
-
-    $this->tbl = $wpdb->get_results("SELECT `question`, `answer1`, `answer2`, `answer3`, `answer4`, `answer5` FROM `formfeedback`");
-
+    $this->query();
     $this->questions();
+  }
+
+  private function query() {
+    global $wpdb;
+    $this->tbl = $wpdb->get_results("SELECT `question`, `answer1`, `answer2`, `answer3`, `answer4`, `answer5` FROM `formfeedback`");
   }
 
   private function questions() {
@@ -22,7 +22,13 @@ class feedbackForm {
       $in = $this->tbl[$j];
 
       $this->questions[$j]['question'] = $in->question;
-      $this->questions[$j]['type'] = is_numeric($in->answer1) ? 'num' : 'text';
+      if (is_numeric($in->answer1)) {
+        $this->questions[$j]['type'] = 'num';
+      } elseif ($in->answer1 == 'textinput') {
+        $this->questions[$j]['type'] = 'input';
+      } else {
+        $this->questions[$j]['type'] = 'text';
+      }
 
       for ($i=1;$i<6;$i++) {
         $a = $in->{'answer'.$i};
@@ -33,7 +39,6 @@ class feedbackForm {
       }
     }
   }
-
 
 }
 

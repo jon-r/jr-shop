@@ -4,11 +4,12 @@
 /* adding options to WP_Options table */
 add_option('jr_shop_contact_phone','','','yes');
 add_option('jr_shop_contact_email','','','yes');
-add_option('jr_shop_contact_boss','','','yes');
+add_option('jr_shop_contact_form_to','red.hotchilli@outlook.com','','yes');
+add_option('jr_shop_contact_boss','red.hotchilli@outlook.com','','yes');
 add_option('jr_shop_contact_address','','','yes');
 add_option('jr_shop_contact_facebook','','','yes');
 add_option('jr_shop_contact_twitter_id','','','yes');
-add_option('jr_shop_contact_linkedin','','','yes');
+add_option('jr_shop_contact_gplus','','','yes');
 add_option('jr_shop_itemCountMax','24','','yes');
 add_option('jr_shop_itemCountMin','5','','yes');
 add_option('jr_shop_itemSoldDuration','90','','yes');
@@ -29,7 +30,7 @@ function jr_linkTo($target) {
   $linkArr = [
     'facebook'  => get_option('jr_shop_contact_facebook'),
     'twitter'   => 'https://twitter.com/'.get_option('jr_shop_contact_twitter_id'),
-    'linkedin'  => get_option('jr_shop_contact_linkedin'),
+    'gplus'  => get_option('jr_shop_contact_gplus'),
     'email'     => get_option('jr_shop_contact_email'),
     'eLink'     => '<a href="mailto:'.get_option('jr_shop_contact_email').'">'.get_option('jr_shop_contact_email').'</a>',
     'phone'     => get_option('jr_shop_contact_phone'),

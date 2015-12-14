@@ -21,7 +21,7 @@
     </header>
     <div class="social-links-small">
       <a class="btn-icon-small facebook" href="<?php echo jr_linkTo('facebook') ?>">facebook</a>
-      <a class="btn-icon-small linkedin" href="<?php echo jr_linkTo('linkedin') ?>">linkedIn</a>
+      <a class="btn-icon-small gplus" href="<?php echo jr_linkTo('gplus') ?>">google plus</a>
       <a class="btn-icon-small twitter" href="<?php echo jr_linkTo('twitter') ?>">twitter</a>
     </div>
   </section>
