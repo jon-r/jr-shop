@@ -5,7 +5,7 @@
 add_option('jr_shop_contact_phone','','','yes');
 add_option('jr_shop_contact_email','','','yes');
 add_option('jr_shop_contact_form_to','red.hotchilli@outlook.com','','yes');
-add_option('jr_shop_contact_boss','red.hotchilli@outlook.com','','yes');
+//add_option('jr_shop_contact_boss','red.hotchilli@outlook.com','','yes');
 add_option('jr_shop_contact_address','','','yes');
 add_option('jr_shop_contact_facebook','','','yes');
 add_option('jr_shop_contact_twitter_id','','','yes');
@@ -54,7 +54,7 @@ $itemSoldDuration = get_option('jr_shop_itemSoldDuration');
 
 function jr_openingTimes($day = 'weekday') {
 
-  return ($day == 'saturday') ? get_option('jr_shop_openingTimes_Sat') : get_option('jr_shop_openingTimes_Week');
+  return ($day == 'saturday') ? get_option('jr_shop_opening_Times_Sat') : get_option('jr_shop_opening_Times_Week');
 }
 
 

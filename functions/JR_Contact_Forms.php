@@ -1,20 +1,4 @@
 <?php
-/*TO DO
-
-  - add/fill in for q/a. perhaps submit the question rather than wierd number references? would prob save on db queries
-  - add an "optional" overide for the manadtory messages
-  - new thankyou message. maybe link to google?
-
-  - add a 'text input' option
-
-  LATER
-  - put the old form stuff into the form class?
-
-*/
-
-
-
-
 /**
  * ajax attached contact form.
  * uses javascript to check valid info before submitting.
@@ -34,12 +18,15 @@ function jr_formSubmit() {
 
   //modifiers for 'special' forms
   if ($params['formType'] == 'rmg') {
-    $to =  get_option('jr_shop_contact_boss');
+    $subject = 'FAO ROBERT';
+    //$to =  get_option('jr_shop_contact_boss');
     $response = "Thankyou for your feedback. Robert reads each message personally and will message you as soon as possible.";
   } elseif ($params['formType'] == 'survey') {
-    $survey = true;#
+    $subject = 'SURVEY REPLY';
+    $survey = true;
     $response = "Thankyou for your feedback. We read every response personally and will use it to improve our service.";
   } else {
+    $subject = 'Message';
     $response = "Thankyou for your message. Someone will be in touch as soon as possible.";
   }
 
@@ -82,7 +69,7 @@ function jr_formSubmit() {
       $form_survey = "";
     }
 
-    $subject = "Message from $form_name - $form_subject";
+    $subject .= " from $form_name - $form_subject";
 
     $message = "You have a message from $form_name. \n\n"
       ."$form_survey \n"

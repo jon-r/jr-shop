@@ -128,14 +128,18 @@ class compile {
     return array_filter($out);
   }
 
+/*
+for some reason I cant figure out, the glob location on live server differs from the version on local server.
+though every other link else seems to work fine. to work around rhc/.
+probably some basic thing i've overlooked to do with the _SERVER global
+*/
+
   private function setImgs() {
     if ($this->ref > 0) {
-      if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-        $r = './rhc';
-      } else {
-        $r = '';
-      }
-      $out = glob($r.'images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
+
+      $out1 = glob('images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
+      $out2 = glob('rhc/images/gallery/'.$this->rhc.$this->ref.'[!0-9]*', GLOB_BRACE);
+      $out = array_merge($out1,$out2);
     } else {
       $out = null;
     }
