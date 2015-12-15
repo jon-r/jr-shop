@@ -1,0 +1,23 @@
+{
+  "name": "jr-shop",
+  "version": "1.0.0",
+  "description": "rhc web plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://jon-r:jonno93113@github.com/jon-r/jr-shop.git"
+  },
+  "author": "Jon Richards",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/jon-r/jr-shop/issues"
+  },
+  "homepage": "https://github.com/jon-r/jr-shop#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-zip": "^3.0.2"
+  }
+}

@@ -9,7 +9,7 @@ $jr_groupArray = jr_categoryFilter();
     </label>
     <input type="checkbox" class="toggle-check" id="menu-toggle">
 
-    <menu class="nav-left-menu" >
+    <menu id="primary-menu" class="nav-left-menu" >
       <ul class="main-menu" id="js-main-list" >
         <?php foreach($jr_groupArray as $grpName => $grpList) : ?>
         <?php $menuHeaderImg = jr_siteImg('icons/menu-'.strtolower(strtok($grpName, ' ')).'.jpg'); ?>
