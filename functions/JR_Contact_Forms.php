@@ -35,7 +35,7 @@ function jr_formSubmit() {
   //modifiers for 'special' forms
   if ($params['formType'] == 'rmg') {
     $to =  get_option('jr_shop_contact_boss');
-    $response = "Thankyou for your feedback. Robert reads each message personally and will use it to improve our service.";
+    $response = "Thankyou for your feedback. Robert reads each message personally and will message you as soon as possible.";
   } elseif ($params['formType'] == 'survey') {
     $survey = true;#
     $response = "Thankyou for your feedback. We read every response personally and will use it to improve our service.";

@@ -1,18 +1,18 @@
-<?php //direct 'boss' version. can cut out all the options ?>
+<?php //direct 'boss' version. ?>
 
 <form name="contact_form" class="js_contact_form" method="POST" action="">
   <h1>I want to...</h1>
   <div class="form-survey" >
 
-    <input id="select-equip" type="radio" name="subject" value="Feedback - Equipment" checked>
+    <input id="select-equip" type="radio" name="subject" value="Feedback about Equipment" checked>
     <label class="radio-text" for="select-equip" >
       <h3>Discuss equipment I have purchased.</h3>
     </label>
-    <input id="select-review" type="radio" name="subject" value="Feedback - Review">
+    <input id="select-review" type="radio" name="subject" value="Reviewing staff">
     <label class="radio-text" for="select-review" >
       <h3>Give feedback about the team at Red Hot Chilli.</h3>
     </label>
-    <input id="select-suggestion" type="radio" name="subject" value="Feedback - Suggestion">
+    <input id="select-suggestion" type="radio" name="subject" value="Suggestion">
     <label class="radio-text" for="select-suggestion" >
       <h3>Make a suggestion for improving the website.</h3>
     </label>
