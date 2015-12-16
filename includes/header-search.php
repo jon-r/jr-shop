@@ -1,4 +1,4 @@
-<div is-sticky class="right" ng-controller="searchCtrl" ng-class="{'is-fixed':scrollCheck}" >
+<div class="right" ng-controller="searchCtrl" ng-class="{'is-fixed':scrollCheck}" >
   <form class="form-search" method="get" action="<?php echo home_url('search-me'); ?>" autocomplete="off">
 
     <h2 class="text-icon-left search-w">Search Catering Equipment</h2>
@@ -11,4 +11,5 @@
 
     <ul class="tile-outer dark search-out"></ul>
   </form>
+  no cached
 </div>
