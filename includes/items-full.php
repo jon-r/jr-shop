@@ -46,9 +46,9 @@ $shopItem = $product->compiler();
     <header class="tile-header lined">
       <h2>Some of our happy clients</h2>
     </header>
-    <ul class="flex-container" >
+    <ul class="tile-inner flex-container" >
       <?php foreach ($filler->pick() as $name=>$img) : ?>
-      <li class="tile-inner item-thumb">
+      <li class="item-thumb">
         <img class="framed" src="<?php echo $img ?>"
              alt="<?php echo $name ?>" title="<?php echo $name ?>" />
       </li>
