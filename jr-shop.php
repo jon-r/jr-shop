@@ -34,6 +34,7 @@ include('functions/classes/JR_class_compile.php');
 include('functions/classes/JR_class_sitemap.php');
 include('functions/classes/JR_class_validate.php');
 include('functions/classes/JR_class_feedback.php');
+include('functions/classes/JR_class_portfolio.php');
 
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');

@@ -5,7 +5,7 @@ $carouselCount = count($carouselList);
 
 <article class="flex-container" >
 
-  <section class="flex-1 tile-outer carousel" ng-controller="carouselCtrl" >
+  <section class="flex-1 tile-outer carousel hide-mobile" ng-controller="carouselCtrl" >
     <ul id="js-carousel-main" class="carousel-container">
 
       <?php for ($i = 0; $i < $carouselCount; $i++) :
@@ -14,7 +14,7 @@ $carouselCount = count($carouselList);
 
       <li carousel-slide class="slide<?php echo $i == 0 ? ' is-active' : null ?>" >
         <a href="<?php echo $slide['link']; ?>">
-          <img class="framed" class="" src="<?php echo $slide['image']; ?>" alt="<?php echo $slide['title']; ?>" >
+          <img class="framed" src="<?php echo $slide['image']; ?>" alt="<?php echo $slide['title']; ?>" >
           <h2 class="slider-title <?php echo $slide['titlePos'].' '.$slide['titleCol']; ?>"><?php echo $slide['title']; ?></h2>
 
           <div class="slider-text <?php echo $slide['textPos']; ?>">
