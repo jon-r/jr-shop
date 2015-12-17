@@ -7,8 +7,6 @@ class itemList {
   public $paginate = false;
   public $pgCount = 0;
   public $pgList;
-  public $description;
-  public $title;
 
   public function get() {
     $this->setArgs();

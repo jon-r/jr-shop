@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Shop Plugin For Red Hot Chilli Northwest
  * Description:       Lightweight shop output plugin purpose built for the shop. Built with a focus on speed and ease of use. Requires local user connection to the MS Access 'Back end'
- * Version:           1.3.1
+ * Version:           1.3.2
  * Author:            Jon Richards
  * Author URI:        https://github.com/jon-r
  * License:           GPL-2.0+
@@ -34,6 +34,7 @@ include('functions/classes/JR_class_compile.php');
 include('functions/classes/JR_class_sitemap.php');
 include('functions/classes/JR_class_validate.php');
 include('functions/classes/JR_class_feedback.php');
+include('functions/classes/JR_class_portfolio.php');
 
 include ('functions/JR_Carousel.php');
 include ('functions/JR_Queries.php');

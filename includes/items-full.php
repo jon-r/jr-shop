@@ -40,12 +40,22 @@ $shopItem = $product->compiler();
       <?php endif ?>
   </section>
 
-  <?php if (count($shopItem['imgAll']) < 5) : ?>
+  <?php if (count($shopItem['imgAll']) < 5) : $filler = new brands; ?>
 
-    <div class="hot-chilli-filling flex-1">
-      <img src="<?php echo jr_siteImg('rhc/chilli_filling.jpg'); ?>"
-         class="framed" alt="Red Hot Chilli - Used Catering Equipment"/>
-    </div>
+  <section class="tile-outer hide-mobile flex-1" >
+    <header class="tile-header lined">
+      <h2>Some of our happy clients</h2>
+    </header>
+    <ul class="tile-inner flex-container" >
+      <?php foreach ($filler->pick() as $name=>$img) : ?>
+      <li class="item-thumb">
+        <img class="framed" src="<?php echo $img ?>"
+             alt="<?php echo $name ?>" title="<?php echo $name ?>" />
+      </li>
+      <?php endforeach ?>
+    </ul>
+  </section>
+
   <?php endif ?>
 </article>
 <article id="js-tabs-frame" class="flex-column tabs-frame">
@@ -117,10 +127,10 @@ if (count($shopItem['specs']) != 0): ?>
   <?php if (count($related) > 0) : ?>
     <section class="tile-outer item-related flex-1">
       <header class="tile-header lined">
-        <h2>More <?php echo $related->title; ?></h2>
+        <h2>More <?php echo $shopItem['category']; ?></h2>
       </header>
 
-      <ul class="item-thumbs flex-container">
+      <ul class="flex-container">
          <?php foreach ($related->pgList as $itemTiny) { include( "list-item-small.php"); } ?>
       </ul>
 

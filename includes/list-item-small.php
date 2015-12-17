@@ -2,7 +2,7 @@
 $product = new compile;
 $shopItem = $product->itemCompile($itemTiny,'lite');
 ?>
-<li class="item-thumb">
+<li class="item-thumb tile-inner">
   <a href="<?php echo home_url($shopItem['webLink']) ?>">
     <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'thumb'); ?>"
          class="framed" alt="<?php echo $shopItem['name'] ?>">
