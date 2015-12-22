@@ -14,7 +14,7 @@
     </label>
     <input id="select-suggestion" type="radio" name="subject" value="Suggestion">
     <label class="radio-text" for="select-suggestion" >
-      <h3>Make a suggestion for improving the website.</h3>
+      <h3>Make a suggestion for improving our services.</h3>
     </label>
   </div>
 
