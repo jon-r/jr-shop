@@ -1,11 +1,11 @@
 <div class="right" ng-class="{'is-fixed':scroller.fix}" >
-  <form class="form-search" method="get" action="<?php echo home_url('search-me'); ?>" autocomplete="off"
+  <form id="search-box" class="form-search" method="get" action="<?php echo home_url('search-me'); ?>" autocomplete="off"
         ng-controller="searchCtrl" >
 
     <h2 class="text-icon-left search-w">Search Catering Equipment</h2>
 
-    <input class="search-in text-input" name="search"
-           ng-model="searchValue"
+    <input class="search-in text-input" name="search" search-focus="-1"
+           ng-model="searchValue" ng-keydown="searchList(-1,$event)"
            placeholder="Enter Keyword, Reference or Manufacturer">
 
     <button class="btn-red form-btn" type="submit">
@@ -13,8 +13,12 @@
     </button>
 <!--ng-if="result.length > 2"-->
     <ul ng-if="results.length > 0" class="tile-outer dark search-out">
-      <li ng-repeat="result in results | limitTo: 5" ng-click="">
-        <a href="#/city/{{city.id}}">{{result.name}}</a>
+      <li ng-repeat="result in results | limitTo: 5">
+        <a ng-keydown="searchList($index,$event)" search-focus="$index"
+           href="<?php echo home_url('/products/') ?>{{result.filter + '/' + result.url}}" >
+          {{result.name}}
+          <span>{{result.filter}}</span>
+        </a>
       </li>
     </ul>
   </form>
