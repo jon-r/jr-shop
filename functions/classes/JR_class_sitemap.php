@@ -29,8 +29,9 @@ class sitemap {
 
     $this->urlset .= '</urlset>';
 
-
-    $mapFile = fopen('../rhc/sitemap/sitemap.xml', 'w');
+/*two file options, see class_compile->setImgs() note */
+    $fileName = file_exists('../rhc/sitemap/sitemap.xml') ? '../rhc/sitemap/sitemap.xml' : 'rhc/sitemap/sitemap.xml';
+    $mapFile = fopen($fileName, 'w') ;
 
     fwrite($mapFile, compress_page($this->urlset));
     fclose($mapFile);
