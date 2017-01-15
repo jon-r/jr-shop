@@ -3,8 +3,7 @@
 ?>
 <article class="flex-container featured">
 
-  <section class="tile-outer list-featured flex-2">
-    <img class="framed" src="<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>" alt="Equipment just in">
+  <section class="tile-outer list-featured flex-2" style="background-image: url(<?php echo jr_siteImg('icons/btn-arrivals.jpg') ?>)">
     <a href="<?php echo home_url('products/arrivals/') ?>">
       <h2>Latest Arrivals</h2>
       <span>
@@ -13,8 +12,7 @@
       </span>
     </a>
   </section>
-  <section class="tile-outer  list-featured flex-2">
-    <img class="framed" src="<?php echo jr_siteImg('icons/btn-brands.jpg') ?>" alt="Shop By Brands">
+  <section class="tile-outer  list-featured flex-2" style="background-image: url(<?php echo jr_siteImg('icons/btn-brands.jpg') ?>)">
     <a href="<?php echo home_url('brands/') ?>">
       <h2>Featured Brands</h2>
       <span>
@@ -23,8 +21,7 @@
       </span>
     </a>
   </section>
-  <section class="tile-outer list-featured flex-2">
-    <img class="framed" src="<?php echo jr_siteImg('icons/btn-exports.jpg') ?>" alt="National and International Deliveries">
+  <section class="tile-outer list-featured flex-2" style="background-image: url(<?php echo jr_siteImg('icons/btn-exports.jpg') ?>)">
     <a href="<?php echo home_url('deliveries/') ?>">
       <h2>Deliveries &amp; Exports</h2>
       <span>
@@ -33,8 +30,7 @@
       </span>
     </a>
   </section>
-  <section class="tile-outer list-featured flex-2">
-    <img class="framed" src="<?php echo jr_siteImg('icons/btn-talk2.jpg') ?>" alt="National and International Deliveries">
+  <section class="tile-outer list-featured flex-2" style="background-image: url(<?php echo jr_siteImg('icons/btn-talk2.jpg') ?>)">
     <a href="<?php echo home_url('feedback/') ?>">
       <h2>Talk to the boss</h2>
       <span>

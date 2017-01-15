@@ -8,7 +8,7 @@ $pgCategory->get();
 <article class="flex-container">
   <header class="article-header flex-1">
     <h1><?php echo $jr_page->title ?></h1>
-    <p><?php echo $jr_page->desc ?></p>
+    <p><?php echo do_shortcode($jr_page->desc) ?></p>
   </header>
 
 

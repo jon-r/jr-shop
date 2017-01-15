@@ -67,6 +67,32 @@ function jr_textBlock($atts, $content = null) {
   return $str;
 }
 
+/* ---- add category headers -----------------------------------------------------------------------*/
+
+add_shortcode("page-banner", "jr_pageBanner");
+function jr_pageBanner($atts, $content = null) {
+  $a = shortcode_atts([
+    'carousel' => false,
+    'image' => false
+  ], $atts);
+
+  if ($a['carousel']) {
+    $carousel = jrQ_carousel($a['carousel']);
+    $slide = jr_magicRoundabout($carousel[0]);
+    $file = ABSPATH.'wp-content/plugins/jr-shop/includes/carousel-single.php';
+    include($file);
+
+  } elseif ($a['image']) {
+    $img = jr_siteImg('gallery/'.$a['image'].'.jpg');
+    $str = '<section >'
+      .'<img class="framed" src="'.$img.'" >'
+      .'</section>';
+    echo $str;
+  }
+
+}
+
+
 /* ---- debug arrays ------------------------------------------------------------------*/
 //for testing purposes. may add different options
 add_shortcode("jr-debug", "jr_debugger");

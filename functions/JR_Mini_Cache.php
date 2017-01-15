@@ -8,28 +8,32 @@
  */
 function jrCached_HTML($file, $cacheName, $timeInDays) {
   global $jr_page;
+  if (!is_user_logged_in()) {
 
-  $cachefile = ABSPATH.'cached-files/'.$cacheName.'-cached.html';
-  $cachetime = $timeInDays * 86400;
+    $cachefile = ABSPATH.'cached-files/'.$cacheName.'-cached.html';
+    $cachetime = $timeInDays * 86400;
 
-  if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
+    if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
 
-    readfile($cachefile);
+      readfile($cachefile);
 
+    } else {
+
+      ob_start();
+      include($file);
+      echo '<!-- Page '.$cacheName.' cached on '.date(DATE_COOKIE).' -->';
+
+      $fp = fopen($cachefile, 'w');
+      $htmlMin = compress_page(ob_get_contents());
+
+      fwrite($fp, $htmlMin);
+      fclose($fp);
+
+      ob_get_flush();
+
+    }
   } else {
-
-    ob_start();
     include($file);
-    echo '<!-- Page '.$cacheName.' cached on '.date(DATE_COOKIE).' -->';
-
-    $fp = fopen($cachefile, 'w');
-    $htmlMin = compress_page(ob_get_contents());
-
-    fwrite($fp, $htmlMin);
-    fclose($fp);
-
-    ob_get_flush();
-
   }
 }
 

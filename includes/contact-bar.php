@@ -27,6 +27,19 @@
       <a class="btn-icon gplus" href="<?php echo jr_linkTo('gplus') ?>">google plus</a>
       <a class="btn-icon twitter" href="<?php echo jr_linkTo('twitter') ?>">twitter</a>
     </div>
+
+    <?php if (is_front_page()) : ?>
+    <header class="tile-header lined">
+      <h2>Stay up to date</h2>
+    </header>
+    <a class="twitter-timeline"
+       data-theme="dark" data-link-color="#ca6868"
+       data-chrome="nofooter noheader noborders transparent"
+       data-tweet-limit="2" href="https://twitter.com/RHC_Catering">
+      Tweets by RHC_Catering</a>
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <?php endif ?>
+
   </section>
 
 </article>
