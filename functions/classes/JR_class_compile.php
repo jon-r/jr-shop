@@ -151,8 +151,9 @@ probably some basic thing i've overlooked to do with the _SERVER global
 
     if (!$this->ss) {
       $catArray = [$this->db->Category,  $this->db->Cat1,  $this->db->Cat2, $this->db->Cat3 ];
-
-      if (in_array('Fridges', $catArray) && in_array('Freezers', $catArray)) {
+      if ($this->db->isDomestic) {
+        $iconCheck = 'domestic';
+      } elseif (in_array('Fridges', $catArray) && in_array('Freezers', $catArray)) {
         $iconCheck = 'fridge-freezer';
       } elseif (in_array('Fridges', $catArray)) {
         $iconCheck = 'fridge';
@@ -166,10 +167,12 @@ probably some basic thing i've overlooked to do with the _SERVER global
   }
 
   private function setInfo() {
-    if (isset($this->db->isSale)) {
-      $infoCheck = "sale";
-    } elseif ($this->db->Quantity == 0) {
+    if ($this->db->Quantity == 0) {
       $infoCheck = "sold";
+    } elseif ($this->db->flagItem == 'reserved') {
+      $infoCheck = "reserved";
+    } elseif ($this->db->flagItem == 'sale') {
+      $infoCheck = "sale";
     } elseif ($this->db->isNew) {
       $infoCheck = "new";
     } else {
@@ -181,8 +184,10 @@ probably some basic thing i've overlooked to do with the _SERVER global
   private function setPrice() {
     if ($this->db->Quantity == 0) {
       $priceCheck = 'Sold';
+    } elseif ($this->db->SalePrice > 0) {
+      $priceCheck = '<span class="old-price" >£'.$this->db->Price.'</span><br> £'.$this->db->SalePrice.' + VAT';
     } elseif ($this->db->Price) {
-      $priceCheck = "£".$this->db->Price." + VAT";
+      $priceCheck = "£{$this->db->Price} + VAT";
     } else {
       $priceCheck = "Price Coming Soon";
     };
@@ -199,14 +204,17 @@ probably some basic thing i've overlooked to do with the _SERVER global
   }
 
   private function setDesc() {
+    $parsedown = new Parsedown();
     if ($this->ss) {
-      $out = $this->db->Line1 != "0" ? '<p>'.$this->db->Line1.'</p>' : null;
+      $out = $this->db->Line1 != "0" ? $this->db->Line1 : null;
     } else {
-      $out = ($this->db->{'Line 1'} != "0" ? '<p>'.$this->db->{'Line 1'}.'</p>' : null).
-             ($this->db->{'Line 2'} != "0" ? '<p>'.$this->db->{'Line 2'}.'</p>' : null).
-             ($this->db->{'Line 3'} != "0" ? '<p>'.$this->db->{'Line 3'}.'</p>' : null);
+      $out = ($this->db->{'Line 1'} != "0" ? $this->db->{'Line 1'} : null).
+             ($this->db->{'Line 2'} != "0" ? "\n\r".$this->db->{'Line 2'} : null).
+             ($this->db->{'Line 3'} != "0" ? "\n\r".$this->db->{'Line 3'} : null);
     }
-    return $out;
+    return $parsedown
+      ->setBreaksEnabled(true)
+      ->text($out);
   }
 
 };

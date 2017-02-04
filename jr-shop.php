@@ -26,6 +26,8 @@
 
 */
 
+include ('functions/parsedown/Parsedown.php');
+
 include ('functions/JR_Mini_Cache.php');
 
 include('functions/classes/JR_class_product.php');

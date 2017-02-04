@@ -22,7 +22,7 @@ class product {
     if ($this->ss) {
       $queryFull = $wpdb->get_row("SELECT `RHCs`, `ProductName`, `Category`, `Height`, `Width`, `Depth`, `Price`, `Quantity`, `TableinFeet`, `Line1` FROM `benchessinksdb` WHERE `RHCs` = '$refNum'");
     } else {
-      $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Sold`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `SalePrice` FROM `networked db` WHERE `RHC` = '$refNum'");
+      $queryFull = $wpdb->get_row("SELECT `RHC`, `ProductName`, `Price`, `SalePrice`, `Height`, `Width`, `Depth`, `Model`, `Brand`, `Wattage`, `Power`, `ExtraMeasurements`, `Line 1`, `Line 2`, `Line 3`, `Condition/Damages`, `Quantity`, `Category`, `Cat1`, `Cat2`, `Cat3`, `flagItem`, `isDomestic`, `videoLink` FROM `networked db` WHERE `RHC` = '$refNum'");
     }
     $this->dbRaw = $queryFull;
     $this->dbRaw->ss = $this->ss;

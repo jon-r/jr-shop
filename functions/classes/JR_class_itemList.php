@@ -85,7 +85,7 @@ class itemList {
     }
 
     //SELECT
-    $generic = "$refName, `ProductName`, `Price`, `Quantity`";
+    $generic = "$refName, `ProductName`, `Price`, `SalePrice`, `Quantity`";
 
     if ($args['type'] == 'count') {
       $values = "COUNT(*)";
@@ -103,7 +103,7 @@ class itemList {
       if ($args['ss']) {
         $values = "$generic, `Width`";
       } else {
-        $values = "$generic, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `SalePrice`";
+        $values = "$generic, `Category`, `Cat1`, `Cat2`, `Cat3`, `Power`, `SalePrice`, `flagItem`, `isDomestic`";
       }
       $limit = "ORDER BY $order LIMIT ".$args['limit'];
     }
@@ -122,18 +122,20 @@ class itemList {
         $placeholders = [$args['category']]; //*1
       } else {
         $filterList['cat'] = "`Category` LIKE %s OR `Cat1` LIKE %s OR `Cat2` LIKE %s OR `Cat3` LIKE %s";
-        $placeholders = [$args['category'],$args['category'],$args['category'],$args['category']]; //*4
+        $ph = $args['category'];
+        $placeholders = [$ph,$ph,$ph,$ph]; //*4
       }
 
     }
     if ($args['search']) {
       if ($args['ss']) {
-        $filterList['search'] = "`ProductName` REGEXP %s OR `Category` REGEXP %s";
-        $placeholders = [$args['search'],$args['search']]; //*2
+        $filterList['search'] = "`ProductName` REGEXP %1$s OR `Category` REGEXP %1$s";
+        $ph = $args['search'];
+        $placeholders = [$ph,$ph]; //*2
       } else {
-        $filterList['search'] = "`ProductName` REGEXP %s OR `Brand` REGEXP %s OR `Category` REGEXP %s OR `Cat1` REGEXP %s OR `Cat2` REGEXP %s OR `Cat3` REGEXP %s";
-        $placeholders = [$args['search'],$args['search'],$args['search'],
-                     $args['search'],$args['search'],$args['search']]; //*6
+        $filterList['search'] = "`ProductName` REGEXP %1$s OR `Brand` REGEXP %1$s OR `Category` REGEXP %1$s OR `Cat1` REGEXP %1$s OR `Cat2` REGEXP %1$s OR `Cat3` REGEXP %1$s";
+        $ph = $args['search'];
+        $placeholders = [$ph,$ph,$ph,$ph,$ph,$ph]; //*6
       }
     }
     if ($args['sale']) {
