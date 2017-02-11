@@ -81,10 +81,6 @@ $shopItem = $product->compiler();
       <?php if ($shopItem['icon']=="natural-gas") : ?>
       <p><strong class="greater">Ask today about conversions to LPG</strong></p>
       <?php endif ?>
-
-      <p><strong>Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis.</strong></p>
-
-      <p><em>Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis.</em></p>
     </div>
 
     <div class="tab-toggle text-icon arrow"></div>
