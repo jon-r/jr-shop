@@ -5,9 +5,9 @@ class compile {
 
     $out1 = $out2 = $out3 = array();
     $this->db = $dbRaw;
-    $this->ss = $dbRaw->ss;
-    $this->rhc = $dbRaw->ss ? 'RHCs' : 'RHC';
-    $this->ref = $dbRaw->ss ? $this->db->RHCs : $this->db->RHC;
+    $this->ss = $this->db->ss;
+    $this->rhc = $this->db->ss ? 'RHCs' : 'RHC';
+    $this->ref = $this->db->ss ? $this->db->RHCs : $this->db->RHC;
 
     switch ($detail) {
       case ('full') :
@@ -19,7 +19,8 @@ class compile {
           'specs'     => $this->setSpecs(),
           'imgAll'    => $this->setImgs(),
           //this glob targets only the valid RHC reference. ie 'RHC10', 'RHC10 b', NOT 'RHC101'
-          'category'  => $this->db->Category
+          'category'  => $this->db->Category,
+          'hasVideo' => $this->db->videoLink != "0" ? $this->db->videoLink : null
         ];
       case ('tile') :
         $w = isset($this->db->Width) ? $this->db->Width : 0;
@@ -29,7 +30,7 @@ class compile {
           'icon'     => $this->setIcon(),
           'info'     => $this->setInfo(),
           'quantity' => $this->db->Quantity > 1 ? $this->db->Quantity." in Stock" : null,
-          'ss'        => $this->ss
+          'ss'       => $this->ss
         ];
       case ('lite') :
         $out3 = [

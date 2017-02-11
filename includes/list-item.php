@@ -23,7 +23,7 @@ $shopItem = $product->itemCompile($item,'tile');
   <?php endif ?>
 
     <div class="tile-footer">
-      <em class="greater"><?php echo $shopItem['price'] ?></em>
+      <strong class="greater"><?php echo $shopItem['price'] ?></strong>
       <br>
       <strong><?php echo $shopItem['rhc'] ?></strong>
     </div>

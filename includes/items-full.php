@@ -17,6 +17,7 @@ $shopItem = $product->compiler();
         <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'tile') ?>"
              class="framed" alt="<?php echo $shopItem['name'] ?>">
         <button id="js-gallery-zoom" class="tile-float btn-grey text-icon expand-w"><h3>Zoom in</h3></button>
+
         <?php if (count($shopItem['imgAll'])> 1) : ?>
         <button id="js-gallery-prev" class="tile-button btn-light text-icon-left arrow-l"></button>
         <button id="js-gallery-next" class="tile-button btn-light text-icon arrow-r"></button>
@@ -27,15 +28,22 @@ $shopItem = $product->compiler();
         <div class="modal-close btn-icon close-w"></div>
       </div>
 
-      <?php if (count($shopItem['imgAll'])> 1) : ?>
+      <?php if (count($shopItem['imgAll'])> 1 || $shopItem['hasVideo'] ) : ?>
       <ul id="js-gallery-thumbs" class="flex-container">
         <?php foreach ($shopItem['imgAll'] as $galleryImg) : ?>
-        <li class="tile-inner item-thumb">
+        <li class="product-thumb tile-inner item-inner-list">
           <img src="<?php echo jr_imgResize($galleryImg, 'thumb') ?>"
                class="framed" alt="<?php echo $shopItem['name'] ?>"
                data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
         </li>
         <?php endforeach ?>
+        <?php if ($shopItem['hasVideo']) : ?>
+        <li class="product-video tile-inner item-inner-list btn-icon-play"
+            data-video="<?php echo $shopItem['hasVideo'] ?>" >
+          <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'thumb') ?>"
+               class="framed" alt="<?php echo $shopItem['name'] ?>" >
+        </li>
+        <?php endif ?>
       </ul>
       <?php endif ?>
   </section>
@@ -48,11 +56,12 @@ $shopItem = $product->compiler();
     </header>
     <ul class="tile-inner flex-container" >
       <?php foreach ($filler->pick() as $name=>$img) : ?>
-      <li class="item-thumb">
+      <li class="item-inner-list">
         <img class="framed" src="<?php echo $img ?>"
              alt="<?php echo $name ?>" title="<?php echo $name ?>" />
       </li>
       <?php endforeach ?>
+
     </ul>
   </section>
 
@@ -65,12 +74,18 @@ $shopItem = $product->compiler();
       <h2><?php echo $shopItem['price'] ?> <span class='text-right'><?php echo $shopItem['quantity'] ?></span></h2>
       <h3><?php echo $shopItem['rhc'] ?></h3>
     </header>
+    <div class="content-format">
 
-    <?php echo $shopItem['desc'] ?>
+      <?php echo $shopItem['desc'] ?>
 
-    <?php if ($shopItem['icon']=="natural-gas") : ?>
-    <p><em class="greater">Ask today about conversions to LPG</em></p>
-    <?php endif ?>
+      <?php if ($shopItem['icon']=="natural-gas") : ?>
+      <p><strong class="greater">Ask today about conversions to LPG</strong></p>
+      <?php endif ?>
+
+      <p><strong>Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis.</strong></p>
+
+      <p><em>Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis.</em></p>
+    </div>
 
     <div class="tab-toggle text-icon arrow"></div>
   </section>

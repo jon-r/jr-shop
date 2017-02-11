@@ -155,7 +155,7 @@ function jr_format($in) {
     '<a href="'.home_url('$1/$2').'" >$1$2</a>',
     '<em>$1</em>',
     '<strong>$1</strong>',
-    '<em class="greater">$1</em>',
+    '<strong class="greater">$1</strong>',
     jr_linkTo('phone'),
     jr_linkTo('eLink')
   ];
