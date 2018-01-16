@@ -182,7 +182,7 @@ probably some basic thing i've overlooked to do with the _SERVER global
     if ($this->db->Quantity == 0) {
       $priceCheck = 'Sold';
     } elseif ($this->db->Price) {
-      $priceCheck = "£".$this->db->Price." + VAT";
+      $priceCheck = "£".$this->db->Price;
     } else {
       $priceCheck = "Price Coming Soon";
     };
