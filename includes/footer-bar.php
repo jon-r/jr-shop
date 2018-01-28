@@ -38,4 +38,6 @@
          class="framed" alt="Federation of Small Businesses" >
   </div>
 
+  <span class="copyright">© Copyright 2018 - Red Hot Chilli Northwest Ltd. All rights reserved</span>
+
 </nav>

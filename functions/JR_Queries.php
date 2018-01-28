@@ -25,9 +25,15 @@ function jrQ_categoryID($catName) {
 }
 
 /* -- get other content -------------------------------------------------------------*/
-function jrQ_carousel() {
+function jrQ_carousel($id = false) {
   global $wpdb;
-  return $wpdb->get_results("SELECT * FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC, `Slide_ID` DESC;", ARRAY_A);
+  if ($id) {
+    $query = "SELECT * FROM `carousel` WHERE `Slide_ID` = $id;";
+  } else {
+    $query = "SELECT * FROM `carousel` WHERE `IsLive` = 1 ORDER BY `OrderNo` DESC, `Slide_ID` DESC;";
+  }
+  
+  return $wpdb->get_results($query, ARRAY_A);
 }
 function jrQ_carouselPics() {
   global $wpdb;
