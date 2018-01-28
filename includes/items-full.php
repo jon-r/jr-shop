@@ -15,7 +15,7 @@ $shopItem = $product->compiler();
 
       <div id="js-gallery-primary" class="tile-inner btn-icon-lrg <?php echo $shopItem['icon']; ?>">
         <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'tile') ?>"
-             class="framed" alt="<?php echo $shopItem['name'] ?>">
+             class="framed" alt="<?php echo $shopItem['SEOText'] ?: $shopItem['name'] ?>">
         <button id="js-gallery-zoom" class="tile-float btn-grey text-icon expand-w"><h3>Zoom in</h3></button>
         <?php if (count($shopItem['imgAll'])> 1) : ?>
         <button id="js-gallery-prev" class="tile-button btn-light text-icon-left arrow-l"></button>
@@ -27,7 +27,7 @@ $shopItem = $product->compiler();
         <div class="modal-close btn-icon close-w"></div>
       </div>
 
-      <?php if (count($shopItem['imgAll'])> 1) : ?>
+      <?php if (count($shopItem['imgAll'])> 1 || $shopItem['hasVideo'] ) : ?>
       <ul id="js-gallery-thumbs" class="flex-container">
         <?php foreach ($shopItem['imgAll'] as $galleryImg) : ?>
         <li class="tile-inner item-thumb">
@@ -36,6 +36,13 @@ $shopItem = $product->compiler();
                data-tile="<?php echo jr_imgSizeCheck($galleryImg, 'tile') ? 1 : 0 ?>">
         </li>
         <?php endforeach ?>
+        <?php if ($shopItem['hasVideo']) : ?>
+          <li class="product-video tile-inner item-thumb btn-icon-play"
+              data-video="<?php echo $shopItem['hasVideo'] ?>" >
+            <img src="<?php echo jr_imgResize($shopItem['imgFirst'], 'thumb') ?>"
+                 class="framed" alt="<?php echo $shopItem['name'] ?>" >
+          </li>
+        <?php endif ?>
       </ul>
       <?php endif ?>
   </section>
@@ -138,5 +145,3 @@ if (count($shopItem['specs']) != 0): ?>
     </section>
   <?php endif ?>
 </article>
-
-

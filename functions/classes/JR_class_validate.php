@@ -20,6 +20,7 @@ class pageValidate {
   public $args; //filters for the wpdb queries;
   public $url;
   public $desc; //
+  public $seo; // meta description tag.
 
   private function getParams() {
     $this->getUrl();
@@ -49,7 +50,7 @@ class pageValidate {
     }
     $num = $p[2];
 
-    $queryStr = "SELECT `ProductName`,`Category` FROM `$tbl` WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
+    $queryStr = "SELECT `ProductName`,`Category`,`SEO_meta_text` FROM `$tbl` WHERE `$ref` = %s AND `LiveonRHC` = 1 AND ((`Quantity` > 0) OR ( `Quantity` = 0 AND `DateSold` BETWEEN CURDATE() - INTERVAL $itemSoldDuration DAY AND CURDATE()))";
     $out = $wpdb->get_row($wpdb->prepare($queryStr, $num));
     return($out);
   }
@@ -132,6 +133,7 @@ class pageValidate {
           $this->args = ['ref'=>$p[1],'id'=>$p[2],'category'=>$item->Category];
           $this->ref = $p[1].$p[2].' - '.$item->ProductName;
           $this->unique = 'item-'.$p[1].$p[2];
+          $this->seo = $item->SEO_meta_text !== '0' ? $item->SEO_meta_text : false;
         } else {
           $this->title = 'Not Found';
         }

@@ -18,6 +18,8 @@ class compile {
           'desc'      => $this->setDesc(),
           'specs'     => $this->setSpecs(),
           'imgAll'    => $this->setImgs(),
+          'hasVideo'  => $this->db->video_link != "0" ? $this->db->video_link : null,
+          'SEOText'   => $this->db->SEO_meta_text != "0" ? $this->db->SEO_meta_text : null,
           //this glob targets only the valid RHC reference. ie 'RHC10', 'RHC10 b', NOT 'RHC101'
           'category'  => $this->db->Category
         ];
