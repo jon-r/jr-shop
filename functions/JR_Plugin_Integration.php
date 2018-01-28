@@ -39,4 +39,19 @@ function jr_wp_title($title, $sep)  {
 }
 add_filter( 'wp_title', 'jr_wp_title', 10, 2 );
 
+/**
+ * ajax hook to send a embedded youtube video
+ */
+function jr_get_vid() {
+  //global $wp_embed, $post;
+  $src = $_GET['src'];
+  $out = wp_oembed_get($src);
+//  $out = $wp_embed->autoembed("[embed] $src [/embed]");
+  //$out = 'video:'.do_shortcode("[embed] $src [/embed]");
+  echo json_encode($out);
+  wp_die();
+}
+add_action('wp_ajax_jr_getVid', 'jr_get_vid');
+add_action('wp_ajax_nopriv_jr_getVid', 'jr_get_vid');
+
 ?>
